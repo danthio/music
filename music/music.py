@@ -16,9 +16,9 @@ import shutil
 
 
 
-im=Image.open("data/sort.png")
-im=im.resize((30,30))
-im.save("data/sort.png")
+im=Image.open("data/search.png")
+im=im.resize((20,20))
+im.save("data/search.png")
 """
 
 im=Image.open("data/next.png")
@@ -29,7 +29,7 @@ im.save("data/next.png")
 
 
 
-def convert_folder_to_mp3(input_folder, ffmpeg_path=None, sample_rate=44100, channels=2, bitrate="192k"):
+def convert_folder_to_audio(input_folder, ffmpeg_path=None, sample_rate=44100, channels=2, bitrate="192k"):
 
     global can,load,w
 
@@ -104,7 +104,7 @@ def convert_folder_to_mp3(input_folder, ffmpeg_path=None, sample_rate=44100, cha
 
     load=can.create_text(w/2,493-20-40-30,text="Done!",font=("FreeMono",13),fill="#32fca7")
 
-def convert_file_to_mp3(input_file, ffmpeg_path=None, sample_rate=44100, channels=2, bitrate="192k"):
+def convert_file_to_audio(input_file, ffmpeg_path=None, sample_rate=44100, channels=2, bitrate="192k"):
 
     global can,load,w
 
@@ -209,6 +209,8 @@ current_volume = volume.GetMasterVolumeLevelScalar()  # Returns volume as a floa
 
 music_details={}
 
+
+
 def update_details(s="",con=-1):
     global music_details
 
@@ -223,7 +225,26 @@ def update_details(s="",con=-1):
     except:
         data={}
 
+    
+
+
     all_songs = os.listdir("music")
+
+    ar=[]
+
+    for i in data:
+
+
+        try:
+            v=all_songs.index(i)
+
+        except:
+            ar.append(i)
+
+
+
+    for v in ar:
+        data.pop(v)
 
     for song in all_songs:
         
@@ -251,6 +272,8 @@ def update_details(s="",con=-1):
         n=data[s][-1]
 
         n+=1
+
+
 
         data[s][-1]=n
 
@@ -292,6 +315,28 @@ def create_playlist(pl="",con="",song=""):
         data={}
 
 
+    all_songs = os.listdir("music")
+
+    for i in data:
+
+        ar=data[i]
+        ar2=[]
+
+        for v in ar:
+
+            try:
+                all_songs.index(v)
+
+            except:
+                ar2.append(v)
+
+
+        for v in range(len(ar2)):
+            ar.pop(v)
+
+        data[i]=ar
+
+
     if con==0:
 
         try:
@@ -305,9 +350,11 @@ def create_playlist(pl="",con="",song=""):
         try:
             v=ar.index(song)
 
+            ar.pop(v)
+
         except:
             ar.append(song)
-            data[pl]=ar
+        data[pl]=ar
     elif con==2:
         ar=data[pl]
         p=ar.index(song)
@@ -370,6 +417,7 @@ def prog():
     global ctime,tot_tm_
     global prog1,prog2
     global tvar
+    global w
 
     seconds=tm
 
@@ -418,7 +466,7 @@ def prog():
     can.delete(prog1)
     can.delete(prog2)
 
-    x_=tm*780/tot_tm_
+    x_=tm*(w-20)/tot_tm_
 
     prog1=can.create_line(10,h-20-60-20, x_+10,h-20-60-20,fill="#32fca7",width=2)
     prog2=can.create_oval(x_+10-5,h-20-60-20-5, x_+10+5,h-20-60-20+5,fill="#000000",outline="#32fca7")
@@ -467,7 +515,7 @@ def timer():
 
             get_audio_duration("music/"+current_playing)
 
-            update_details(current_playing,1)
+            #update_details(current_playing,1)
 
             main()
 
@@ -477,16 +525,23 @@ def timer():
 def can3_b1(e):
     global sel_playlist,can3,frame2,add_st,current_playing
 
+
+
+    add_st=0
+    frame2.place_forget()
+
     for p in sel_playlist:
 
-        if p[1]<=can3.canvasy(e.y)<=p[1]+50:
+        if p[2]<=can3.canvasy(e.y)<=p[2]+50:
 
             if not current_playing=="":
-                create_playlist(p[0],1,current_playing)
+                create_playlist(p[0],1,p[1])
 
             add_st=0
             frame2.place_forget()
             can2.focus_set()
+
+            main()
 
 
 
@@ -498,9 +553,14 @@ def can2_b1(e):
     global tm
     global mvar
     global can2
-    global st,npl,playlist_st,_playlist,current_playlist
+    global st,npl,playlist_st,_playlist,current_playlist,playlist
     global search,frame,can2
-    global add_st,frame2
+    global add_st,frame2,can3
+    global sel_playlist
+
+
+    add_st=0
+    frame2.place_forget()
 
 
 
@@ -509,7 +569,7 @@ def can2_b1(e):
     if st==2 and playlist_st==0:
 
 
-        cx,cy=int(can2["width"])-10-5-30+15,5+15
+        cx,cy=int(can2["width"])-10-5-20+10,5+10
 
         r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
         if r<=15:
@@ -542,12 +602,14 @@ def can2_b1(e):
             if not npl.get()=="":
                 create_playlist(npl.get(),0)
                 npl.delete(0,tk.END)
-                npl.place_forget()
+                npl.plac
+
+                e_forget()
                 main()
             return
 
 
-        cx,cy=int(can2["width"])/2-100,45+15
+        cx,cy=int(can2["width"])/2+100,45+15
         r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
         if r<=15:
 
@@ -585,7 +647,10 @@ def can2_b1(e):
 
             if _pl[1]<=can2.canvasy(e.y)<=_pl[1]+50:
 
-                can2["scrollregion"]=(0,0,w-20-7,390)
+                
+                con=0
+                if current_playlist==_pl[0]:
+                    con=1
                 current_playlist=_pl[0]
                 playlist_st=1
 
@@ -595,22 +660,26 @@ def can2_b1(e):
 
                 main()
 
+                if con==0:
 
-                
-                try:
-                    current_playing=songs[0][0]
-                    tm=0
-                    mvar=0
-                    play_music("music/"+current_playing,tm)
-                    get_audio_duration("music/"+current_playing)
 
-                    play_st=0
-                    pygame.mixer.quit()
-                    pp=0
-                    main()
-                    prog()
-                except:
-                    pass
+                    
+                    try:
+
+                        can2["scrollregion"]=(0,0,w-20-7,390)
+                        current_playing=songs[0][0]
+                        tm=0
+                        mvar=0
+                        play_music("music/"+current_playing,tm,1)
+                        get_audio_duration("music/"+current_playing)
+
+                        play_st=0
+                        pygame.mixer.quit()
+                        pp=0
+                        main()
+                        prog()
+                    except:
+                        pass
 
                 search.delete(0,tk.END)
                 search.place_forget()
@@ -623,6 +692,100 @@ def can2_b1(e):
 
 
 
+
+    #favourite
+
+    for s in songs:
+
+
+        y=s[-1]
+
+        cx,cy=w-20-7-10-30-20-30-20-30+15,y+10+15
+        r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
+        if r<=15:
+
+
+            update_details(s[0],0)
+            main()
+            return
+
+    #playlist
+
+    for s in songs:
+
+        #print(s[0])
+
+        y=s[-1]
+
+        cx,cy=w-20-7-10-30-20-30+15,y+10+15
+        r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
+        if r<=15:
+
+
+
+
+            add_st=1
+            can3.delete("all")
+
+            y=0
+            can3["scrollregion"]=(0,0,300-7,250-40)
+            sel_playlist=[]
+
+            for p in playlist:
+
+                ar=playlist[p]
+
+                can3.create_image(10,y+10,image=playlist2,anchor="nw")
+                can3.create_text(10+30+10,y+25,text=p,font=("FreeMono",13),anchor="w",fill="#32fca7")
+                can3.create_line(0,y+50,350-7,y+50,fill="#000000")
+
+                try:
+                    v=ar.index(s[0])
+
+
+
+                    can3.create_image(350-7-10-20,y+15, image=checked,anchor="nw")
+                    
+                except:
+                    pass
+
+
+
+
+                sel_playlist.append([p,s[0],y])
+
+
+
+                y+=50
+
+            if len(playlist)==0:
+                can3.create_text(10+30+10,(250-40)/2,text="No record",font=("FreeMono",13),anchor="w")
+
+            can3["scrollregion"]=(0,0,300-7,y)
+            frame2.place(in_=root,x=(w-350)/2,y=(h-(40+250-40+10))/2)
+
+            can3.focus_set()
+
+            main()
+
+            return
+
+    #delete file
+
+
+    for s in songs:
+
+        #print(s[0])
+
+        y=s[-1]
+
+        cx,cy=w-20-7-10-30+15,y+15+15
+        r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
+        if r<=15:
+
+            os.remove("music/"+s[0])
+            main()
+            return
 
 
 
@@ -659,7 +822,6 @@ def can2_b1(e):
 
             get_audio_duration("music/"+current_playing)
 
-            update_details(current_playing,1)
 
             main()
 
@@ -687,13 +849,15 @@ def can_b1(e):
     global load
 
 
+    add_st=0
+    frame2.place_forget()
 
-    xv=800/6
+    xv=w/6
 
 
 
 
-    if xv-50<=e.x<=xv+50:
+    if xv-60<=e.x<=xv+60:
         if 0<=e.y<=35:
 
             can.delete(load)
@@ -726,7 +890,7 @@ def can_b1(e):
                 current_playing=songs[0][0]
                 tm=0
                 mvar=0
-                play_music("music/"+current_playing,tm)
+                play_music("music/"+current_playing,tm,1)
                 get_audio_duration("music/"+current_playing)
 
                 play_st=0
@@ -742,7 +906,7 @@ def can_b1(e):
             return
 
 
-    if xv*2-50<=e.x<=xv*2+50:
+    if xv*2-60<=e.x<=xv*2+60:
         if 0<=e.y<=35:
 
             can.delete(load)
@@ -770,7 +934,7 @@ def can_b1(e):
                 current_playing=songs[0][0]
                 tm=0
                 mvar=0
-                play_music("music/"+current_playing,tm)
+                play_music("music/"+current_playing,tm,1)
                 get_audio_duration("music/"+current_playing)
 
                 play_st=0
@@ -783,7 +947,7 @@ def can_b1(e):
 
             return
 
-    if xv*3-50<=e.x<=xv*3+50:
+    if xv*3-60<=e.x<=xv*3+60:
         if 0<=e.y<=35:
 
             can.delete(load)
@@ -829,7 +993,7 @@ def can_b1(e):
             return
 
 
-    if xv*4-50<=e.x<=xv*4+50:
+    if xv*4-60<=e.x<=xv*4+60:
         if 0<=e.y<=35:
             can.delete(load)
             h=640
@@ -854,7 +1018,7 @@ def can_b1(e):
                 current_playing=songs[0][0]
                 tm=0
                 mvar=0
-                play_music("music/"+current_playing,tm)
+                play_music("music/"+current_playing,tm,1)
                 get_audio_duration("music/"+current_playing)
 
                 play_st=0
@@ -868,7 +1032,7 @@ def can_b1(e):
             return
 
 
-    if xv*5-50<=e.x<=xv*5+50:
+    if xv*5-60<=e.x<=xv*5+60:
         if 0<=e.y<=35:
 
             can.delete(load)
@@ -913,7 +1077,7 @@ def can_b1(e):
 
             x=e.x-10
 
-            tm=x*tot_tm_/780
+            tm=x*tot_tm_/(w-20)
 
         if play_st==1:
 
@@ -922,6 +1086,9 @@ def can_b1(e):
         prog()
 
         return
+
+
+    #play/pause
 
     cx,cy=w/2,h-20-30+5
 
@@ -1016,10 +1183,10 @@ def can_b1(e):
 
     #search
 
-    cx,cy=w-10-5-30-5-30+15,40+15
+    cx,cy=w-10-5-20+10,45+10
 
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-    if r<=15:
+    if r<=10:
         search.delete(0,tk.END)
         search.place_forget()
         can.focus_set()
@@ -1037,21 +1204,10 @@ def can_b1(e):
 
             return
 
-    #favourite
-
-    cx,cy=10+15,h-20-30-15+5+15
-
-
-    r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-
-    if r<=15:
-        update_details(current_playing,0)
-        main()
-        return
 
     #list
 
-    cx,cy=10+30+20+15,h-20-30-15+5+15
+    cx,cy=10+15,h-20-30-15+5+15
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
     if r<=15:
 
@@ -1102,12 +1258,16 @@ def can_b1(e):
             vol3=can.create_text(w-10-100+50,h-20-30+5+20,text=str(int(current_volume*100))+" %",fill="#32fca7",font=("FreeMono",13))
 
 
+    #sort
+    #shuffle
+
+
 
     #add to playlist
 
     
 
-    cx,cy=10+30+20+30+20+15,h-20-30-15+5+15
+    cx,cy=10+30+20+15,h-20-30-15+5+15
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
     if r<=15:
         create_playlist()
@@ -1144,7 +1304,7 @@ def can_b1(e):
 
 
 
-                sel_playlist.append([p,y])
+                sel_playlist.append([p,current_playing,y])
 
 
 
@@ -1190,7 +1350,7 @@ def can_b1(e):
 
 
 
-            convert_folder_to_mp3(
+            convert_folder_to_audio(
                 input_folder=folder,
                 ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
             )
@@ -1204,7 +1364,7 @@ def can_b1(e):
             folder=filedialog.askdirectory(title="Select a Folder")
 
 
-            convert_folder_to_mp3(
+            convert_folder_to_audio(
                 input_folder=folder,
                 ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
             )
@@ -1216,7 +1376,7 @@ def can_b1(e):
                 folder=filedialog.askdirectory(title="Select a Folder")
 
 
-                convert_folder_to_mp3(
+                convert_folder_to_audio(
                     input_folder=folder,
                     ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
                 )
@@ -1244,7 +1404,7 @@ def can_b1(e):
         if r<=15:
             can.delete(load)
             file=filedialog.askopenfilename()
-            convert_file_to_mp3(
+            convert_file_to_audio(
                 input_file=file,
                 ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
             )
@@ -1259,7 +1419,7 @@ def can_b1(e):
             file=filedialog.askopenfilename()
 
 
-            convert_file_to_mp3(
+            convert_file_to_audio(
                 input_file=file,
                 ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
             )
@@ -1270,7 +1430,7 @@ def can_b1(e):
             if yv+60<=e.y<=yv+30+60:
                 can.delete(load)
                 file=filedialog.askopenfilename()
-                convert_file_to_mp3(
+                convert_file_to_audio(
                     input_file=file,
                     ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
                 )
@@ -1319,7 +1479,8 @@ def b3(e):
 
 
 
-def play_music(file,time):
+def play_music(file,time,con=0):
+    global current_playing
 
 
 
@@ -1329,6 +1490,10 @@ def play_music(file,time):
 
     # Load the audio file
     pygame.mixer.music.load(file)  # Replace with your audio file path
+
+    if con==0:
+
+        update_details(current_playing,1)
 
     # Start playing the audio from a specific position (in seconds)
     start_time = time  # Replace with the desired starting time in seconds
@@ -1416,7 +1581,7 @@ def main():
 
     global songs
     global search,search_var
-    global cancel,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2
+    global cancel,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,sort
     global music_details
     global vol1,vol2,vol3,current_volume
     global playlist,playlist_st
@@ -1425,13 +1590,18 @@ def main():
     global _playlist
     global ctime,prog1,prog2
     global pl_st
+    global shuff
 
+
+
+    update_details()
+    create_playlist()
 
     can.delete("all")
 
     search["width"]=77
 
-    xv=800/6
+    xv=w/6
     x=xv
 
 
@@ -1445,7 +1615,13 @@ def main():
             col="#32fca7"
 
 
-            draw_round_rec(can,x-50,5, x+50,20+15,10,"#32fca7","",1)
+            can.create_arc(x-60,5, x-60+30,5+30, style="arc",start=90,extent=180,outline="#32fca7")
+            can.create_arc(x+60,5, x+60-30,5+30, style="arc",start=270,extent=180,outline="#32fca7")
+
+            can.create_line(x-60+15,5, x+60-15,5, fill="#32fca7")
+            can.create_line(x-60+15-1,35, x+60-15,35, fill="#32fca7")
+
+
 
 
 
@@ -1500,7 +1676,37 @@ def main():
 
                 can2.create_text(10+30+20,y+25,text=song[:70]+ex,font=("FreeMono",13),fill=col,anchor="w")
 
-                can2.create_image(w-20-7-10-30,y+10,image=dots,anchor="nw")
+                can2.create_image(w-20-7-10-30,y+15,image=remove,anchor="nw")
+
+
+                con=0
+
+                for i in playlist:
+
+
+                    try:
+                        v=playlist[i].index(song)
+                        con=1
+                    except:
+                        pass
+
+
+                if con==0:
+
+                    can2.create_image(w-20-7-10-30-20-30,y+10,image=playlist1,anchor="nw")
+                elif con==1:
+                    can2.create_image(w-20-7-10-30-20-30,y+10,image=playlist2,anchor="nw")
+
+
+
+
+                if music_details[song][0]==0:
+
+                    can2.create_image(w-20-7-10-30-20-30-20-30,y+10,image=favourite1,anchor="nw")
+                elif music_details[song][0]==1:
+                    can2.create_image(w-20-7-10-30-20-30-20-30,y+10,image=favourite2,anchor="nw")
+
+
 
                 can2.create_line(0,y+50,w-20-7,y+50,fill="#222222")
 
@@ -1509,6 +1715,9 @@ def main():
                 songs.append(ar)
 
                 y+=50
+
+        if len(songs)==0:
+            can2.create_text((w-20-7)/2,390/2,text="No Record!",font=("FreeMono",13),fill="#777777")
     elif st==1:
         songs=[]
 
@@ -1533,15 +1742,53 @@ def main():
 
                     can2.create_text(10+30+20,y+25,text=song[:70]+ex,font=("FreeMono",13),fill=col,anchor="w")
 
-                    can2.create_image(w-20-7-10-30,y+10,image=dots,anchor="nw")
+
+                    can2.create_image(w-20-7-10-30,y+15,image=remove,anchor="nw")
+
+
+                    con=0
+
+                    for i in playlist:
+
+
+                        try:
+                            v=playlist[i].index(song)
+                            con=1
+                        except:
+                            pass
+
+
+                    if con==0:
+
+                        can2.create_image(w-20-7-10-30-20-30,y+10,image=playlist1,anchor="nw")
+                    elif con==1:
+                        can2.create_image(w-20-7-10-30-20-30,y+10,image=playlist2,anchor="nw")
+
+
+
+
+                    if music_details[song][0]==0:
+
+                        can2.create_image(w-20-7-10-30-20-30-20-30,y+10,image=favourite1,anchor="nw")
+                    elif music_details[song][0]==1:
+                        can2.create_image(w-20-7-10-30-20-30-20-30,y+10,image=favourite2,anchor="nw")
+
 
                     can2.create_line(0,y+50,w-20-7,y+50,fill="#222222")
+
+
+
+
 
                     ar=[song,y]
 
                     songs.append(ar)
 
                     y+=50
+
+
+        if len(songs)==0:
+            can2.create_text((w-20-7)/2,390/2,text="No Record!",font=("FreeMono",13),fill="#777777")
     elif st==2:
 
         create_playlist()
@@ -1551,23 +1798,27 @@ def main():
 
 
 
+            can.create_arc(10,40, 10+30,40+30, style="arc",start=90,extent=180,outline="#32fca7")
+            can.create_arc(w-10-30,40, w-10,40+30, style="arc",start=270,extent=180,outline="#32fca7")
 
-
-            draw_round_rec(can,10,40, w-10-5-30,40+30,10,"#000000","#777777",0)
-
-            can.create_text(30,40+15,text="Search",font=("FreeMono",13),fill="#32fca7",anchor="w")
-
-
-
-            can.create_image(w-10-5-30-5-30+5,40+5,image=cancel,anchor="nw")
-            can.create_image(w-10-5-30+5,40,image=search_im,anchor="nw")
+            can.create_line(10+15,40, w-10-15,40, fill="#32fca7")
+            can.create_line(10-1+15,40+30, w-10-15,40+30, fill="#32fca7")
 
 
 
+            can.create_text(30+20+5,40+15,text="Search",font=("FreeMono",13),fill="#32fca7",anchor="w")
 
 
 
-            draw_round_rec(can,10-1,80-10-30+40,w-10,80-30+40+390+10,10,"#000000","#777777",0)
+            can.create_image(w-10-5-20,40+5,image=cancel,anchor="nw")
+            can.create_image(30,40+5,image=search_im,anchor="nw")
+
+
+
+
+
+
+            draw_round_rec(can,10-1,80-10-30+40,w-10,80-30+40+390+10,10,"#000000","#32fca7",0)
             #can.create_line(10,70,w-10,70,fill="#777777")
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#777777")
 
@@ -1589,10 +1840,24 @@ def main():
 
             can2.delete("all")
 
-            draw_round_rec(can2,10,y, int(can2["width"])-10,y+30,10,"#32fca7","#000000",1)
-            can2.create_text(20,y+15,text="New Playlist",font=("FreeMono",13),fill="#32fca7",anchor="w")
 
-            can2.create_image(int(can2["width"])-10-5-30+5,y+5,image=cancel,anchor="nw")
+
+
+            can2.create_arc(10,y, 10+30,y+30, style="arc",start=90,extent=180,outline="#32fca7")
+            can2.create_arc(int(can2["width"])-10-30,y, int(can2["width"])-10,y+30, style="arc",start=270,extent=180,outline="#32fca7")
+
+            can2.create_line(10+15,y, int(can2["width"])-10-15,y, fill="#32fca7")
+            can2.create_line(10-1+15,y+30, int(can2["width"])-10-15,y+30, fill="#32fca7")
+
+
+
+
+
+
+
+            can2.create_text(30,y+15,text="New Playlist",font=("FreeMono",13),fill="#32fca7",anchor="w")
+
+            can2.create_image(int(can2["width"])-10-5-20,y+5,image=cancel,anchor="nw")
 
 
             y+=40
@@ -1689,7 +1954,38 @@ def main():
 
                         can2.create_text(10+30+20,y+25,text=song[:70]+ex,font=("FreeMono",13),fill=col,anchor="w")
 
-                        can2.create_image(w-20-7-10-30,y+10,image=dots,anchor="nw")
+
+                        can2.create_image(w-20-7-10-30,y+15,image=remove,anchor="nw")
+
+
+                        con=0
+
+                        for i in playlist:
+
+
+                            try:
+                                v=playlist[i].index(song)
+                                con=1
+                            except:
+                                pass
+
+
+                        if con==0:
+
+                            can2.create_image(w-20-7-10-30-20-30,y+10,image=playlist1,anchor="nw")
+                        elif con==1:
+                            can2.create_image(w-20-7-10-30-20-30,y+10,image=playlist2,anchor="nw")
+
+
+
+
+                        if music_details[song][0]==0:
+
+                            can2.create_image(w-20-7-10-30-20-30-20-30,y+10,image=favourite1,anchor="nw")
+                        elif music_details[song][0]==1:
+                            can2.create_image(w-20-7-10-30-20-30-20-30,y+10,image=favourite2,anchor="nw")
+
+
 
                         can2.create_line(0,y+50,w-20-7,y+50,fill="#222222")
 
@@ -1699,7 +1995,8 @@ def main():
                         y+=50
                     except:
                         pass
-
+            if len(songs)==0:
+                can2.create_text((w-20-7)/2,390/2,text="No Record!",font=("FreeMono",13),fill="#777777")
 
     elif st==3:
         songs=[]
@@ -1711,7 +2008,7 @@ def main():
 
                 n=music_details[song][-1]
 
-                if n>1:
+                if n>0:
                     ar_.append([song,n])
 
 
@@ -1736,7 +2033,38 @@ def main():
 
             can2.create_text(10+30+20,y+25,text=song[0][:70]+ex,font=("FreeMono",13),fill=col,anchor="w")
 
-            can2.create_image(w-20-7-10-30,y+10,image=dots,anchor="nw")
+
+            can2.create_image(w-20-7-10-30,y+15,image=remove,anchor="nw")
+
+
+            con=0
+
+            for i in playlist:
+
+
+                try:
+                    v=playlist[i].index(song)
+                    con=1
+                except:
+                    pass
+
+
+            if con==0:
+
+                can2.create_image(w-20-7-10-30-20-30,y+10,image=playlist1,anchor="nw")
+            elif con==1:
+                can2.create_image(w-20-7-10-30-20-30,y+10,image=playlist2,anchor="nw")
+
+
+
+
+            if music_details[song[0]][0]==0:
+
+                can2.create_image(w-20-7-10-30-20-30-20-30,y+10,image=favourite1,anchor="nw")
+            elif music_details[song[0]][0]==1:
+                can2.create_image(w-20-7-10-30-20-30-20-30,y+10,image=favourite2,anchor="nw")
+
+
 
             can2.create_line(0,y+50,w-20-7,y+50,fill="#222222")
 
@@ -1745,6 +2073,9 @@ def main():
             songs.append(ar)
 
             y+=50
+
+        if len(songs)==0:
+            can2.create_text((w-20-7)/2,390/2,text="No Record!",font=("FreeMono",13),fill="#777777")
 
     elif st==4:
         frame.place_forget()
@@ -1795,20 +2126,29 @@ def main():
         else:
 
 
-            draw_round_rec(can,10,40, w-10-5-30,40+30,10,"#000000","#777777",0)
 
-            can.create_text(30,40+15,text="Search",font=("FreeMono",13),fill="#32fca7",anchor="w")
+            can.create_arc(10,40, 10+30,40+30, style="arc",start=90,extent=180,outline="#32fca7")
+            can.create_arc(w-10-30,40, w-10,40+30, style="arc",start=270,extent=180,outline="#32fca7")
 
-
-
-            can.create_image(w-10-5-30-5-30+5,40+5,image=cancel,anchor="nw")
-            can.create_image(w-10-5-30+5,40,image=search_im,anchor="nw")
+            can.create_line(10+15,40, w-10-15,40, fill="#32fca7")
+            can.create_line(10-1+15,40+30, w-10-15,40+30, fill="#32fca7")
 
 
 
+            #draw_round_rec(can,10,40, w-10,40+30,10,"#000000","#32fca7",0)
+
+            can.create_text(30+20+5,40+15,text="Search",font=("FreeMono",13),fill="#32fca7",anchor="w")
 
 
-            draw_round_rec(can,10-1,80-10-30+40,w-10,80-30+40+390+10,10,"#000000","#777777",0)
+
+            can.create_image(w-10-5-20,40+5,image=cancel,anchor="nw")
+            can.create_image(30,45,image=search_im,anchor="nw")
+
+
+
+
+
+            draw_round_rec(can,10-1,80-10-30+40,w-10,80-30+40+390+10,10,"#000000","#32fca7",0)
             #can.create_line(10,70,w-10,70,fill="#777777")
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#777777")
 
@@ -1860,17 +2200,6 @@ def main():
 
 
 
-    if not current_playing=="":
-
-        f=music_details[current_playing][0]
-
-        if f==0:
-            can.create_image(10,h-20-30-15+5,image=favourite1,anchor="nw")
-        elif f==1:
-            can.create_image(10,h-20-30-15+5,image=favourite2,anchor="nw")
-
-    else:
-        can.create_image(10,h-20-30-15+5,image=favourite1,anchor="nw")
 
 
 
@@ -1879,17 +2208,26 @@ def main():
 
 
     if lst==0:
-        can.create_image(10+30+20,h-20-30-15+5,image=list1,anchor="nw")
+        can.create_image(10,h-20-30-15+5,image=list1,anchor="nw")
     elif lst==1:
-        can.create_image(10+30+20,h-20-30-15+5,image=list2,anchor="nw")
+        can.create_image(10,h-20-30-15+5,image=list2,anchor="nw")
 
 
-    can.create_image(10+30+20+30+20,h-20-30-15+5,image=add,anchor="nw")
 
+
+    can.create_image(10+30+20,h-20-30-15+5,image=sort,anchor="nw")
+
+    if shuff==0:
+
+        can.create_image(10+30+20+30+20,h-20-30-15+5,image=shuffle1,anchor="nw")
+    elif shuff==1:
+        can.create_image(10+30+20+30+20,h-20-30-15+5,image=shuffle2,anchor="nw")
 
     can.create_line(w-10-100,h-20-30+5, w-10,h-20-30+5,fill="#777777",width=2)
 
     can.create_image(w-10-100-10-30,h-20-30-15+5,image=speaker,anchor="nw")
+
+
 
     can.delete(vol1)
     can.delete(vol2)
@@ -1905,8 +2243,8 @@ def main():
 
 
 
-    can.create_image(w/2-30-30-30,h-20-30-15,image=previous,anchor="nw")
-    can.create_image(w/2+30+30,h-20-30-15,image=next_,anchor="nw")
+    can.create_image(w/2-30-30-30,h-20-30-15+5,image=previous,anchor="nw")
+    can.create_image(w/2+30+30,h-20-30-15+5,image=next_,anchor="nw")
 
     try:
         prog()
@@ -2002,7 +2340,7 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con):
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
-    global cancel,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,checked
+    global cancel,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,checked,sort
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     play=ImageTk.PhotoImage(file="data/play.png")
@@ -2029,6 +2367,7 @@ def load_im():
     playlist1=ImageTk.PhotoImage(file="data/playlist1.png")
     playlist2=ImageTk.PhotoImage(file="data/playlist2.png")
     checked=ImageTk.PhotoImage(file="data/checked.png")
+    sort=ImageTk.PhotoImage(file="data/sort.png")
 
 
 def check_pl():
@@ -2134,13 +2473,17 @@ load=0
 load_st=0
 load_ang=90
 
+sort=0
+
 pl_st=0
+
+shuff=0
 
 root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
 
-w,h=800,640
+w,h=900,640
 
 root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+0")
 root.resizable(0,0)
@@ -2211,8 +2554,8 @@ style2.layout("My.Vertical.TScrollbar2",
 
 
 style2.configure("My.Vertical.TScrollbar2", gripcount=0, background="#32fca7",
-                troughcolor='#222222', borderwidth=0, bordercolor='#222222',
-                lightcolor='#222222',relief="flat", darkcolor='#222222',
+                troughcolor='#323232', borderwidth=0, bordercolor='#323232',
+                lightcolor='#323232',relief="flat", darkcolor='#323232',
                 arrowsize=7)
 
 
@@ -2258,9 +2601,9 @@ can2.config(yscrollcommand=sb.set)
 sb.pack(side=tk.LEFT,fill=tk.Y)
 
 
-frame2=tk.Frame(bg="#222222",width=350,height=250)
+frame2=tk.Frame(bg="#323232",width=350,height=250)
 
-can4=tk.Canvas(frame2,bg="#32fca7",width=350,height=40,relief="flat",highlightthickness=0,border=0,
+can4=tk.Canvas(frame2,bg="#323232",width=350,height=40,relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,300-7,250))
 can4.pack(side=tk.TOP)
 
@@ -2307,12 +2650,12 @@ can4.create_polygon(ar,fill="#000000",outline="#000000")
 
 
 
-can4.create_text(350/2,20,text="Playlists",font=("FreeMono",13),fill="#000000")
-#can4.create_line(0,38,350,38,fill="#32fca7")
+can4.create_text(350/2,20,text="Playlists",font=("FreeMono",13),fill="#32fca7")
+can4.create_line(0,38,350,38,fill="#32fca7")
 
-frame3=tk.Frame(frame2,bg="#222222",width=350,height=250-40)
+frame3=tk.Frame(frame2,bg="#323232",width=350,height=250-40)
 
-can3=tk.Canvas(frame3,bg="#222222",width=350-7,height=250-40,relief="flat",highlightthickness=0,border=0,
+can3=tk.Canvas(frame3,bg="#323232",width=350-7,height=250-40,relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,300-7,250-40))
 can3.pack(side=tk.LEFT)
 can3.bind_all("<MouseWheel>",_on_mousewheel)
@@ -2331,7 +2674,7 @@ sb2.pack(side=tk.LEFT,fill=tk.Y)
 frame3.pack(side=tk.TOP)
 
 
-can5=tk.Canvas(frame2,bg="#222222",width=350,height=10,relief="flat",highlightthickness=0,border=0,
+can5=tk.Canvas(frame2,bg="#323232",width=350,height=10,relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,300-7,250))
 can5.pack(side=tk.TOP)
 
@@ -2443,7 +2786,7 @@ try:
     current_playing=songs[0][0]
     tm=0
     mvar=0
-    play_music("music/"+current_playing,tm)
+    play_music("music/"+current_playing,tm,1)
     get_audio_duration("music/"+current_playing)
 
     play_st=0
