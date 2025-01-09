@@ -73,7 +73,7 @@ def gen_wave():
             for a in sig:
 
                 sig2.append(x)
-                sig2.append(a+(80-30+40-10-30)+(390+10+30)/2)
+                sig2.append(a+(80-30+40-10-30)+(430+10+30)/2)
 
                 x+=xv
 
@@ -893,7 +893,7 @@ def can2_b1(e):
         if 10<=e.x<=int(can2["width"])-10:
             if 5<=e.y<=35:
 
-                can2["scrollregion"]=(0,0,w-20-7,390)
+                can2["scrollregion"]=(0,0,w-20-7,430)
                 npl.delete(0,tk.END)
                 _npl=1
                 npl.place(in_=root,x=10+20,y=80-30+40+5+5)
@@ -951,14 +951,14 @@ def can2_b1(e):
             cx,cy=int(can2["width"])-10-30+15,_pl[1]+10+15
             r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
             if r<=10:
-                can2["scrollregion"]=(0,0,w-20-7,390)
+                can2["scrollregion"]=(0,0,w-20-7,430)
                 create_playlist(_pl[0],con=3)
 
                 main()
                 return
 
             if _pl[1]<=can2.canvasy(e.y)<=_pl[1]+50:
-                can2["scrollregion"]=(0,0,w-20-7,390)
+                can2["scrollregion"]=(0,0,w-20-7,430)
 
                 
                 con=0
@@ -1165,8 +1165,8 @@ def can_b3(e):
 
                 v=s[1]
 
-                if s[1]+390/2-25<t:
-                    v=s[1]-(390/2-25)
+                if s[1]+430/2-25<t:
+                    v=s[1]-(430/2-25)
 
                 pixel_value = int(v)
                 scroll_region = can2.bbox("all")  # Get the bounding box of all content
@@ -1229,13 +1229,13 @@ def can_b1(e):
             can.delete(load2)
             can.delete(load3)
             can.delete(load4)
-            h=640
+            h=680
             can["height"]=h
 
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+0")
             
             lst=1
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
             current_playlist=""
 
             add_st=0
@@ -1302,13 +1302,13 @@ def can_b1(e):
             can.delete(load2)
             can.delete(load3)
             can.delete(load4)
-            h=640
+            h=680
             can["height"]=h
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+0")
 
             
             lst=1
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
             current_playlist=""
             can2.focus_set()
             add_st=0
@@ -1370,14 +1370,14 @@ def can_b1(e):
             can.delete(load3)
             can.delete(load4)
 
-            h=640
+            h=680
             can["height"]=h
 
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+0")
 
             
             playlist_st=0
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
             can2.focus_set()
             add_st=0
             frame2.place_forget()
@@ -1439,13 +1439,13 @@ def can_b1(e):
             can.delete(load2)
             can.delete(load3)
             can.delete(load4)
-            h=640
+            h=680
             can["height"]=h
 
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+0")
 
             
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
             current_playlist=""
             can2.focus_set()
             add_st=0
@@ -1500,12 +1500,12 @@ def can_b1(e):
             can.delete(load2)
             can.delete(load3)
             can.delete(load4)
-            h=640
+            h=680
             can["height"]=h
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+0")
 
             st=4
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
             main()
             can2.focus_set()
             add_st=0
@@ -1798,7 +1798,7 @@ def can_b1(e):
         loop=0
 
         if shuffle_st==0:
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
             mvar=0
             shuffle_st=1
             shuff=1
@@ -1807,7 +1807,7 @@ def can_b1(e):
 
             main()
         elif shuffle_st==1:
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
             shuffle_st=0
             shuff=0
 
@@ -1815,7 +1815,7 @@ def can_b1(e):
             main()
 
         elif shuffle_st==2:
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
             shuffle_st=0
             shuff=0
             sort_val=sort_ar[0][0]            
@@ -2523,7 +2523,7 @@ def main():
 
         if len(songs)==0:
             current_playing=""
-            can2.create_text((w-20-7)/2,390/2,text="No Record!",font=("FreeMono",13),fill="#777777")
+            can2.create_text((w-20-7)/2,430/2,text="No Record!",font=("FreeMono",13),fill="#777777")
     elif st==1:
         songs=[]
 
@@ -2636,7 +2636,7 @@ def main():
 
         if len(songs)==0:
             current_playing=""
-            can2.create_text((w-20-7)/2,390/2,text="No Record!",font=("FreeMono",13),fill="#777777")
+            can2.create_text((w-20-7)/2,430/2,text="No Record!",font=("FreeMono",13),fill="#777777")
     elif st==2:
 
         create_playlist()
@@ -2676,7 +2676,7 @@ def main():
 
 
 
-            draw_round_rec(can,10-2,80-10-30+40,w-10,80-30+40+390+10,15,"#137345","",1)
+            draw_round_rec(can,10-2,80-10-30+40,w-10,80-30+40+430+10,15,"#137345","",1)
             #can.create_line(10,70,w-10,70,fill="#777777")
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#777777")
 
@@ -2792,7 +2792,7 @@ def main():
 
             if len(_playlist)==0:
                 current_playing=""
-                can2.create_text(int(can2["width"])/2,y+(390-y)/2,text="No Record",font=("FreeMono",13),fill="#777777")
+                can2.create_text(int(can2["width"])/2,y+(430-y)/2,text="No Record",font=("FreeMono",13),fill="#777777")
 
 
 
@@ -2914,7 +2914,7 @@ def main():
                         pass
             if len(songs)==0:
                 current_playing=""
-                can2.create_text((w-20-7)/2,390/2,text="No Record!",font=("FreeMono",13),fill="#777777")
+                can2.create_text((w-20-7)/2,430/2,text="No Record!",font=("FreeMono",13),fill="#777777")
 
     elif st==3:
         songs=[]
@@ -3036,7 +3036,7 @@ def main():
 
         if len(songs)==0:
             current_playing=""
-            can2.create_text((w-20-7)/2,390/2,text="No Record!",font=("FreeMono",13),fill="#777777")
+            can2.create_text((w-20-7)/2,430/2,text="No Record!",font=("FreeMono",13),fill="#777777")
 
     elif st==4:
         frame.place_forget()
@@ -3122,7 +3122,7 @@ def main():
 
 
 
-            draw_round_rec(can,10-2,80-10-30+40,w-10,80-30+40+390+10,15,"#137345","",1)
+            draw_round_rec(can,10-2,80-10-30+40,w-10,80-30+40+430+10,15,"#137345","",1)
             #can.create_line(10,70,w-10,70,fill="#777777")
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#777777")
 
@@ -3160,8 +3160,8 @@ def main():
                 text_width = text_font.measure(text)
                 return text_width  
 
-            can.create_text(10,h-20-60-20-27,text="("+current_playlist+") ~ ",font=("FreeMono",13,),anchor="w",fill="cyan")
-            length_in_pixels = get_text_length(can, "("+current_playlist+") ~ ", "FreeMono", 13)        
+            can.create_text(10,h-20-60-20-27,text="("+current_playlist+") ",font=("FreeMono",13,),anchor="w",fill="cyan")
+            length_in_pixels = get_text_length(can, "("+current_playlist+") ", "FreeMono", 13)        
             can.create_text(10+length_in_pixels,h-20-60-20-27,text=current_playing,font=("FreeMono",13),anchor="w",fill="#32fca7")
         else:
             can.create_text(10,h-20-60-20-27,text=current_playing,font=("FreeMono",13),anchor="w",fill="#32fca7")
@@ -3579,7 +3579,7 @@ x,y=im.size
 
 r=x/y
 
-im=im.resize((int(640*r),640))
+im=im.resize((int(680*r),680))
 im.save("data/wallpaper.png")
 """
 
@@ -3588,7 +3588,7 @@ im.save("data/wallpaper.png")
 #w,h=im.size
 
 
-w,h=900,640
+w,h=950,680
 root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+0")
 root.resizable(0,0)
 #root.wm_attributes("-alpha",0.92)
@@ -3675,7 +3675,7 @@ def _on_mousewheel(e):
 
     if add_st==0:
 
-        if int(can2["scrollregion"].split(" ")[-1])>390:
+        if int(can2["scrollregion"].split(" ")[-1])>430:
 
             can2.yview_scroll(int(-1*(e.delta/120)), "units")
             #main()
@@ -3705,10 +3705,10 @@ def on_canvas_scroll():
 
 
 
-frame=tk.Frame(bg="#111111",width=w-20,height=390)
+frame=tk.Frame(bg="#111111",width=w-20,height=430)
 
-can2=tk.Canvas(frame,bg="#111111",width=w-20-7,height=390,relief="flat",highlightthickness=0,border=0,
-    scrollregion=(0,0,w-20-7,390))
+can2=tk.Canvas(frame,bg="#111111",width=w-20-7,height=430,relief="flat",highlightthickness=0,border=0,
+    scrollregion=(0,0,w-20-7,430))
 can2.pack(side=tk.LEFT)
 can2.bind_all("<MouseWheel>",_on_mousewheel)
 can2.bind("<Button-1>",can2_b1)
@@ -3916,7 +3916,7 @@ def can_sort_b1(e):
 
         if s[1]<=e.y<=s[1]+30:
 
-            can2["scrollregion"]=(0,0,w-20-7,390)
+            can2["scrollregion"]=(0,0,w-20-7,430)
 
             loop=0
 
