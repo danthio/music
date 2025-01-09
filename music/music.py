@@ -2735,13 +2735,13 @@ def main():
 
             #can2.create_rectangle(int(can2["width"])/2-100,y, int(can2["width"])/2+100,y+30, outline="#32fca7")
 
-            can2.create_arc(int(can2["width"])/2-100-15,y, int(can2["width"])/2-100+15,y+30, style=tk.ARC,start=90,extent=180,outline="#32fca7")
-            can2.create_arc(int(can2["width"])/2+100-15,y, int(can2["width"])/2+100+15,y+30, style=tk.ARC,start=270,extent=180,outline="#32fca7")
+            can2.create_image(int(can2["width"])/2-100-15,y,image=circle3,anchor="nw")
+            can2.create_image(int(can2["width"])/2+100-15,y,image=circle3,anchor="nw")
 
-            can2.create_line(int(can2["width"])/2-100,y, int(can2["width"])/2+100,y, fill="#32fca7")
-            can2.create_line(int(can2["width"])/2-100-1,y+30, int(can2["width"])/2+100,y+30, fill="#32fca7")
+            can2.create_rectangle(int(can2["width"])/2-100,y, int(can2["width"])/2+100,y+30-1,fill="#32fca7",outline="#32fca7")
 
-            can2.create_text(int(can2["width"])/2,y+15,text="Create New Playlist",font=("FreeMono",13),fill="#32fca7")
+
+            can2.create_text(int(can2["width"])/2,y+15,text="Create New Playlist",font=("FreeMono",13),fill="#000000")
 
             y+=30+20
 
@@ -3046,28 +3046,28 @@ def main():
 
 
         #can.create_rectangle(w/2-150,yv, w/2+150,yv+30, fill="#32fca7")
-        can.create_arc(w/2-150-15,yv, w/2-150+15,yv+30,start=90,extent=180,style=tk.ARC,outline="#32fca7")
-        can.create_arc(w/2+150-15,yv, w/2+150+15,yv+30,start=270,extent=180,style=tk.ARC,outline="#32fca7")
 
-        can.create_line(w/2-150,yv, w/2+150,yv, fill="#32fca7")
-        can.create_line(w/2-150-1,yv+30, w/2+150,yv+30, fill="#32fca7")
+        can.create_image(w/2-150-15,yv, image=circle3,anchor="nw")
+        can.create_image(w/2+150-15,yv, image=circle3,anchor="nw")
 
-
-        can.create_text(w/2,yv+15,text="Add Folder",fill="#32fca7",font=("FreeMono",13))
+        can.create_rectangle(w/2-150,yv, w/2+150,yv+30-1,fill="#32fca7",outline="#32fca7")
 
 
 
+        can.create_text(w/2,yv+15,text="Add Folder",fill="#000000",font=("FreeMono",13))
 
 
 
-        #can.create_rectangle(w/2-150,yv+60, w/2+150,yv+30+60, fill="#32fca7")
-        can.create_arc(w/2-150-15,yv+60, w/2-150+15,yv+30+60,start=90,extent=180,style=tk.ARC,outline="#32fca7")
-        can.create_arc(w/2+150-15,yv+60, w/2+150+15,yv+30+60,start=270,extent=180,style=tk.ARC,outline="#32fca7")
 
-        can.create_line(w/2-150,yv+60, w/2+150,yv+60, fill="#32fca7")
-        can.create_line(w/2-150-1,yv+30+60, w/2+150,yv+30+60, fill="#32fca7")
 
-        can.create_text(w/2,yv+15+60,text="Add Audio File",fill="#32fca7",font=("FreeMono",13))
+
+        can.create_image(w/2-150-15,yv+60, image=circle3,anchor="nw")
+        can.create_image(w/2+150-15,yv+60, image=circle3,anchor="nw")
+
+        can.create_rectangle(w/2-150,yv+60, w/2+150,yv+30-1+60,fill="#32fca7",outline="#32fca7")
+
+
+        can.create_text(w/2,yv+15+60,text="Add Audio File",fill="#000000",font=("FreeMono",13))
 
 
     can2["scrollregion"]=(0,0,w-20-7,y)
