@@ -3225,8 +3225,8 @@ def main():
                 text_width = text_font.measure(text)
                 return text_width  
 
-            can.create_text(10,h-20-60-20-27+5,text="("+current_playlist+") ",font=("FreeMono",13,),anchor="w",fill="cyan")
-            length_in_pixels = get_text_length(can, "("+current_playlist+") ", "FreeMono", 13)        
+            can.create_text(10,h-20-60-20-27+5,text="("+current_playlist.upper()+") ",font=("FreeMono",13,),anchor="w",fill="cyan")
+            length_in_pixels = get_text_length(can, "("+current_playlist.upper()+") ", "FreeMono", 13)        
             can.create_text(10+length_in_pixels,h-20-60-20-27+5,text=current_playing,font=("FreeMono",13),anchor="w",fill="#32fca7")
         else:
             can.create_text(10,h-20-60-20-27+5,text=current_playing,font=("FreeMono",13),anchor="w",fill="#32fca7")
