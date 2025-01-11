@@ -64,7 +64,6 @@ def gen_wave():
                 sig.pop(0)
 
 
-
             sig2=[]
             x=10
             for a in sig:
@@ -1894,7 +1893,7 @@ def can_b1(e):
 
                 can3.create_image(10,y+10,image=playlist2,anchor="nw")
                 can3.create_text(10+30+10,y+25,text=p,font=("FreeMono",13),anchor="w",fill="#32fca7")
-                can3.create_line(0,y+50,350-7,y+50,fill="#888888")
+                can3.create_line(0,y+50,350-7,y+50,fill="#999999")
 
                 try:
                     v=ar.index(current_playing)
@@ -2085,6 +2084,9 @@ def can_b1(e):
             main()
         elif expand_st==1:        
             expand_st=0
+
+            if len(sig)==673:
+                sig=sig[(673-465):]
 
 
 
@@ -2504,7 +2506,7 @@ def main():
                     col="#000000"
                 else:
                     can2.create_image(10,y+10,image=musical_note2,anchor="nw")
-                    col="#888888"
+                    col="#999999"
 
 
                 can2.create_text(10+30+20,y+25,text=song,font=("FreeMono",13),fill=col,anchor="w")
@@ -2588,7 +2590,7 @@ def main():
 
         if len(songs)==0:
             current_playing=""
-            can2.create_text((w-20-7)/2,(440*h/680)/2,text="No Record!",font=("FreeMono",13),fill="#888888")
+            can2.create_text((w-20-7)/2,(440*h/680)/2,text="No Record!",font=("FreeMono",13),fill="#999999")
     elif st==1:
         songs=[]
 
@@ -2610,7 +2612,7 @@ def main():
                         col="#000000"
                     else:
                         can2.create_image(10,y+10,image=musical_note2,anchor="nw")
-                        col="#888888"
+                        col="#999999"
 
 
 
@@ -2701,7 +2703,7 @@ def main():
 
         if len(songs)==0:
             current_playing=""
-            can2.create_text((w-20-7)/2,(440*h/680)/2,text="No Record!",font=("FreeMono",13),fill="#888888")
+            can2.create_text((w-20-7)/2,(440*h/680)/2,text="No Record!",font=("FreeMono",13),fill="#999999")
     elif st==2:
 
         create_playlist()
@@ -2742,8 +2744,8 @@ def main():
 
 
             #draw_round_rec(can,10-2,80-10-30+40,w-10,80-30+40+(440*h/680)+10,15,"#137345","",1)
-            #can.create_line(10,70,w-10,70,fill="#888888")
-            #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#888888")
+            #can.create_line(10,70,w-10,70,fill="#999999")
+            #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#999999")
 
             frame.place(in_=root,x=10,y=80-30+40)
 
@@ -2830,7 +2832,7 @@ def main():
                         _pl_=playlist3
                         _del_=delete2
                     else:
-                        col="#888888"
+                        col="#999999"
 
                         _pl_=playlist1
                         _del_=delete
@@ -2857,7 +2859,7 @@ def main():
 
             if len(_playlist)==0:
                 current_playing=""
-                can2.create_text(int(can2["width"])/2,y+((440*h/680)-y)/2,text="No Record",font=("FreeMono",13),fill="#888888")
+                can2.create_text(int(can2["width"])/2,y+((440*h/680)-y)/2,text="No Record",font=("FreeMono",13),fill="#999999")
 
 
 
@@ -2892,7 +2894,7 @@ def main():
                             col="#000000"
                         else:
                             can2.create_image(10,y+10,image=musical_note2,anchor="nw")
-                            col="#888888"
+                            col="#999999"
 
 
 
@@ -2979,7 +2981,7 @@ def main():
                         pass
             if len(songs)==0:
                 current_playing=""
-                can2.create_text((w-20-7)/2,(440*h/680)/2,text="No Record!",font=("FreeMono",13),fill="#888888")
+                can2.create_text((w-20-7)/2,(440*h/680)/2,text="No Record!",font=("FreeMono",13),fill="#999999")
 
     elif st==3:
         songs=[]
@@ -3013,7 +3015,7 @@ def main():
                 col="#000000"
             else:
                 can2.create_image(10,y+10,image=musical_note2,anchor="nw")
-                col="#888888"
+                col="#999999"
 
 
 
@@ -3101,7 +3103,7 @@ def main():
 
         if len(songs)==0:
             current_playing=""
-            can2.create_text((w-20-7)/2,(440*h/680)/2,text="No Record!",font=("FreeMono",13),fill="#888888")
+            can2.create_text((w-20-7)/2,(440*h/680)/2,text="No Record!",font=("FreeMono",13),fill="#999999")
 
     elif st==4:
         frame.place_forget()
@@ -3188,8 +3190,8 @@ def main():
 
 
             #draw_round_rec(can,10-2,80-10-30+40,w-10,80-30+40+(440*h/680)+10,15,"#137345","",1)
-            #can.create_line(10,70,w-10,70,fill="#888888")
-            #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#888888")
+            #can.create_line(10,70,w-10,70,fill="#999999")
+            #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#999999")
 
             frame.place(in_=root,x=10,y=80-30+40)
     else:
@@ -3199,7 +3201,11 @@ def main():
         elif st==4:
             pass
         else:
-            can.create_image((w-400)/2,70,image=note,anchor="nw")
+
+            if root.wm_attributes("-fullscreen")==1:
+                can.create_image((w-400)/2,39+((440*h/680)+10+30)/2-210+30+10,image=note,anchor="nw")
+            else:
+                can.create_image((w-400)/2,39+((440*h/680)+10+30)/2-210+10,image=note,anchor="nw")
 
         
 
@@ -3225,14 +3231,14 @@ def main():
                 text_width = text_font.measure(text)
                 return text_width  
 
-            can.create_text(10,h-20-60-20-27+5,text="("+current_playlist.upper()+") ",font=("FreeMono",13,),anchor="w",fill="cyan")
-            length_in_pixels = get_text_length(can, "("+current_playlist.upper()+") ", "FreeMono", 13)        
+            can.create_text(10,h-20-60-20-27+5,text=current_playlist.upper()+" ~ ",font=("FreeMono",13,),anchor="w",fill="cyan")
+            length_in_pixels = get_text_length(can, current_playlist.upper()+" ~ ", "FreeMono", 13)        
             can.create_text(10+length_in_pixels,h-20-60-20-27+5,text=current_playing,font=("FreeMono",13),anchor="w",fill="#32fca7")
         else:
             can.create_text(10,h-20-60-20-27+5,text=current_playing,font=("FreeMono",13),anchor="w",fill="#32fca7")
 
 
-    can.create_line(10,h-20-60-20,w-10,h-20-60-20,fill="#888888",width=4)
+    can.create_line(10,h-20-60-20,w-10,h-20-60-20,fill="#999999",width=4)
 
     
     if st==2 and playlist_st==0:
@@ -3296,7 +3302,7 @@ def main():
 
 
 
-    can.create_line(w-10-100,h-20-30+5, w-10,h-20-30+5,fill="#888888",width=3)
+    can.create_line(w-10-100,h-20-30+5, w-10,h-20-30+5,fill="#999999",width=3)
 
     can.create_image(w-10-100-10-30,h-20-30-15+5,image=speaker,anchor="nw")
 
