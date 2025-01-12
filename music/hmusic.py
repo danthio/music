@@ -1585,9 +1585,10 @@ def can_b1(e):
             else:
                 play_music("music/"+current_playing,tm)
 
-            main()
+            
 
         prog()
+        main()
 
         return
 
@@ -2500,7 +2501,7 @@ def main():
         #can.create_line(5,80-30+40-5,w-7,80-30+40-5,fill="#610400")
 
         #can.create_rectangle(0,40+30+1,w,80-30+40+5+int(can2["height"]),fill="#000000",outline="#000000")
-        can.create_line(5,80-30+40+5+int(can2["height"]),w-5,80-30+40+5+int(can2["height"]),fill="red")
+        can.create_line(10,80-30+40+5+int(can2["height"]),w-10,80-30+40+5+int(can2["height"]),fill="red")
 
     y=0
 
@@ -2658,7 +2659,7 @@ def main():
 
                 if not song==current_playing:
 
-                    can2.create_line(5,y+50,w-7,y+50,fill="#610400")
+                    can2.create_line(10,y+50,w-10,y+50,fill="#610400")
 
                 ar=[song,y]
 
@@ -2788,7 +2789,7 @@ def main():
 
                     if not song==current_playing:
 
-                        can2.create_line(5,y+50,w-7,y+50,fill="#610400")
+                        can2.create_line(10,y+50,w-10,y+50,fill="#610400")
 
 
 
@@ -2970,7 +2971,7 @@ def main():
                     can2.create_image(int(can2["width"])-10-30,y+10,image=_del_,anchor="nw")
 
                     if current_playlist!=pl:
-                        can2.create_line(5,y+50, int(can2["width"]),y+50,fill="#610400")
+                        can2.create_line(10,y+50, int(can2["width"])-3,y+50,fill="#610400")
 
                     _playlist.append([pl,y])
 
@@ -3114,7 +3115,7 @@ def main():
 
                         if not song==current_playing:
 
-                            can2.create_line(5,y+50,w-7,y+50,fill="#610400")
+                            can2.create_line(10,y+50,w-10,y+50,fill="#610400")
 
 
                         songs.append([song,y])
@@ -3255,7 +3256,7 @@ def main():
 
             if not song[0]==current_playing:
 
-                can2.create_line(5,y+50,w-7,y+50,fill="#610400")
+                can2.create_line(10,y+50,w-10,y+50,fill="#610400")
 
 
             ar=[song[0],y]
