@@ -366,7 +366,7 @@ def convert_folder_to_audio():
             load3=can.create_oval(w/2+50-30,493-20-40-30-15, w/2+50,493-20-40-30+15,fill="#f94449",outline="#f94449")
             load4=can.create_rectangle(w/2-50+15,493-20-40-30-15, w/2+50-15,493-20-40-30+15,fill="#f94449",outline="#f94449")
 
-            load=can.create_text(w/2,493-20-40-30,text="Done!",font=("FreeMono",13),fill="#180100")
+            load=can.create_text(w/2,493-20-40-30,text="Done!",font=("FreeMono",13),fill="#100000")
         convert=0
         update_waves()
 
@@ -491,7 +491,7 @@ def convert_file_to_audio():
             load3=can.create_oval(w/2+50-30,493-20-40-30-15, w/2+50,493-20-40-30+15,fill="#f94449",outline="#f94449")
             load4=can.create_rectangle(w/2-50+15,493-20-40-30-15, w/2+50-15,493-20-40-30+15,fill="#f94449",outline="#f94449")
 
-            load=can.create_text(w/2,493-20-40-30,text="Done!",font=("FreeMono",13),fill="#180100")
+            load=can.create_text(w/2,493-20-40-30,text="Done!",font=("FreeMono",13),fill="#100000")
 
         convert=0
         update_waves()
@@ -539,6 +539,7 @@ def update_details(s="",con=-1):
 
 
     all_songs = os.listdir("music")
+
 
     ar=[]
 
@@ -779,7 +780,7 @@ def prog():
     x_=tm*(w-20)/tot_tm_
 
     prog1=can.create_line(10,h-20-60-20, x_+10,h-20-60-20,fill="#f94449",width=4)
-    prog2=can.create_oval(x_+10-5,h-20-60-20-5, x_+10+5,h-20-60-20+5,fill="#180100",outline="#f94449")
+    prog2=can.create_oval(x_+10-5,h-20-60-20-5, x_+10+5,h-20-60-20+5,fill="#100000",outline="#f94449")
 
 
 
@@ -1063,7 +1064,7 @@ def can2_b1(e):
 
                         can3.create_image(10,y+10,image=playlist2,anchor="nw")
                         can3.create_text(10+30+10,y+25,text=p,font=("FreeMono",13),anchor="w",fill="#f94449")
-                        can3.create_line(0,y+50,350-7,y+50,fill="#180100")
+                        can3.create_line(0,y+50,350-7,y+50,fill="#100000")
 
                         try:
                             v=ar.index(s[0])
@@ -1557,14 +1558,20 @@ def can_b1(e):
             tts=tm
             sig=[]
 
-            play_music("music/"+current_playing,tm)
+            if tm>0:
+                play_music("music/"+current_playing,tm,1)
+
+            else:
+                play_music("music/"+current_playing,tm)
+
+            main()
 
         prog()
 
         return
 
 
-    #playlist1/pause
+    #play/pause
 
     cx,cy=w/2,h-20-30+5
 
@@ -1579,7 +1586,11 @@ def can_b1(e):
                 pp=1
                 play_st=1
 
-                play_music("music/"+current_playing,tm)
+                if tm>0:
+                    play_music("music/"+current_playing,tm,1)
+
+                else:
+                    play_music("music/"+current_playing,tm)
 
                 main()
             elif pp==1:
@@ -1756,7 +1767,7 @@ def can_b1(e):
             r=(w-10)-(w-10-100)
 
             vol1=can.create_line(w-10-100,h-20-30+5 ,w-10-100+current_volume*r,h-20-30+5,fill="#f94449",width=2)
-            vol2=can.create_oval(w-10-100+current_volume*r-5,h-20-30+5-5, w-10-100+current_volume*r+5,h-20-30+5+5,fill="#180100",outline="#f94449")
+            vol2=can.create_oval(w-10-100+current_volume*r-5,h-20-30+5-5, w-10-100+current_volume*r+5,h-20-30+5+5,fill="#100000",outline="#f94449")
 
             vol3=can.create_text(w-10-100+50,h-20-30+5+20,text=str(int(current_volume*100))+" %",fill="#f94449",font=("FreeMono",13))
 
@@ -2111,7 +2122,7 @@ def check_volume():
         r=(w-10)-(w-10-100)
 
         vol1=can.create_line(w-10-100,h-20-30+5 ,w-10-100+current_volume*r,h-20-30+5,fill="#f94449",width=3)
-        vol2=can.create_oval(w-10-100+current_volume*r-5,h-20-30+5-5, w-10-100+current_volume*r+5,h-20-30+5+5,fill="#180100",outline="#f94449")
+        vol2=can.create_oval(w-10-100+current_volume*r-5,h-20-30+5-5, w-10-100+current_volume*r+5,h-20-30+5+5,fill="#100000",outline="#f94449")
 
         vol3=can.create_text(w-10-100+50,h-20-30+5+20,text=str(int(current_volume*100))+" %",fill="#f94449",font=("FreeMono",13))
 
@@ -2310,7 +2321,7 @@ def main():
         col="#f94449"
 
         if l==st:
-            col="#180100"
+            col="#100000"
 
 
             can.create_image(x-60,5,image=circle3,anchor="nw")
@@ -2499,7 +2510,7 @@ def main():
 
                 if song==current_playing:
 
-                    can2.create_line(0,y, int(can2["width"]),y,fill="#180100")
+                    can2.create_line(0,y, int(can2["width"]),y,fill="#100000")
 
                     can2.create_image(0,y,image=circle2,anchor="nw")
                     can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
@@ -2507,7 +2518,7 @@ def main():
                     can2.create_rectangle(25,y, int(can2["width"])-25,y+50-1,fill="#f94449",outline="#f94449")
 
                     can2.create_image(10,y+10,image=musical_note1,anchor="nw")
-                    col="#180100"
+                    col="#100000"
                 else:
                     can2.create_image(10,y+10,image=musical_note2,anchor="nw")
                     col="#f94449"
@@ -2518,7 +2529,7 @@ def main():
                     can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7-30,y+45,fill="#f94449",outline="#f94449")
                     can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
                 else:
-                    can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7,y+45,fill="#180100",outline="#180100")
+                    can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7,y+45,fill="#100000",outline="#100000")
 
 
                 _del_=delete
@@ -2606,14 +2617,14 @@ def main():
                 if music_details[song][0]==1:
 
                     if song==current_playing:
-                        can2.create_line(0,y, int(can2["width"]),y,fill="#180100")
+                        can2.create_line(0,y, int(can2["width"]),y,fill="#100000")
 
                         can2.create_image(0,y,image=circle2,anchor="nw")
                         can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
 
                         can2.create_rectangle(25,y, int(can2["width"])-25,y+50-1,fill="#f94449",outline="#f94449")
                         can2.create_image(10,y+10,image=musical_note1,anchor="nw")
-                        col="#180100"
+                        col="#100000"
                     else:
                         can2.create_image(10,y+10,image=musical_note2,anchor="nw")
                         col="#f94449"
@@ -2625,7 +2636,7 @@ def main():
                         can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7-30,y+45,fill="#f94449",outline="#f94449")
                         can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
                     else:
-                        can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7,y+45,fill="#180100",outline="#180100")
+                        can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7,y+45,fill="#100000",outline="#100000")
 
 
 
@@ -2716,10 +2727,10 @@ def main():
 
             if _search==1:
 
-                can.create_oval(10,40, 10+30,40+30,fill="#180100",outline="#180100")
-                can.create_oval(w-10-30,40, w-10,40+30,fill="#180100",outline="#180100")
+                can.create_oval(10,40, 10+30,40+30,fill="#100000",outline="#100000")
+                can.create_oval(w-10-30,40, w-10,40+30,fill="#100000",outline="#100000")
 
-                can.create_rectangle(10+15,40, w-10-15,40+30,fill="#180100",outline="#180100")
+                can.create_rectangle(10+15,40, w-10-15,40+30,fill="#100000",outline="#100000")
 
 
 
@@ -2771,10 +2782,10 @@ def main():
 
             if _npl==1:
 
-                can2.create_oval(10,y, 10+30,y+30, fill="#180100",outline="#180100")
-                can2.create_oval(int(can2["width"])-10-30,y, int(can2["width"])-10,y+30,fill="#180100",outline="#180100")
+                can2.create_oval(10,y, 10+30,y+30, fill="#100000",outline="#100000")
+                can2.create_oval(int(can2["width"])-10-30,y, int(can2["width"])-10,y+30,fill="#100000",outline="#100000")
 
-                can2.create_rectangle(10+15,y, int(can2["width"])-10-15,y+30,fill="#180100",outline="#180100")
+                can2.create_rectangle(10+15,y, int(can2["width"])-10-15,y+30,fill="#100000",outline="#100000")
 
 
 
@@ -2826,8 +2837,8 @@ def main():
                     
 
                     if current_playlist==pl:
-                        col="#180100"
-                        can2.create_line(0,y, int(can2["width"]),y,fill="#180100")
+                        col="#100000"
+                        can2.create_line(0,y, int(can2["width"]),y,fill="#100000")
 
                         can2.create_image(0,y,image=circle2,anchor="nw")
                         can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
@@ -2888,14 +2899,14 @@ def main():
 
 
                         if song==current_playing:
-                            can2.create_line(0,y, int(can2["width"]),y,fill="#180100")
+                            can2.create_line(0,y, int(can2["width"]),y,fill="#100000")
 
                             can2.create_image(0,y,image=circle2,anchor="nw")
                             can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
 
                             can2.create_rectangle(25,y, int(can2["width"])-25,y+50-1,fill="#f94449",outline="#f94449")
                             can2.create_image(10,y+10,image=musical_note1,anchor="nw")
-                            col="#180100"
+                            col="#100000"
                         else:
                             can2.create_image(10,y+10,image=musical_note2,anchor="nw")
                             col="#f94449"
@@ -2907,7 +2918,7 @@ def main():
                             can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7-30,y+45,fill="#f94449",outline="#f94449")
                             can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
                         else:
-                            can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7,y+45,fill="#180100",outline="#180100")
+                            can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7,y+45,fill="#100000",outline="#100000")
 
 
 
@@ -3009,14 +3020,14 @@ def main():
 
 
             if song[0]==current_playing:
-                can2.create_line(0,y, int(can2["width"]),y,fill="#180100")
+                can2.create_line(0,y, int(can2["width"]),y,fill="#100000")
 
                 can2.create_image(0,y,image=circle2,anchor="nw")
                 can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
 
                 can2.create_rectangle(25,y, int(can2["width"])-25,y+50-1,fill="#f94449",outline="#f94449")
                 can2.create_image(10,y+10,image=musical_note1,anchor="nw")
-                col="#180100"
+                col="#100000"
             else:
                 can2.create_image(10,y+10,image=musical_note2,anchor="nw")
                 col="#f94449"
@@ -3028,7 +3039,7 @@ def main():
                 can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7-30,y+45,fill="#f94449",outline="#f94449")
                 can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
             else:
-                can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7,y+45,fill="#180100",outline="#180100")
+                can2.create_rectangle(w-7-10-30-20-30-20-30-10,y+5, w-7,y+45,fill="#100000",outline="#100000")
 
 
 
@@ -3163,10 +3174,10 @@ def main():
 
             if _search==1:
 
-                can.create_oval(10,40, 10+30,40+30,fill="#180100",outline="#180100")
-                can.create_oval(w-10-30,40, w-10,40+30,fill="#180100",outline="#180100")
+                can.create_oval(10,40, 10+30,40+30,fill="#100000",outline="#100000")
+                can.create_oval(w-10-30,40, w-10,40+30,fill="#100000",outline="#100000")
 
-                can.create_rectangle(10+15,40, w-10-15,40+30,fill="#180100",outline="#180100")
+                can.create_rectangle(10+15,40, w-10-15,40+30,fill="#100000",outline="#100000")
 
 
 
@@ -3181,7 +3192,7 @@ def main():
 
             can.create_image(w-10-5-20,40+5,image=cancel1,anchor="nw")
 
-            #draw_round_rec(can,10,40, w-10,40+30,10,"#180100","#f94449",0)
+            #draw_round_rec(can,10,40, w-10,40+30,10,"#100000","#f94449",0)
 
             can.create_text(30+20+5,40+15,text="Search",font=("FreeMono",13),fill="#f94449",anchor="w")
 
@@ -3226,20 +3237,55 @@ def main():
 
         #can.create_text(10,h-20-60-20-27-30,text=current_playlist,font=("FreeMono",13),anchor="w",fill="cyan")
 
+
+
+        def get_text_length(canvas, text, font_name, font_size):
+            # Create a tkinter font object with the given font name and size
+            text_font = font.Font(family=font_name, size=font_size)
+
+            # Measure the width of the text in pixels
+            text_width = text_font.measure(text)
+            return text_width  
         if len(current_playlist)>0:
-            def get_text_length(canvas, text, font_name, font_size):
-                # Create a tkinter font object with the given font name and size
-                text_font = font.Font(family=font_name, size=font_size)
 
-                # Measure the width of the text in pixels
-                text_width = text_font.measure(text)
-                return text_width  
 
-            can.create_text(10,h-20-60-20-27+5,text=current_playlist+" - ",font=("FreeMono",13,),anchor="w",fill="red")
-            length_in_pixels = get_text_length(can, current_playlist+" - ", "FreeMono", 13)       
+            can.create_text(10,h-20-60-20-27+5,text=current_playlist+"  ",font=("FreeMono",13,),anchor="w",fill="red")
+            length_in_pixels = get_text_length(can, current_playlist+"  ", "FreeMono", 13)       
             can.create_text(10+length_in_pixels,h-20-60-20-27+5,text=current_playing,font=("FreeMono",13),anchor="w",fill="#f94449")
         else:
             can.create_text(10,h-20-60-20-27+5,text=current_playing,font=("FreeMono",13),anchor="w",fill="#f94449")
+
+
+        if not current_playing=="":
+
+            n=music_details[current_playing][1]
+
+
+            if n==1:
+                t=str(n)+" view"
+            elif n>1000:
+
+
+                t=str(round(n/1000,2))+"K views"
+            elif n>1000000:
+
+
+                t=str(round(n/1000000,2))+"M views"
+            elif n>1000000000:
+
+
+                t=str(round(n/1000000000,2))+"B views"
+            else:
+
+                t=str(n)+" views"
+
+
+            l=get_text_length(can, t, "FreeMono", 13)
+
+            can.create_rectangle(w-10-l-10, h-20-60-20-27+5-13, w, h-20-60-20-27+5+13,fill="#100000",outline="#100000")
+
+            can.create_text(w-10,h-20-60-20-27+5,text=t,font=("FreeMono",13),anchor="e",fill="red")
+
 
 
     can.create_line(10,h-20-60-20,w-10,h-20-60-20,fill="#610400",width=4)
@@ -3320,7 +3366,7 @@ def main():
 
 
     vol1=can.create_line(w-10-100,h-20-30+5 ,w-10-100+current_volume*r,h-20-30+5,fill="#f94449",width=3)
-    vol2=can.create_oval(w-10-100+current_volume*r-5,h-20-30+5-5, w-10-100+current_volume*r+5,h-20-30+5+5,fill="#180100",outline="#f94449")
+    vol2=can.create_oval(w-10-100+current_volume*r-5,h-20-30+5-5, w-10-100+current_volume*r+5,h-20-30+5+5,fill="#100000",outline="#f94449")
 
     vol3=can.create_text(w-10-100+50,h-20-30+5+20,text=str(int(current_volume*100))+" %",fill="#f94449",font=("FreeMono",13))
 
@@ -3691,7 +3737,7 @@ root.title("HMUSIC")
 
 
 
-can=tk.Canvas(width=w,height=h,bg="#180100",relief="flat",highlightthickness=0,border=0)
+can=tk.Canvas(width=w,height=h,bg="#100000",relief="flat",highlightthickness=0,border=0)
 can.place(in_=root,x=0,y=0)
 
 can.bind("<Button-1>",can_b1)
@@ -3725,8 +3771,8 @@ style.layout("My.Vertical.TScrollbar",
 
 
 style.configure("My.Vertical.TScrollbar", gripcount=0, background="#f94449",
-                troughcolor='#180100', borderwidth=0, bordercolor='#180100',
-                lightcolor='#180100',relief="flat", darkcolor='#180100',
+                troughcolor='#100000', borderwidth=0, bordercolor='#100000',
+                lightcolor='#100000',relief="flat", darkcolor='#100000',
                 arrowsize=7)
 
 
@@ -3798,9 +3844,9 @@ def on_canvas_scroll():
 
 
 
-frame=tk.Frame(bg="#180100",width=w,height=(440*h/680))
+frame=tk.Frame(bg="#100000",width=w,height=(440*h/680))
 
-can2=tk.Canvas(frame,bg="#180100",width=w-7,height=(440*h/680),relief="flat",highlightthickness=0,border=0,
+can2=tk.Canvas(frame,bg="#100000",width=w-7,height=(440*h/680),relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,w-7,(440*h/680)))
 can2.pack(side=tk.LEFT)
 can2.bind_all("<MouseWheel>",_on_mousewheel)
@@ -3844,7 +3890,7 @@ for a in range(90):
 ar.append(0)
 ar.append(0)
 
-can4.create_polygon(ar,fill="#180100",outline="#180100")
+can4.create_polygon(ar,fill="#100000",outline="#100000")
 
 
 a_=180
@@ -3864,7 +3910,7 @@ for a in range(90):
 ar.append(350)
 ar.append(0)
 
-can4.create_polygon(ar,fill="#180100",outline="#180100")
+can4.create_polygon(ar,fill="#100000",outline="#100000")
 
 
 
@@ -3875,7 +3921,7 @@ can4.create_polygon(ar,fill="#180100",outline="#180100")
 
 
 can4.create_text(350/2,20,text="Playlists",font=("FreeMono",13),fill="#f94449")
-can4.create_line(0,38,350,38,fill="#180100")
+can4.create_line(0,38,350,38,fill="#f94449")
 
 frame3=tk.Frame(frame2,bg="#111111",width=350,height=250-40)
 
@@ -3922,7 +3968,7 @@ for a in range(90):
 ar.append(0)
 ar.append(10)
 
-can5.create_polygon(ar,fill="#180100",outline="#180100")
+can5.create_polygon(ar,fill="#100000",outline="#100000")
 
 
 
@@ -3945,7 +3991,7 @@ for a in range(90):
 ar.append(350)
 ar.append(10)
 
-can5.create_polygon(ar,fill="#180100",outline="#180100")
+can5.create_polygon(ar,fill="#100000",outline="#100000")
 
 
 
@@ -3972,9 +4018,9 @@ def search__():
 
     root.after(1,search__)
 
-search=tk.Entry(bg="#180100",fg="#f94449",insertbackground="#f94449",relief="flat",highlightthickness=0,border=0,width=86,font=("FreeMono",13))
+search=tk.Entry(bg="#100000",fg="#f94449",insertbackground="#f94449",relief="flat",highlightthickness=0,border=0,width=86,font=("FreeMono",13))
 #search.bind("<KeyPress>",search_keypress)
-npl=tk.Entry(bg="#180100",fg="#f94449",insertbackground="#f94449",relief="flat",highlightthickness=0,border=0,width=84,font=("FreeMono",13))
+npl=tk.Entry(bg="#100000",fg="#f94449",insertbackground="#f94449",relief="flat",highlightthickness=0,border=0,width=84,font=("FreeMono",13))
 
 ls=0
 def mvar_():
@@ -4057,7 +4103,7 @@ for a in range(90):
 ar.append(0)
 ar.append(0)
 
-can_sort.create_polygon(ar,fill="#180100",outline="#180100")
+can_sort.create_polygon(ar,fill="#100000",outline="#100000")
 
 
 
@@ -4079,7 +4125,7 @@ for a in range(90):
 ar.append(250)
 ar.append(0)
 
-can_sort.create_polygon(ar,fill="#180100",outline="#180100")
+can_sort.create_polygon(ar,fill="#100000",outline="#100000")
 
 
 
@@ -4103,7 +4149,7 @@ for a in range(90):
 ar.append(0)
 ar.append(160)
 
-can_sort.create_polygon(ar,fill="#180100",outline="#180100")
+can_sort.create_polygon(ar,fill="#100000",outline="#100000")
 
 
 
@@ -4126,7 +4172,7 @@ for a in range(90):
 ar.append(250)
 ar.append(160)
 
-can_sort.create_polygon(ar,fill="#180100",outline="#180100")
+can_sort.create_polygon(ar,fill="#100000",outline="#100000")
 
 
 
@@ -4139,7 +4185,7 @@ can_sort.create_polygon(ar,fill="#180100",outline="#180100")
 can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill="#f94449")
 
 
-can_sort.create_line(0,30, 250,30,fill="#180100" )
+can_sort.create_line(0,30, 250,30,fill="#f94449" )
 
 sort_ar=[]
 
@@ -4153,7 +4199,7 @@ for _ in a:
 
     can_sort.create_text(20,y+15,text=_,font=("FreeMono",13),fill="#f94449",anchor="w")
 
-    can_sort.create_line(0,y+30,250,y+30,fill="#180100")
+    can_sort.create_line(0,y+30,250,y+30,fill="#100000")
 
     sort_ar.append([_,y])
 
