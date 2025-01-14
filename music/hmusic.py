@@ -108,12 +108,12 @@ def gen_wave():
 
 
 
-            tts+=0.01
+            tts+=0.025
         except:
             pass
 
 
-    root.after(10,gen_wave)
+    root.after(25,gen_wave)
 
 def get_amplitude_at_time(file_path, time_sec):
     """
