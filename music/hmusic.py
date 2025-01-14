@@ -2665,7 +2665,7 @@ def main():
 
                 if not song==current_playing:
 
-                    can2.create_line(10,y+50,w-10,y+50,fill="#003538")
+                    can2.create_line(10,y+50,w-10,y+50,fill="#001e20")
 
                 ar=[song,y]
 
@@ -2795,7 +2795,7 @@ def main():
 
                     if not song==current_playing:
 
-                        can2.create_line(10,y+50,w-10,y+50,fill="#003538")
+                        can2.create_line(10,y+50,w-10,y+50,fill="#001e20")
 
 
 
@@ -2920,7 +2920,7 @@ def main():
 
             y+=30+20
 
-            can2.create_line(10,y, int(can2["width"])-3,y,fill="#003538")
+            can2.create_line(10,y, int(can2["width"])-3,y,fill="#001e20")
 
             _playlist=[]
 
@@ -2977,7 +2977,7 @@ def main():
                     can2.create_image(int(can2["width"])-10-30,y+10,image=_del_,anchor="nw")
 
                     if current_playlist!=pl:
-                        can2.create_line(10,y+50, int(can2["width"])-3,y+50,fill="#003538")
+                        can2.create_line(10,y+50, int(can2["width"])-3,y+50,fill="#001e20")
 
                     _playlist.append([pl,y])
 
@@ -3121,7 +3121,7 @@ def main():
 
                         if not song==current_playing:
 
-                            can2.create_line(10,y+50,w-10,y+50,fill="#003538")
+                            can2.create_line(10,y+50,w-10,y+50,fill="#001e20")
 
 
                         songs.append([song,y])
@@ -3262,7 +3262,7 @@ def main():
 
             if not song[0]==current_playing:
 
-                can2.create_line(10,y+50,w-10,y+50,fill="#003538")
+                can2.create_line(10,y+50,w-10,y+50,fill="#001e20")
 
 
             ar=[song[0],y]
