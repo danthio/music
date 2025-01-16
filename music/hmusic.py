@@ -797,7 +797,7 @@ def prog():
 
     can.delete(ctime)
 
-    ctime=can.create_text(10,h-20-60-20+20+10,text=tt,font=("FreeMono",13),fill="#00ffff",anchor="w")
+    ctime=can.create_text(10,h-20-60-20+20+10+5,text=tt,font=("FreeMono",13),fill="#00ffff",anchor="w")
 
 
     can.delete(prog1)
@@ -805,8 +805,8 @@ def prog():
 
     x_=tm*(w-20)/tot_tm_
 
-    prog1=can.create_line(10,h-20-60-20+10, x_+10,h-20-60-20+10,fill="#00ffff",width=4)
-    prog2=can.create_oval(x_+10-5,h-20-60-20-5+10, x_+10+5,h-20-60-20+5+10,fill="#000000",outline="#00ffff")
+    prog1=can.create_line(10,h-20-60-20+10+2+5, x_+10,h-20-60-20+10+2+5,fill="#00ffff",width=4)
+    prog2=can.create_oval(x_+10-5,h-20-60-20-5+10+7, x_+10+5,h-20-60-20+5+10+7,fill="#000000",outline="#00ffff")
 
 
 
@@ -1567,7 +1567,7 @@ def can_b1(e):
 
 
 
-    if h-20-60-20-10<=e.y<=h-20-60-20+10:
+    if h-20-60-20+10+2+5-10<=e.y<=h-20-60-20+10+2+5+10:
 
 
 
@@ -2268,7 +2268,7 @@ def main():
 
     can.delete("all")
 
-    #can.create_image(0,0, image=wallpaper,anchor="nw")
+    #can.create_image(0,0, image=bg,anchor="nw")
     #create_rectangle(can,0, 0, w, h, fill='#111111', alpha=.65)
 
 
@@ -2860,7 +2860,7 @@ def main():
             #can.create_line(10,70,w-10,70,fill="#00ffff")
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill="#00ffff")
 
-            frame.place(in_=root,x=0,y=80-30+40)
+            frame.place(in_=root,x=10,y=80-30+40)
 
 
 
@@ -3431,16 +3431,16 @@ def main():
             
             length_in_pixels = get_text_length(can, current_playlist, "FreeMono", 13) 
 
-            can.create_image(10,h-20-60-20-27-15+3+10+3, image=circle3,anchor="nw")
-            can.create_image(10+15+length_in_pixels-15+30,h-20-60-20-27-15+3+10+3, image=circle3,anchor="nw")
-            can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3, 10+15+length_in_pixels+30,h-20-60-20-27+14+3+10+3,fill="#00ffff",outline="#00ffff")
-            can.create_image(10+15,h-20-60-20-27-15+3+10+5+3, image=playlist4,anchor="nw")
+            can.create_image(10,h-20-60-20-27-15+3+10+3+2+2, image=circle3,anchor="nw")
+            can.create_image(10+15+length_in_pixels-15+30,h-20-60-20-27-15+3+10+3+2+2, image=circle3,anchor="nw")
+            can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2, 10+15+length_in_pixels+30,h-20-60-20-27+14+3+10+3+2+2,fill="#00ffff",outline="#00ffff")
+            can.create_image(10+15,h-20-60-20-27-15+3+10+5+3+2+2, image=playlist4,anchor="nw")
 
-            can.create_text(10+15+30,h-20-60-20-27+3+10+3,text=current_playlist,font=("FreeMono",13,),anchor="w",fill="#000000")
+            can.create_text(10+15+30,h-20-60-20-27+3+10+3+2+2,text=current_playlist,font=("FreeMono",13,),anchor="w",fill="#000000")
                   
-            can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27+3+10+3,text=current_playing,font=("FreeMono",13),anchor="w",fill="#00ffff")
+            can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27+3+10+3+2+2,text=current_playing,font=("FreeMono",13),anchor="w",fill="#00ffff")
         else:
-            can.create_text(10,h-20-60-20-27+3+10+3,text=current_playing,font=("FreeMono",13),anchor="w",fill="#00ffff")
+            can.create_text(10,h-20-60-20-27+3+10+3+2+2,text=current_playing,font=("FreeMono",13),anchor="w",fill="#00ffff")
 
 
         if not current_playing=="":
@@ -3469,13 +3469,13 @@ def main():
 
             l=get_text_length(can, t, "FreeMono", 13)
 
-            can.create_rectangle(w-10-l-10, h-20-60-20-27+3-13+10+3, w, h-20-60-20-27+3+13+10+3,fill="#000000",outline="#000000")
+            can.create_rectangle(w-10-l-10, h-20-60-20-27+3-13+10+3+2, w, h-20-60-20-27+3+13+10+3+2,fill="#000000",outline="#000000")
 
-            can.create_text(w-10,h-20-60-20-27+3+10+3,text=t,font=("FreeMono",13),anchor="e",fill="#00ffff")
+            can.create_text(w-10,h-20-60-20-27+3+10+3+2,text=t,font=("FreeMono",13),anchor="e",fill="#00ffff")
 
 
 
-    can.create_line(10,h-20-60-20+10,w-10,h-20-60-20+10,fill="#003538",width=4)
+    can.create_line(10,h-20-60-20+10+2+5,w-10,h-20-60-20+10+2+5,fill="#003538",width=4)
 
     
     if st==2 and playlist_st==0:
@@ -3483,7 +3483,7 @@ def main():
     elif st==4:
         pass
     else:
-        can.create_text(w-10,h-20-60-20+20+10,text=tot_tm,font=("FreeMono",13),anchor="e",fill="#00ffff")
+        can.create_text(w-10,h-20-60-20+20+10+5,text=tot_tm,font=("FreeMono",13),anchor="e",fill="#00ffff")
 
 
 
@@ -3890,7 +3890,7 @@ playlist4=0
 
 
 
-
+bg=0
 
 
 root=tk.Tk()
