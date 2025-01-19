@@ -1760,7 +1760,7 @@ def can_b1(e):
             _npl=0
             npl.place_forget()
 
-            current_playing=""
+            
 
 
 
@@ -1772,6 +1772,7 @@ def can_b1(e):
                 pl_st=1
 
             else:
+                current_playing=""
                 pl_st=0
 
 
