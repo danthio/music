@@ -130,7 +130,7 @@ def update_frame():
                 ret, frame = cap.read()
                 if ret:
                     # Resize the frame to the specified width and height
-                    frame = cv2.resize(frame, (w-10-5, 494-20+5))
+                    frame = cv2.resize(frame, (w-10-5-2, 494-20+5))
 
                     # Convert the frame to RGB for Tkinter compatibility
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -4364,7 +4364,7 @@ def main():
     if play_video_st==1:
         can.create_rectangle(0,46, w,550,fill="#000000",outline="#000000")
 
-        draw_round_rec(can,5,46,w-5,550,15,"#000000",col2,0)
+        draw_round_rec(can,5,46,w-5-1,550,15,"#000000",col2,0)
 
 
     draw_round_rec(can,0,1,w-1,h-1,20,col1,"",1)
