@@ -1308,8 +1308,8 @@ def can2_b1(e):
     global mvar
     global can2
     global st,npl,playlist_st,_playlist,current_playlist,playlist
-    global search,frame,can2
-    global add_st,frame2,can3
+    global search,frame
+    global add_st,frame2,can3,can4,can5,can6
     global sel_playlist
     global _npl,npl
     global can_sort
@@ -1522,59 +1522,23 @@ def can2_b1(e):
                         col2="#003538"
 
 
+
                     can4.delete("all")
-
-
-
-                    a_=180
-                    ar=[]
-
-                    cx,cy=10,10
-                    for a in range(90):
-
-                        x=10*math.sin(math.radians(a_))+cx
-                        y=10*math.cos(math.radians(a_))+cy
-
-                        ar.append(x)
-                        ar.append(y)
-
-                        a_+=1
-
-                    ar.append(0)
-                    ar.append(0)
-
-                    can4.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-                    a_=180
-                    ar=[]
-
-                    cx,cy=350-10,10
-                    for a in range(90):
-
-                        x=10*math.sin(math.radians(a_))+cx
-                        y=10*math.cos(math.radians(a_))+cy
-
-                        ar.append(x)
-                        ar.append(y)
-
-                        a_-=1
-
-                    ar.append(350)
-                    ar.append(0)
-
-                    can4.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-
-
+                    can3.delete("all")
+                    can5.delete("all")
+                    can6.delete("all")
 
 
                     can4.create_text(350/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
-                    can4.create_line(0,38,350,38,fill=col1)
+                    can4.create_line(2,38,350-2,38,fill=col2)
+
+                    draw_round_rec(can4,2,2 ,350-2,80,15,col1,"",1)
+
+                    draw_round_rec(can6,2,-10 ,350-2,15,15,col1,"",1)
+
+
+
+
 
 
                     can3.delete("all")
@@ -1610,6 +1574,19 @@ def can2_b1(e):
 
 
                         y+=50
+
+
+
+                    if y<250-40:
+
+
+                        can3.create_line(2,0, 2,250-40,fill=col1)
+                        can5.create_line(0,0, 0,250-40,fill=col1)
+                    else:
+
+                        can3.create_line(2,0, 2,y,fill=col1)
+                        can5.create_line(0,0, 0,y,fill=col1)
+
 
                     if len(playlist)==0:
                         can3.create_text(10+30+10,(250-40)/2,text="No record",font=("FreeMono",13),anchor="w")
@@ -2560,121 +2537,16 @@ def can_b1(e):
 
             can_sort.delete("all")
 
-
-
-
-
-
-            a_=180
-            ar=[]
-
-            cx,cy=10,10
-            for a in range(90):
-
-                x=10*math.sin(math.radians(a_))+cx
-                y=10*math.cos(math.radians(a_))+cy
-
-                ar.append(x)
-                ar.append(y)
-
-                a_+=1
-
-            ar.append(0)
-            ar.append(0)
-
-            can_sort.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-            a_=180
-            ar=[]
-
-            cx,cy=250-10,10
-            for a in range(90):
-
-                x=10*math.sin(math.radians(a_))+cx
-                y=10*math.cos(math.radians(a_))+cy
-
-                ar.append(x)
-                ar.append(y)
-
-                a_-=1
-
-            ar.append(250)
-            ar.append(0)
-
-            can_sort.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-
-            a_=270
-            ar=[]
-
-            cx,cy=10,160-10
-            for a in range(90):
-
-                x=10*math.sin(math.radians(a_))+cx
-                y=10*math.cos(math.radians(a_))+cy
-
-                ar.append(x)
-                ar.append(y)
-
-                a_+=1
-
-            ar.append(0)
-            ar.append(160)
-
-            can_sort.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-            a_=0
-            ar=[]
-
-            cx,cy=250-10,160-10
-            for a in range(90):
-
-                x=10*math.sin(math.radians(a_))+cx
-                y=10*math.cos(math.radians(a_))+cy
-
-                ar.append(x)
-                ar.append(y)
-
-                a_+=1
-
-            ar.append(250)
-            ar.append(160)
-
-            can_sort.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-
-
-
+            draw_round_rec(can_sort,2,2, 250-2,160-2,15,"#000000",col1,0)
 
             can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
 
 
-            can_sort.create_line(0,30, 250,30,fill=col1 )
-
-            sort_ar=[]
-
-
-
-
+            can_sort.create_line(2,30, 250-2,30,fill=col2 )
             y=30
             for _ in sa:
 
-                can_sort.create_text(20,y+15,text=_,font=("FreeMono",13),fill=col1,anchor="w")
+                can_sort.create_text(10,y+15,text=_,font=("FreeMono",13),fill=col1,anchor="w")
 
                 #can_sort.create_line(0,y+30,250,y+30,fill="#000000")
 
@@ -3258,8 +3130,8 @@ def main():
 
 
     style2.configure("My.Vertical.TScrollbar2", gripcount=0, background=col1,
-                    troughcolor='#111111', borderwidth=0, bordercolor='#111111',
-                    lightcolor='#111111',relief="flat", darkcolor='#111111',
+                    troughcolor='#000000', borderwidth=0, bordercolor='#000000',
+                    lightcolor='#000000',relief="flat", darkcolor='#000000',
                     arrowsize=7)
 
 
@@ -4367,7 +4239,7 @@ def main():
         draw_round_rec(can,5,46,w-5-1,550,15,"#000000",col2,0)
 
 
-    draw_round_rec(can,0,1,w-1,h-1,20,col1,"",1)
+    draw_round_rec(can,0,1,w-1,h-1,25,col1,"",1)
 
     can.focus_set()
 
@@ -4444,7 +4316,8 @@ def draw_can():
         col2="#003538"
 
 
-    draw_round_rec(can,0,1,w-1,h-1,20,"#000000","#000000",0)
+    can.create_line(0,0, w,0,fill=col2)
+    draw_round_rec(can,0,1,w-1,h-1,25,"#000000","#000000",0)
 
 
     search["fg"]=col1
@@ -4875,6 +4748,8 @@ def draw_can():
         can.create_image(w-80-130/2+10+15,5+30+5,image=red,anchor="nw")
         can.create_image(w-80-130/2+10+30+10+15,5+30+5,image=mint,anchor="nw")
         can.create_image(w-80-130/2+10+30+10+30+10+15,5+30+5,image=cyan,anchor="nw")
+
+
 
     save()
 
@@ -5707,8 +5582,8 @@ style2.layout("My.Vertical.TScrollbar2",
 
 
 style2.configure("My.Vertical.TScrollbar2", gripcount=0, background=col1,
-                troughcolor='#111111', borderwidth=0, bordercolor='#111111',
-                lightcolor='#111111',relief="flat", darkcolor='#111111',
+                troughcolor='#000000', borderwidth=0, bordercolor='#000000',
+                lightcolor='#000000',relief="flat", darkcolor='#000000',
                 arrowsize=7)
 
 
@@ -5764,67 +5639,17 @@ can2.config(yscrollcommand=sb.set)
 sb.pack(side=tk.LEFT,fill=tk.Y)
 
 
-frame2=tk.Frame(bg="#111111",width=350,height=250)
+frame2=tk.Frame(bg="#000000",width=350,height=250)
 
-can4=tk.Canvas(frame2,bg="#111111",width=350,height=40,relief="flat",highlightthickness=0,border=0,
+can4=tk.Canvas(frame2,bg="#000000",width=350,height=40,relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,300-7,250))
 can4.pack(side=tk.TOP)
 
 
 
-a_=180
-ar=[]
+frame3=tk.Frame(frame2,bg="#000000",width=350,height=250-40)
 
-cx,cy=10,10
-for a in range(90):
-
-    x=10*math.sin(math.radians(a_))+cx
-    y=10*math.cos(math.radians(a_))+cy
-
-    ar.append(x)
-    ar.append(y)
-
-    a_+=1
-
-ar.append(0)
-ar.append(0)
-
-can4.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-a_=180
-ar=[]
-
-cx,cy=350-10,10
-for a in range(90):
-
-    x=10*math.sin(math.radians(a_))+cx
-    y=10*math.cos(math.radians(a_))+cy
-
-    ar.append(x)
-    ar.append(y)
-
-    a_-=1
-
-ar.append(350)
-ar.append(0)
-
-can4.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-
-
-
-
-can4.create_text(350/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
-can4.create_line(0,38,350,38,fill=col1)
-
-frame3=tk.Frame(frame2,bg="#111111",width=350,height=250-40)
-
-can3=tk.Canvas(frame3,bg="#111111",width=350-7,height=250-40,relief="flat",highlightthickness=0,border=0,
+can3=tk.Canvas(frame3,bg="#000000",width=350-7-2,height=250-40,relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,300-7,250-40))
 can3.pack(side=tk.LEFT)
 can3.bind_all("<MouseWheel>",_on_mousewheel)
@@ -5840,60 +5665,18 @@ sb2.config(command=can3.yview)
 can3.config(yscrollcommand=sb2.set)
 sb2.pack(side=tk.LEFT,fill=tk.Y)
 
+
+can5=tk.Canvas(frame3,bg="#000000",width=2,height=250-40,relief="flat",highlightthickness=0,border=0)
+can5.pack(side=tk.LEFT)
+
+
+
+
 frame3.pack(side=tk.TOP)
 
 
-can5=tk.Canvas(frame2,bg="#111111",width=350,height=10,relief="flat",highlightthickness=0,border=0,
-    scrollregion=(0,0,300-7,250))
-can5.pack(side=tk.TOP)
-
-
-
-
-a_=270
-ar=[]
-
-cx,cy=10,0
-for a in range(90):
-
-    x=10*math.sin(math.radians(a_))+cx
-    y=10*math.cos(math.radians(a_))+cy
-
-    ar.append(x)
-    ar.append(y)
-
-    a_+=1
-
-ar.append(0)
-ar.append(10)
-
-can5.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-a_=0
-ar=[]
-
-cx,cy=350-10,0
-for a in range(90):
-
-    x=10*math.sin(math.radians(a_))+cx
-    y=10*math.cos(math.radians(a_))+cy
-
-    ar.append(x)
-    ar.append(y)
-
-    a_+=1
-
-ar.append(350)
-ar.append(10)
-
-can5.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
+can6=tk.Canvas(frame2,bg="#000000",width=350,height=16,relief="flat",highlightthickness=0,border=0)
+can6.pack(side=tk.TOP)
 
 
 
@@ -5979,112 +5762,12 @@ def can_sort_b1(e):
 
 sort_st=0
 _sort=0
-can_sort=tk.Canvas(bg="#111111",width=250,height=160,relief="flat",highlightthickness=0,border=0)
+can_sort=tk.Canvas(bg="#000000",width=250,height=160,relief="flat",highlightthickness=0,border=0)
 
 can_sort.bind("<Button-1>",can_sort_b1)
 
 
 
-a_=180
-ar=[]
-
-cx,cy=10,10
-for a in range(90):
-
-    x=10*math.sin(math.radians(a_))+cx
-    y=10*math.cos(math.radians(a_))+cy
-
-    ar.append(x)
-    ar.append(y)
-
-    a_+=1
-
-ar.append(0)
-ar.append(0)
-
-can_sort.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-a_=180
-ar=[]
-
-cx,cy=250-10,10
-for a in range(90):
-
-    x=10*math.sin(math.radians(a_))+cx
-    y=10*math.cos(math.radians(a_))+cy
-
-    ar.append(x)
-    ar.append(y)
-
-    a_-=1
-
-ar.append(250)
-ar.append(0)
-
-can_sort.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-
-a_=270
-ar=[]
-
-cx,cy=10,160-10
-for a in range(90):
-
-    x=10*math.sin(math.radians(a_))+cx
-    y=10*math.cos(math.radians(a_))+cy
-
-    ar.append(x)
-    ar.append(y)
-
-    a_+=1
-
-ar.append(0)
-ar.append(160)
-
-can_sort.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-a_=0
-ar=[]
-
-cx,cy=250-10,160-10
-for a in range(90):
-
-    x=10*math.sin(math.radians(a_))+cx
-    y=10*math.cos(math.radians(a_))+cy
-
-    ar.append(x)
-    ar.append(y)
-
-    a_+=1
-
-ar.append(250)
-ar.append(160)
-
-can_sort.create_polygon(ar,fill="#000000",outline="#000000")
-
-
-
-
-
-
-
-
-
-can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
-
-
-can_sort.create_line(0,30, 250,30,fill=col1 )
 
 sort_ar=[]
 
@@ -6093,10 +5776,6 @@ sort_ar=[]
 
 y=30
 for _ in sa:
-
-    can_sort.create_text(20,y+15,text=_,font=("FreeMono",13),fill=col1,anchor="w")
-
-    #can_sort.create_line(0,y+30,250,y+30,fill="#000000")
 
     sort_ar.append([_,y])
 
