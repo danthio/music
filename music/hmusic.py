@@ -80,17 +80,20 @@ vid_im2=0
 
 cap = None
 paused = False
-vid_label = None
+vid_canvas = None
 
 def initialize_ui(root, video_path):
     """Set up the Tkinter UI components."""
-    global vid_label,can
+    global vid_canvas,can
 
 
 
     # Label for displaying the video
 
-    vid_label.place(in_=root,x=10,y=47+30-20-5)
+    vid_canvas["width"]=w-20
+    vid_canvas["height"]=494+34
+
+    vid_canvas.place(in_=root,x=10,y=47+30-20-5-3)
 
 
 def play_video(video_path, start_time=0):
@@ -121,10 +124,11 @@ def play_video(video_path, start_time=0):
     cap.set(cv2.CAP_PROP_POS_MSEC, start_time)
     paused = False
 
-
+imgtk=None
 def update_frame():
     """Update the video frame in the Tkinter window."""
-    global cap, paused, vid_label, w,play_video_st,play_st
+    global cap, paused, vid_canvas, w,h,play_video_st,play_st
+    global sort_st,can_sort,imgtk
 
 
     if play_video_st==1 and play_st==1:
@@ -135,7 +139,7 @@ def update_frame():
                 ret, frame = cap.read()
                 if ret:
                     # Resize the frame to the specified width and height
-                    frame = cv2.resize(frame, (w-20-5, 494+5+20+5))
+                    frame = cv2.resize(frame, (w-20, 494+5+20+5+4))
 
                     # Convert the frame to RGB for Tkinter compatibility
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -143,8 +147,116 @@ def update_frame():
                     imgtk = ImageTk.PhotoImage(image=img)
 
                     # Update the label with the current frame
-                    vid_label.imgtk = imgtk
-                    vid_label.configure(image=imgtk)
+                    #vid_canvas.imgtk = imgtk
+                    #vid_canvas.configure(image=imgtk)
+
+                    vid_canvas.delete("all")
+
+                    vid_canvas.create_image(0,0, image=imgtk,anchor="nw")
+
+                    r=20
+                    cx,cy=r,r
+                    a_=270
+
+                    ar=[]
+
+                    for a in range(90):
+
+                        x=r*math.sin(math.radians(a_))+cx
+                        y=r*math.cos(math.radians(a_))+cy
+
+                        a_-=1
+
+                        ar.append(x)
+                        ar.append(y)
+
+                    ar.append(0)
+                    ar.append(0)
+
+                    vid_canvas.create_polygon(ar,fill="#000000",outline="#000000")
+
+
+
+                    cx,cy=int(vid_canvas["width"])-r,r
+                    a_=180
+
+                    ar=[]
+
+                    for a in range(90):
+
+                        x=r*math.sin(math.radians(a_))+cx
+                        y=r*math.cos(math.radians(a_))+cy
+
+                        a_-=1
+
+                        ar.append(x)
+                        ar.append(y)
+
+                    ar.append(int(vid_canvas["width"]))
+                    ar.append(0)
+
+                    vid_canvas.create_polygon(ar,fill="#000000",outline="#000000")
+
+
+
+
+
+
+
+
+
+                    cx,cy=int(vid_canvas["width"])-r,int(vid_canvas["height"])-r
+                    a_=90
+
+                    ar=[]
+
+                    for a in range(90):
+
+                        x=r*math.sin(math.radians(a_))+cx
+                        y=r*math.cos(math.radians(a_))+cy
+
+                        a_-=1
+
+                        ar.append(x)
+                        ar.append(y)
+
+                    ar.append(int(vid_canvas["width"]))
+                    ar.append(int(vid_canvas["height"]))
+
+                    vid_canvas.create_polygon(ar,fill="#000000",outline="#000000")
+
+
+
+
+
+
+
+                    cx,cy=r,int(vid_canvas["height"])-r
+                    a_=0
+
+                    ar=[]
+
+                    for a in range(90):
+
+                        x=r*math.sin(math.radians(a_))+cx
+                        y=r*math.cos(math.radians(a_))+cy
+
+                        a_-=1
+
+                        ar.append(x)
+                        ar.append(y)
+
+                    ar.append(0)
+                    ar.append(int(vid_canvas["height"]))
+
+                    vid_canvas.create_polygon(ar,fill="#000000",outline="#000000")
+
+
+
+
+                    if sort_st==1:
+                        can_sort.place(in_=root,x=10+30+20+30,y=h-20-30-15+5+10-160)
+
                 else:
                     cap=None
      
@@ -152,14 +264,14 @@ def update_frame():
             pass
 
     # Schedule the next frame update
-    root.after(20, update_frame)
+    root.after(11, update_frame)
 
 
 
 paused=False
 def play_vid(time_=0):
     
-    global lst,frame,vid_label,cap,play_video_st,play_st
+    global lst,frame,vid_canvas,cap,play_video_st,play_st
 
 
     if play_video_st==1 and play_st==1:
@@ -317,7 +429,7 @@ def draw_wave():
                 for a in sig:
 
                     sig2.append(x)
-                    sig2.append(a+(80-30+40-10-30)+(int(460*(h-30)/680)+10+30)/2+30)
+                    sig2.append(a+(80-30+40-10-30)+(int(460*(h-30)/680)+10+30)/2+30-3)
 
                     x+=xv
 
@@ -1212,7 +1324,7 @@ def prog():
 
     can.delete(ctime)
 
-    ctime=can.create_text(10,h-20-60-20+20+10+5,text=tt,font=("FreeMono",13),fill=col1,anchor="w")
+    ctime=can.create_text(10,h-20-60-20+20+10+5-3,text=tt,font=("FreeMono",13),fill=col1,anchor="w")
 
 
     can.delete(prog1)
@@ -1220,7 +1332,7 @@ def prog():
 
     x_=tm*(w-20)/tot_tm_
 
-    prog1=can.create_line(10,h-20-60-20+10+2+5, x_+10,h-20-60-20+10+2+5,fill=col1,width=4)
+    prog1=can.create_line(10,h-20-60-20+10+2+5-3, x_+10,h-20-60-20+10+2+5-3,fill=col1,width=3)
 
 
 
@@ -1234,8 +1346,9 @@ def timer():
     global w,h,add_st,frame2,can2
     global loop,lvar,play_video_st
     global play_video_st
-    global vid_label
+    global vid_canvas
     global lyric_st
+    global cap
 
     if play_st==1:
 
@@ -1249,7 +1362,7 @@ def timer():
         if tm>=tot_tm_:
 
             play_video_st=0
-            vid_label.place_forget()
+            vid_canvas.place_forget()
 
             if loop==0:
                 mvar+=1
@@ -1281,6 +1394,8 @@ def timer():
 
             play_video_st=0
             lyric_st=0
+
+            cap=None
 
             main()
 
@@ -1368,6 +1483,7 @@ def can2_b1(e):
     _search=0
     _npl=0
 
+    #search.delete(0,tk.END)
 
     search.place_forget()
     npl.place_forget()
@@ -1408,7 +1524,7 @@ def can2_b1(e):
                 can2["scrollregion"]=(0,0,w-7,int(460*(h-30)/680))
                 npl.delete(0,tk.END)
                 _npl=1
-                npl.place(in_=root,x=10+15+10,y=80-30+40+5+5+30-10)
+                npl.place(in_=root,x=10+15+10,y=80-30+40+5+5+30-10-3)
                 npl.focus_set()
                 main()
 
@@ -1875,7 +1991,7 @@ def can_b1(e):
 
     global play_video_st
     global music_details
-    global vid_label
+    global vid_canvas
     global paused
     global cap
     global root_st
@@ -1900,7 +2016,7 @@ def can_b1(e):
     _search=0
     _npl=0
 
-
+    search.delete(0,tk.END)
     search.place_forget()
     npl.place_forget()
 
@@ -1930,9 +2046,11 @@ def can_b1(e):
 
     if theme_st==1:
 
+        x,y=10+25+10,5
 
 
-        cx,cy=10+10+15,5+30+5+15
+
+        cx,cy=x+10+15,y+5+15
 
         r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
@@ -1946,7 +2064,7 @@ def can_b1(e):
             main()
             return
 
-        cx,cy=10+10+30+10+15,5+30+5+15
+        cx,cy=x+10+30+10+15,y+5+15
 
         r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
@@ -1961,7 +2079,7 @@ def can_b1(e):
             return
 
 
-        cx,cy=10+10+30+10+30+10+15,5+30+5+15
+        cx,cy=x+10+30+10+30+10+15,y+5+15
 
         r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
@@ -2012,7 +2130,7 @@ def can_b1(e):
         if 1<=e.y<=36:
 
             play_video_st=0
-            vid_label.place_forget()
+            vid_canvas.place_forget()
 
             lst=1
 
@@ -2092,7 +2210,7 @@ def can_b1(e):
 
 
             play_video_st=0
-            vid_label.place_forget()
+            vid_canvas.place_forget()
 
             lst=1
 
@@ -2164,7 +2282,7 @@ def can_b1(e):
 
 
             play_video_st=0
-            vid_label.place_forget()
+            vid_canvas.place_forget()
 
             lst=1
             main()
@@ -2239,7 +2357,7 @@ def can_b1(e):
 
 
             play_video_st=0
-            vid_label.place_forget()
+            vid_canvas.place_forget()
 
 
             lst=1
@@ -2311,7 +2429,7 @@ def can_b1(e):
 
 
             play_video_st=0
-            vid_label.place_forget()
+            vid_canvas.place_forget()
 
 
             lst=1
@@ -2367,7 +2485,7 @@ def can_b1(e):
 
 
 
-    if h-20-60-20+10+2+5-10<=e.y<=h-20-60-20+10+2+5+10:
+    if h-20-60-20+10+2+5-10-3<=e.y<=h-20-60-20+10+2+5+10-3:
 
 
 
@@ -2410,12 +2528,12 @@ def can_b1(e):
     #play/pause
 
 
-    cx,cy=w/2,h-20-30-30+5+10+30
+    cx,cy=w/2,h-20-30-30+5+10+30-3
 
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
     if r<=30:
 
-        if st==2 and playlist_st==0 and pl_st==0:
+        if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
             pass
         else:
 
@@ -2455,11 +2573,11 @@ def can_b1(e):
 
     #previous
 
-    cx,cy=w/2-30-30-30+15,h-20-30-15+5+10+15
+    cx,cy=w/2-30-30-30+15,h-20-30-15+5+10+15-3
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
     if r<=15:
 
-        if st==2 and playlist_st==0 and pl_st==0:
+        if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
             return
 
         if st==4:
@@ -2469,6 +2587,9 @@ def can_b1(e):
         if loop==0:
 
             mvar-=1
+
+        if mvar<0:
+            mvar=len(songs)-1
 
 
         tm=0
@@ -2485,12 +2606,14 @@ def can_b1(e):
 
         play_video_st=0
 
-        vid_label.place_forget()
+        vid_canvas.place_forget()
 
 
 
         lvar=0
         lyric_st=0
+
+        cap=None
 
         main()
 
@@ -2500,14 +2623,14 @@ def can_b1(e):
     #next
 
 
-    cx,cy=w/2+30+30+15,h-20-30-15+5+10+15
+    cx,cy=w/2+30+30+15,h-20-30-15+5+10+15-3
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
     if r<=15:
 
 
 
 
-        if st==2 and playlist_st==0 and pl_st==0:
+        if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
             return
 
         if st==4:
@@ -2537,8 +2660,10 @@ def can_b1(e):
         play_video_st=0
         lyric_st=0
 
+        cap=None
 
-        vid_label.place_forget()
+
+        vid_canvas.place_forget()
 
         main()
 
@@ -2582,7 +2707,7 @@ def can_b1(e):
 
     #list
 
-    cx,cy=10+15,h-20-30-15+5+15+10
+    cx,cy=10+15,h-20-30-15+5+15+10-3
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
     if r<=15:
 
@@ -2591,20 +2716,24 @@ def can_b1(e):
             text.place_forget()
 
             play_video_st=0
-            vid_label.place_forget()
+            cap=None
+            vid_canvas.place_forget()
 
         elif lst==1:
 
+            if st==2 and playlist_st==0:
+                pass
+            else:
+                lst=0
+                _search=0
 
-            lst=0
-            _search=0
-            frame.place_forget()
+                frame.place_forget()
         main()
 
 
     #volume
     if w-10-100-10<=e.x<=w-10+10:
-        if h-20-30+5-10+10<=e.y<=h-20-30+5+10+10:
+        if h-20-30+5-10+10-3<=e.y<=h-20-30+5+10+10-3:
 
             if e.x<w-10-100:
                 current_volume=0
@@ -2631,7 +2760,7 @@ def can_b1(e):
             main()
     #sort
 
-    cx,cy=10+30+20+15,h-20-30-15+5+15+10
+    cx,cy=10+30+20+15,h-20-30-15+5+15+10-3
 
     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
@@ -2715,7 +2844,7 @@ def can_b1(e):
 
 
 
-    cx,cy=10+30+20+30+20+15,h-20-30-15+5+15+10
+    cx,cy=10+30+20+30+20+15,h-20-30-15+5+15+10-3
 
     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
@@ -2753,7 +2882,7 @@ def can_b1(e):
 
     #loop
 
-    cx,cy=w/2+30+30+30+20+10+15,h-20-30-15+5+15+10
+    cx,cy=w/2+30+30+30+20+10+15,h-20-30-15+5+15+10-3
 
     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
@@ -2912,7 +3041,7 @@ def can_b1(e):
     #lyrics
 
     x=w/2
-    y=520+30
+    y=520+30-3
 
 
 
@@ -2989,7 +3118,7 @@ def can_b1(e):
 
     #play_video
 
-    cx,cy=10+90+60+15,h-20-30-15+5+10+15
+    cx,cy=10+90+60+15,h-20-30-15+5+10+15-3
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
     if r<=15:
 
@@ -3007,8 +3136,9 @@ def can_b1(e):
 
 
         elif play_video_st==1:
+            cap=None
             play_video_st=0
-            vid_label.place_forget()
+            vid_canvas.place_forget()
             main()
 
 
@@ -3101,9 +3231,9 @@ def check_volume():
 
         r=(w-10)-(w-10-100)
 
-        vol1=can.create_line(w-10-100,h-20-30+5+10 ,w-10-100+current_volume*r,h-20-30+5+10,fill=col1,width=3)
+        vol1=can.create_line(w-10-100,h-20-30+5+10-3 ,w-10-100+current_volume*r,h-20-30+5+10-3,fill=col1,width=3)
 
-        vol2=can.create_text(w-10,h-20-30+5+20+10-2,text=str(int(current_volume*100))+" %",fill=col1,font=("FreeMono",13),anchor="e")
+        vol2=can.create_text(w-10,h-20-30+5+20+10-2-3,text=str(int(current_volume*100))+" %",fill=col1,font=("FreeMono",13),anchor="e")
 
 
     root.after(500,check_volume)
@@ -3263,7 +3393,7 @@ def main():
     global quit,minimize
     global root_st
 
-    global vid_label,play_video_st
+    global vid_canvas,play_video_st
     global circlex
 
 
@@ -3301,7 +3431,7 @@ def main():
 
         frame.place_forget()
         search.place_forget()
-        vid_label.place_forget()
+        vid_canvas.place_forget()
         play_video_st=0
 
         return
@@ -3650,7 +3780,7 @@ def main():
                     col=col1
 
 
-                can2.create_text(10+30,y+25,text=song,font=("FreeMono",13),fill=col,anchor="w")
+                can2.create_text(10+30,y+25,text=song[:-4],font=("FreeMono",13),fill=col,anchor="w")
                 if song==current_playing:
                     can2.create_rectangle(int(can2["width"])-25*4-15*4,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
                     can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
@@ -3797,7 +3927,7 @@ def main():
 
 
 
-                    can2.create_text(10+30,y+25,text=song,font=("FreeMono",13),fill=col,anchor="w")
+                    can2.create_text(10+30,y+25,text=song[:-4],font=("FreeMono",13),fill=col,anchor="w")
                     if song==current_playing:
                         can2.create_rectangle(int(can2["width"])-25*4-15*4,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
                         can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
@@ -3952,7 +4082,7 @@ def main():
 
 
 
-            can2.create_rectangle(0,0, int(can2["width"]),95,fill=col3,outline=col3)
+            #can2.create_rectangle(0,0, int(can2["width"]),95,fill=col3,outline=col3)
 
 
 
@@ -4136,7 +4266,7 @@ def main():
 
 
 
-                        can2.create_text(10+30,y+25,text=song,font=("FreeMono",13),fill=col,anchor="w")
+                        can2.create_text(10+30,y+25,text=song[:-4],font=("FreeMono",13),fill=col,anchor="w")
                         if song==current_playing:
                             can2.create_rectangle(int(can2["width"])-25*4-15*4,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
                             can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
@@ -4294,7 +4424,7 @@ def main():
 
 
 
-            can2.create_text(10+30,y+25,text=song[0],font=("FreeMono",13),fill=col,anchor="w")
+            can2.create_text(10+30,y+25,text=song[0][:-4],font=("FreeMono",13),fill=col,anchor="w")
             if song[0]==current_playing:
                 can2.create_rectangle(int(can2["width"])-25*4-15*4,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
                 can2.create_image(int(can2["width"])-50,y,image=circle2,anchor="nw")
@@ -4619,7 +4749,7 @@ def draw_can():
     if lst==0:
 
         x=w/2
-        y=520+30
+        y=520+30-3
 
 
 
@@ -4729,19 +4859,19 @@ def draw_can():
 
 
 
-                can.create_polygon(ar,fill=col3,outline=col3)
+                #can.create_polygon(ar,fill=col3,outline=col3)
 
 
 
 
 
-            draw_round_rec(can,10,80-10-30+40+30-10,w-10,80-30+40+int(460*(h-30)/680)+10+30-10,15,col1,"",1)
+            draw_round_rec(can,10,80-10-30+40+30-10-3,w-10,80-30+40+int(460*(h-30)/680)+10+30-10-3,15,col1,"",1)
 
 
             #can.create_line(10,70,w-10,70,fill=col1)
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill=col1)
 
-            frame.place(in_=root,x=11,y=80-30+40+30-10)
+            frame.place(in_=root,x=11,y=80-30+40+30-10-3)
     else:
         
         if playlist_st==0 and st==2:
@@ -4815,10 +4945,10 @@ def draw_can():
 
 
 
-                can.create_polygon(ar,fill=col3,outline=col3)
+                #can.create_polygon(ar,fill=col3,outline=col3)
 
 
-            draw_round_rec(can,10,80-10-30+40+30-10,w-10,80-30+40+int(460*(h-30)/680)+10+30-10,20,col1,"",0)
+            draw_round_rec(can,10,80-10-30+40+30-10-3,w-10,80-30+40+int(460*(h-30)/680)+10+30-10-3,20,col1,"",0)
 
 
             #can.create_line(10,70,w-10,70,fill=col1)
@@ -4829,7 +4959,7 @@ def draw_can():
             pass
         else:
 
-            can.create_image((w-420)/2,39+(int(460*(h-30)/680)+10+30)/2-210+10+15,image=note,anchor="nw")
+            can.create_image((w-420)/2,39+(int(460*(h-30)/680)+10+30)/2-210+10+15-3,image=note,anchor="nw")
 
     
 
@@ -4898,7 +5028,7 @@ def draw_can():
 
 
 
-    if playlist_st==0 and st==2 and pl_st==0 :
+    if playlist_st==0 and st==2 and pl_st==0 and current_playing=="":
 
         pass
 
@@ -4924,16 +5054,16 @@ def draw_can():
             
             length_in_pixels = get_text_length(can, current_playlist, "FreeMono", 13) 
 
-            can.create_image(10,h-20-60-20-27-15+3+10+3+2+2, image=circle3,anchor="nw")
-            can.create_image(10+15+length_in_pixels-15+30,h-20-60-20-27-15+3+10+3+2+2, image=circle3,anchor="nw")
-            can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2, 10+15+length_in_pixels+30,h-20-60-20-27+14+3+10+3+2+2,fill=col1,outline=col1)
-            can.create_image(10+15,h-20-60-20-27-15+3+10+5+3+2+2, image=playlist4,anchor="nw")
+            can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3, image=circle3,anchor="nw")
+            can.create_image(10+15+length_in_pixels-15+30,h-20-60-20-27-15+3+10+3+2+2-3, image=circle3,anchor="nw")
+            can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2-3, 10+15+length_in_pixels+30,h-20-60-20-27+14+3+10+3+2+2-3,fill=col1,outline=col1)
+            can.create_image(10+15,h-20-60-20-27-15+3+10+5+3+2+2-3, image=playlist4,anchor="nw")
 
-            can.create_text(10+15+30,h-20-60-20-27+3+10+3+2+2,text=current_playlist,font=("FreeMono",13,),anchor="w",fill="#000000")
+            can.create_text(10+15+30,h-20-60-20-27+3+10+3+2+2-3,text=current_playlist,font=("FreeMono",13,),anchor="w",fill="#000000")
                   
-            can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27+3+10+3+2+2,text=current_playing,font=("FreeMono",13),anchor="w",fill=col1)
+            can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27+3+10+3+2+2-3,text=current_playing[:-4],font=("FreeMono",13),anchor="w",fill=col1)
         else:
-            can.create_text(10,h-20-60-20-27+3+10+3+2+2,text=current_playing,font=("FreeMono",13),anchor="w",fill=col1)
+            can.create_text(10,h-20-60-20-27+3+10+3+2+2-3,text=current_playing[:-4],font=("FreeMono",13),anchor="w",fill=col1)
 
 
         if not current_playing=="":
@@ -4964,33 +5094,33 @@ def draw_can():
 
                 l=get_text_length(can, t, "FreeMono", 13)
 
-                can.create_rectangle(w-10-26-5-l-10, h-20-60-20-27+3-13+10+3+2, w, h-20-60-20-27+3+13+10+3+2,fill="#000000",outline="#000000")
+                can.create_rectangle(w-10-26-5-l-10, h-20-60-20-27+3-13+10+3+2-3, w, h-20-60-20-27+3+13+10+3+2-3,fill="#000000",outline="#000000")
 
-                can.create_text(w-10-26-5,h-20-60-20-27+3+10+3+2,text=t,font=("FreeMono",13),anchor="e",fill=col1)
+                can.create_text(w-10-26-5,h-20-60-20-27+3+10+3+2-3,text=t,font=("FreeMono",13),anchor="e",fill=col1)
 
-                can.create_image(w-10-26,h-20-60-20-27+3-13+10+3+2,image=eye,anchor="nw")
+                can.create_image(w-10-26,h-20-60-20-27+3-13+10+3+2-3,image=eye,anchor="nw")
 
             except:
                 pass
 
-    can.create_line(10,h-20-60-20+10+2+5,w-10,h-20-60-20+10+2+5,fill=col2,width=4)
+    can.create_line(10,h-20-60-20+10+2+5-3,w-10,h-20-60-20+10+2+5-3,fill=col2,width=3)
 
     
-    if st==2 and playlist_st==0:
+    if st==2 and playlist_st==0 and current_playing=="":
         pass
     elif st==4:
         pass
     else:
-        can.create_text(w-10,h-20-60-20+20+10+5,text=tot_tm,font=("FreeMono",13),anchor="e",fill=col1)
+        can.create_text(w-10,h-20-60-20+20+10+5-3,text=tot_tm,font=("FreeMono",13),anchor="e",fill=col1)
 
 
 
-    can.create_image(w/2-30,h-20-30-30+5+10, image=circle,anchor="nw")
+    can.create_image(w/2-30,h-20-30-30+5+10-3, image=circle,anchor="nw")
 
     if pp==0:
-        can.create_image(w/2-15+2,h-20-30-15+5+10, image=play,anchor="nw")
+        can.create_image(w/2-15+2,h-20-30-15+5+10-3, image=play,anchor="nw")
     elif pp==1:
-        can.create_image(w/2-15,h-20-30-15+5+10, image=pause,anchor="nw")
+        can.create_image(w/2-15,h-20-30-15+5+10-3, image=pause,anchor="nw")
 
 
 
@@ -5014,9 +5144,9 @@ def draw_can():
         except:
             pass
 
-        can.create_image(10,h-20-30-15+5+10,image=list1,anchor="nw")
+        can.create_image(10,h-20-30-15+5+10-3,image=list1,anchor="nw")
     elif lst==1:
-        can.create_image(10,h-20-30-15+5+10,image=list2,anchor="nw")
+        can.create_image(10,h-20-30-15+5+10-3,image=list2,anchor="nw")
 
 
     if lyric_st==1:
@@ -5027,24 +5157,24 @@ def draw_can():
 
     if sort_val!="":
 
-        can.create_image(10+30+20,h-20-30-15+5+10,image=sort,anchor="nw")
+        can.create_image(10+30+20,h-20-30-15+5+10-3,image=sort,anchor="nw")
 
     else:
-        can.create_image(10+30+20,h-20-30-15+5+10,image=sort2,anchor="nw")
+        can.create_image(10+30+20,h-20-30-15+5+10-3,image=sort2,anchor="nw")
 
     if shuff==0:
 
-        can.create_image(10+30+20+30+20,h-20-30-15+5+10,image=shuffle1,anchor="nw")
+        can.create_image(10+30+20+30+20,h-20-30-15+5+10-3,image=shuffle1,anchor="nw")
     elif shuff==1:
-        can.create_image(10+30+20+30+20,h-20-30-15+5+10,image=shuffle2,anchor="nw")
+        can.create_image(10+30+20+30+20,h-20-30-15+5+10-3,image=shuffle2,anchor="nw")
 
 
 
 
 
-    can.create_line(w-10-100,h-20-30+5+10, w-10,h-20-30+5+10,fill=col2,width=3)
+    can.create_line(w-10-100,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=col2,width=3)
 
-    can.create_image(w-10-100-10-30+5,h-20-30-15+5+10,image=speaker,anchor="nw")
+    can.create_image(w-10-100-10-30+5,h-20-30-15+5+10-3,image=speaker,anchor="nw")
 
 
 
@@ -5054,21 +5184,21 @@ def draw_can():
     r=(w-10)-(w-10-100)
 
 
-    vol1=can.create_line(w-10-100,h-20-30+5+10 ,w-10-100+current_volume*r,h-20-30+5+10,fill=col1,width=3)
+    vol1=can.create_line(w-10-100,h-20-30+5+10-3 ,w-10-100+current_volume*r,h-20-30+5+10-3,fill=col1,width=3)
 
-    vol2=can.create_text(w-10,h-20-30+5+20+10-2,text=str(int(current_volume*100))+" %",fill=col1,font=("FreeMono",13),anchor="e")
+    vol2=can.create_text(w-10,h-20-30+5+20+10-2-3,text=str(int(current_volume*100))+" %",fill=col1,font=("FreeMono",13),anchor="e")
 
 
 
-    can.create_image(w/2-30-30-30,h-20-30-15+5+10,image=previous,anchor="nw")
-    can.create_image(w/2+30+30,h-20-30-15+5+10,image=next_,anchor="nw")
+    can.create_image(w/2-30-30-30,h-20-30-15+5+10-3,image=previous,anchor="nw")
+    can.create_image(w/2+30+30,h-20-30-15+5+10-3,image=next_,anchor="nw")
 
 
     if loop==0:
-        can.create_image(w/2+30+30+30+20+10,h-20-30-15+5+10,image=loop1,anchor="nw")
+        can.create_image(w/2+30+30+30+20+10,h-20-30-15+5+10-3,image=loop1,anchor="nw")
 
     elif loop==1:
-        can.create_image(w/2+30+30+30+20+10,h-20-30-15+5+10,image=loop2,anchor="nw")
+        can.create_image(w/2+30+30+30+20+10,h-20-30-15+5+10-3,image=loop2,anchor="nw")
 
 
 
@@ -5094,14 +5224,16 @@ def draw_can():
 
     if theme_st==1:
 
-        can.create_oval(10,5+30, 10+40,5+30+40,fill=col2,outline=col2)
-        can.create_oval(10+130-40,5+30, 10+130,5+30+40,fill=col2,outline=col2)
-        can.create_rectangle(10+20,5+30, 10+130-20,5+30+40,fill=col2,outline=col2)
+        x,y=10+25+10,5
+
+        can.create_oval(x,y, x+40,y+40,fill=col2,outline=col2)
+        can.create_oval(x+130-40,y, x+130,y+40,fill=col2,outline=col2)
+        can.create_rectangle(x+20,y, x+130-20,y+40,fill=col2,outline=col2)
 
 
-        can.create_image(10+10,5+30+5,image=red,anchor="nw")
-        can.create_image(10+10+30+10,5+30+5,image=mint,anchor="nw")
-        can.create_image(10+10+30+10+30+10,5+30+5,image=cyan,anchor="nw")
+        can.create_image(x+10,y+5,image=red,anchor="nw")
+        can.create_image(x+10+30+10,y+5,image=mint,anchor="nw")
+        can.create_image(x+10+30+10+30+10,y+5,image=cyan,anchor="nw")
 
 
 
@@ -5146,11 +5278,11 @@ def draw_can():
 
     if play_video_st==1:
 
-        can.create_image(10+30*3+20*3,h-20-30-15+5+10,image=play_video2,anchor="nw")
+        can.create_image(10+30*3+20*3,h-20-30-15+5+10-3,image=play_video2,anchor="nw")
 
     elif play_video_st==0:
 
-        can.create_image(10+30*3+20*3,h-20-30-15+5+10,image=play_video1,anchor="nw")
+        can.create_image(10+30*3+20*3,h-20-30-15+5+10-3,image=play_video1,anchor="nw")
 
 lvar=0
 
@@ -5237,11 +5369,11 @@ def show_lyrics():
 
                         lvar=1
 
-                    text.place(in_=root,x=(w-(790-111))/2,y=75-10+30)
+                    text.place(in_=root,x=(w-(790-111))/2,y=75-10+30-3)
 
 
 
-                    draw_round_rec(can,(w-(820-126))/2,64+3-10+30 ,(w-(820-126))/2+(820-126),520-3-10+30,15,col1,col1,0)
+                    draw_round_rec(can,(w-(820-126))/2,64+3-10+30-3 ,(w-(820-126))/2+(820-126),520-3-10+30-3,15,col1,col1,0)
 
 
 
@@ -5620,6 +5752,11 @@ with open("data/save.json", "r") as file:
 st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,theme,shuffle_ar,shuffle_st=data["save"]
 
 
+if lst==0 and st==2 and playlist_st==0:
+    lst=1
+if playlist_st==0 and current_playing!="":
+    playlist_st=1
+
 add_video1,add_video2,add_video3=0,0,0
 play_video1,play_video2=0,0
 
@@ -5788,7 +5925,7 @@ def play_pause(e):
 
 
 
-    if st==2 and playlist_st==0 and pl_st==0:
+    if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
         pass
     else:
 
@@ -5822,10 +5959,10 @@ def play_pause(e):
                 prog()
 def play_next(e):
     global st,playlist_st,play_st,current_playing,mvar,tm,loop,pp,songs,pl_st,lvar
-    global play_video_st,vid_label,lyric_st
+    global play_video_st,vid_canvas,lyric_st,cap
 
 
-    if st==2 and playlist_st==0 and pl_st==0:
+    if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
         return
 
     if st==4:
@@ -5855,21 +5992,29 @@ def play_next(e):
 
     play_video_st=0
 
-    vid_label.place_forget()
+    vid_canvas.place_forget()
 
     lyric_st=0
+
+    cap=None
 
     main()
 
     move_to_playing()
 
 
+    if st==2 and playlist_st==0:
+        can2["scrollregion"]=(0,0,w-7-2,int(460*(h-30)/680))
+
+
+
 def play_previous(e):
 
-    global st,playlist_st,play_st,current_playing,mvar,tm,loop,pp,songs,play_video_st,vid_label,lyric_st
+    global st,playlist_st,play_st,current_playing,mvar,tm,loop,pp,songs,play_video_st,vid_canvas,lyric_st
+    global cap
 
 
-    if st==2 and playlist_st==0 and pl_st:
+    if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
         return
 
     if st==4:
@@ -5879,6 +6024,12 @@ def play_previous(e):
     if loop==0:
 
         mvar-=1
+
+
+
+    if mvar<0:
+        mvar=len(songs)-1
+
 
 
     tm=0
@@ -5896,13 +6047,18 @@ def play_previous(e):
 
     play_video_st=0
 
-    vid_label.place_forget()
+    vid_canvas.place_forget()
 
     lyric_st=0
+
+    cap=None
 
     main()
 
     move_to_playing()
+
+    if st==2 and playlist_st==0:
+        can2["scrollregion"]=(0,0,w-7-2,int(460*(h-30)/680))
 
 
 can=tk.Canvas(width=w,height=h,bg="#000000",relief="flat",highlightthickness=0,border=0)
@@ -6222,8 +6378,8 @@ text=tk.Text(bg="#000000",fg=col1,width=75,height=23,relief="flat",highlightthic
 text.config(wrap=tk.WORD)
 
 
-vid_label = tk.Label()
-vid_label["bg"]="#000000"
+vid_canvas = tk.Canvas(relief="flat",highlightthickness=0,border=0)
+vid_canvas["bg"]="#000000"
 
 
 can2.focus_set()
