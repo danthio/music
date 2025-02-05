@@ -4922,7 +4922,10 @@ def draw_can():
         col3="#001618"
         col4="#000000"
 
+
     """
+
+    
 
     can.create_image(-50,-50, image=bg,anchor="nw")
 
@@ -5023,10 +5026,10 @@ def draw_can():
 
     can.create_polygon(ar,fill="#333333",outline="#333333") 
 
-
-
-
     """
+
+
+    
 
 
 
@@ -5225,10 +5228,10 @@ def draw_can():
 
 
             if select_st==1:
-                draw_round_rec(can,10,97,w-10,h-133+75,0,col4,col1,0)
+                draw_round_rec(can,10,97,w-10,h-133+75,10,col4,col2,0,1)
             else:
 
-                draw_round_rec(can,10,97,w-10,h-133,0,col4,col1,0)
+                draw_round_rec(can,10,97,w-10,h-133,10,col4,col2,0,1)
 
 
             #can.create_line(10,70,w-10,70,fill=col1)
@@ -5311,10 +5314,10 @@ def draw_can():
 
 
             if select_st==1:
-                draw_round_rec(can,10,97,w-10,h-133+75,0,col4,col1,0)
+                draw_round_rec(can,10,97,w-10,h-133+75,10,col4,col2,0,1)
             else:
 
-                draw_round_rec(can,10,97,w-10,h-133,0,col4,col1,0)
+                draw_round_rec(can,10,97,w-10,h-133,10,col4,col2,0,1)
 
             #can.create_line(10,70,w-10,70,fill=col1)
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill=col1)
@@ -5475,7 +5478,7 @@ def draw_can():
                     can.create_text(w-10-26-5,h-20-60-20-27-15+3+10+3+2+2-3+15,text=t,font=("FreeMono",13),anchor="e",fill=col1)
 
                     can.create_image(w-10-26,h-20-60-20-27-15+3+10+3+2+2-3+15-13,image=eye,anchor="nw")
-\
+
 
         can.create_line(10,h-20-60-20+10+2+5-3,w-10,h-20-60-20+10+2+5-3,fill=col2,width=3)
 
@@ -5628,7 +5631,7 @@ def draw_can():
         x,y=10+25+10,5+5
 
 
-        draw_round_rec(can,x,y, x+130,y+40,20,col2,"",1)
+        draw_round_rec(can,x,y, x+130,y+40,20,"#000000",col2,0)
 
 
         can.create_image(x+10,y+5,image=red,anchor="nw")
@@ -5684,6 +5687,10 @@ def draw_can():
         can.create_text(x+30+5,h-58/2-3,text=playlist_select,font=("FreeMono",13),fill=col1,anchor="w")
 
         can.create_image(w-10-25,h-58/2-12.5-3,image=delete,anchor="nw")
+
+
+
+    can.create_text(w/4,h-10,text="Hepta_34",font=("FreeMono",8),anchor="c",fill=col1)
 
 
 
@@ -6204,7 +6211,7 @@ root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
 
-w,h=int(1020*wd/1366),int(700*ht/768)
+w,h=int(1050*wd/1366),int(700*ht/768)
 root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
 root.resizable(0,0)
 #root.wm_attributes("-alpha",0.9)
