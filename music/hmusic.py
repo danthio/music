@@ -444,7 +444,7 @@ def draw_wave():
 
 
 
-    xv=1
+    xv=3
 
     if play_st==1:
 
@@ -494,7 +494,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(10,draw_wave)
+    root.after(2,draw_wave)
 
 
 
@@ -511,8 +511,8 @@ def gen_wave():
 
 
 
-    amp=150
-    xv=1
+    amp=100
+    xv=3
 
 
     if play_st==1:
@@ -542,13 +542,13 @@ def gen_wave():
 
 
 
-            tts+=0.002
+            tts+=0.01
 
         except:
             pass
 
 
-    root.after(2,gen_wave)
+    root.after(10,gen_wave)
 
 def get_amplitude_at_time(file_path, time_sec):
     """
