@@ -5764,6 +5764,7 @@ def draw_can():
                 pass
 
 
+            can.create_rectangle(w-10, h-20-60-20-27-15+3+10+3+2+2-3+15-13, w, h-20-60-20-27-15+3+10+3+2+2-3+15+13,fill="#000000",outline="#000000")
 
             """
             if not current_playing=="":
