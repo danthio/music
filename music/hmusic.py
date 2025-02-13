@@ -2108,6 +2108,7 @@ def can_b1(e):
             select_st=0
 
             main()
+            return
 
 
     if root_st==1:
