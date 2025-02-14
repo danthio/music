@@ -5190,6 +5190,7 @@ def draw_can():
     global select_st
     global bg
     global songs_status
+    global quit
 
     can.delete("all")
 
@@ -6013,7 +6014,7 @@ def draw_can():
 
         can.create_text(x+30+5,h-58/2-3,text=playlist_select,font=("TkDefaultFont",12),fill=col1,anchor="w")
 
-        can.create_image(w-10-25,h-58/2-12.5-3,image=delete,anchor="nw")
+        can.create_image(w-10-25,h-58/2-12.5-3,image=quit,anchor="nw")
 
 
 
