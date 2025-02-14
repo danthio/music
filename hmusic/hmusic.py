@@ -888,7 +888,6 @@ def convert_file_to_audio():
                 destination_file = os.path.join("music", os.path.basename(input_file))
                 shutil.copy(input_file, "music")
 
-                main()
 
                 con=1
 
@@ -925,6 +924,7 @@ def convert_file_to_audio():
 
                 except:
                     root.after(0,dummy)
+                    
 
 
         except:
