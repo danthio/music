@@ -2121,6 +2121,8 @@ def can_b1(e):
 
         main()
 
+        move_to_playing(1)
+
         return
 
 
