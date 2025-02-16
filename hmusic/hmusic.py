@@ -469,6 +469,9 @@ def draw_wave():
 
                     x+=xv
 
+
+
+
                 try:
 
                     if lst==0 and st!=4 and lyric_st==0 and root_st==0:
@@ -492,7 +495,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(3,draw_wave)
+    root.after(2,draw_wave)
 
 
 
@@ -535,18 +538,19 @@ def gen_wave():
 
             xn=int((w-20)/xv)
 
-            if len(sig)>xn:
+
+            if len(sig)>=xn:
                 sig.pop(0)
 
 
 
-            tts+=0.005
+            tts+=0.010
 
         except:
             pass
 
 
-    root.after(5,gen_wave)
+    root.after(10,gen_wave)
 
 def get_amplitude_at_time(file_path, time_sec):
     """
@@ -4135,6 +4139,7 @@ def main():
             
 
             for song in all_songs:
+
 
                 scon=0
 
