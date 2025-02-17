@@ -7145,7 +7145,7 @@ root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
 
-w,h=1050,700
+w,h=1133,700
 root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
 root.resizable(0,0)
 #root.wm_attributes("-alpha",0.9)
