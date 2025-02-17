@@ -54,36 +54,6 @@ def get_taskbar_height():
 
 
 
-im=Image.open("data/red/previous.png")
-im=im.resize((25,25))
-im.save("data/red/previous.png")
-
-im=Image.open("data/red/next.png")
-im=im.resize((25,25))
-im.save("data/red/next.png")
-
-
-
-im=Image.open("data/mint/previous.png")
-im=im.resize((25,25))
-im.save("data/mint/previous.png")
-
-im=Image.open("data/mint/next.png")
-im=im.resize((25,25))
-im.save("data/mint/next.png")
-
-
-
-im=Image.open("data/cyan/previous.png")
-im=im.resize((25,25))
-im.save("data/cyan/previous.png")
-
-im=Image.open("data/cyan/next.png")
-im=im.resize((25,25))
-im.save("data/cyan/next.png")
-
-
-
 """
 
 im=Image.open("data/red/play.png")
@@ -435,6 +405,9 @@ def get_frame_at_time(video_path, time_in_seconds, output_image_path):
 
 
 
+def get_playback_time():
+    return pygame.mixer.music.get_pos() / 1000  # Convert milliseconds to seconds
+
 
 sig=[]
 sig_=0
@@ -473,7 +446,7 @@ def draw_wave():
 
 
 
-    xv=4
+    xv=1
 
     if play_st==1:
 
@@ -526,7 +499,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(5,draw_wave)
+    root.after(2,draw_wave)
 
 
 
@@ -543,8 +516,8 @@ def gen_wave():
 
 
 
-    amp=100
-    xv=4
+    amp=150
+    xv=1
 
 
     if play_st==1:
@@ -558,7 +531,7 @@ def gen_wave():
 
             
 
-            amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", tts)
+            amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time()+tts)
 
 
 
@@ -575,13 +548,12 @@ def gen_wave():
 
 
 
-            tts+=0.005
 
         except:
             pass
 
 
-    root.after(5,gen_wave)
+    root.after(1,gen_wave)
 
 def get_amplitude_at_time(file_path, time_sec):
     """
@@ -2719,6 +2691,8 @@ def can_b1(e):
 
                         paused=False
 
+                        tts=tm
+
                         if tm>0:
                             play_music("music/"+current_playing,tm,1)
 
@@ -2769,6 +2743,7 @@ def can_b1(e):
 
 
             tm=0
+
             
             current_playing=_songs_[mvar][0]
             play_st=1
@@ -4243,10 +4218,10 @@ def main():
 
                         draw_active(can2,2,y,50,col1)
 
-                        can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                        can2.create_image(5,y+10,image=musical_note1,anchor="nw")
                         col="#000000"
                     else:
-                        can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                        can2.create_image(5,y+10,image=musical_note2,anchor="nw")
                         col=col1
 
                     n=music_details[song][1]
@@ -4277,8 +4252,8 @@ def main():
                         vw="Views"
 
 
-                    can2.create_text(10+30,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
-                    can2.create_text(10+30,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
+                    can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                    can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
                     if song==current_playing:
                         can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
                     else:
@@ -4432,10 +4407,10 @@ def main():
                             #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
                             draw_active(can2,2,y,50,col1)
-                            can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                            can2.create_image(5,y+10,image=musical_note1,anchor="nw")
                             col="#000000"
                         else:
-                            can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                            can2.create_image(5,y+10,image=musical_note2,anchor="nw")
                             col=col1
 
                         n=music_details[song][1]
@@ -4465,8 +4440,8 @@ def main():
                             vw="Views"
 
 
-                        can2.create_text(10+30,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
-                        can2.create_text(10+30,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
+                        can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                        can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
                         if song==current_playing:
                             can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
                         else:
@@ -4758,7 +4733,7 @@ def main():
 
 
 
-                        can2.create_text(10+30+5,y+25,text=pl,font=("TkDefaultFont",12),fill=col,anchor="w")
+                        can2.create_text(50,y+25,text=pl,font=("TkDefaultFont",12),fill=col,anchor="w")
 
                         can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
 
@@ -4836,10 +4811,10 @@ def main():
                                 #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
                                 draw_active(can2,2,y,50,col1)
-                                can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                                can2.create_image(5,y+10,image=musical_note1,anchor="nw")
                                 col="#000000"
                             else:
-                                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                                can2.create_image(5,y+10,image=musical_note2,anchor="nw")
                                 col=col1
 
 
@@ -4872,8 +4847,8 @@ def main():
                                 vw="Views"
 
 
-                            can2.create_text(10+30,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
-                            can2.create_text(10+30,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
+                            can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                            can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
                             if song==current_playing:
                                 can2.create_rectangle(int(can2["width"])-25*4-15*3,y+3, int(can2["width"])-40,y+45,fill=col1,outline=col1)
                             else:
@@ -5035,10 +5010,10 @@ def main():
                     #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
                     draw_active(can2,2,y,50,col1)
-                    can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                    can2.create_image(5,y+10,image=musical_note1,anchor="nw")
                     col="#000000"
                 else:
-                    can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                    can2.create_image(5,y+10,image=musical_note2,anchor="nw")
                     col=col1
 
 
@@ -5073,8 +5048,8 @@ def main():
 
 
 
-                can2.create_text(10+30,y+50/3,text=song[0][:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
-                can2.create_text(10+30,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
+                can2.create_text(50,y+50/3,text=song[0][:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
                 if song[0]==current_playing:
                     can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
                 else:
@@ -5749,7 +5724,7 @@ def draw_can():
         else:
 
 
-            draw_polygon(can,7,w/2,55+(((h-132)-55)-420)/2+210,210,col2,2)
+            draw_polygon(can,7,0,w/2,55+(((h-132)-55)-420)/2+210,210,col2,7,1,"#000000",7)
 
     
 
@@ -6081,7 +6056,7 @@ def draw_can():
 
 
 
-        draw_polygon(can,7,w/2,55+(((h-132)-55)-420)/2+210,210,col2,2)
+        draw_polygon(can,7,0,w/2,55+(((h-132)-55)-420)/2+210,210,col2,7,1,"#000000",7)
         frame.place_forget()
         
         yv=55+(((h-132)-55)-90)/2
@@ -6903,31 +6878,7 @@ def can_motion(e):
 
             mot_val=can.create_text(10+25+5,10+12.5,text="theme",fill=col1,font=("TkDefaultFont",10),anchor="w")
 
-def draw_polygon(canvas,n,cx,cy,r,col,width):
-
-
-    a=180
-
-    ar=[]
-
-    for _ in range(n):
-
-        a_=a+360/n
-
-        x=r*math.sin(math.radians(a))+cx
-        y=r*math.cos(math.radians(a))+cy
-
-        for aa in range(n-1):
-
-
-
-            x2=r*math.sin(math.radians(a_))+cx
-            y2=r*math.cos(math.radians(a_))+cy
-
-            canvas.create_line(x,y, x2,y2, fill=col,width=width)
-
-
-            a_+=360/n
+def draw_polygon(canvas,n,st_ang,cx,cy,r,col,width,con,col2="",d=10):
 
 
 
@@ -6935,7 +6886,66 @@ def draw_polygon(canvas,n,cx,cy,r,col,width):
 
 
 
-        a+=360/n
+
+    if con==1:
+
+
+        a=180+st_ang
+
+        ar=[]
+
+        for _ in range(n):
+
+
+            x=r*math.sin(math.radians(a))+cx
+            y=r*math.cos(math.radians(a))+cy
+
+            ar.append(x)
+            ar.append(y)
+
+
+            a+=360/n
+
+        canvas.create_polygon(ar,fill=col,outline=col)
+
+
+
+
+
+        a=180+st_ang
+
+        ar=[]
+
+        r-=d
+
+        
+
+        for _ in range(n):
+
+            a_=a+360/n
+
+            x=r*math.sin(math.radians(a))+cx
+            y=r*math.cos(math.radians(a))+cy
+
+            for aa in range(n-1):
+
+
+
+                x2=r*math.sin(math.radians(a_))+cx
+                y2=r*math.cos(math.radians(a_))+cy
+
+                canvas.create_line(x,y, x2,y2, fill=col2,width=width)
+
+
+                a_+=360/n
+
+
+
+
+
+
+
+            a+=360/n
 
 
 
@@ -7358,7 +7368,7 @@ def update_song_status():
 
 
 def play_pause(e):
-    global st,playlist_st,play_st,current_playing,pp,tm
+    global st,playlist_st,play_st,current_playing,pp,tm,tts
     global paused
     global select_st
 
@@ -7379,6 +7389,8 @@ def play_pause(e):
             if pp==0:
                 pp=1
                 play_st=1
+
+                tts=tm
 
                 if tm>0:
                     play_music("music/"+current_playing,tm,1)
