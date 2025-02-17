@@ -5718,7 +5718,7 @@ def draw_can():
         else:
 
 
-            draw_heptagon(can,w/2,55+(((h-132)-55)-420)/2+210,210,col2,2)
+            draw_polygon(can,7,w/2,55+(((h-132)-55)-420)/2+210,210,col2,2)
 
     
 
@@ -6059,7 +6059,7 @@ def draw_can():
 
 
 
-        draw_heptagon(can,w/2,55+(((h-132)-55)-420)/2+210,210,col2,2)
+        draw_polygon(can,7,w/2,55+(((h-132)-55)-420)/2+210,210,col2,2)
         frame.place_forget()
         
         yv=55+(((h-132)-55)-90)/2
@@ -6881,21 +6881,21 @@ def can_motion(e):
 
             mot_val=can.create_text(10+25+5,10+12.5,text="theme",fill=col1,font=("TkDefaultFont",10),anchor="w")
 
-def draw_heptagon(canvas,cx,cy,r,col,width):
+def draw_polygon(canvas,n,cx,cy,r,col,width):
 
 
     a=180
 
     ar=[]
 
-    for _ in range(7):
+    for _ in range(n):
 
-        a_=a+360/7
+        a_=a+360/n
 
         x=r*math.sin(math.radians(a))+cx
         y=r*math.cos(math.radians(a))+cy
 
-        for aa in range(6):
+        for aa in range(n-1):
 
 
 
@@ -6905,7 +6905,7 @@ def draw_heptagon(canvas,cx,cy,r,col,width):
             canvas.create_line(x,y, x2,y2, fill=col,width=width)
 
 
-            a_+=360/7
+            a_+=360/n
 
 
 
@@ -6913,7 +6913,7 @@ def draw_heptagon(canvas,cx,cy,r,col,width):
 
 
 
-        a+=360/7
+        a+=360/n
 
 
 
