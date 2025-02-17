@@ -495,7 +495,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(2,draw_wave)
+    root.after(5,draw_wave)
 
 
 
@@ -544,13 +544,13 @@ def gen_wave():
 
 
 
-            tts+=0.010
+            tts+=0.005
 
         except:
             pass
 
 
-    root.after(10,gen_wave)
+    root.after(5,gen_wave)
 
 def get_amplitude_at_time(file_path, time_sec):
     """
@@ -5717,7 +5717,8 @@ def draw_can():
             pass
         else:
 
-            can.create_image((w-420)/2,55+(((h-132)-55)-420)/2,image=headphones,anchor="nw")
+
+            draw_heptagon(can,w/2,55+(((h-132)-55)-420)/2+210,210,col2,2)
 
     
 
@@ -6057,7 +6058,8 @@ def draw_can():
     if st==4:
 
 
-        can.create_image((w-420)/2,55+(((h-132)-55)-420)/2,image=headphones,anchor="nw")
+
+        draw_heptagon(can,w/2,55+(((h-132)-55)-420)/2+210,210,col2,2)
         frame.place_forget()
         
         yv=55+(((h-132)-55)-90)/2
@@ -6104,7 +6106,7 @@ def draw_can():
 
 
 
-    can.create_text(w/4,h-15,text="hepta7 ©",font=("TkDefaultFont",12),anchor="c",fill=col2)
+    #can.create_text(w/4,h-15,text="hepta7 ©",font=("TkDefaultFont",12),anchor="c",fill=col2)
 
 
 
@@ -6596,7 +6598,6 @@ def load_im():
     global bg
     global headphones2
 
-
     circle=ImageTk.PhotoImage(file="data/"+theme+"/circle.png")
     circle2=ImageTk.PhotoImage(file="data/"+theme+"/circle2.png")
     circle3=ImageTk.PhotoImage(file="data/"+theme+"/circle3.png")
@@ -6880,6 +6881,43 @@ def can_motion(e):
 
             mot_val=can.create_text(10+25+5,10+12.5,text="theme",fill=col1,font=("TkDefaultFont",10),anchor="w")
 
+def draw_heptagon(canvas,cx,cy,r,col,width):
+
+
+    a=180
+
+    ar=[]
+
+    for _ in range(7):
+
+        a_=a+360/7
+
+        x=r*math.sin(math.radians(a))+cx
+        y=r*math.cos(math.radians(a))+cy
+
+        for aa in range(6):
+
+
+
+            x2=r*math.sin(math.radians(a_))+cx
+            y2=r*math.cos(math.radians(a_))+cy
+
+            canvas.create_line(x,y, x2,y2, fill=col,width=width)
+
+
+            a_+=360/7
+
+
+
+
+
+
+
+        a+=360/7
+
+
+
+
 
 
 circle=0
@@ -7080,7 +7118,6 @@ songs_status=[]
 
 
 stx=0
-
 
 
 
