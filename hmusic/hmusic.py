@@ -5203,7 +5203,7 @@ def main():
     draw_can()
 
 
-    draw_round_rec(can,0,0,w-1,h-1,20,col1,"",1)
+    draw_round_rec(can,1,1,w-2,h-2,20,col1,"",1)
 
 
 
