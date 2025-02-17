@@ -517,7 +517,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(1,draw_wave)
+    root.after(3,draw_wave)
 
 
 
