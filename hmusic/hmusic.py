@@ -447,6 +447,7 @@ def draw_wave():
 
 
     xv=1
+    amp=150
 
     if play_st==1:
 
@@ -460,6 +461,23 @@ def draw_wave():
 
 
 
+
+
+
+                amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time()+tts)
+
+
+
+
+
+                sig.append(-amplitude*amp)
+
+
+                xn=int((w-20)/xv)
+
+
+                if len(sig)>=xn:
+                    sig.pop(0)
 
 
 
@@ -499,7 +517,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(2,draw_wave)
+    root.after(1,draw_wave)
 
 
 
@@ -531,7 +549,7 @@ def gen_wave():
 
             
 
-            amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time()+tts)
+            amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time())
 
 
 
@@ -553,7 +571,7 @@ def gen_wave():
             pass
 
 
-    root.after(1,gen_wave)
+    #root.after(1,gen_wave)
 
 def get_amplitude_at_time(file_path, time_sec):
     """
@@ -7911,7 +7929,7 @@ check_pl()
 on_canvas_scroll()
 
 
-gen_wave()
+#gen_wave()
 draw_wave()
 
 #check_geometry()
