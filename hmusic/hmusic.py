@@ -53,6 +53,37 @@ def get_taskbar_height():
 
 
 
+
+im=Image.open("data/red/previous.png")
+im=im.resize((25,25))
+im.save("data/red/previous.png")
+
+im=Image.open("data/red/next.png")
+im=im.resize((25,25))
+im.save("data/red/next.png")
+
+
+
+im=Image.open("data/mint/previous.png")
+im=im.resize((25,25))
+im.save("data/mint/previous.png")
+
+im=Image.open("data/mint/next.png")
+im=im.resize((25,25))
+im.save("data/mint/next.png")
+
+
+
+im=Image.open("data/cyan/previous.png")
+im=im.resize((25,25))
+im.save("data/cyan/previous.png")
+
+im=Image.open("data/cyan/next.png")
+im=im.resize((25,25))
+im.save("data/cyan/next.png")
+
+
+
 """
 
 im=Image.open("data/red/play.png")
@@ -2720,9 +2751,9 @@ def can_b1(e):
 
         #previous
 
-        cx,cy=w/2-30-30-30+15,h-20-30-15+5+10+15-3
+        cx,cy=w/2-30-30-25+12.5,h-20-30-15+5+10-3+2.5+12.5
         r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-        if r<=15:
+        if r<=12.5:
 
             if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
                 return
@@ -2768,9 +2799,9 @@ def can_b1(e):
         #next
 
 
-        cx,cy=w/2+30+30+15,h-20-30-15+5+10+15-3
+        cx,cy=w/2+30+30+12.5,h-20-30-15+5+10-3+2.5+12.5
         r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-        if r<=15:
+        if r<=12.5:
 
 
 
@@ -5922,10 +5953,8 @@ def draw_can():
             except:
                 pass
 
-            can.create_image(10,h-20-30-15+5+10-3+2.5,image=circle5,anchor="nw")
             can.create_image(10,h-20-30-15+5+10-3+2.5,image=list1,anchor="nw")
         elif lst==1:
-            can.create_image(10,h-20-30-15+5+10-3+2.5,image=circle5,anchor="nw")
             can.create_image(10,h-20-30-15+5+10-3+2.5,image=list2,anchor="nw")
 
 
@@ -5936,32 +5965,26 @@ def draw_can():
 
 
         if sort_val!="":
-            can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=circle5,anchor="nw")
             can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort,anchor="nw")
 
         else:
-            can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=circle5,anchor="nw")
             can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
 
         if shuff==0:
 
 
-            can.create_image(10+25+15+25+15,h-20-30-15+5+10-3+2.5,image=circle5,anchor="nw")
             can.create_image(10+25+15+25+15,h-20-30-15+5+10-3+2.5,image=shuffle1,anchor="nw")
         elif shuff==1:
-            can.create_image(10+25+15+25+15,h-20-30-15+5+10-3+2.5,image=circle5,anchor="nw")
             can.create_image(10+25+15+25+15,h-20-30-15+5+10-3+2.5,image=shuffle2,anchor="nw")
 
 
 
 
         if loop==0:
-            can.create_image(10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=circle5,anchor="nw")
             can.create_image(10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=loop1,anchor="nw")
 
         elif loop==1:
 
-            can.create_image(10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=circle5,anchor="nw")
             can.create_image(10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=loop2,anchor="nw")
 
 
@@ -5969,7 +5992,6 @@ def draw_can():
         can.create_line(w-10-100,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=col2,width=2)
 
 
-        can.create_image(w-10-100-10-30+5,h-20-30-15+5+10-3+1,image=circle5,anchor="nw")
         can.create_image(w-10-100-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
 
 
@@ -5987,8 +6009,8 @@ def draw_can():
         vol3=can.create_image(w-10-100+current_volume*r-3,h-20-30+5+10-3-3,image=circle10,anchor="nw")
         vol4=can.create_image(w-10-100+current_volume*r-2,h-20-30+5+10-3-2,image=circle9,anchor="nw")
 
-        can.create_image(w/2-30-30-30,h-20-30-15+5+10-3,image=previous,anchor="nw")
-        can.create_image(w/2+30+30,h-20-30-15+5+10-3,image=next_,anchor="nw")
+        can.create_image(w/2-30-30-25,h-20-30-15+5+10-3+2.5,image=previous,anchor="nw")
+        can.create_image(w/2+30+30,h-20-30-15+5+10-3+2.5,image=next_,anchor="nw")
 
 
 
