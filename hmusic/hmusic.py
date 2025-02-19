@@ -446,7 +446,7 @@ def draw_wave():
 
 
 
-    xv=1
+    xv=2
     amp=150
 
     if play_st==1:
@@ -517,7 +517,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(3,draw_wave)
+    root.after(2,draw_wave)
 
 
 
