@@ -2154,7 +2154,7 @@ def can_b1(e):
 
         
 
-        cx,cy=w-10-25+12.5,h-58/2-12.5-3+12.5
+        cx,cy=w-10-25+12.5,(h-122+75)+((h-1)-(h-122+75)-25)/2+12.5
 
         r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
@@ -3566,6 +3566,8 @@ def can_b1(e):
 
                 main()
 
+                can2["scrollregion"]=(0,0,0,0)
+
                 move_to_playing(1)
 
                 return
@@ -4014,11 +4016,11 @@ def main():
 
             if scon==1:
 
-                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                can2.create_image(5,y+10,image=musical_note2,anchor="nw")
                 col=col1
 
 
-                can2.create_text(10+30,y+25,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                can2.create_text(50,y+25,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
                 
                 can2.create_rectangle(int(can2["width"])-20-20-20,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
 
@@ -6210,11 +6212,11 @@ def draw_can():
 
         x=(w-(30+5+length_in_pixels))/2
 
-        can.create_image(x,h-58/2-3-10-1,image=playlist2,anchor="nw")
+        can.create_image(x,(h-122+75)+((h-1)-(h-122+75))/2-11,image=playlist2,anchor="nw")
 
-        can.create_text(x+30+5,h-58/2-3,text=playlist_select,font=("TkDefaultFont",12),fill=col1,anchor="w")
+        can.create_text(x+30+5,(h-122+75)+((h-1)-(h-122+75))/2,text=playlist_select,font=("TkDefaultFont",12),fill=col1,anchor="w")
 
-        can.create_image(w-10-25,h-58/2-12.5-3,image=quit,anchor="nw")
+        can.create_image(w-10-25,(h-122+75)+((h-1)-(h-122+75)-25)/2,image=quit,anchor="nw")
 
 
 
