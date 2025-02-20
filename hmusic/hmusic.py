@@ -75,6 +75,9 @@ def get_taskbar_height():
 
 
 
+
+
+
 """
 
 im=Image.open("data/red/play.png")
@@ -2089,7 +2092,32 @@ def move_to_playing(con_=0):
     except:
         pass
 
+
+
+
+
+
 def can_b3(e):
+
+    """
+
+    global can
+    # Get the canvas position on the screen
+    x = can.winfo_rootx() + e.x
+    y = can.winfo_rooty() + e.y
+
+    # Capture the screen area around the canvas
+    image = ImageGrab.grab(bbox=(x, y, x + 1, y + 1))
+    color = image.getpixel((0, 0))
+
+
+    print(f'#{color[0]:02x}{color[1]:02x}{color[2]:02x}')
+
+
+
+    """
+
+
 
     #capture_canvas()
     move_to_playing()
