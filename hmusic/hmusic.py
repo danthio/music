@@ -2025,6 +2025,9 @@ def can2_b1(e):
 
             main()
 
+
+            move_to_playing()
+
             return
 
 
@@ -2068,6 +2071,7 @@ def move_to_playing(con_=0):
 
                     if s[0]==current_playing:
 
+
                         t=len(songs)*50
 
 
@@ -2079,8 +2083,8 @@ def move_to_playing(con_=0):
                                 main()
                                 return
 
-                        if s[1]+((h-122)-87-20)/2-25<t:
-                            v=s[1]-(((h-122)-87-20)/2-25)
+                        if s[1]+int(can2["height"])/2-25<t:
+                            v=s[1]-(int(can2["height"])/2-25)
 
                         pixel_value = int(v)
                         scroll_region = can2.bbox("all")  # Get the bounding box of all content
@@ -3582,7 +3586,7 @@ def can_b1(e):
 
 
     if 10<=e.x<=w-10:
-        if h-20-60-20-27-15+3+10+3+2+2-3+1<=e.y<=h-20-60-20-27-15+3+10+3+2+2-3+30-1+1:
+        if h-20-60-20-27-15+3+10+3+2+2-3+1+10<=e.y<=h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10:
 
             try:
 
@@ -3592,9 +3596,11 @@ def can_b1(e):
                     if current_playlist!="":
                         playlist_st=1
 
-                main()
+                
 
                 can2["scrollregion"]=(0,0,0,0)
+
+                main()
 
                 move_to_playing(1)
 
@@ -5862,7 +5868,7 @@ def draw_can():
         else:
 
 
-            draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,1,"#000000",10)
+            draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,2,"#000000",10)
 
     
 
@@ -6201,7 +6207,7 @@ def draw_can():
 
 
 
-        draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,1,"#000000",10)
+        draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,2,"#000000",10)
         frame.place_forget()
         
         yv=50+(((h-122)-50)-90)/2
@@ -6548,7 +6554,7 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
 
 
-        v=int(((y2-y1)-r*2)/2/7)
+        v=int(((y2-y1)-r*2)/2/5)
         n=((y2-y1)-r*2)/2
 
         rgb = hex_to_rgb(col2)
@@ -6641,7 +6647,7 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
 
 
-        v=int(((y2-y1)-r*2)/2/10)
+        v=int(((y2-y1)-r*2)/2/5)
         n=((y2-y1)-r*2)/2
 
         rgb = hex_to_rgb(col)
@@ -7099,9 +7105,43 @@ def draw_polygon(canvas,n,st_ang,cx,cy,r,col,width,con,col2="",d=10):
 
 
             a+=360/n
+    elif con==2:
 
 
 
+        a=180+st_ang
+
+        ar=[]
+
+
+        
+
+        for _ in range(n):
+
+            a_=a+360/n
+
+            x=r*math.sin(math.radians(a))+cx
+            y=r*math.cos(math.radians(a))+cy
+
+            for aa in range(n-1):
+
+
+
+                x2=r*math.sin(math.radians(a_))+cx
+                y2=r*math.cos(math.radians(a_))+cy
+
+                canvas.create_line(x,y, x2,y2, fill=col,width=width)
+
+
+                a_+=360/n
+
+
+
+
+
+
+
+            a+=360/n
 
 
 
