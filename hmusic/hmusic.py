@@ -5307,7 +5307,7 @@ def main():
 
 
 
-    draw_round_rec(can,0,0,w-1,h-1,30,col2,"",1)
+    draw_round_rec(can,1,1,w-2,h-2,20,cl,"",1)
 
     """
         r=10
@@ -5522,7 +5522,7 @@ def draw_can():
 
     #hex(can,-30,-30,w+30,h+30,30,col3,"#000000")
 
-    draw_round_rec(can,0,0,w-1,h-1,30,"#000000","#000000",0)
+    draw_round_rec(can,0,0,w-1,h-1,20,"#000000","#000000",0)
 
     """    can["bg"]="#000000"
 
