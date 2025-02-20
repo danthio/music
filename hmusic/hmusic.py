@@ -143,7 +143,7 @@ def initialize_ui(root, video_path):
     # Label for displaying the video
 
     vid_canvas["width"]=w-20
-    vid_canvas["height"]=(h-132)-50
+    vid_canvas["height"]=(h-122)-50
 
     vid_canvas.place(in_=root,x=10,y=50)
 
@@ -192,7 +192,7 @@ def update_frame():
                 ret, frame = cap.read()
                 if ret:
                     # Resize the frame to the specified width and height
-                    frame = cv2.resize(frame, (w-20, (h-132)-50))
+                    frame = cv2.resize(frame, (w-20, (h-122)-50))
 
                     # Convert the frame to RGB for Tkinter compatibility
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -508,7 +508,7 @@ def draw_wave():
                 for a in sig:
 
                     sig2.append(x)
-                    sig2.append(a+50+((h-132)-50)/2)
+                    sig2.append(a+50+((h-122)-50)/2)
 
                     x+=xv
 
@@ -1359,7 +1359,7 @@ def prog():
 
                 can.delete(ctime)
 
-                ctime=can.create_text(10,h-20-60-20+20+10+5-3,text=tt,font=("TkDefaultFont",12),fill=col1,anchor="w")
+                ctime=can.create_text(10,h-20-60-20+20+10+5-3+5,text=tt,font=("TkDefaultFont",11),fill=col1,anchor="w")
 
 
                 can.delete(prog1)
@@ -1368,10 +1368,11 @@ def prog():
 
                 x_=tm*(w-20)/tot_tm_
 
-                prog1=can.create_line(10,h-20-60-20+10+2+5-3, x_+10,h-20-60-20+10+2+5-3,fill=col1,width=2)
+                prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
 
-                prog2=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3,image=circle10,anchor="nw")
-                prog3=can.create_image(x_+10-2,h-20-60-20+10+2+5-3-2,image=circle9,anchor="nw")
+                prog2=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3+10,image=circle10,anchor="nw")
+                prog3=can.create_image(x_+10-2,h-20-60-20+10+2+5-3-2+10,image=circle9,anchor="nw")
+
 
 
 def timer():
@@ -1399,7 +1400,8 @@ def timer():
 
         tm=get_playback_time()+tts
 
-        if tm>=tot_tm_:
+
+        if tm+0.5>=tot_tm_:
 
             play_video_st=0
             vid_canvas.place_forget()
@@ -1614,7 +1616,7 @@ def can2_b1(e):
         if 10<=e.x<=int(can2["width"])-10:
             if 5<=e.y<=35:
 
-                can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+                can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
                 npl.delete(0,tk.END)
                 _npl=1
                 npl.place(in_=root,x=10+15+10,y=80-30+40+5+5+30-10-3-5-5)
@@ -1689,7 +1691,7 @@ def can2_b1(e):
             cx,cy=int(can2["width"])-10-25+12.5,_pl[1]+12.5+12.5
             r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
             if r<=12.5:
-                can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+                can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
                 create_playlist(_pl[0],con=3)
 
                 main()
@@ -1704,7 +1706,7 @@ def can2_b1(e):
                 return
 
             if _pl[1]<=can2.canvasy(e.y)<=_pl[1]+50:
-                can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+                can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
 
                 
                 current_playlist=_pl[0]
@@ -2076,8 +2078,8 @@ def move_to_playing(con_=0):
                                 main()
                                 return
 
-                        if s[1]+((h-132)-87-20)/2-25<t:
-                            v=s[1]-(((h-132)-87-20)/2-25)
+                        if s[1]+((h-122)-87-20)/2-25<t:
+                            v=s[1]-(((h-122)-87-20)/2-25)
 
                         pixel_value = int(v)
                         scroll_region = can2.bbox("all")  # Get the bounding box of all content
@@ -2361,7 +2363,7 @@ def can_b1(e):
             sort_st=0
             can_sort.place_forget()
 
-            can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+            can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
             shuffle_st=0
             shuff=0
 
@@ -2426,7 +2428,7 @@ def can_b1(e):
             can_sort.place_forget()
 
 
-            can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+            can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
             shuffle_st=0
             shuff=0
 
@@ -2489,7 +2491,7 @@ def can_b1(e):
             can_sort.place_forget()
 
 
-            can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+            can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
 
             main()
 
@@ -2560,7 +2562,7 @@ def can_b1(e):
             sort_st=0
             can_sort.place_forget()
 
-            can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+            can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
             shuffle_st=0
             shuff=0
 
@@ -2634,7 +2636,7 @@ def can_b1(e):
             _search=0
             can_sort.place_forget()
 
-            can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+            can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
             main()
 
 
@@ -2664,7 +2666,7 @@ def can_b1(e):
 
 
 
-    if h-20-60-20+10+2+5-10-3<=e.y<=h-20-60-20+10+2+5+10-3:
+    if h-20-60-20+10+2+5-10-3+10<=e.y<=h-20-60-20+10+2+5+10-3+10:
 
 
 
@@ -3097,7 +3099,7 @@ def can_b1(e):
                 loop=0
 
                 if shuffle_st==0:
-                    can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+                    can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
                     mvar=0
                     shuffle_st=1
                     shuff=1
@@ -3124,7 +3126,7 @@ def can_b1(e):
 
 
                 elif shuffle_st==1:
-                    can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+                    can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
                     shuffle_st=0
                     shuff=0
 
@@ -3146,7 +3148,7 @@ def can_b1(e):
                     main()
 
                 elif shuffle_st==2:
-                    can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+                    can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
                     shuffle_st=0
                     shuff=0
                     sort_val=sort_ar[0][0]            
@@ -3205,7 +3207,7 @@ def can_b1(e):
         if not st==4:
 
             x=w/2
-            y=h-132-30
+            y=h-122-30
 
 
 
@@ -3356,7 +3358,7 @@ def can_b1(e):
 
     if st==4:
 
-        yv=50+(((h-132)-50)-90)/2
+        yv=50+(((h-122)-50)-90)/2
 
 
 
@@ -3855,10 +3857,10 @@ def main():
 
 
     frame["width"]=w-20-2
-    frame["height"]=((h-132)-87-20)
+    frame["height"]=((h-122)-87-20)
 
     can2["width"]=w-7-20-2
-    can2["height"]=((h-132)-87-20)
+    can2["height"]=((h-122)-87-20)
 
 
     can["width"]=w
@@ -4041,7 +4043,7 @@ def main():
         if len(songs2)==0:
 
             can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
-            #can2.create_text((w-7)/2,((h-132)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
+            #can2.create_text((w-7)/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
 
             style.configure("My.Vertical.TScrollbar", gripcount=0, background="#000000",
@@ -4438,7 +4440,7 @@ def main():
                 can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
                 
 
-                #can2.create_text(int(can2["width"])/2,((h-132)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
+                #can2.create_text(int(can2["width"])/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
 
 
@@ -4627,7 +4629,7 @@ def main():
 
                 can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
                 
-                #can2.create_text(int(can2["width"])/2,((h-132)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
+                #can2.create_text(int(can2["width"])/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
 
                 style.configure("My.Vertical.TScrollbar", gripcount=0, background="#000000",
@@ -4829,7 +4831,7 @@ def main():
 
                     can2.create_image((int(can2["width"])-400)/2,y_+(int(can2["height"])-400-y_)/2,image=headphones2,anchor="nw")
                     
-                    #can2.create_text(int(can2["width"])/2,y+(((h-132)-87-20)-y)/2,text="No Record",font=("TkDefaultFont",12),fill=col1)
+                    #can2.create_text(int(can2["width"])/2,y+(((h-122)-87-20)-y)/2,text="No Record",font=("TkDefaultFont",12),fill=col1)
 
 
                     style.configure("My.Vertical.TScrollbar", gripcount=0, background="#000000",
@@ -5029,7 +5031,7 @@ def main():
 
                     can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
                     
-                    #can2.create_text(int(can2["width"])/2,((h-132)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
+                    #can2.create_text(int(can2["width"])/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
 
                     style.configure("My.Vertical.TScrollbar", gripcount=0, background="#000000",
@@ -5236,7 +5238,7 @@ def main():
 
                 can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
                 
-                #can2.create_text(int(can2["width"])/2,((h-132)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
+                #can2.create_text(int(can2["width"])/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
 
                 style.configure("My.Vertical.TScrollbar", gripcount=0, background="#000000",
@@ -5245,7 +5247,7 @@ def main():
                                 arrowsize=7)
 
         """
-        if y<=((h-132)-87-20):
+        if y<=((h-122)-87-20):
             hex(can2,-30,-30,w+60,int(can2["height"])+60,30,"#390200","#000000")
 
 
@@ -5594,7 +5596,7 @@ def draw_can():
         if not st==4:
 
             x=w/2
-            y=h-132-30
+            y=h-122-30
 
 
 
@@ -5722,10 +5724,10 @@ def draw_can():
 
 
             if select_st==1:
-                draw_round_rec(can,10,87,w-10,h-132+75,10,"#000000",col1,3,1)
+                draw_round_rec(can,10,87,w-10,h-122+75,10,"#000000",col1,3,1)
             else:
 
-                draw_round_rec(can,10,87,w-10,h-132,10,"#000000",col1,3,1)
+                draw_round_rec(can,10,87,w-10,h-122,10,"#000000",col1,3,1)
 
 
             #can.create_line(10,70,w-10,70,fill=col1)
@@ -5808,10 +5810,10 @@ def draw_can():
 
 
             if select_st==1:
-                draw_round_rec(can,10,87,w-10,h-132+75,10,"#000000",col1,3,1)
+                draw_round_rec(can,10,87,w-10,h-122+75,10,"#000000",col1,3,1)
             else:
 
-                draw_round_rec(can,10,87,w-10,h-132,10,"#000000",col1,3,1)
+                draw_round_rec(can,10,87,w-10,h-122,10,"#000000",col1,3,1)
 
             #can.create_line(10,70,w-10,70,fill=col1)
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill=col1)
@@ -5822,7 +5824,7 @@ def draw_can():
         else:
 
 
-            draw_polygon(can,7,0,w/2,50+(((h-132)-50)-420)/2+210,210,col2,10,1,"#000000",10)
+            draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,1,"#000000",10)
 
     
 
@@ -5929,26 +5931,26 @@ def draw_can():
                         
                         length_in_pixels = get_text_length(can, current_playlist_, "TkDefaultFont", 12) 
 
-                        can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3+1,image=circle3,anchor="nw")
-                        can.create_image(10+15+length_in_pixels+30-15,h-20-60-20-27-15+3+10+3+2+2-3+1,image=circle3,anchor="nw")
+                        can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
+                        can.create_image(10+15+length_in_pixels+30-15,h-20-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
 
-                        can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2-3+1, 10+15+length_in_pixels+30,h-20-60-20-27-15+3+10+3+2+2-3+30-1+1,
+                        can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2-3+1+10, 10+15+length_in_pixels+30,h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10,
                             fill=col1,outline=col1)
 
-                        can.create_image(10+15,h-20-60-20-27-15+3+10+5+3+2+2-3+2, image=playlist4,anchor="nw")
+                        can.create_image(10+15,h-20-60-20-27-15+3+10+5+3+2+2-3+2+10, image=playlist4,anchor="nw")
 
-                        can.create_text(10+15+30,h-20-60-20-27-15+3+10+3+2+2-3+15,text=current_playlist_,font=("TkDefaultFont",12,),anchor="w",fill="#000000")
+                        can.create_text(10+15+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playlist_,font=("TkDefaultFont",12,),anchor="w",fill="#000000")
                               
-                        can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15,text=current_playing[:-4],font=("TkDefaultFont",12),anchor="w",fill=col1)
+                        can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playing[:-4],font=("TkDefaultFont",12),anchor="w",fill=col1)
 
                 else:
 
-                    can.create_text(10,h-20-60-20-27-15+3+10+3+2+2-3+15,text=current_playing[:-4],font=("TkDefaultFont",12),anchor="w",fill=col1)
+                    can.create_text(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playing[:-4],font=("TkDefaultFont",12),anchor="w",fill=col1)
             except:
                 pass
 
 
-            can.create_rectangle(w-10, h-20-60-20-27-15+3+10+3+2+2-3+15-13, w, h-20-60-20-27-15+3+10+3+2+2-3+15+13,fill="#000000",outline="#000000")
+            can.create_rectangle(w-10, h-20-60-20-27-15+3+10+3+2+2-3+15-13+10, w, h-20-60-20-27-15+3+10+3+2+2-3+15+13+10,fill="#000000",outline="#000000")
 
             """
             if not current_playing=="":
@@ -5985,7 +5987,7 @@ def draw_can():
                     can.create_image(w-10-26,h-20-60-20-27-15+3+10+3+2+2-3+15-13,image=eye,anchor="nw")"""
 
 
-        can.create_line(10,h-20-60-20+10+2+5-3,w-10,h-20-60-20+10+2+5-3,fill=col2,width=2)
+        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=col2,width=2)
 
         
         if st==2 and playlist_st==0 and current_playing=="":
@@ -5993,7 +5995,7 @@ def draw_can():
         else:
 
             if not current_playing=="":
-                can.create_text(w-10,h-20-60-20+20+10+5-3,text=tot_tm,font=("TkDefaultFont",12),anchor="e",fill=col1)
+                can.create_text(w-10,h-20-60-20+20+10+5-3+5,text=tot_tm,font=("TkDefaultFont",11),anchor="e",fill=col1)
 
 
 
@@ -6003,6 +6005,9 @@ def draw_can():
             can.create_image(w/2-15+2,h-20-30-15+5+10-3, image=play,anchor="nw")
         elif play_st==1:
             can.create_image(w/2-15,h-20-30-15+5+10-3, image=pause,anchor="nw")
+
+
+
 
 
 
@@ -6158,10 +6163,10 @@ def draw_can():
 
 
 
-        draw_polygon(can,7,0,w/2,50+(((h-132)-50)-420)/2+210,210,col2,10,1,"#000000",10)
+        draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,1,"#000000",10)
         frame.place_forget()
         
-        yv=50+(((h-132)-50)-90)/2
+        yv=50+(((h-122)-50)-90)/2
 
 
 
@@ -6338,9 +6343,9 @@ def show_lyrics():
                     can_lyrics["bg"]="#000000"
 
                     can_lyrics["width"]=w-20
-                    can_lyrics["height"]=(h-132-30-50/2+(50-30)/2)-50
+                    can_lyrics["height"]=(h-122-30-50/2+(50-30)/2)-50
 
-                    can.create_rectangle(10,50, w-10,(h-132-30),fill="#000000",outline="#000000")
+                    can.create_rectangle(10,50, w-10,(h-122-30),fill="#000000",outline="#000000")
 
                     #can_lyrics.create_text((790-111)/2,0, text=txt,anchor="c",fill=col1,font=("TkDefaultFont",13))
 
@@ -6383,12 +6388,12 @@ def show_lyrics():
 
 
                 else:
-                    can.create_text(w/2,50+(((h-132)-50)-420)/2+210,text="Nothing to show!",fill=col1,font=("TkDefaultFont",12))
+                    can.create_text(w/2,50+(((h-122)-50)-420)/2+210,text="Nothing to show!",fill=col1,font=("TkDefaultFont",12))
 
                     can_lyrics.place_forget()
 
             else:
-                can.create_text(w/2,50+(((h-132)-50)-420)/2+210,text="Nothing to show!",fill=col1,font=("TkDefaultFont",12))
+                can.create_text(w/2,50+(((h-122)-50)-420)/2+210,text="Nothing to show!",fill=col1,font=("TkDefaultFont",12))
                 can_lyrics.place_forget()
 
 
@@ -6884,9 +6889,9 @@ def load_():
 
 
 
-            load=can.create_oval(w/2-20,h-132-20-40, w/2+20,h-132-20,outline=col2,width=2)
+            load=can.create_oval(w/2-20,h-122-20-40, w/2+20,h-122-20,outline=col2,width=2)
 
-            load2=can.create_arc(w/2-20,h-132-20-40, w/2+20,h-132-20,outline=col1,start=ang,extent=70,style="arc",width=2)
+            load2=can.create_arc(w/2-20,h-122-20-40, w/2+20,h-122-20,outline=col1,start=ang,extent=70,style="arc",width=2)
 
 
             ang+=2
@@ -7443,7 +7448,7 @@ def _on_mousewheel(e):
 
     if add_st==0 and lst==1:
 
-        if int(can2["scrollregion"].split(" ")[-1])>((h-132)-87-20):
+        if int(can2["scrollregion"].split(" ")[-1])>((h-122)-87-20):
 
             can2.yview_scroll(int(-1*(e.delta/120)), "units")
             #main()
@@ -7582,7 +7587,7 @@ def play_next(e):
 
 
         if st==2 and playlist_st==0:
-            can2["scrollregion"]=(0,0,w-7-2,((h-132)-87-20))
+            can2["scrollregion"]=(0,0,w-7-2,((h-122)-87-20))
 
 
 
@@ -7640,7 +7645,7 @@ def play_previous(e):
         move_to_playing()
 
         if st==2 and playlist_st==0:
-            can2["scrollregion"]=(0,0,w-7-2,((h-132)-87-20))
+            can2["scrollregion"]=(0,0,w-7-2,((h-122)-87-20))
 
 
 can=tk.Canvas(width=w,height=h,bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="arrow")
@@ -7756,10 +7761,10 @@ def on_canvas_scroll():
 
 
 
-frame=tk.Frame(bg="#000000",width=w-20-2,height=((h-132)-87-20))
+frame=tk.Frame(bg="#000000",width=w-20-2,height=((h-122)-87-20))
 
-can2=tk.Canvas(frame,bg="#000000",width=w-7-20-2,height=((h-132)-87-20),relief="flat",highlightthickness=0,border=0,
-    scrollregion=(0,0,w-7-2,((h-132)-87-20)))
+can2=tk.Canvas(frame,bg="#000000",width=w-7-20-2,height=((h-122)-87-20),relief="flat",highlightthickness=0,border=0,
+    scrollregion=(0,0,w-7-2,((h-122)-87-20)))
 
 can2.pack(side=tk.LEFT)
 can2.bind_all("<MouseWheel>",_on_mousewheel)
@@ -7902,7 +7907,7 @@ def can_sort_b1(e):
 
         if s[1]<=e.y<=s[1]+30:
 
-            can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+            can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
 
             loop=0
 
@@ -8044,7 +8049,7 @@ except:
 
 move_to_playing()
 if playlist_st==0:
-    pass#can2["scrollregion"]=(0,0,w-7,((h-132)-87-20))
+    pass#can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
 
 
 default_font = tk.Label(root, text="Sample Text").cget("font")
