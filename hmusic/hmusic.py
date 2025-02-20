@@ -1374,7 +1374,6 @@ def prog():
                 prog3=can.create_image(x_+10-2,h-20-60-20+10+2+5-3-2+10,image=circle9,anchor="nw")
 
 
-
 def timer():
     global play_st,tm,start_time,can
     global ctime,tot_tm_
@@ -1399,7 +1398,6 @@ def timer():
         prog()
 
         tm=get_playback_time()+tts
-
 
         if tm+0.5>=tot_tm_:
 
@@ -3494,9 +3492,12 @@ def can_b1(e):
 
     if r<=12.5:
 
+
         root_st=1
 
         main()
+
+        return
 
 
     #quit
@@ -3508,6 +3509,8 @@ def can_b1(e):
     if r<=12.5:
 
         root.destroy()
+
+        return
 
         
 
@@ -3562,6 +3565,8 @@ def can_b1(e):
                 main()
 
                 move_to_playing(1)
+
+                return
 
 
             except:
@@ -3822,6 +3827,7 @@ def main():
         search.place_forget()
         vid_canvas.place_forget()
         play_video_st=0
+
 
         return
 
@@ -6910,11 +6916,6 @@ def can_motion(e):
     global root_st
 
 
-    if root_st==1:
-        return
-
-
-
 
     if theme=="red":
         col1="#ff4137"
@@ -6928,67 +6929,75 @@ def can_motion(e):
         col1="#00ffff"
         col2="#005555"
 
-
-    # list 10,h-20-30-15+5+10-3+2.5
-    # sort 10+25+15,h-20-30-15+5+10-3+2.5
-    # shuffle 10+25+15+25+15,h-20-30-15+5+10-3+2.5
-    # loop 10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5
-
-    # theme 10,10,
-
-    can.delete(mot_val)
+    if not root_st==1:
 
 
-    #list
-
-    cx,cy=10+12.5,h-20-30-15+5+10-3+2.5+12.5
-    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-    if r<=12.5:
-
-        mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("TkDefaultFont",10),anchor="c")
-
-
-
-    #sort
-
-    cx,cy=10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-    if r<=12.5:
-
-        mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("TkDefaultFont",10),anchor="c")
         
 
 
 
-    #shuffle
-
-    cx,cy=10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-    if r<=12.5:
-
-        mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("TkDefaultFont",10),anchor="c")
-        
 
 
-    #loop
+        # list 10,h-20-30-15+5+10-3+2.5
+        # sort 10+25+15,h-20-30-15+5+10-3+2.5
+        # shuffle 10+25+15+25+15,h-20-30-15+5+10-3+2.5
+        # loop 10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5
 
-    cx,cy=10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-    if r<=12.5:
+        # theme 10,10,
 
-        mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("TkDefaultFont",10),anchor="c")
-        
+        can.delete(mot_val)
 
 
-    #theme
+        #list
 
-    if theme_st==0:
-
-        cx,cy=10+12.5,(50-25)/2+12.5
+        cx,cy=10+12.5,h-20-30-15+5+10-3+2.5+12.5
         r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
         if r<=12.5:
 
-            mot_val=can.create_text(10+25+5,(50-25)/2+12.5,text="theme",fill=col1,font=("TkDefaultFont",10),anchor="w")
+            mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("TkDefaultFont",10),anchor="c")
+
+
+
+        #sort
+
+        cx,cy=10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+        if r<=12.5:
+
+            mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("TkDefaultFont",10),anchor="c")
+            
+
+
+
+        #shuffle
+
+        cx,cy=10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+        if r<=12.5:
+
+            mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("TkDefaultFont",10),anchor="c")
+            
+
+
+        #loop
+
+        cx,cy=10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+        if r<=12.5:
+
+            mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("TkDefaultFont",10),anchor="c")
+            
+
+
+        #theme
+
+        if theme_st==0:
+
+            cx,cy=10+12.5,(50-25)/2+12.5
+            r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+            if r<=12.5:
+
+                mot_val=can.create_text(10+25+5,(50-25)/2+12.5,text="theme",fill=col1,font=("TkDefaultFont",10),anchor="w")
 
 def draw_polygon(canvas,n,st_ang,cx,cy,r,col,width,con,col2="",d=10):
 
