@@ -452,7 +452,7 @@ def draw_wave():
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
 
     if theme=="mint":
@@ -742,7 +742,7 @@ def convert_folder_to_audio():
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
 
     if theme=="mint":
@@ -880,7 +880,7 @@ def convert_file_to_audio():
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
 
     if theme=="mint":
@@ -1304,7 +1304,7 @@ def prog():
 
 
                 if theme=="red":
-                    col1="#ff4137"
+                    col1="#ff4431"
                     col2="#551610"
 
                 if theme=="mint":
@@ -1790,7 +1790,7 @@ def can2_b1(e):
 
 
                     if theme=="red":
-                        col1="#ff4137"
+                        col1="#ff4431"
                         col2="#551610"
 
                     if theme=="mint":
@@ -2196,7 +2196,7 @@ def can_b1(e):
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
 
     if theme=="mint":
@@ -2990,7 +2990,7 @@ def can_b1(e):
 
 
                 if theme=="red":
-                    col1="#ff4137"
+                    col1="#ff4431"
                     col2="#551610"
 
                 if theme=="mint":
@@ -3592,7 +3592,7 @@ def check_volume():
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
 
     if theme=="mint":
@@ -3795,7 +3795,7 @@ def main():
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
         col3="#390200"
 
@@ -5395,7 +5395,7 @@ def draw_can():
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
         col3="#000000"
 
@@ -6283,7 +6283,7 @@ def show_lyrics():
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
 
     if theme=="mint":
@@ -6878,7 +6878,7 @@ def load_():
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
 
     if theme=="mint":
@@ -6922,7 +6922,7 @@ def can_motion(e):
 
 
     if theme=="red":
-        col1="#ff4137"
+        col1="#ff4431"
         col2="#551610"
 
     if theme=="mint":
@@ -7678,7 +7678,7 @@ can.bind("<Motion>",can_motion)
 
 
 if theme=="red":
-    col1="#ff4137"
+    col1="#ff4431"
     col2="#551610"
 
 if theme=="mint":
