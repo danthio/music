@@ -538,7 +538,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(2,draw_wave)
+    root.after(3,draw_wave)
 
 
 
@@ -1441,7 +1441,7 @@ def timer():
 
             move_to_playing()
 
-    root.after(2,timer)
+    root.after(4,timer)
 
 
 def can3_b1(e):
@@ -2167,6 +2167,8 @@ def can_b1(e):
 
 
     if root_st==1:
+
+
 
         root_st=0
 
@@ -3735,7 +3737,7 @@ songs2=[]
 playlist_select=""
 def main():
 
-    global can,st,w,h,wd
+    global can,st,w,h,wd,ht
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
     global pp,fv,lst
     global frame,can2
