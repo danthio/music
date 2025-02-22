@@ -72,18 +72,40 @@ def get_taskbar_height():
     return max(0, taskbar_height)  # Ensure no negative values
 
 
+"""
+
+for c in ["red","mint","cyan"]:
 
 
-
-
+    im=Image.open("data/"+c+"/quit.png")
+    im=im.resize((20,20))
+    im.save("data/"+c+"/cancel.png")
 
 
 """
 
-im=Image.open("data/red/play.png")
-im=im.resize((30,30))
-im.save("data/red/play.png")
 """
+    im=Image.open("data/"+c+"/headphones.png")
+
+    x,y=im.size
+
+    nh=x*(680)/int(680*1.618)
+
+    yy=int((y-nh)/2)
+
+    print(yy)
+
+
+    im=im.crop((0,yy,x,y-yy))
+
+    im=im.resize((int(680*1.618),(680)))
+
+    im.save("data/"+c+"/headphones.png")"""
+
+
+
+
+
 
 
 
@@ -1390,8 +1412,9 @@ def timer():
     global vid_canvas
     global lyric_st
     global cap
-    global _songs_
+    global _songs_,songs_status
     global tts
+    global playlist_st,st,current_playlist
 
     if play_st==1:
 
@@ -1403,6 +1426,24 @@ def timer():
         tm=get_playback_time()+tts
 
         if tm+0.5>=tot_tm_:
+
+            st_=st
+            cp=current_playlist
+            p=playlist_st
+
+
+            st=songs_status[0]
+            current_playlist=songs_status[1]
+            playlist_st=1
+
+            main()
+
+            st=st_
+            current_playlist=cp
+            playlist_st=p
+
+
+
 
             play_video_st=0
             vid_canvas.place_forget()
@@ -1546,6 +1587,7 @@ def can2_b1(e):
     global songs2
 
     global songs_status
+    global loop
 
 
 
@@ -1602,15 +1644,16 @@ def can2_b1(e):
 
         cx,cy=int(can2["width"])-10-5-20+10,5+10
 
-        r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
-        if r<=15:
-            
-            _npl=0
-            npl.delete(0,tk.END)
-            npl.place_forget()
+        if cx-10<=e.x<=cx+10:
+            if cy-10<=e.y<=cy+10:
 
-            main()
-            return
+            
+                _npl=0
+                npl.delete(0,tk.END)
+                npl.place_forget()
+
+                main()
+                return
 
 
 
@@ -1749,26 +1792,25 @@ def can2_b1(e):
         y=s[-1]
 
         cx,cy=int(can2["width"])-10-25-15-25-15-25+12.5,y+12.5+12.5
-        r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
-        if r<=12.5:
+
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+                update_details(s[0],0)
+                main()
 
 
-            update_details(s[0],0)
-            main()
+                if st==songs_status[0]:
 
+                    if st==2:
 
-            if st==songs_status[0]:
+                        if current_playlist==songs_status[1]:
 
-                if st==2:
+                            update_song_status()
 
-                    if current_playlist==songs_status[1]:
-
+                    else:
                         update_song_status()
 
-                else:
-                    update_song_status()
-
-            return
+                return
 
     #playlist
 
@@ -1779,8 +1821,9 @@ def can2_b1(e):
         y=s[-1]
 
         cx,cy=int(can2["width"])-10-25-15-25+12.5,y+12.5+12.5
-        r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
-        if r<=12.5:
+
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
 
                 if add_st==0:
                     add_st=1
@@ -1937,33 +1980,36 @@ def can2_b1(e):
         y=s[-1]
 
         cx,cy=int(can2["width"])-10-25+12.5,y+12.5+12.5
-        r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
-        if r<=12.5:
 
-            try:
-
-
-                os.remove("music/"+s[0])
-                del_wave()
-                main()
-
-                main()
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
 
 
-                if st==songs_status[0]:
+                try:
 
-                    if st==2:
 
-                        if current_playlist==songs_status[1]:
+                    os.remove("music/"+s[0])
+                    del_wave()
+                    main()
 
+
+
+                    if st==songs_status[0]:
+
+                        if st==2:
+
+                            if current_playlist==songs_status[1]:
+
+                                update_song_status()
+
+                        else:
                             update_song_status()
+                    return
 
-                    else:
-                        update_song_status()
-                return
+                except:
+                    pass
 
-            except:
-                pass
+                main()
 
 
 
@@ -2012,6 +2058,10 @@ def can2_b1(e):
 
                 shuffle_st=0
                 sort_val=sort_ar[0][0]
+
+            loop=0
+
+            songs_status[-2]=0
 
 
 
@@ -2171,7 +2221,6 @@ def can_b1(e):
     global select_st
     global play_st
 
-    global stx
     global _songs_
     global songs_status
 
@@ -2188,14 +2237,12 @@ def can_b1(e):
 
         cx,cy=w-10-25+12.5,(h-122+75)+((h-1)-(h-122+75)-25)/2+12.5
 
-        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+                select_st=0
 
-        if r<=12.5:
-
-            select_st=0
-
-            main()
-            return
+                main()
+                return
 
 
     if root_st==1:
@@ -2347,17 +2394,18 @@ def can_b1(e):
 
     cx,cy=10+12.5,(50-25)/2+12.5
 
-    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
-    if r<=12.5:
+    if cx-12.5<=e.x<=cx+12.5:
+        if cy-12.5<=e.y<=cy+12.5:
 
-        if theme_st==0:
-            theme_st=1
-        elif theme_st==1:
-            theme_st=0
-        main()
 
-        return
+            if theme_st==0:
+                theme_st=1
+            elif theme_st==1:
+                theme_st=0
+            main()
+
+            return
 
 
     if theme_st==1:
@@ -2795,177 +2843,210 @@ def can_b1(e):
 
                         prog()
 
-                    if stx==0:
-                        update_song_status()
-                        stx=1
-
             return
 
         #previous
 
         cx,cy=w/2-30-30-25+12.5,h-20-30-15+5+10-3+2.5+12.5
-        r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-        if r<=12.5:
 
-            if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+
+
+
+                if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+                    return
+
+
+                st_=st
+                cp=current_playlist
+                p=playlist_st
+
+
+                st=songs_status[0]
+                current_playlist=songs_status[1]
+                playlist_st=1
+
+                main()
+
+                st=st_
+                current_playlist=cp
+                playlist_st=p
+
+
+                if loop==0:
+
+                    mvar-=1
+
+                if mvar<0:
+                    mvar=len(_songs_)-1
+
+
+                tm=0
+
+                
+                current_playing=_songs_[mvar][0]
+                play_st=1
+
+                play_music("music/"+current_playing,tm)
+
+                pp=1
+
+                get_audio_duration("music/"+current_playing)
+
+
+                play_video_st=0
+
+                vid_canvas.place_forget()
+
+
+
+                lvar=0
+                lyric_st=0
+
+                cap=None
+
+                main()
+
+                move_to_playing()
                 return
-
-
-
-            if loop==0:
-
-                mvar-=1
-
-            if mvar<0:
-                mvar=len(_songs_)-1
-
-
-            tm=0
-
-            
-            current_playing=_songs_[mvar][0]
-            play_st=1
-
-            play_music("music/"+current_playing,tm)
-
-            pp=1
-
-            get_audio_duration("music/"+current_playing)
-
-
-            play_video_st=0
-
-            vid_canvas.place_forget()
-
-
-
-            lvar=0
-            lyric_st=0
-
-            cap=None
-
-            main()
-
-            move_to_playing()
-            return
 
         #next
 
 
         cx,cy=w/2+30+30+12.5,h-20-30-15+5+10-3+2.5+12.5
-        r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-        if r<=12.5:
+
+
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
 
 
 
+                if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+                    return
 
-            if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+
+
+                st_=st
+                cp=current_playlist
+                p=playlist_st
+
+
+                st=songs_status[0]
+                current_playlist=songs_status[1]
+                playlist_st=1
+
+                main()
+
+                st=st_
+                current_playlist=cp
+                playlist_st=p
+
+
+                if loop==0:
+
+                    if mvar+1==len(_songs_):
+                        mvar=0
+                    else:
+                        mvar+=1
+
+
+                tm=0
+                
+                current_playing=_songs_[mvar][0]
+                play_st=1
+
+                play_music("music/"+current_playing,tm)
+
+                pp=1
+
+                get_audio_duration("music/"+current_playing)
+
+                lvar=0
+                play_video_st=0
+                lyric_st=0
+
+                cap=None
+
+
+                vid_canvas.place_forget()
+
+                main()
+
+                move_to_playing()
                 return
-
-
-            if loop==0:
-
-                if mvar+1==len(_songs_):
-                    mvar=0
-                else:
-                    mvar+=1
-
-
-            tm=0
-            
-            current_playing=_songs_[mvar][0]
-            play_st=1
-
-            play_music("music/"+current_playing,tm)
-
-            pp=1
-
-            get_audio_duration("music/"+current_playing)
-
-            lvar=0
-            play_video_st=0
-            lyric_st=0
-
-            cap=None
-
-
-            vid_canvas.place_forget()
-
-            main()
-
-            move_to_playing()
-            return
 
         #backward
         cx,cy=w/2-30-30-25-15-25-10+12.5,h-20-30-15+5+10-3+2.5+12.5
-        r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-        if r<=12.5:
+
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
 
 
 
+                if play_st==1:
+                    if not tm-5<0:
+                
+                        tm-=5
+                        tts=tm
+                        sig=[]
 
-            if play_st==1:
-                if not tm-5<0:
-            
-                    tm-=5
-                    tts=tm
-                    sig=[]
-
-                    play_music("music/"+current_playing,tm)
+                        play_music("music/"+current_playing,tm)
 
 
         #forward
         cx,cy=w/2+30+30+25+15+10+12.5,h-20-30-15+5+10-3+2.5+12.5
-        r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-        if r<=12.5:
 
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
 
+                if play_st==1:
+                    if not tm+5>tot_tm_:
 
-            if play_st==1:
-                if not tm+5>tot_tm_:
+                        tm+=5
+                        tts=tm
+                        sig=[]
 
-                    tm+=5
-                    tts=tm
-                    sig=[]
-
-                    play_music("music/"+current_playing,tm)
+                        play_music("music/"+current_playing,tm)
 
 
         #list
 
         cx,cy=10+12.5,h-20-30-15+5+12.5+10-3+2.5
-        r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-        if r<=12.5:
 
-            if lst==0:
-                lyric_st=0
-                lst=1
-                can_lyrics.place_forget()
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
 
-                play_video_st=0
-                cap=None
-                vid_canvas.place_forget()
 
-            elif lst==1:
+                if lst==0:
+                    lyric_st=0
+                    lst=1
+                    can_lyrics.place_forget()
 
-                if st==2 and playlist_st==0:
-                    pass
-                else:
-                    lst=0
-                    _search=0
+                    play_video_st=0
+                    cap=None
+                    vid_canvas.place_forget()
 
-                    frame.place_forget()
+                elif lst==1:
 
-            main()
+                    if st==2 and playlist_st==0:
+                        pass
+                    else:
+                        lst=0
+                        _search=0
 
-            if st==songs_status[0]:
+                        frame.place_forget()
 
-                if st==2:
-                    if current_playlist==songs_status[1]:
+                main()
+
+                if st==songs_status[0]:
+
+                    if st==2:
+                        if current_playlist==songs_status[1]:
+                            move_to_playing(1)
+
+                    else:
                         move_to_playing(1)
-
-                else:
-                    move_to_playing(1)
 
 
         #volume
@@ -3001,77 +3082,75 @@ def can_b1(e):
 
         cx,cy=10+25+15+12.5,h-20-30-15+5+12.5+10-3+2.5
 
-        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-
-        if r<=12.5:
-
-            if sort_st==0:
-                sort_st=1
-            elif sort_st==1:
-                sort_st=0
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
 
 
-
-
-            if sort_st==1:
-
-                if sort_val=="":
-                    sort_val=sort_ar[0][0]
+                if sort_st==0:
+                    sort_st=1
+                elif sort_st==1:
+                    sort_st=0
 
 
 
 
-                if theme=="red":
-                    col1="#ff4431"
-                    col2="#551610"
+                if sort_st==1:
 
-                if theme=="mint":
-                    col1="#32fca7"
-                    col2="#135437"
-
-                elif theme=="cyan":
-                    col1="#00ffff"
-                    col2="#005555"
+                    if sort_val=="":
+                        sort_val=sort_ar[0][0]
 
 
 
 
+                    if theme=="red":
+                        col1="#ff4431"
+                        col2="#551610"
 
+                    if theme=="mint":
+                        col1="#32fca7"
+                        col2="#135437"
 
-                can_sort.delete("all")
-
-                draw_round_rec(can_sort,2,2, 250-2,160-2,15,"#000000",col1,0)
-
-                can_sort.create_text(125,15,text="Sort",font=("TkDefaultFont",12),fill=col1)
-
-
-                can_sort.create_line(2,30, 250-2,30,fill=col2 )
-                y=30
-                for _ in sa:
-
-                    can_sort.create_text(10,y+15,text=_,font=("TkDefaultFont",12),fill=col1,anchor="w")
-
-                    #can_sort.create_line(0,y+30,250,y+30,fill="#000000")
-
-                    sort_ar.append([_,y])
-
-                    y+=30
+                    elif theme=="cyan":
+                        col1="#00ffff"
+                        col2="#005555"
 
 
 
-                for s in sort_ar:
-
-                    if s[0]==sort_val:
-
-                        _sort=can_sort.create_image(250-5-20,s[1]+5,image=checked,anchor="nw")
 
 
-                can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-160)
 
-                shuff=0
-                shuffle_st=0
+                    can_sort.delete("all")
+
+                    draw_round_rec(can_sort,2,2, 250-2,160-2,15,"#000000",col1,0)
+
+                    can_sort.create_text(125,15,text="Sort",font=("TkDefaultFont",12),fill=col1)
 
 
+                    can_sort.create_line(2,30, 250-2,30,fill=col2 )
+                    y=30
+                    for _ in sa:
+
+                        can_sort.create_text(10,y+15,text=_,font=("TkDefaultFont",12),fill=col1,anchor="w")
+
+                        #can_sort.create_line(0,y+30,250,y+30,fill="#000000")
+
+                        sort_ar.append([_,y])
+
+                        y+=30
+
+
+
+                    for s in sort_ar:
+
+                        if s[0]==sort_val:
+
+                            _sort=can_sort.create_image(250-5-20,s[1]+5,image=checked,anchor="nw")
+
+
+                    can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-160)
+
+                    shuff=0
+                    shuffle_st=0
 
 
 
@@ -3079,6 +3158,148 @@ def can_b1(e):
 
 
 
+
+
+
+                    main()
+
+
+                    if st==songs_status[0]:
+
+                        if st==2:
+
+                            if current_playlist==songs_status[1]:
+
+                                update_song_status()
+                                move_to_playing(1)
+
+                        else:
+                            update_song_status()
+
+                            move_to_playing(1)
+
+
+
+                else:
+                    can_sort.place_forget()
+
+                return
+
+
+
+        #shuffle
+
+
+
+
+        cx,cy=10+25+15+25+15+12.5,h-20-30-15+5+12.5+10-3+2.5
+
+
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+
+                if st==songs_status[0]:
+
+                    if st==2:
+                        if current_playlist==songs_status[1]:
+
+                            con=1
+                    else:
+                        con=1
+
+                if con==1:
+
+                    loop=0
+
+                    if shuffle_st==0:
+                        can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
+                        mvar=0
+                        shuffle_st=1
+                        shuff=1
+
+                        sort_val=""
+                        sort_st=0
+
+                        main()
+
+                        if st==songs_status[0]:
+
+                            if st==2:
+
+                                if current_playlist==songs_status[1]:
+
+                                    update_song_status()
+                                    move_to_playing(1)
+
+                            else:
+                                update_song_status()
+                                move_to_playing(1)
+
+                            main()
+
+
+                    elif shuffle_st==1:
+                        can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
+                        shuffle_st=0
+                        shuff=0
+
+                        sort_val=sort_ar[0][0]
+                        main()
+
+                        if st==songs_status[0]:
+
+                            if st==2:
+
+                                if current_playlist==songs_status[1]:
+
+                                    update_song_status()
+                                    move_to_playing(1)
+
+                            else:
+                                update_song_status()
+                                move_to_playing(1)
+                        main()
+
+                    elif shuffle_st==2:
+                        can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
+                        shuffle_st=0
+                        shuff=0
+                        sort_val=sort_ar[0][0]            
+                        main()
+                    
+                        if st==songs_status[0]:
+
+                            if st==2:
+
+                                if current_playlist==songs_status[1]:
+
+                                    update_song_status()
+                                    move_to_playing(1)
+
+                            else:
+                                update_song_status()
+                                move_to_playing(1)
+
+                        main()
+
+
+
+        #loop
+
+        cx,cy=10+25+15+25+15+25+15+12.5,h-20-30-15+5+12.5+10-3+2.5
+
+
+
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+
+
+
+                if loop==0:
+                    if current_playing!="":
+                        loop=1
+                elif loop==1:
+                    loop=0
 
                 main()
 
@@ -3090,148 +3311,9 @@ def can_b1(e):
                         if current_playlist==songs_status[1]:
 
                             update_song_status()
-                            move_to_playing(1)
 
                     else:
                         update_song_status()
-
-                        move_to_playing(1)
-
-
-
-            else:
-                can_sort.place_forget()
-
-            return
-
-
-
-        #shuffle
-
-
-
-
-        cx,cy=10+25+15+25+15+12.5,h-20-30-15+5+12.5+10-3+2.5
-
-        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-
-        if r<=12.5:
-
-            if st==songs_status[0]:
-
-                if st==2:
-                    if current_playlist==songs_status[1]:
-
-                        con=1
-                else:
-                    con=1
-
-            if con==1:
-
-                loop=0
-
-                if shuffle_st==0:
-                    can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
-                    mvar=0
-                    shuffle_st=1
-                    shuff=1
-
-                    sort_val=""
-                    sort_st=0
-
-                    main()
-
-                    if st==songs_status[0]:
-
-                        if st==2:
-
-                            if current_playlist==songs_status[1]:
-
-                                update_song_status()
-                                move_to_playing(1)
-
-                        else:
-                            update_song_status()
-                            move_to_playing(1)
-
-                        main()
-
-
-                elif shuffle_st==1:
-                    can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
-                    shuffle_st=0
-                    shuff=0
-
-                    sort_val=sort_ar[0][0]
-                    main()
-
-                    if st==songs_status[0]:
-
-                        if st==2:
-
-                            if current_playlist==songs_status[1]:
-
-                                update_song_status()
-                                move_to_playing(1)
-
-                        else:
-                            update_song_status()
-                            move_to_playing(1)
-                    main()
-
-                elif shuffle_st==2:
-                    can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
-                    shuffle_st=0
-                    shuff=0
-                    sort_val=sort_ar[0][0]            
-                    main()
-                
-                    if st==songs_status[0]:
-
-                        if st==2:
-
-                            if current_playlist==songs_status[1]:
-
-                                update_song_status()
-                                move_to_playing(1)
-
-                        else:
-                            update_song_status()
-                            move_to_playing(1)
-
-                    main()
-
-
-
-        #loop
-
-        cx,cy=10+25+15+25+15+25+15+12.5,h-20-30-15+5+12.5+10-3+2.5
-
-        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-
-        if r<=12.5:
-
-
-
-            if loop==0:
-                if current_playing!="":
-                    loop=1
-            elif loop==1:
-                loop=0
-
-            main()
-
-
-            if st==songs_status[0]:
-
-                if st==2:
-
-                    if current_playlist==songs_status[1]:
-
-                        update_song_status()
-
-                else:
-                    update_song_status()
 
         #lyrics
 
@@ -3260,11 +3342,27 @@ def can_b1(e):
                 return
 
 
-            if play_video_st==0:
 
-                cx,cy=x+40-30+15,y+15
-                r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-                if r<=15:
+            cx,cy=x+40-30+15,y+15
+            r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
+            if r<=15:
+
+                if lyric_st==0:
+                    lyric_st=1
+                elif lyric_st==1:
+                    lyric_st=0
+                    can_lyrics.place_forget()
+
+                lvar=0
+
+                main()
+                prog()
+                return
+
+
+            if x-40+15<=e.x<=x+40-15:
+                if y<=e.y<=y+30:
+
 
                     if lyric_st==0:
                         lyric_st=1
@@ -3279,29 +3377,15 @@ def can_b1(e):
                     return
 
 
-                if x-40+15<=e.x<=x+40-15:
-                    if y<=e.y<=y+30:
+            if lyric_st==1:
 
 
-                        if lyric_st==0:
-                            lyric_st=1
-                        elif lyric_st==1:
-                            lyric_st=0
-                            can_lyrics.place_forget()
-
-                        lvar=0
-
-                        main()
-                        prog()
-                        return
+                cx,cy=x+40+10-5+12.5,y+2.5+12.5
 
 
-                if lyric_st==1:
+                if cx-12.5<=e.x<=cx+12.5:
+                    if cy-12.5<=e.y<=cy+12.5:
 
-
-                    cx,cy=x+40+10-5+12.5,y+2.5+12.5
-                    r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-                    if r<=12.5:
 
                         if not current_playing=="":
                             update_details(current_playing,2,_lyric)
@@ -3356,17 +3440,19 @@ def can_b1(e):
 
     cx,cy=w-10-5-20+10,45+10+30
 
-    r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
-    if r<=10:
-        search.delete(0,tk.END)
-        search.place_forget()
-        can.focus_set()
-        _search=0
-
-        main()
+    if cx-10<=e.x<=cx+10:
+        if cy-10<=e.y<=cy+10:
 
 
-        return
+            search.delete(0,tk.END)
+            search.place_forget()
+            can.focus_set()
+            _search=0
+
+            main()
+
+
+            return
 
     if 10<=e.x<=w-10-5-30:
         if 40+30-10-5<=e.y<=40+30+30-10-5:
@@ -3522,29 +3608,26 @@ def can_b1(e):
 
     cx,cy=w-10-25-10-25+12.5,(50-25)/2+12.5
 
-    r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
+    if cx-12.5<=e.x<=cx+12.5:
+        if cy-12.5<=e.y<=cy+12.5:
+            root_st=1
 
-    if r<=12.5:
+            main()
 
-
-        root_st=1
-
-        main()
-
-        return
+            return
 
 
     #quit
 
     cx,cy=w-10-25+12.5,(50-25)/2+12.5
 
-    r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
+    if cx-12.5<=e.x<=cx+12.5:
+        if cy-12.5<=e.y<=cy+12.5:
 
-    if r<=12.5:
 
-        root.destroy()
+            root.destroy()
 
-        return
+            return
 
         
 
@@ -3825,6 +3908,7 @@ def main():
     global checked,add,add2
     global songs2,playlist_select
     global headphones2
+    global _songs_,songs_status
 
 
 
@@ -4353,21 +4437,18 @@ def main():
 
                     if n<1000:
                         t=str(n)
-                    elif 1000<n<1000000:
+                    elif 1000<=n<1000000:
 
 
                         t=str(round(n/1000,2))+" K"
-                    elif 1000000<n<1000000000:
+                    elif 1000000<=n<1000000000:
 
 
                         t=str(round(n/1000000,2))+" M"
-                    elif n>1000000000:
+                    elif n>=1000000000:
 
 
                         t=str(round(n/1000000000,2))+" B"
-                    else:
-
-                        t=str(n)
 
                     if n==1:
                         vw="View"
@@ -4476,9 +4557,18 @@ def main():
 
             if len(songs)==0:
                 
-                if search_var=="":
+                if st==songs_status[0]:
 
-                    current_playing=""
+                    if st==2:
+
+                        if current_playlist==songs_status[1]:
+
+                            current_playing=""
+                           
+
+
+                    else:
+                        current_playing=""
 
 
                 can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
@@ -4541,21 +4631,18 @@ def main():
 
                         if n<1000:
                             t=str(n)
-                        elif 1000<n<1000000:
+                        elif 1000<=n<1000000:
 
 
                             t=str(round(n/1000,2))+" K"
-                        elif 1000000<n<1000000000:
+                        elif 1000000<=n<1000000000:
 
 
                             t=str(round(n/1000000,2))+" M"
-                        elif n>1000000000:
+                        elif n>=1000000000:
 
 
                             t=str(round(n/1000000000,2))+" B"
-                        else:
-
-                            t=str(n)
 
                         if n==1:
                             vw="View"
@@ -4668,8 +4755,18 @@ def main():
 
             if len(songs)==0:
 
-                if search_var=="":
-                    current_playing=""
+                if st==songs_status[0]:
+
+                    if st==2:
+
+                        if current_playlist==songs_status[1]:
+
+                            current_playing=""
+                           
+
+
+                    else:
+                        current_playing=""
 
                 can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
                 
@@ -4947,21 +5044,18 @@ def main():
 
                             if n<1000:
                                 t=str(n)
-                            elif 1000<n<1000000:
+                            elif 1000<=n<1000000:
 
 
                                 t=str(round(n/1000,2))+" K"
-                            elif 1000000<n<1000000000:
+                            elif 1000000<=n<1000000000:
 
 
                                 t=str(round(n/1000000,2))+" M"
-                            elif n>1000000000:
+                            elif n>=1000000000:
 
 
                                 t=str(round(n/1000000000,2))+" B"
-                            else:
-
-                                t=str(n)
 
 
                             if n==1:
@@ -5070,8 +5164,18 @@ def main():
                         except:
                             pass
                 if len(songs)==0:
-                    if search_var=="":
-                        current_playing=""
+                    if st==songs_status[0]:
+
+                        if st==2:
+
+                            if current_playlist==songs_status[1]:
+
+                                current_playing=""
+                               
+
+
+                        else:
+                            current_playing=""
 
                     can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
                     
@@ -5146,21 +5250,18 @@ def main():
 
                 if n<1000:
                     t=str(n)
-                elif 1000<n<1000000:
+                elif 1000<=n<1000000:
 
 
                     t=str(round(n/1000,2))+" K"
-                elif 1000000<n<1000000000:
+                elif 1000000<=n<1000000000:
 
 
                     t=str(round(n/1000000,2))+" M"
-                elif n>1000000000:
+                elif n>=1000000000:
 
 
                     t=str(round(n/1000000000,2))+" B"
-                else:
-
-                    t=str(n)
 
 
                 if n==1:
@@ -5277,8 +5378,24 @@ def main():
 
             if len(songs)==0:
 
-                if search_var=="":
-                    current_playing=""
+
+
+                if st==songs_status[0]:
+
+                    if st==2:
+
+                        if current_playlist==songs_status[1]:
+
+                            current_playing=""
+                           
+
+
+                    else:
+                        current_playing=""
+
+
+
+                    
 
                 can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
                 
@@ -5329,6 +5446,21 @@ def main():
 
 
 
+
+    if st==songs_status[0]:
+
+        if st==2:
+
+            if current_playlist==songs_status[1]:
+
+                _songs_=songs
+               
+
+
+        else:
+            _songs_=songs
+
+
     draw_can()
 
 
@@ -5341,7 +5473,7 @@ def main():
 
 
 
-    draw_round_rec(can,0,0,w-1,h-1,20,cl,"",1)
+    draw_round_rec(can,0,0,w-1,h-1,20,col1,"",1)
 
     """
         r=10
@@ -5381,7 +5513,7 @@ def draw_can():
     global can2,sb
     global current_playlist
     global _playlist
-    global ctime,prog1,prog2
+    global ctime,prog1,prog2,prog3
     global pl_st
     global shuff,shuffle_st,shuffle_ar
 
@@ -5444,13 +5576,24 @@ def draw_can():
         col3="#001618"
 
 
-    
+    if theme=="red":
+        cl="#7f2218"
+    elif theme=="mint":
+        cl="#1c7e53"
+    elif theme=="cyan":
+        cl="#007f7f"
+
+
+    can["bg"]="#000000"
+
 
     
 
-    can.create_image(0,0,image=headphones,anchor="nw")
+    if lst==0 or st==4:
 
-    create_rectangle(can,0, 0, w, h, fill='#000000', alpha=.7)
+        can.create_image(20,-40,image=headphones,anchor="nw")
+
+        create_rectangle(can,0, 0, w, h, fill='#000000', alpha=.5)
 
 
     ar=[]
@@ -5582,12 +5725,16 @@ def draw_can():
 
             if lyric_st==0:
 
+                
+
 
                 can.create_image(x-40,y,image=circle4,anchor="nw")
                 can.create_image(x+40-30,y,image=circle4,anchor="nw")
 
 
                 can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col2,outline=col2)
+
+                #draw_round_rec(can,x-40,y,x+40,y+30,15,col1,"",1)
 
                 can.create_text(x,y+15,text="Lyrics",font=("TkDefaultFont",12),fill=col1)
 
@@ -5944,15 +6091,15 @@ def draw_can():
 
                     if n<1000:
                         t=str(n)
-                    elif 1000<n<1000000:
+                    elif 1000<=n<1000000:
 
 
                         t=str(round(n/1000,2))+" K"
-                    elif 1000000<n<1000000000:
+                    elif 1000000<=n<1000000000:
 
 
                         t=str(round(n/1000000,2))+" M"
-                    elif n>1000000000:
+                    elif n>=1000000000:
 
 
                         t=str(round(n/1000000000,2))+" B"
@@ -6060,13 +6207,15 @@ def draw_can():
 
         can.delete(vol1)
         can.delete(vol2)
+        can.delete(vol3)
+        can.delete(vol4)
 
         r=(w-10)-(w-10-100)
 
 
         vol1=can.create_line(w-10-100,h-20-30+5+10-3 ,w-10-100+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
 
-        vol2=can.create_text(w-10,h-20-30+5+20+10-2-3,text=str(int(current_volume*100))+" %",fill=col1,font=("TkDefaultFont",12),anchor="e")
+        vol2=can.create_text(w-10,h-20-30+5+20+10-2-3,text=str(int(current_volume*100))+" %",fill=col1,font=("TkDefaultFont",11),anchor="e")
 
         vol3=can.create_image(w-10-100+current_volume*r-3,h-20-30+5+10-3-3,image=circle10,anchor="nw")
         vol4=can.create_image(w-10-100+current_volume*r-2,h-20-30+5+10-3-2,image=circle9,anchor="nw")
@@ -6111,11 +6260,13 @@ def draw_can():
         can.delete(ctime)
         can.delete(prog1)
         can.delete(prog2)
+        can.delete(prog3)
 
     if st==4:
         can.delete(ctime)
         can.delete(prog1)
-        can.delete(prog2)   
+        can.delete(prog2)
+        can.delete(prog3)   
    
 
 
@@ -6494,7 +6645,7 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
 
 
-        v=int(((y2-y1)-r*2)/2/5)
+        v=int(((y2-y1)-r*2)/2/10)
         n=((y2-y1)-r*2)/2
 
         rgb = hex_to_rgb(col2)
@@ -6587,7 +6738,7 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
 
 
-        v=int(((y2-y1)-r*2)/2/5)
+        v=int(((y2-y1)-r*2)/2/10)
         n=((y2-y1)-r*2)/2
 
         rgb = hex_to_rgb(col)
@@ -6873,12 +7024,12 @@ def load_():
 
 
 
-            load=can.create_oval(w/2-20,h-122-20-40, w/2+20,h-122-20,outline=col2,width=2)
+            load=can.create_arc(w/2-20,h-122-20-40, w/2+20,h-122-20,outline=col1,start=ang+180,extent=70,style="arc",width=2)
 
             load2=can.create_arc(w/2-20,h-122-20-40, w/2+20,h-122-20,outline=col1,start=ang,extent=70,style="arc",width=2)
 
 
-            ang+=2
+            ang+=1
 
 
 
@@ -6929,20 +7080,21 @@ def can_motion(e):
         #list
 
         cx,cy=10+12.5,h-20-30-15+5+10-3+2.5+12.5
-        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-        if r<=12.5:
 
-            mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("TkDefaultFont",10),anchor="c")
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+
+                mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("TkDefaultFont",10),anchor="c")
 
 
 
         #sort
 
         cx,cy=10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-        if r<=12.5:
 
-            mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("TkDefaultFont",10),anchor="c")
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+                mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("TkDefaultFont",10),anchor="c")
             
 
 
@@ -6950,20 +7102,22 @@ def can_motion(e):
         #shuffle
 
         cx,cy=10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-        if r<=12.5:
 
-            mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("TkDefaultFont",10),anchor="c")
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+
+                mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("TkDefaultFont",10),anchor="c")
             
 
 
         #loop
 
         cx,cy=10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-        if r<=12.5:
 
-            mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("TkDefaultFont",10),anchor="c")
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=e.y<=cy+12.5:
+
+                mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("TkDefaultFont",10),anchor="c")
             
 
 
@@ -6972,10 +7126,12 @@ def can_motion(e):
         if theme_st==0:
 
             cx,cy=10+12.5,(50-25)/2+12.5
-            r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-            if r<=12.5:
 
-                mot_val=can.create_text(10+25+5,(50-25)/2+12.5,text="theme",fill=col1,font=("TkDefaultFont",10),anchor="w")
+
+            if cx-12.5<=e.x<=cx+12.5:
+                if cy-12.5<=e.y<=cy+12.5:
+
+                    mot_val=can.create_text(10+25+5,(50-25)/2+12.5,text="theme",fill=col1,font=("TkDefaultFont",10),anchor="w")
 
 def draw_polygon(canvas,n,st_ang,cx,cy,r,col,width,con,col2="",d=10):
 
@@ -7282,7 +7438,6 @@ songs_status=[]
 
 
 
-stx=0
 
 forward=None
 backward=None
@@ -7506,7 +7661,6 @@ def play_pause(e):
     global paused
     global select_st
 
-    global stx
 
 
 
@@ -7549,12 +7703,6 @@ def play_pause(e):
 
                 prog()
 
-            if stx==0:
-
-                update_song_status()
-
-
-                stx=1
 
 def play_next(e):
     global st,playlist_st,play_st,current_playing,mvar,tm,loop,pp,songs,pl_st,lvar
@@ -7563,12 +7711,27 @@ def play_next(e):
 
     global _songs_
 
+    global playlist_st,current_playlist,songs_status
+
 
     if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
         return
 
 
+    st_=st
+    cp=current_playlist
+    p=playlist_st
 
+
+    st=songs_status[0]
+    current_playlist=songs_status[1]
+    playlist_st=1
+
+    main()
+
+    st=st_
+    current_playlist=cp
+    playlist_st=p
 
 
     if loop==0:
@@ -7618,6 +7781,7 @@ def play_previous(e):
     global cap
     global select_st
     global _songs_
+    global playlist_st,current_playlist,songs_status
 
 
     if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
@@ -7625,6 +7789,21 @@ def play_previous(e):
 
 
 
+    
+    st_=st
+    cp=current_playlist
+    p=playlist_st
+
+
+    st=songs_status[0]
+    current_playlist=songs_status[1]
+    playlist_st=1
+
+    main()
+
+    st=st_
+    current_playlist=cp
+    playlist_st=p
 
 
     if loop==0:
