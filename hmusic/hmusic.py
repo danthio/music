@@ -5341,7 +5341,7 @@ def main():
 
 
 
-    draw_round_rec(can,1,1,w-2,h-2,20,cl,"",1)
+    draw_round_rec(can,0,0,w-1,h-1,20,cl,"",1)
 
     """
         r=10
@@ -5444,11 +5444,13 @@ def draw_can():
         col3="#001618"
 
 
-    """
+    
 
     
 
-    can.create_image(-50,-50, image=bg,anchor="nw")
+    can.create_image(0,0,image=headphones,anchor="nw")
+
+    create_rectangle(can,0, 0, w, h, fill='#000000', alpha=.7)
 
 
     ar=[]
@@ -5547,74 +5549,8 @@ def draw_can():
 
     can.create_polygon(ar,fill="#333333",outline="#333333") 
 
-    """
-
-
     
 
-
-
-    #hex(can,-30,-30,w+30,h+30,30,col3,"#000000")
-
-    draw_round_rec(can,0,0,w-1,h-1,20,"#000000","#000000",0)
-
-    """    can["bg"]="#000000"
-
-        r=10
-        can.create_polygon(0,0, r,0, 0,r, fill="#333333",outline="#333333")
-        can.create_polygon(w-r-1,0, w-1,0, w-1,r, fill="#333333",outline="#333333")
-        can.create_polygon(w-1,h-r-1, w-1,h-1, w-r-1,h-1, fill="#333333",outline="#333333")
-        can.create_polygon(0,h-r-1, 0,h-1, r,h-1, fill="#333333",outline="#333333")
-
-    """
-
-
-    ar=[]
-
-
-
-
-
-    a_=90
-    r=20
-
-    cx,cy=w-r,40+r
-
-
-
-    for a in range(90):
-
-        x=r*math.sin(math.radians(a_))+cx
-        y=r*math.cos(math.radians(a_))+cy
-
-
-        a_+=1
-
-
-        ar.append(x)
-        ar.append(y)
-
-
-
-    a_=180
-
-    cx,cy=r,40+r
-
-
-
-    for a in range(90):
-
-        x=r*math.sin(math.radians(a_))+cx
-        y=r*math.cos(math.radians(a_))+cy
-
-
-        a_+=1
-
-
-        ar.append(x)
-        ar.append(y)
-
-    #can.create_line(ar,fill=col1)
 
 
 
@@ -5866,9 +5802,13 @@ def draw_can():
         elif st==4:
             pass
         else:
+            pass
 
 
-            draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,2,"#000000",10)
+            #draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,2,"#000000",10)
+
+
+            
 
     
 
@@ -6207,7 +6147,7 @@ def draw_can():
 
 
 
-        draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,2,"#000000",10)
+        #draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,2,"#000000",10)
         frame.place_forget()
         
         yv=50+(((h-122)-50)-90)/2
