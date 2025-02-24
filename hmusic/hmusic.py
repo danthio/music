@@ -1794,7 +1794,8 @@ def can2_b1(e):
         cx,cy=int(can2["width"])-10-25-15-25-15-25+12.5,y+12.5+12.5
 
         if cx-12.5<=e.x<=cx+12.5:
-            if cy-12.5<=e.y<=cy+12.5:
+            if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
+
                 update_details(s[0],0)
                 main()
 
@@ -1823,7 +1824,7 @@ def can2_b1(e):
         cx,cy=int(can2["width"])-10-25-15-25+12.5,y+12.5+12.5
 
         if cx-12.5<=e.x<=cx+12.5:
-            if cy-12.5<=e.y<=cy+12.5:
+            if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
                 if add_st==0:
                     add_st=1
@@ -1982,7 +1983,7 @@ def can2_b1(e):
         cx,cy=int(can2["width"])-10-25+12.5,y+12.5+12.5
 
         if cx-12.5<=e.x<=cx+12.5:
-            if cy-12.5<=e.y<=cy+12.5:
+            if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
 
                 try:
