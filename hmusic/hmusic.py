@@ -2293,7 +2293,7 @@ def can_b1(e):
 
 
 
-
+    """
 
     x,y=10+25+10,(50-40)/2
 
@@ -2412,6 +2412,7 @@ def can_b1(e):
     if theme_st==1:
         theme_st=0
     main()
+    """
 
 
     can_sort.place_forget()
@@ -5973,7 +5974,7 @@ def draw_can():
 
 
 
-    can.create_image(10,(50-25)/2, image=theme_,anchor="nw")
+    #can.create_image(10,(50-25)/2, image=theme_,anchor="nw")
 
 
 
@@ -6268,6 +6269,10 @@ def draw_can():
         can.delete(prog1)
         can.delete(prog2)
         can.delete(prog3)   
+
+
+
+    """
    
 
 
@@ -6289,6 +6294,7 @@ def draw_can():
         can.create_image(x+5,y+5,image=red,anchor="nw")
         can.create_image(x+5+30+5,y+5,image=mint,anchor="nw")
         can.create_image(x+5+30+5+30+5,y+5,image=cyan,anchor="nw")
+    """
 
 
 
@@ -7122,7 +7128,9 @@ def can_motion(e):
             
 
 
+        """
         #theme
+
 
         if theme_st==0:
 
@@ -7133,6 +7141,7 @@ def can_motion(e):
                 if cy-12.5<=e.y<=cy+12.5:
 
                     mot_val=can.create_text(10+25+5,(50-25)/2+12.5,text="theme",fill=col1,font=("TkDefaultFont",10),anchor="w")
+        """
 
 def draw_polygon(canvas,n,st_ang,cx,cy,r,col,width,con,col2="",d=10):
 
@@ -7460,6 +7469,8 @@ lst=1
 if playlist_st==0 and current_playing!="":
     playlist_st=1
 
+
+theme="cyan"
 
 
 
