@@ -4129,6 +4129,7 @@ def main():
         def draw_active(c,x,y,sz,col,width=1):
 
             draw_round_rec(can2,x+width,y+width, int(can2["width"])-width,y+50-width,10,col1,col1,1,width)
+            draw_round_rec(can2,x+width+2,y+width+2, int(can2["width"])-width-2,y+50-width-2,10,col1,col1,1,width)
             return
             
 
