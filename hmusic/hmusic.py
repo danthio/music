@@ -3724,7 +3724,7 @@ def main():
 
     col1="#00ffff"
     col2="#005555"
-    col3="#001e20"
+    col3="#003f3f"
 
 
 
@@ -3971,7 +3971,7 @@ def main():
 
 
 
-                can2.create_line(0,y+50,int(can2["width"]),y+50,fill=col2)
+                can2.create_line(0,y+50,int(can2["width"]),y+50,fill=col3)
 
                 ar=[song,y]
 
@@ -4126,7 +4126,11 @@ def main():
 
 
 
-        def draw_active(c,x,y,sz,col):
+        def draw_active(c,x,y,sz,col,width=2):
+
+            draw_round_rec(can2,x+width,y+width, int(can2["width"])-width,y+50-width,10,col1,col1,1,width)
+            return
+            
 
 
 
@@ -4137,6 +4141,8 @@ def main():
 
             c.create_polygon(x+10,y, int(can2["width"])-10-1,y, int(can2["width"])-1,y+10, int(can2["width"])-1,y+sz-10-1,
             int(can2["width"])-10-1,y+sz-1, x+10,y+sz-1, x,y+sz-10-1, x,y+10, fill=col,outline=col )
+
+
 
 
 
@@ -4236,22 +4242,12 @@ def main():
 
                 if scon==1:
 
-                    if song==current_playing:
-
-                        can2.create_line(2,y, int(can2["width"]),y,fill="#000000")
 
 
-                        #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
 
-                        #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
-                        draw_active(can2,2,y,50,col1)
-
-                        can2.create_image(5,y+10,image=musical_note1,anchor="nw")
-                        col="#000000"
-                    else:
-                        can2.create_image(5,y+10,image=musical_note2,anchor="nw")
-                        col=col1
+                    can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                    col="#00e6e6"
 
                     n=music_details[song][1]
 
@@ -4280,15 +4276,21 @@ def main():
 
                     can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
                     can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
+                    can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
+
                     if song==current_playing:
-                        can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
-                    else:
-                        can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
+
+                        can2.create_line(2,y, int(can2["width"]),y,fill="#000000")
+
+
+                        #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
+
+                        #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
+
+                        draw_active(can2,2,y,50,col1)
 
 
                     _del_=delete
-                    if song==current_playing:
-                        _del_=delete2
 
                     can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
 
@@ -4336,8 +4338,6 @@ def main():
                         
                         _pl_=playlist2
 
-                        if song==current_playing:
-                            _pl_=playlist3
                         
 
 
@@ -4350,26 +4350,21 @@ def main():
 
                         _fv_=favourite1
 
-                        if song==current_playing:
-                            _fv_=favourite1_
-
 
                     elif music_details[song][0]==1:
 
 
                         _fv_=favourite2
 
-                        if song==current_playing:
-                            _fv_=favourite2_
-
 
                     can2.create_image(int(can2["width"])-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
 
 
 
+
                     if not song==current_playing:
 
-                        can2.create_line(2,y+50,int(can2["width"]),y+50,fill=col2)
+                        can2.create_line(2,y+50,int(can2["width"]),y+50,fill=col3)
 
                     ar=[song,y]
 
@@ -4441,11 +4436,9 @@ def main():
                             #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
                             draw_active(can2,2,y,50,col1)
-                            can2.create_image(5,y+10,image=musical_note1,anchor="nw")
-                            col="#000000"
-                        else:
-                            can2.create_image(5,y+10,image=musical_note2,anchor="nw")
-                            col=col1
+
+                        can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                        col=col1
 
                         n=music_details[song][1]
 
@@ -4473,16 +4466,20 @@ def main():
 
                         can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
                         can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
+                        
+                        can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
+                        
                         if song==current_playing:
-                            can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
-                        else:
-                            can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
+                            can2.create_line(2,y, int(can2["width"]),y,fill="#000000")
+
+                            #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
+                            #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
+
+                            draw_active(can2,2,y,50,col1)
 
 
 
                         _del_=delete
-                        if song==current_playing:
-                            _del_=delete2
 
                         can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
 
@@ -4527,9 +4524,6 @@ def main():
 
                             
                             _pl_=playlist2
-
-                            if song==current_playing:
-                                _pl_=playlist3
                             
 
 
@@ -4542,17 +4536,12 @@ def main():
 
                             _fv_=favourite1
 
-                            if song==current_playing:
-                                _fv_=favourite1_
-
 
                         elif music_details[song][0]==1:
 
 
                             _fv_=favourite2
 
-                            if song==current_playing:
-                                _fv_=favourite2_
 
 
                         can2.create_image(int(can2["width"])-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
@@ -4561,7 +4550,7 @@ def main():
 
                         if not song==current_playing:
 
-                            can2.create_line(2,y+50,int(can2["width"]),y+50,fill=col2)
+                            can2.create_line(2,y+50,int(can2["width"]),y+50,fill=col3)
 
 
 
@@ -4747,24 +4736,19 @@ def main():
 
 
                         if current_playlist==pl:
-                            col="#000000"
                             can2.create_line(2,y, int(can2["width"]),y,fill="#000000")
 
                             #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
                             #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
                             draw_active(can2,2,y,50,col1)
-                            _pl_=playlist3
-                            _del_=delete2
 
-                            can2.create_image(int(can2["width"])-10-25-15-25,y+12.5,image=add2,anchor="nw")
-                        else:
-                            col=col1
+                        col=col1
 
-                            _pl_=playlist2
-                            _del_=delete
+                        _pl_=playlist2
+                        _del_=delete
 
-                            can2.create_image(int(can2["width"])-10-25-15-25,y+12.5,image=add,anchor="nw")
+                        can2.create_image(int(can2["width"])-10-25-15-25,y+12.5,image=add,anchor="nw")
 
 
 
@@ -4778,7 +4762,7 @@ def main():
                         can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
 
                         if current_playlist!=pl:
-                            can2.create_line(2,y+50, int(can2["width"]),y+50,fill=col2)
+                            can2.create_line(2,y+50, int(can2["width"]),y+50,fill=col3)
 
                         _playlist.append([pl,y])
 
@@ -4855,18 +4839,10 @@ def main():
                         
 
 
-                            if song==current_playing:
-                                can2.create_line(2,y, int(can2["width"]),y,fill="#000000")
 
-                                #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
-                                #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
-                                draw_active(can2,2,y,50,col1)
-                                can2.create_image(5,y+10,image=musical_note1,anchor="nw")
-                                col="#000000"
-                            else:
-                                can2.create_image(5,y+10,image=musical_note2,anchor="nw")
-                                col=col1
+                            can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                            col=col1
 
 
 
@@ -4897,16 +4873,18 @@ def main():
 
                             can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
                             can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
+                            
+                            can2.create_rectangle(int(can2["width"])-25*4-15*3,y+3, int(can2["width"]),y+45,fill="#000000",outline="#000000")
+
                             if song==current_playing:
-                                can2.create_rectangle(int(can2["width"])-25*4-15*3,y+3, int(can2["width"])-40,y+45,fill=col1,outline=col1)
-                            else:
-                                can2.create_rectangle(int(can2["width"])-25*4-15*3,y+3, int(can2["width"]),y+45,fill="#000000",outline="#000000")
+                                can2.create_line(2,y, int(can2["width"]),y,fill="#000000")
 
+                                #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
+                                #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
+                                draw_active(can2,2,y,50,col1)
 
                             _del_=delete
-                            if song==current_playing:
-                                _del_=delete2
 
                             can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
 
@@ -4952,8 +4930,6 @@ def main():
                                 
                                 _pl_=playlist2
 
-                                if song==current_playing:
-                                    _pl_=playlist3
                                 
 
 
@@ -4966,8 +4942,6 @@ def main():
 
                                 _fv_=favourite1
 
-                                if song==current_playing:
-                                    _fv_=favourite1_
 
 
                             elif music_details[song][0]==1:
@@ -4975,8 +4949,6 @@ def main():
 
                                 _fv_=favourite2
 
-                                if song==current_playing:
-                                    _fv_=favourite2_
 
 
                             can2.create_image(int(can2["width"])-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
@@ -4986,7 +4958,7 @@ def main():
 
                             if not song==current_playing:
 
-                                can2.create_line(2,y+50,int(can2["width"]),y+50,fill=col2)
+                                can2.create_line(2,y+50,int(can2["width"]),y+50,fill=col3)
 
 
                             songs.append([song,y])
@@ -5059,20 +5031,8 @@ def main():
 
             for song in ar_:
 
-
-                if song[0]==current_playing:
-                    can2.create_line(2,y, int(can2["width"]),y,fill="#000000")
-
-                    #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
-
-                    #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
-
-                    draw_active(can2,2,y,50,col1)
-                    can2.create_image(5,y+10,image=musical_note1,anchor="nw")
-                    col="#000000"
-                else:
-                    can2.create_image(5,y+10,image=musical_note2,anchor="nw")
-                    col=col1
+                can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                col=col1
 
 
 
@@ -5105,20 +5065,26 @@ def main():
 
                 can2.create_text(50,y+50/3,text=song[0][:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
                 can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
+                
+                can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
+
+
+
+
                 if song[0]==current_playing:
-                    can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"])-40,y+45,fill=col1,outline=col1)
-                else:
-                    can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
+                    can2.create_line(2,y, int(can2["width"]),y,fill="#000000")
 
+                    #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
 
+                    #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
+
+                    draw_active(can2,2,y,50,col1)
 
 
 
 
 
                 _del_=delete
-                if song[0]==current_playing:
-                    _del_=delete2
 
                 can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
 
@@ -5165,8 +5131,6 @@ def main():
                     
                     _pl_=playlist2
 
-                    if song[0]==current_playing:
-                        _pl_=playlist3
                     
 
 
@@ -5179,8 +5143,6 @@ def main():
 
                     _fv_=favourite1
 
-                    if song[0]==current_playing:
-                        _fv_=favourite1_
 
 
                 elif music_details[song[0]][0]==1:
@@ -5188,8 +5150,6 @@ def main():
 
                     _fv_=favourite2
 
-                    if song[0]==current_playing:
-                        _fv_=favourite2_
 
 
                 can2.create_image(int(can2["width"])-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
@@ -5198,7 +5158,7 @@ def main():
 
                 if not song[0]==current_playing:
 
-                    can2.create_line(2,y+50,int(can2["width"]),y+50,fill=col2)
+                    can2.create_line(2,y+50,int(can2["width"]),y+50,fill=col3)
 
 
                 ar=[song[0],y]
