@@ -1424,6 +1424,8 @@ def timer():
             tm=0
             
             current_playing=_songs_[mvar][0]
+
+
             play_st=1
 
             play_music("music/"+current_playing,tm)
@@ -3882,13 +3884,25 @@ def main():
 
             if sval.find(" ")!=-1:
 
+                ss=[]
+
                 s_ar=sval.split(" ")
 
                 for sv in s_ar:
 
                     if song.lower().find(sv)!=-1:
-                        scon=1
+                        ss.append(1)
+                    else:
+                        ss.append(0)
+
+                scon=1
+
+                for ss_ in ss:
+
+                    if ss_==0:
+                        scon=0
                         break
+
             else:
                 if song.lower().find(sval)!=-1:
                     scon=1
@@ -4162,12 +4176,23 @@ def main():
 
                 if sval.find(" ")!=-1:
 
+                    ss=[]
+
                     s_ar=sval.split(" ")
 
                     for sv in s_ar:
 
                         if song.lower().find(sv)!=-1:
-                            scon=1
+                            ss.append(1)
+                        else:
+                            ss.append(0)
+
+                    scon=1
+
+                    for ss_ in ss:
+
+                        if ss_==0:
+                            scon=0
                             break
                 else:
                     if song.lower().find(sval)!=-1:
@@ -4387,13 +4412,23 @@ def main():
                 sval=search_var.lower()
 
                 if sval.find(" ")!=-1:
+                    ss=[]
 
                     s_ar=sval.split(" ")
 
                     for sv in s_ar:
 
                         if song.lower().find(sv)!=-1:
-                            scon=1
+                            ss.append(1)
+                        else:
+                            ss.append(0)
+
+                    scon=1
+
+                    for ss_ in ss:
+
+                        if ss_==0:
+                            scon=0
                             break
                 else:
                     if song.lower().find(sval)!=-1:
@@ -4680,12 +4715,23 @@ def main():
 
                     if sval.find(" ")!=-1:
 
+                        ss=[]
+
                         s_ar=sval.split(" ")
 
                         for sv in s_ar:
 
-                            if pl.lower().find(sv)!=-1:
-                                scon=1
+                            if song.lower().find(sv)!=-1:
+                                ss.append(1)
+                            else:
+                                ss.append(0)
+
+                        scon=1
+
+                        for ss_ in ss:
+
+                            if ss_==0:
+                                scon=0
                                 break
                     else:
                         if pl.lower().find(sval)!=-1:
@@ -4782,12 +4828,23 @@ def main():
 
                     if sval.find(" ")!=-1:
 
+                        ss=[]
+
                         s_ar=sval.split(" ")
 
                         for sv in s_ar:
 
                             if song.lower().find(sv)!=-1:
-                                scon=1
+                                ss.append(1)
+                            else:
+                                ss.append(0)
+
+                        scon=1
+
+                        for ss_ in ss:
+
+                            if ss_==0:
+                                scon=0
                                 break
                     else:
                         if song.lower().find(sval)!=-1:
@@ -4969,12 +5026,23 @@ def main():
 
                 if sval.find(" ")!=-1:
 
+                    ss=[]
+
                     s_ar=sval.split(" ")
 
                     for sv in s_ar:
 
                         if song.lower().find(sv)!=-1:
-                            scon=1
+                            ss.append(1)
+                        else:
+                            ss.append(0)
+
+                    scon=1
+
+                    for ss_ in ss:
+
+                        if ss_==0:
+                            scon=0
                             break
                 else:
                     if song.lower().find(sval)!=-1:
@@ -7690,18 +7758,6 @@ def search__():
 
 
 
-        if playlist_st==1:
-
-            if st==songs_status[0]:
-
-                if st==2:
-
-                    if current_playlist==songs_status[1]:
-
-                        update_song_status()
-
-                else:
-                    update_song_status()
 
 
 
@@ -7717,14 +7773,28 @@ def mvar_():
 
 
     global ls,current_playing,songs,mvar
-    global _songs_
+    global _songs_,songs_status
+    global st,current_playlist
 
     try:
-        for s in range(len(songs)):
-            if _songs_[s][0]==current_playing:
-               
 
-                mvar=s
+
+        con=0
+
+        if st==songs_status[0]:
+            if st==2:
+                if current_playlist==songs_status[1]:
+                    con=1
+            else:
+                con=1
+
+        if con==1:
+
+            for s in range(len(_songs_)):
+                if _songs_[s][0]==current_playing:
+                   
+
+                    mvar=s
 
 
     except:
