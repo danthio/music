@@ -4247,7 +4247,7 @@ def main():
 
 
                     can2.create_image(5,y+10,image=musical_note2,anchor="nw")
-                    col="#00e6e6"
+                    col="#00ffff"
 
                     n=music_details[song][1]
 
