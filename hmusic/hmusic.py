@@ -1670,6 +1670,7 @@ def can2_b1(e):
             cx,cy=int(can2["width"])-10-25-15-25+12.5,_pl[1]+12.5+12.5
             r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
             if r<=12.5:
+
                 playlist_select=_pl[0]
                 select_st=1
 
@@ -1685,21 +1686,22 @@ def can2_b1(e):
 
 
             cx,cy=int(can2["width"])-10-25+12.5,_pl[1]+12.5+12.5
-            r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
-            if r<=12.5:
-                can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
-                create_playlist(_pl[0],con=3)
+            if cx-12.5<=e.x<=cx+12.5:
+                if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
-                main()
+                    can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
+                    create_playlist(_pl[0],con=3)
 
-                if st==songs_status[0]:
-                    if st==2:
-                        if current_playlist==songs_status[1]:
-                            update_song_status()
+                    main()
+
+                    if st==songs_status[0]:
+                        if st==2:
+                            if current_playlist==songs_status[1]:
+                                update_song_status()
 
 
 
-                return
+                    return
 
             if _pl[1]<=can2.canvasy(e.y)<=_pl[1]+50:
                 can2["scrollregion"]=(0,0,w-7,((h-122)-87-20))
@@ -2198,7 +2200,7 @@ def can_b1(e):
 
         main()
 
-        move_to_playing(1)
+        move_to_playing()
 
         return
 
@@ -2561,7 +2563,7 @@ def can_b1(e):
 
 
 
-    if h-20-60-20+10+2+5-10-3+10<=e.y<=h-20-60-20+10+2+5+10-3+10:
+    if h-20-60-20+10+2+5-10-3+10+5<=e.y<=h-20-60-20+10+2+5+10-3+10-5:
 
 
 
@@ -3477,6 +3479,13 @@ def can_b1(e):
         if h-20-60-20-27-15+3+10+3+2+2-3+1+10<=e.y<=h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10:
 
             try:
+                con=0
+                if st==songs_status[0]:
+                    if st==2:
+                        if current_playlist==songs_status[1]:
+                            con=1
+                    else:
+                        con=1
 
                 st,current_playlist,shuffle_st,sort_val,shuffle_ar,loop,current_playing=songs_status
 
@@ -3485,12 +3494,12 @@ def can_b1(e):
                         playlist_st=1
 
                 
-
-                can2["scrollregion"]=(0,0,0,0)
+                if con==0:
+                    can2["scrollregion"]=(0,0,0,0)
 
                 main()
 
-                move_to_playing(1)
+                move_to_playing()
 
                 return
 
@@ -6076,7 +6085,7 @@ def draw_can():
 
         length_in_pixels = get_text_length(can, playlist_select, "TkDefaultFont", 13) 
 
-        x=(w-(30+5+length_in_pixels))/2
+        x=10#(w-(30+5+length_in_pixels))/2
 
         can.create_image(x,(h-122+75)+((h-1)-(h-122+75))/2-11,image=playlist2,anchor="nw")
 
