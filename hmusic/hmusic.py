@@ -72,6 +72,13 @@ def get_taskbar_height():
     return max(0, taskbar_height)  # Ensure no negative values
 
 
+
+
+im=Image.open("data/headphones2.png")
+im=im.resize((300,300))
+im.save("data/headphones2.png")
+
+
 """
 
 im=Image.open("data/quit.png")
@@ -3964,7 +3971,7 @@ def main():
 
         if len(songs2)==0:
 
-            can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
+            can2.create_image((int(can2["width"])-300)/2,(int(can2["height"])-300)/2,image=headphones2,anchor="nw")
             #can2.create_text((w-7)/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
 
@@ -4351,21 +4358,10 @@ def main():
 
             if len(songs)==0:
                 
-                if st==songs_status[0]:
-
-                    if st==2:
-
-                        if current_playlist==songs_status[1]:
-
-                            current_playing=""
-                           
 
 
-                    else:
-                        current_playing=""
 
-
-                can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
+                can2.create_image((int(can2["width"])-300)/2,(int(can2["height"])-300)/2,image=headphones2,anchor="nw")
                 
 
                 #can2.create_text(int(can2["width"])/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
@@ -4549,20 +4545,8 @@ def main():
 
             if len(songs)==0:
 
-                if st==songs_status[0]:
 
-                    if st==2:
-
-                        if current_playlist==songs_status[1]:
-
-                            current_playing=""
-                           
-
-
-                    else:
-                        current_playing=""
-
-                can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
+                can2.create_image((int(can2["width"])-300)/2,(int(can2["height"])-300)/2,image=headphones2,anchor="nw")
                 
                 #can2.create_text(int(can2["width"])/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
@@ -4764,7 +4748,7 @@ def main():
 
                     y_=y-20
 
-                    can2.create_image((int(can2["width"])-400)/2,y_+(int(can2["height"])-400-y_)/2,image=headphones2,anchor="nw")
+                    can2.create_image((int(can2["width"])-300)/2,y_+(int(can2["height"])-300-y_)/2,image=headphones2,anchor="nw")
                     
                     #can2.create_text(int(can2["width"])/2,y+(((h-122)-87-20)-y)/2,text="No Record",font=("TkDefaultFont",12),fill=col1)
 
@@ -4958,20 +4942,9 @@ def main():
                         except:
                             pass
                 if len(songs)==0:
-                    if st==songs_status[0]:
-
-                        if st==2:
-
-                            if current_playlist==songs_status[1]:
-
-                                current_playing=""
-                               
 
 
-                        else:
-                            current_playing=""
-
-                    can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
+                    can2.create_image((int(can2["width"])-300)/2,(int(can2["height"])-300)/2,image=headphones2,anchor="nw")
                     
                     #can2.create_text(int(can2["width"])/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
@@ -5174,24 +5147,11 @@ def main():
 
 
 
-                if st==songs_status[0]:
-
-                    if st==2:
-
-                        if current_playlist==songs_status[1]:
-
-                            current_playing=""
-                           
-
-
-                    else:
-                        current_playing=""
-
 
 
                     
 
-                can2.create_image((int(can2["width"])-400)/2,(int(can2["height"])-400)/2,image=headphones2,anchor="nw")
+                can2.create_image((int(can2["width"])-300)/2,(int(can2["height"])-300)/2,image=headphones2,anchor="nw")
                 
                 #can2.create_text(int(can2["width"])/2,((h-122)-87-20)/2,text="No Record!",font=("TkDefaultFont",12),fill=col1)
 
@@ -5247,12 +5207,16 @@ def main():
 
             if current_playlist==songs_status[1]:
 
-                _songs_=songs
+                if search_var=="":
+
+                    _songs_=songs
                
 
 
         else:
-            _songs_=songs
+
+            if search_var=="":
+                _songs_=songs
 
 
     draw_can()
