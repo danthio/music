@@ -74,10 +74,6 @@ def get_taskbar_height():
 
 
 
-im=Image.open("data/headphones2.png")
-im=im.resize((300,300))
-im.save("data/headphones2.png")
-
 
 """
 
