@@ -2124,7 +2124,7 @@ def can_b3(e):
 
 
 
-    #capture_canvas()
+    capture_canvas()
     move_to_playing()
 
 
@@ -5249,7 +5249,7 @@ def main():
 
 
 
-    draw_round_rec(can,0,0,w-1,h-1,20,col2,"",1)
+    draw_round_rec(can,0,0,w-1,h-1,20,col1,"",1)
 
     """
         r=10
