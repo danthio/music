@@ -2124,7 +2124,7 @@ def can_b3(e):
 
 
 
-    capture_canvas()
+    #capture_canvas()
     move_to_playing()
 
 
