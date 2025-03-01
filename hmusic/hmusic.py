@@ -1828,7 +1828,7 @@ def can2_b1(e):
 
                         ar=playlist[p]
 
-                        can3.create_image(10,y+10,image=playlist2,anchor="nw")
+                        can3.create_image(10,y+10+4,image=playlist2,anchor="nw")
                         can3.create_text(10+30+10,y+25,text=p,font=("TkDefaultFont",12),anchor="w",fill=col1)
                         #can3.create_line(0,y+50,450-7,y+50,fill="#000000")
 
@@ -6443,196 +6443,15 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
     elif con==1:    
         c.create_line(ar,fill=col,width=width)
 
-    elif con==3:
-        c.create_polygon(ar,fill=col,outline=col,width=width)
 
-        c.create_line(ar2,fill=col2,width=width)
-        c.create_line(ar3,fill=col2,width=width)
 
 
-        cols=[]
 
-
-        def hex_to_rgb(hex_color: str) -> tuple:
-            # Remove the '#' if it exists
-            hex_color = hex_color.lstrip('#')
-            # Convert to RGB
-            return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-
-
-
-
-        v=int(((y2-y1)-r*2)/2/10)
-        n=((y2-y1)-r*2)/2
-
-        rgb = hex_to_rgb(col2)
-
-
-
-
-        try:
-            rv=255/rgb[0]
-
-        except:
-            pass
-
-        gv=255/rgb[1]
-        bv=255/rgb[2]
-
-
-        c_=1
-
-        for _c_ in range(v):
-
-
-            if col2=="#39fca7":
-                cl="#%02x%02x%02x" % (0,int(255/gv/c_),int(255/bv/c_))
-            else:
-                cl="#%02x%02x%02x" % (int(255/rv/c_),int(255/gv/c_),int(255/bv/c_))
-
-
-            c_+=1
-
-            cols.append(cl)
-
-
-        #cols.pop(0)
-
-
-        y_=y1+r
-
-        _c=-1
-        for c_ in range(v):
-            c.create_line(x1,y_, x1,y_+n/v, fill=cols[c_],width=width)
-            c.create_line(x2,y_, x2,y_+n/v, fill=cols[c_],width=width)
-
-
-            _c-=1
-
-
-
-            y_+=n/v
-
-
-
-        _c=-1
-        y_=y2-r
-        for c_ in range(v):
-
-            if c_==v-1:
-
-                c.create_line(x1,y_, x1,y_-(n/v+1), fill=cols[c_],width=width)
-                c.create_line(x2,y_, x2,y_-(n/v+1), fill=cols[c_],width=width)
-
-            else:
-
-
-                c.create_line(x1,y_, x1,y_-(n/v), fill=cols[c_],width=width)
-                c.create_line(x2,y_, x2,y_-(n/v), fill=cols[c_],width=width)
-
-
-
-            _c-=1
-
-
-
-            y_-=n/v
-
-    elif con==4:
-
-        c.create_line(ar2,fill=col,width=width)
-        c.create_line(ar3,fill=col,width=width)
-
-        cols=[]
-
-
-        def hex_to_rgb(hex_color: str) -> tuple:
-            # Remove the '#' if it exists
-            hex_color = hex_color.lstrip('#')
-            # Convert to RGB
-            return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-
-
-
-
-        v=int(((y2-y1)-r*2)/2/10)
-        n=((y2-y1)-r*2)/2
-
-        rgb = hex_to_rgb(col)
-
-
-
-
-        try:
-            rv=255/rgb[0]
-
-        except:
-            pass
-
-        gv=255/rgb[1]
-        bv=255/rgb[2]
-
-
-        c_=1
-
-        for _c_ in range(v):
-
-
-            if col=="#39fca7":
-                cl="#%02x%02x%02x" % (0,int(255/gv/c_),int(255/bv/c_))
-            else:
-                cl="#%02x%02x%02x" % (int(255/rv/c_),int(255/gv/c_),int(255/bv/c_))
-
-
-            c_+=1
-
-            cols.append(cl)
-
-
-        #cols.pop(0)
-
-
-        y_=y1+r
-
-        _c=-1
-        for c_ in range(v):
-            c.create_line(x1,y_, x1,y_+n/v, fill=cols[c_],width=width)
-            c.create_line(x2,y_, x2,y_+n/v, fill=cols[c_],width=width)
-
-
-            _c-=1
-
-
-
-            y_+=n/v
-
-
-
-        _c=-1
-        y_=y2-r
-        for c_ in range(v):
-
-            if c_==v-1:
-
-                c.create_line(x1,y_, x1,y_-(n/v+1), fill=cols[c_],width=width)
-                c.create_line(x2,y_, x2,y_-(n/v+1), fill=cols[c_],width=width)
-
-            else:
-
-
-                c.create_line(x1,y_, x1,y_-(n/v), fill=cols[c_],width=width)
-                c.create_line(x2,y_, x2,y_-(n/v), fill=cols[c_],width=width)
-
-
-
-            _c-=1
-
-
-
-            y_-=n/v
-
-
-
+def hex_to_rgb(hex_color: str) -> tuple:
+    # Remove the '#' if it exists
+    hex_color = hex_color.lstrip('#')
+    # Convert to RGB
+    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
 
 def load_im():
