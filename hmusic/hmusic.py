@@ -3502,6 +3502,8 @@ def can_b1(e):
                 if con==0:
                     can2["scrollregion"]=(0,0,0,0)
 
+                lst=1
+
                 main()
 
                 move_to_playing()
