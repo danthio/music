@@ -3133,7 +3133,7 @@ def can_b1(e):
         if not st==4:
 
             x=w/2
-            y=h-122-30
+            y=h-122+5-30
 
 
 
@@ -5566,7 +5566,7 @@ def draw_can():
         if not st==4:
 
             x=w/2
-            y=h-122-30
+            y=h-122+5-30
 
 
 
