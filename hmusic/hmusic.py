@@ -3326,7 +3326,7 @@ def can_b1(e):
 
     if st==4:
 
-        yv=50+(((h-122)-50)-90)/2
+        yv=50+(((h-122)-50)-90)/2+30
 
 
 
@@ -5500,7 +5500,7 @@ def draw_can():
     global forward,backward
     global _bg_
 
-    global transparent_im,transparent_im2
+    global transparent_im,transparent_im2,transparent_im3
 
     can.delete("all")
 
@@ -5805,8 +5805,8 @@ def draw_can():
 
 
 
-
-
+            can.create_image(10,50,image=transparent_im3,anchor="nw")
+            draw_round_rec2(can,10,50,w-10,80,15,"#000000")
 
             if _search==1:
 
@@ -6311,7 +6311,7 @@ def draw_can():
         #draw_polygon(can,7,0,w/2,50+(((h-122)-50)-420)/2+210,210,col2,10,2,"#000000",10)
         frame.place_forget()
         
-        yv=50+(((h-122)-50)-90)/2
+        yv=50+(((h-122)-50)-90)/2+30
 
 
 
@@ -6723,18 +6723,24 @@ def load_im():
 
 transparent_im=None
 transparent_im2=None
+transparent_im3=None
 
 def create_rectangle(can,x1, y1, x2, y2, **kwargs):
-    global transparent_im,transparent_im2
+    global transparent_im,transparent_im2,transparent_im3
     if 'alpha' in kwargs:
         alpha = int(kwargs.pop('alpha') * 255)
         fill = kwargs.pop('fill')
         fill = root.winfo_rgb(fill) + (alpha,)
         image = Image.new('RGBA', (x2-x1, y2-y1), fill)
         image2 = Image.new('RGBA', (x2-x1, (y2+75)-y1), fill)
+        image3 = Image.new('RGBA', ((w-10)-10, 80-50), fill)
 
         transparent_im=ImageTk.PhotoImage(image)
         transparent_im2=ImageTk.PhotoImage(image2)
+        transparent_im3=ImageTk.PhotoImage(image3)
+
+
+
         #can.create_image(x1, y1, image=images1[-1], anchor='nw')
 
 
