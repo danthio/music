@@ -3843,8 +3843,8 @@ def main():
 
 
     style.configure("My.Vertical.TScrollbar", gripcount=0, background=col1,
-                    troughcolor="#001400", borderwidth=0, bordercolor="#001400",
-                    lightcolor="#001400",relief="flat", darkcolor="#001400",
+                    troughcolor="#001000", borderwidth=0, bordercolor="#001000",
+                    lightcolor="#001000",relief="flat", darkcolor="#001000",
                     arrowsize=7)
 
 
@@ -3916,7 +3916,7 @@ def main():
     _bg2_=can2.create_image(w-260-10-1+271,-(87+15)+can2.canvasy(0),image=headphones_,anchor="ne")
 
 
-    create_rectangle(can2,0, 0, w-20, (h-122)-87, fill='#00ff00', alpha=.08)
+    create_rectangle(can2,0, 0, w-20, (h-122)-87, fill='#00ff00', alpha=.065)
     
 
 
@@ -5420,7 +5420,8 @@ def main():
 
 
 
-    draw_round_rec(can,0,0,w-1,h-1,20,col1,"",1)
+    draw_round_rec(can,0,0,w-1,h-1,20,col2,"",1)
+    draw_round_rec(can,1,1,w-1-1,h-1-1,20,col1,"",1)
 
     """
         r=10
@@ -5536,18 +5537,18 @@ def draw_can():
 
 
 
-
+    r=20
 
 
     ar=[]
     a_=270
 
-    cx,cy=20,20
+    cx,cy=r,r
 
     for a in range(90):
 
-        x=20*math.sin(math.radians(a_))+cx
-        y=20*math.cos(math.radians(a_))+cy
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
 
         a_-=1
 
@@ -5568,12 +5569,12 @@ def draw_can():
     ar=[]
     a_=180
 
-    cx,cy=w-20,20
+    cx,cy=w-r,r
 
     for a in range(90):
 
-        x=20*math.sin(math.radians(a_))+cx
-        y=20*math.cos(math.radians(a_))+cy
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
 
         a_-=1
 
@@ -5592,12 +5593,12 @@ def draw_can():
     ar=[]
     a_=90
 
-    cx,cy=w-20,h-20
+    cx,cy=w-r,h-r
 
     for a in range(90):
 
-        x=20*math.sin(math.radians(a_))+cx
-        y=20*math.cos(math.radians(a_))+cy
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
 
         a_-=1
 
@@ -5618,12 +5619,12 @@ def draw_can():
     ar=[]
     a_=0
 
-    cx,cy=20,h-20
+    cx,cy=r,h-r
 
     for a in range(90):
 
-        x=20*math.sin(math.radians(a_))+cx
-        y=20*math.cos(math.radians(a_))+cy
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
 
         a_-=1
 
