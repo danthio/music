@@ -2028,6 +2028,9 @@ def can2_b1(e):
 
             main()
 
+            if not st==2:
+                current_playlist=""
+
             
 
             
@@ -2133,6 +2136,25 @@ def can_b3(e):
     """
 
 
+
+    def get_pixel_color(pixel_x, pixel_y):
+        # Get the canvas coordinates relative to the screen
+        x = root.winfo_rootx() + can.winfo_x()
+        y = root.winfo_rooty() + can.winfo_y()
+        width = can.winfo_width()
+        height = can.winfo_height()
+
+        # Capture the canvas area
+        image = ImageGrab.grab(bbox=(x, y, x + width, y + height))
+        
+        # Get the color of a specific pixel (e.g., center of the canvas)
+        
+        color = image.getpixel((pixel_x, pixel_y))
+
+        # Display the color
+        print("#%02x%02x%02x" % color)
+
+    #get_pixel_color(e.x, e.y)
 
     #capture_canvas()
     move_to_playing()
@@ -3697,6 +3719,22 @@ playlist_select=""
 
 _bg2_=None
 
+
+def _text_(c,text,font,size,l):
+
+
+
+    while 1:
+
+
+        if get_text_length(c, text,font,size)<=l:
+
+            
+            return text
+
+        else:
+            text=text[-1]
+
 def main():
 
     global can,st,w,h,wd,ht
@@ -3753,6 +3791,9 @@ def main():
     global _songs_,songs_status
     global _bg2_
 
+    global transparent_im,transparent_im2
+    global headphones_
+
 
 
 
@@ -3802,8 +3843,8 @@ def main():
 
 
     style.configure("My.Vertical.TScrollbar", gripcount=0, background=col1,
-                    troughcolor="#000000", borderwidth=0, bordercolor="#000000",
-                    lightcolor="#000000",relief="flat", darkcolor="#000000",
+                    troughcolor="#001100", borderwidth=0, bordercolor="#001100",
+                    lightcolor="#001100",relief="flat", darkcolor="#001100",
                     arrowsize=7)
 
 
@@ -3872,11 +3913,25 @@ def main():
     can2.delete("all")
 
 
-    _bg2_=can2.create_image(w-260-10,-(87+15)+can2.canvasy(0),image=headphones,anchor="ne")
+    _bg2_=can2.create_image(w-260-10-1+271,-(87+15)+can2.canvasy(0),image=headphones_,anchor="ne")
+
+
+    create_rectangle(can2,0, 0, w-20, (h-122)-87, fill='#00ff00', alpha=.07)
+    
+
+
+ 
+
+
+
+            
+
+
 
 
 
     if select_st==1:
+
 
         y=0
 
@@ -3989,10 +4044,8 @@ def main():
                 col=col1
 
 
-                can2.create_text(50,y+25,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                can2.create_text(50,y+25,text=_text_(can2,song[:-4],"TkDefaultFont",12,(int(can2["width"])-20-20-20)-50),font=("TkDefaultFont",12),fill=col,anchor="w")
                 
-                can2.create_rectangle(int(can2["width"])-20-20-20,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
-
                 try:
 
                     v=playlist[playlist_select].index(song)
@@ -4044,6 +4097,7 @@ def main():
 
 
     else:
+
 
         y=0
 
@@ -4346,15 +4400,8 @@ def main():
                         vw="Views"
 
 
-                    can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                    can2.create_text(50,y+50/3,text=_text_(can2,song[:-4],"TkDefaultFont",12,(int(can2["width"])-25*3-15*3)-50),font=("TkDefaultFont",12),fill=col,anchor="w")
                     can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
-
-                    if song==current_playing:
-
-                        draw_active(can2,int(can2["width"])-25*3-15*3,y,50,col1)
-                    else:
-
-                        can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
 
 
 
@@ -4550,17 +4597,9 @@ def main():
                             vw="Views"
 
 
-                        can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                        can2.create_text(50,y+50/3,text=_text_(can2,song[:-4],"TkDefaultFont",12,(int(can2["width"])-25*3-15*3)-50),font=("TkDefaultFont",12),fill=col,anchor="w")
                         can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
                         
-                        if song==current_playing:
-                            draw_active(can2,int(can2["width"])-25*3-15*3,y,50,col1)
-                        else:                    
-
-                            can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
-    
-
-
 
                         can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
 
@@ -4860,7 +4899,7 @@ def main():
 
 
 
-                        can2.create_text(50,y+25,text=pl,font=("TkDefaultFont",12),fill=col,anchor="w")
+                        can2.create_text(50,y+25,text=_text_(can2,pl,"TkDefaultFont",12,(int(can2["width"])-25*2-15*2)-50),font=("TkDefaultFont",12),fill=col,anchor="w")
 
                         can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
 
@@ -4991,16 +5030,8 @@ def main():
                                 vw="Views"
 
 
-                            can2.create_text(50,y+50/3,text=song[:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                            can2.create_text(50,y+50/3,text=_text_(can2,song[:-4],"TkDefaultFont",12,(int(can2["width"])-25*3-15*3)-50),font=("TkDefaultFont",12),fill=col,anchor="w")
                             can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
-
-                            if song==current_playing:
-                            
-                                draw_active(can2,int(can2["width"])-25*3-15*3,y,50,col1)
-
-                            else:
-
-                                can2.create_rectangle(int(can2["width"])-25*4-15*3,y+3, int(can2["width"]),y+45,fill="#000000",outline="#000000")
 
 
                             can2.create_image(int(can2["width"])-10-25,y+12.5,image=_del_,anchor="nw")
@@ -5210,18 +5241,9 @@ def main():
 
 
 
-                can2.create_text(50,y+50/3,text=song[0][:-4],font=("TkDefaultFont",12),fill=col,anchor="w")
+                can2.create_text(50,y+50/3,text=_text_(can2,song[0][:-4],"TkDefaultFont",12,(int(can2["width"])-25*3-15*3)-50),font=("TkDefaultFont",12),fill=col,anchor="w")
                 can2.create_text(50,y+50*2.3/3,text=t+" "+vw,font=("TkDefaultFont",10),fill=col2,anchor="w")
                 
-                if song[0]==current_playing:
-                    draw_active(can2,int(can2["width"])-25*3-15*3,y,50,col1)
-
-                else:
-                    can2.create_rectangle(int(can2["width"])-25*3-15*3,y+5, int(can2["width"]),y+45,fill="#000000",outline="#000000")
-
-
-
-
 
 
 
@@ -5419,7 +5441,13 @@ def main():
 
 
 
+def get_text_length(canvas, text, font_name, font_size):
+    # Create a tkinter font object with the given font name and size
+    text_font = font.Font(family=font_name, size=font_size)
 
+    # Measure the width of the text in pixels
+    text_width = text_font.measure(text)
+    return text_width  
 
 
 
@@ -5471,6 +5499,8 @@ def draw_can():
     global quit
     global forward,backward
     global _bg_
+
+    global transparent_im,transparent_im2
 
     can.delete("all")
 
@@ -5676,6 +5706,92 @@ def draw_can():
                 can.create_image(x+40+10-5,y+2.5,image=add,anchor="nw")
 
 
+    def draw_round_rec2(c,x,y,x2,y2,r,col):
+
+
+        ar=[]
+
+        a_=270
+
+        cx,cy=x+r,y+r
+        for a in range(90):
+
+            x_=r*math.sin(math.radians(a_))+cx
+            y_=r*math.cos(math.radians(a_))+cy
+
+            ar.append(x_)
+            ar.append(y_)
+
+            a_-=1
+
+        ar.append(x)
+        ar.append(y)
+
+
+        c.create_polygon(ar,fill=col,outline=col)
+
+
+
+        ar=[]
+
+        a_=180
+
+        cx,cy=x2-r,y+r
+        for a in range(90):
+
+            x_=r*math.sin(math.radians(a_))+cx
+            y_=r*math.cos(math.radians(a_))+cy
+
+            ar.append(x_)
+            ar.append(y_)
+
+            a_-=1
+        ar.append(x2)
+        ar.append(y)
+
+        c.create_polygon(ar,fill=col,outline=col)
+
+
+
+
+        ar=[]
+
+        a_=90
+
+        cx,cy=x2-r,y2-r
+        for a in range(90):
+
+            x_=r*math.sin(math.radians(a_))+cx
+            y_=r*math.cos(math.radians(a_))+cy
+
+            ar.append(x_)
+            ar.append(y_)
+
+            a_-=1
+        ar.append(x2)
+        ar.append(y2)
+
+        c.create_polygon(ar,fill=col,outline=col)
+
+
+        ar=[]
+
+        a_=0
+
+        cx,cy=x+r,y2-r
+        for a in range(90):
+
+            x_=r*math.sin(math.radians(a_))+cx
+            y_=r*math.cos(math.radians(a_))+cy
+
+            ar.append(x_)
+            ar.append(y_)
+
+            a_-=1
+        ar.append(x)
+        ar.append(y2)
+
+        c.create_polygon(ar,fill=col,outline=col)
 
 
 
@@ -5765,9 +5881,12 @@ def draw_can():
 
 
             if select_st==1:
+                can.create_image(10,87,image=transparent_im2,anchor="nw")
+                draw_round_rec2(can,10,87,w-10,h-122+75,15,"#000000")
                 draw_round_rec(can,10,87,w-10,h-122+75,15,col1,col1,1,1)
             else:
-
+                can.create_image(10,87,image=transparent_im,anchor="nw")
+                draw_round_rec2(can,10,87,w-10,h-122,15,"#000000")
                 draw_round_rec(can,10,87,w-10,h-122,15,col1,col1,1,1)
 
 
@@ -5854,10 +5973,11 @@ def draw_can():
 
 
             if select_st==1:
-                draw_round_rec(can,10,87,w-10,h-122+75,15,"#000000",col1,0,1)
+                draw_round_rec(can,10,87,w-10,h-122+75,15,col1,col1,1,1)
             else:
 
-                draw_round_rec(can,10,87,w-10,h-122,15,"#000000",col1,0,1)
+                draw_round_rec(can,10,87,w-10,h-122,15,col1,col1,1,1)
+
 
             #can.create_line(10,70,w-10,70,fill=col1)
             #can.create_line(10,80+h-240+10,w-10,80+h-240+10,fill=col1)
@@ -5939,13 +6059,7 @@ def draw_can():
 
 
 
-    def get_text_length(canvas, text, font_name, font_size):
-        # Create a tkinter font object with the given font name and size
-        text_font = font.Font(family=font_name, size=font_size)
 
-        # Measure the width of the text in pixels
-        text_width = text_font.measure(text)
-        return text_width  
 
 
 
@@ -5988,16 +6102,14 @@ def draw_can():
 
                         can.create_text(10+15+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playlist_,font=("TkDefaultFont",12,),anchor="w",fill="#000000")
                               
-                        can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playing[:-4],font=("TkDefaultFont",12),anchor="w",fill=col1)
+                        can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=_text_(can2,current_playing[:-4],"TkDefaultFont",12,(w-10)-(10+15+length_in_pixels+15+10+30)),font=("TkDefaultFont",12),anchor="w",fill=col1)
 
                 else:
 
-                    can.create_text(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playing[:-4],font=("TkDefaultFont",12),anchor="w",fill=col1)
+                    can.create_text(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=_text_(can2,current_playing[:-4],"TkDefaultFont",12,(w-10)-(10)),font=("TkDefaultFont",12),anchor="w",fill=col1)
             except:
                 pass
 
-
-            can.create_rectangle(w-10, h-20-60-20-27-15+3+10+3+2+2-3+15-13+10, w, h-20-60-20-27-15+3+10+3+2+2-3+15+13+10,fill="#000000",outline="#000000")
 
             """
             if not current_playing=="":
@@ -6551,6 +6663,7 @@ def load_im():
     global add,add2
     global headphones2
     global forward,backward
+    global headphones_
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -6579,6 +6692,7 @@ def load_im():
     shuffle1=ImageTk.PhotoImage(file="data/shuffle1.png")
     shuffle2=ImageTk.PhotoImage(file="data/shuffle2.png")
     headphones=ImageTk.PhotoImage(file="data/headphones.png")
+    headphones_=ImageTk.PhotoImage(file="data/headphones_.png")
     headphones2=ImageTk.PhotoImage(file="data/headphones2.png")
     playlist1=ImageTk.PhotoImage(file="data/playlist1.png")
     playlist2=ImageTk.PhotoImage(file="data/playlist2.png")
@@ -6606,17 +6720,22 @@ def load_im():
 
 
 
-images = []  # to hold the newly created image
+
+transparent_im=None
+transparent_im2=None
 
 def create_rectangle(can,x1, y1, x2, y2, **kwargs):
-    global images
+    global transparent_im,transparent_im2
     if 'alpha' in kwargs:
         alpha = int(kwargs.pop('alpha') * 255)
         fill = kwargs.pop('fill')
         fill = root.winfo_rgb(fill) + (alpha,)
         image = Image.new('RGBA', (x2-x1, y2-y1), fill)
-        images.append(ImageTk.PhotoImage(image))
-        can.create_image(x1, y1, image=images[-1], anchor='nw')
+        image2 = Image.new('RGBA', (x2-x1, (y2+75)-y1), fill)
+
+        transparent_im=ImageTk.PhotoImage(image)
+        transparent_im2=ImageTk.PhotoImage(image2)
+        #can.create_image(x1, y1, image=images1[-1], anchor='nw')
 
 
 
@@ -7085,6 +7204,8 @@ forward=None
 backward=None
 
 
+headphones_=None
+
 try:
 
 
@@ -7263,6 +7384,8 @@ def move_bg():
     global w
     global music_details,current_playing
     global can2_y,lyrics_y
+    global select_st,transparent_im_,transparent_im2_
+
 
 
 
@@ -7270,9 +7393,12 @@ def move_bg():
 
         if not can2_y==can2.canvasy(0):
 
-            can2.coords(_bg2_,w-260-10,-(87+15)+can2.canvasy(0))
+            can2.coords(_bg2_,w-260-10-1+271,-(87+15)+can2.canvasy(0))
+
+            
 
             can2_y=can2.canvasy(0)
+
     except:
         pass
 
@@ -7304,8 +7430,9 @@ def _on_mousewheel(e):
     global can2,can3,yyy,h,add_st
     global ylyric,lyric_st,lst
     global music_details,current_playing,can_lyrics
-    global _bg2_
+    global _bg2_,_bg3_
     global w
+    global select_st,transparent_im,transparent_im2
 
     if add_st==0 and lst==1:
 
@@ -7315,8 +7442,9 @@ def _on_mousewheel(e):
             
 
 
-            can2.coords(_bg2_,w-260-10,-(87+15)+can2.canvasy(0))
+            can2.coords(_bg2_,w-260-10-1+271,-(87+15)+can2.canvasy(0))
      
+
 
 
     elif add_st==1:
@@ -7327,6 +7455,8 @@ def _on_mousewheel(e):
     if lyric_st==1:
         if not music_details[current_playing][2]=="":
             can_lyrics.yview_scroll(int(-1*(e.delta/120)), "units")
+
+            can_lyrics.coords(_bg3_,w-260-10,-(50)+can_lyrics.canvasy(0))
 
 
 
@@ -7539,6 +7669,44 @@ def play_previous(e):
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
 
+def __list(e):
+    global lst,lyric_st,can_lyrics,can2,st,playlist_st,_search,frame
+    global songs_status,current_playlist
+
+    if e.char.lower()=="l":
+
+
+        if lst==0:
+            lyric_st=0
+            lst=1
+            can_lyrics.place_forget()
+
+
+            can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
+
+        elif lst==1:
+
+            if st==2 and playlist_st==0:
+                pass
+            else:
+                lst=0
+                _search=0
+
+                frame.place_forget()
+
+        main()
+
+        if st==songs_status[0]:
+
+            if st==2:
+                if current_playlist==songs_status[1]:
+                    move_to_playing(1)
+
+            else:
+                move_to_playing(1)
+
+
+
 can=tk.Canvas(width=w,height=h,bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="arrow")
 can.place(in_=root,x=0,y=0)
 
@@ -7549,6 +7717,7 @@ can.bind("<space>",play_pause)
 can.bind("<Right>",play_next)
 can.bind("<Left>",play_previous)
 can.bind("<Motion>",can_motion)
+can.bind("<KeyPress>",__list)
 
 
 
@@ -7640,7 +7809,7 @@ can2.bind("<Button-3>",can_b3)
 can2.bind("<space>",play_pause)
 can2.bind("<Right>",play_next)
 can2.bind("<Left>",play_previous)
-
+can2.bind("<KeyPress>",__list)
 
 
 sb=ttk.Scrollbar(frame,orient=tk.VERTICAL,style="My.Vertical.TScrollbar")
