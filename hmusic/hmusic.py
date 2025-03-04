@@ -3843,8 +3843,8 @@ def main():
 
 
     style.configure("My.Vertical.TScrollbar", gripcount=0, background=col1,
-                    troughcolor="#001100", borderwidth=0, bordercolor="#001100",
-                    lightcolor="#001100",relief="flat", darkcolor="#001100",
+                    troughcolor="#000f00", borderwidth=0, bordercolor="#000f00",
+                    lightcolor="#000f00",relief="flat", darkcolor="#000f00",
                     arrowsize=7)
 
 
@@ -3916,7 +3916,7 @@ def main():
     _bg2_=can2.create_image(w-260-10-1+271,-(87+15)+can2.canvasy(0),image=headphones_,anchor="ne")
 
 
-    create_rectangle(can2,0, 0, w-20, (h-122)-87, fill='#00ff00', alpha=.07)
+    create_rectangle(can2,0, 0, w-20, (h-122)-87, fill='#00ff00', alpha=.06)
     
 
 
@@ -6345,7 +6345,7 @@ def draw_can():
 
         length_in_pixels = get_text_length(can, playlist_select, "TkDefaultFont", 13) 
 
-        x=10#(w-(30+5+length_in_pixels))/2
+        x=(w-(30+5+length_in_pixels))/2
 
         can.create_image(x,(h-122+75)+((h-1)-(h-122+75))/2-11,image=playlist2,anchor="nw")
 
