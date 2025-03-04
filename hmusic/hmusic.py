@@ -3843,8 +3843,8 @@ def main():
 
 
     style.configure("My.Vertical.TScrollbar", gripcount=0, background=col1,
-                    troughcolor="#000f00", borderwidth=0, bordercolor="#000f00",
-                    lightcolor="#000f00",relief="flat", darkcolor="#000f00",
+                    troughcolor="#001400", borderwidth=0, bordercolor="#001400",
+                    lightcolor="#001400",relief="flat", darkcolor="#001400",
                     arrowsize=7)
 
 
@@ -3916,7 +3916,7 @@ def main():
     _bg2_=can2.create_image(w-260-10-1+271,-(87+15)+can2.canvasy(0),image=headphones_,anchor="ne")
 
 
-    create_rectangle(can2,0, 0, w-20, (h-122)-87, fill='#00ff00', alpha=.06)
+    create_rectangle(can2,0, 0, w-20, (h-122)-87, fill='#00ff00', alpha=.08)
     
 
 
