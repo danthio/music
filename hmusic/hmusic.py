@@ -2048,7 +2048,7 @@ def can2_b1(e):
 
 def move_to_playing(con_=0):
     global current_playing,can2
-    global songs
+    global songs,_songs_
     global select_st
     global playlist_st,can2
 
@@ -2081,12 +2081,12 @@ def move_to_playing(con_=0):
             if con==1:
 
 
-                for s in songs:
+                for s in _songs_:
 
                     if s[0]==current_playing:
 
 
-                        t=len(songs)*50
+                        t=len(_songs_)*50
 
 
                         v=s[1]
@@ -5421,10 +5421,10 @@ def main():
 
 
     
+    #1c7e53"
 
 
-
-    draw_round_rec(can,0,0,w-1,h-1,25,"#1c7e53","",1)
+    draw_round_rec(can,0,0,w-1,h-1,25,col2,"",1)
 
     """
         r=10
