@@ -3543,6 +3543,9 @@ def check_volume():
 
         can.delete(vol1)
         can.delete(vol2)
+        can.delete(vol3)
+        can.delete(vol4)        
+
 
         r=(w-10)-(w-10-100)
 
