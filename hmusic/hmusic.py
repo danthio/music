@@ -1133,78 +1133,77 @@ def can3_b1(e):
 
         if p[2]<=can3.canvasy(e.y)<=p[2]+50:
 
-            if not current_playing=="":
-                create_playlist(p[0],1,p[1])
-                main()
+            create_playlist(p[0],1,p[1])
+            main()
 
 
-                if current_playing==p[1]:
+            if current_playing==p[1]:
 
-                    if not songs_status[1]=="":
+                if not songs_status[1]=="":
 
-                        try:
-                            v=playlist[songs_status[1]].index(current_playing)
-                        except:
-
-
-
-
-                            cp=p[1]
-
-
-                            
-
-                            if len(_songs_)-1==mvar:
-                                mvar=0
-                            else:
-                                mvar=mvar+1
-
-                                
+                    try:
+                        v=playlist[songs_status[1]].index(current_playing)
+                    except:
 
 
 
 
-                            current_playing=_songs_[mvar][0]
+                        cp=p[1]
 
-                            tm=0
+
+                        
+
+                        if len(_songs_)-1==mvar:
+                            mvar=0
+                        else:
+                            mvar=mvar+1
 
                             
 
-                            if play_st==0:
-                                play_music("music/"+current_playing,tm,1)
-                                pygame.mixer.quit()
-                            else:
-                                play_music("music/"+current_playing,tm)
+
+
+
+                        current_playing=_songs_[mvar][0]
+
+                        tm=0
+
+                        
+
+                        if play_st==0:
+                            play_music("music/"+current_playing,tm,1)
+                            pygame.mixer.quit()
+                        else:
+                            play_music("music/"+current_playing,tm)
 
 
 
 
 
 
-                            
-                            songs_status[-1]=current_playing
+                        
+                        songs_status[-1]=current_playing
 
 
 
-                            ar=[]
-                            for s in range(len(_songs_)):
+                        ar=[]
+                        for s in range(len(_songs_)):
 
-                                if cp==_songs_[s][0]:
+                            if cp==_songs_[s][0]:
 
-                                    if p[1]==_songs_[s][0]:
-                                        ar.append(s)
+                                if p[1]==_songs_[s][0]:
+                                    ar.append(s)
 
-                            for p in ar:
-                                _songs_.pop(p)
-
-
+                        for p in ar:
+                            _songs_.pop(p)
 
 
-                            if len(_songs_)==0:
-                                current_playing=""
 
 
-                move_to_playing()
+                        if len(_songs_)==0:
+                            current_playing=""
+
+
+            move_to_playing()
 
 
             #add_st=0
@@ -1454,9 +1453,9 @@ def can2_b1(e):
     _search=0
     _npl=0
 
-    #search.delete(0,tk.END)
+    search.delete(0,tk.END)
 
-    #search.place_forget()
+    search.place_forget()
     npl.place_forget()
 
     main()   
@@ -1466,6 +1465,7 @@ def can2_b1(e):
     can_sort.place_forget()
 
     frame2.place_forget()
+    can3["scrollregion"]=(0,0,int(can3["width"]),int(can3["height"]))
 
 
 
@@ -1573,7 +1573,7 @@ def can2_b1(e):
 
                     if st==songs_status[0]:
                         if st==2:
-                            if current_playlist==songs_status[1]:
+                            if _pl[0]==songs_status[1]:
 
                                 try:
                                     play_music("music/"+current_playing,tm,1)
@@ -1755,7 +1755,6 @@ def can2_b1(e):
 
                     song_add_pl=s[0]
 
-                    can3["scrollregion"]=(0,0,int(can3["width"]),int(can3["height"]))
 
                     add_playlist()
 
@@ -1989,10 +1988,6 @@ def move_to_playing(con_=0):
         if select_st==1:
             return
 
-        if playlist_st==0:
-            can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
-            main()
-            return
 
         if not current_playing=="":
 
@@ -2137,6 +2132,7 @@ def can_b1(e):
     global forward,backward,tot_tm_
     global can2
     global bg
+    global can3
 
 
 
@@ -2206,6 +2202,7 @@ def can_b1(e):
 
     add_st=0
     frame2.place_forget()
+    can3["scrollregion"]=(0,0,int(can3["width"]),int(can3["height"]))
 
     xv=w/6
 
@@ -2639,8 +2636,13 @@ def can_b1(e):
 
 
 
-                if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+                if st==2 and playlist_st==0 and pl_st==0:
                     return
+
+
+                if current_playing=="":
+                    return
+
 
 
                 st_=st
@@ -2707,9 +2709,12 @@ def can_b1(e):
 
 
 
-                if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+                if st==2 and playlist_st==0 and pl_st==0:
                     return
 
+
+                if current_playing=="":
+                    return
 
 
                 st_=st
@@ -6866,7 +6871,10 @@ def play_next(e):
     global playlist_st,current_playlist,songs_status
 
 
-    if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+    if st==2 and playlist_st==0 and pl_st==0:
+        return
+
+    if current_playing=="":
         return
 
 
@@ -6938,10 +6946,11 @@ def play_previous(e):
     global playlist_st,current_playlist,songs_status
 
 
-    if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+    if st==2 and playlist_st==0 and pl_st==0:
         return
 
-
+    if current_playing=="":
+        return
 
     
     st_=st
