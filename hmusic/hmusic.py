@@ -1124,6 +1124,7 @@ def timer():
 def can3_b1(e):
     global sel_playlist,can3,frame2,add_st,current_playing,current_playlist,playlist,songs,mvar,tm
     global st,songs_status,_songs_
+    global playlist_st
 
 
     #add_st=0
@@ -1139,7 +1140,7 @@ def can3_b1(e):
 
             if current_playing==p[1]:
 
-                if not songs_status[1]=="":
+                if songs_status[1]==p[0]:
 
                     try:
                         v=playlist[songs_status[1]].index(current_playing)
@@ -1153,35 +1154,7 @@ def can3_b1(e):
 
                         
 
-                        if len(_songs_)-1==mvar:
-                            mvar=0
-                        else:
-                            mvar=mvar+1
 
-                            
-
-
-
-
-                        current_playing=_songs_[mvar][0]
-
-                        tm=0
-
-                        
-
-                        if play_st==0:
-                            play_music("music/"+current_playing,tm,1)
-                            pygame.mixer.quit()
-                        else:
-                            play_music("music/"+current_playing,tm)
-
-
-
-
-
-
-                        
-                        songs_status[-1]=current_playing
 
 
 
@@ -1190,24 +1163,46 @@ def can3_b1(e):
 
                             if cp==_songs_[s][0]:
 
-                                if p[1]==_songs_[s][0]:
-                                    ar.append(s)
+                                ar.append(s)
 
                         for p in ar:
                             _songs_.pop(p)
 
+                        if len(_songs_)==1:
+                            mvar=0
+                        elif len(_songs_)==0:
 
-
-
-                        if len(_songs_)==0:
                             current_playing=""
+                            pygame.mixer.quit()
+                        elif mvar==len(_songs_):
+                            mvar=0
+
+                        if not current_playing=="":
 
 
-            move_to_playing()
+                            current_playing=_songs_[mvar][0]
+
+                            tm=0
+
+                            
+
+                            if play_st==0:
+                                play_music("music/"+current_playing,tm,1)
+                                pygame.mixer.quit()
+                            else:
+                                play_music("music/"+current_playing,tm)
+
+                            move_to_playing()
 
 
-            #add_st=0
-            #frame2.place_forget()
+
+
+
+
+                            
+                        songs_status[-1]=current_playing
+
+
 
             add_playlist()
             can2.focus_set()
@@ -1342,7 +1337,7 @@ def can2_b1(e):
     global loop
     global lyric_st
     global song_add_pl
-    global _songs__
+    global _songs_
 
 
 
@@ -1365,7 +1360,7 @@ def can2_b1(e):
 
                 if current_playing==songs2[a][0]:
 
-                    if not songs_status[1]=="":
+                    if songs_status[1]==playlist_select:
 
                         try:
                             v=playlist[songs_status[1]].index(current_playing)
@@ -1379,34 +1374,7 @@ def can2_b1(e):
 
                             
 
-                            if len(_songs_)-1==mvar:
-                                mvar=0
-                            else:
-                                mvar=mvar+1
 
-                                
-
-
-
-
-                            current_playing=_songs_[mvar][0]
-
-                            tm=0
-
-
-                            if play_st==0:
-                                play_music("music/"+current_playing,tm,1)
-                                pygame.mixer.quit()
-                            else:
-                                play_music("music/"+current_playing,tm)
-
-
-
-
-
-
-                            
-                            songs_status[-1]=current_playing
 
 
 
@@ -1415,47 +1383,59 @@ def can2_b1(e):
 
                                 if cp==_songs_[s][0]:
 
-                                    if songs2[a][0]==_songs_[s][0]:
-                                        ar.append(s)
+                                    ar.append(s)
 
                             for p in ar:
                                 _songs_.pop(p)
 
+                            if len(_songs_)==1:
+                                mvar=0
+                            elif len(_songs_)==0:
 
-
-
-                            if len(_songs_)==0:
                                 current_playing=""
+                                pygame.mixer.quit()
+
+                            elif mvar==len(_songs_):
+                                mvar=0
+
+                            if not current_playing=="":
+
+
+                                current_playing=_songs_[mvar][0]
+
+                                tm=0
+
+                                
+
+                                if play_st==0:
+                                    play_music("music/"+current_playing,tm,1)
+                                    pygame.mixer.quit()
+                                else:
+                                    play_music("music/"+current_playing,tm)
+
+
+
+
+
+
+                                
+                            songs_status[-1]=current_playing
+
+
+
 
                 main()
-
-                move_to_playing()
-
-
-                            
-
-
-
-
-
-
-
-
-
-
-
 
                 return
 
 
 
 
-    _search=0
+    
     _npl=0
 
-    search.delete(0,tk.END)
 
-    search.place_forget()
+
     npl.place_forget()
 
     main()   
@@ -1556,6 +1536,13 @@ def can2_b1(e):
 
                 can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
+
+                _search=0
+
+                search.delete(0,tk.END)
+
+                search.place_forget()
+
                 main()
 
                 return
@@ -1631,7 +1618,13 @@ def can2_b1(e):
                 main()
                 return
 
+        _search=0
 
+        search.delete(0,tk.END)
+
+        search.place_forget()
+
+        main()
 
 
         return
@@ -1971,6 +1964,7 @@ def can2_b1(e):
             move_to_playing()
 
             return
+
 
 
 
@@ -3831,14 +3825,14 @@ def main():
 
 
     style.configure("My.Vertical.TScrollbar", gripcount=0, background=col1,
-                    troughcolor="#3b1528", borderwidth=0, bordercolor="#3b1528",
-                    lightcolor="#3b1528",relief="flat", darkcolor="#3b1528",
+                    troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
+                    lightcolor="#471e31",relief="flat", darkcolor="#471e31",
                     arrowsize=6)
 
 
     style2.configure("My.Vertical.TScrollbar2", gripcount=0, background=col1,
-                    troughcolor='#1c1626', borderwidth=0, bordercolor='#1c1626',
-                    lightcolor='#1c1626',relief="flat", darkcolor='#1c1626',
+                    troughcolor='#250f25', borderwidth=0, bordercolor='#250f25',
+                    lightcolor='#250f25',relief="flat", darkcolor='#250f25',
                     arrowsize=6)
 
 
@@ -4453,9 +4447,9 @@ def main():
 
 
 
-                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#3b1528",
-                                troughcolor="#3b1528", borderwidth=0, bordercolor="#3b1528",
-                                lightcolor="#3b1528",relief="flat", darkcolor="#3b1528",
+                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
+                                troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
+                                lightcolor="#471e31",relief="flat", darkcolor="#471e31",
                                 arrowsize=6)
 
 
@@ -4604,9 +4598,9 @@ def main():
                 #can2.create_text(int(can2["width"])/2,((h-121)-80-10)/2,text="No Record!",font=("FreeMono",12),fill=col1)
 
 
-                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#3b1528",
-                                troughcolor="#3b1528", borderwidth=0, bordercolor="#3b1528",
-                                lightcolor="#3b1528",relief="flat", darkcolor="#3b1528",
+                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
+                                troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
+                                lightcolor="#471e31",relief="flat", darkcolor="#471e31",
                                 arrowsize=6)
 
 
@@ -4622,10 +4616,10 @@ def main():
 
                 if _search==1:
 
-                    can.create_oval(10,40, 10+30,40+30,fill="#3b1528",outline="#3b1528")
-                    can.create_oval(w-10-30,40, w-10,40+30,fill="#3b1528",outline="#3b1528")
+                    can.create_oval(10,40, 10+30,40+30,fill="#471e31",outline="#471e31")
+                    can.create_oval(w-10-30,40, w-10,40+30,fill="#471e31",outline="#471e31")
 
-                    can.create_rectangle(10+15,40, w-10-15,40+30,fill="#3b1528",outline="#3b1528")
+                    can.create_rectangle(10+15,40, w-10-15,40+30,fill="#471e31",outline="#471e31")
 
 
 
@@ -4825,9 +4819,9 @@ def main():
                     #can2.create_text(int(can2["width"])/2,y+(((h-121)-80-10)-y)/2,text="No Record",font=("FreeMono",12),fill=col1)
 
 
-                    style.configure("My.Vertical.TScrollbar", gripcount=0, background="#3b1528",
-                                    troughcolor="#3b1528", borderwidth=0, bordercolor="#3b1528",
-                                    lightcolor="#3b1528",relief="flat", darkcolor="#3b1528",
+                    style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
+                                    troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
+                                    lightcolor="#471e31",relief="flat", darkcolor="#471e31",
                                     arrowsize=6)
 
 
@@ -5009,9 +5003,9 @@ def main():
                     #can2.create_text(int(can2["width"])/2,((h-121)-80-10)/2,text="No Record!",font=("FreeMono",12),fill=col1)
 
 
-                    style.configure("My.Vertical.TScrollbar", gripcount=0, background="#3b1528",
-                                    troughcolor="#3b1528", borderwidth=0, bordercolor="#3b1528",
-                                    lightcolor="#3b1528",relief="flat", darkcolor="#3b1528",
+                    style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
+                                    troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
+                                    lightcolor="#471e31",relief="flat", darkcolor="#471e31",
                                     arrowsize=6)
 
 
@@ -5185,9 +5179,9 @@ def main():
                 #can2.create_text(int(can2["width"])/2,((h-121)-80-10)/2,text="No Record!",font=("FreeMono",12),fill=col1)
 
 
-                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#3b1528",
-                                troughcolor="#3b1528", borderwidth=0, bordercolor="#3b1528",
-                                lightcolor="#3b1528",relief="flat", darkcolor="#3b1528",
+                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
+                                troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
+                                lightcolor="#471e31",relief="flat", darkcolor="#471e31",
                                 arrowsize=6)
 
         """
@@ -5254,7 +5248,7 @@ def main():
 
 
 
-    draw_round_rec(can,0,0,w-1,h-1,20,col1,"",1)
+    draw_round_rec(can,0,0,w-1,h-1,30,col1,"",1)
 
 
     can.create_image(w-10-25,(50-25)/2,image=quit,anchor="nw")
@@ -5467,7 +5461,7 @@ def draw_can():
         c.create_polygon(ar,fill=col,outline=col)
 
 
-    draw_round_rec2(can,0,0,w-1,h-1,20,"#333333")
+    draw_round_rec2(can,0,0,w-1,h-1,30,"#333333")
 
 
 
