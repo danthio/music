@@ -1266,7 +1266,7 @@ def add_playlist():
 
         can3.create_image(10,y+10+4,image=playlist2,anchor="nw")
         can3.create_text(10+30+10,y+25,text=p,font=("FreeMono",12),anchor="w",fill=col1)
-        #can3.create_line(0,y+50,450-7,y+50,fill="#240631")
+        #can3.create_line(0,y+50,450-7,y+50,fill="#360b4e")
 
         try:
             v=ar.index(song_add_pl)
@@ -2916,7 +2916,7 @@ def can_b1(e):
 
                         can_sort.create_text(10,y+15,text=_,font=("FreeMono",12),fill=col1,anchor="w")
 
-                        #can_sort.create_line(0,y+30,250,y+30,fill="#240631")
+                        #can_sort.create_line(0,y+30,250,y+30,fill="#360b4e")
 
                         sort_ar.append([_,y])
 
@@ -3502,6 +3502,7 @@ def can_b1(e):
 
 
                 lst=1
+                lyric_st=0
 
                 
 
@@ -3787,7 +3788,7 @@ def main():
 
     can["bg"]="#333333"
 
-    can2["bg"]="#240631"
+    can2["bg"]="#360b4e"
 
 
     if root_st==1:
@@ -4068,9 +4069,9 @@ def main():
             #can2.create_text((w-7)/2,((h-121)-80-10)/2,text="No Record!",font=("FreeMono",12),fill=col1)
 
 
-            style.configure("My.Vertical.TScrollbar", gripcount=0, background="#240631",
-                            troughcolor="#240631", borderwidth=0, bordercolor="#240631",
-                            lightcolor="#240631",relief="flat", darkcolor="#240631",
+            style.configure("My.Vertical.TScrollbar", gripcount=0, background="#360b4e",
+                            troughcolor="#360b4e", borderwidth=0, bordercolor="#360b4e",
+                            lightcolor="#360b4e",relief="flat", darkcolor="#360b4e",
                             arrowsize=6)
 
 
@@ -4186,7 +4187,7 @@ def main():
 
 
 
-        #hex(can,-30,-30,w+60,h+60,30,"#390200","#240631")
+        #hex(can,-30,-30,w+60,h+60,30,"#390200","#360b4e")
 
         """
         if expand_st==0:
@@ -4203,7 +4204,7 @@ def main():
         #can2.create_image(-10,can2.canvasy(-(80-30+40))-h,image=wallpaper,anchor="nw")
         #can2.create_image(-10,can2.canvasy(-(80-30+40)),image=wallpaper,anchor="nw",tags="fixed_image")
         #can2.create_image(-10,can2.canvasy(-(80-30+40))+h,image=wallpaper,anchor="nw")
-        #create_rectangle(can2,0, int(can2.canvasy(0))-h, int(can2["width"]), int(can2.canvasy(int(can2["height"])))+h, fill='#240631', alpha=.65)
+        #create_rectangle(can2,0, int(can2.canvasy(0))-h, int(can2["width"]), int(can2.canvasy(int(can2["height"])))+h, fill='#360b4e', alpha=.65)
 
 
 
@@ -4312,7 +4313,7 @@ def main():
 
                     if song==current_playing:
 
-                        can2.create_line(2,y, int(can2["width"]),y,fill="#240631")
+                        can2.create_line(2,y, int(can2["width"]),y,fill="#360b4e")
 
 
                         #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
@@ -4321,7 +4322,7 @@ def main():
 
                         draw_active(can2,0,y,int(can2["width"])-1,51,col1)
                         can2.create_image(5,y+10,image=musical_note1,anchor="nw")
-                        col="#240631"
+                        col="#360b4e"
 
                         _del_=delete2
 
@@ -4494,14 +4495,14 @@ def main():
                     if music_details[song][0]==1:
 
                         if song==current_playing:
-                            can2.create_line(2,y, int(can2["width"]),y,fill="#240631")
+                            can2.create_line(2,y, int(can2["width"]),y,fill="#360b4e")
 
                             #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
                             #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
                             draw_active(can2,0,y,int(can2["width"])-1,51,col1)
 
-                            col="#240631"
+                            col="#360b4e"
 
                             can2.create_image(5,y+10,image=musical_note1,anchor="nw")
                             _del_=delete2
@@ -4669,10 +4670,10 @@ def main():
 
                 if _npl==1:
 
-                    can2.create_oval(10,y, 10+30,y+30, fill="#240631",outline="#240631")
-                    can2.create_oval(int(can2["width"])-10-30,y, int(can2["width"])-10,y+30,fill="#240631",outline="#240631")
+                    can2.create_oval(10,y, 10+30,y+30, fill="#360b4e",outline="#360b4e")
+                    can2.create_oval(int(can2["width"])-10-30,y, int(can2["width"])-10,y+30,fill="#360b4e",outline="#360b4e")
 
-                    can2.create_rectangle(10+15,y, int(can2["width"])-10-15,y+30,fill="#240631",outline="#240631")
+                    can2.create_rectangle(10+15,y, int(can2["width"])-10-15,y+30,fill="#360b4e",outline="#360b4e")
 
 
 
@@ -4710,7 +4711,7 @@ def main():
                 can2.create_rectangle(int(can2["width"])/2-100,y, int(can2["width"])/2+100,y+30-1,fill=col1,outline=col1)
 
 
-                can2.create_text(int(can2["width"])/2,y+15,text="Create New Playlist",font=("FreeMono",12),fill="#240631")
+                can2.create_text(int(can2["width"])/2,y+15,text="Create New Playlist",font=("FreeMono",12),fill="#360b4e")
 
                 y+=30+20
 
@@ -4766,14 +4767,14 @@ def main():
 
 
                         if current_playlist==pl:
-                            can2.create_line(2,y, int(can2["width"]),y,fill="#240631")
+                            can2.create_line(2,y, int(can2["width"]),y,fill="#360b4e")
 
                             #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
                             #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
 
                             draw_active(can2,0,y,int(can2["width"])-1,51,col1)
 
-                            col="#240631"
+                            col="#360b4e"
                             _pl_=playlist3
                             _del_=delete2
 
@@ -4880,7 +4881,7 @@ def main():
 
                         
                             if song==current_playing:
-                                can2.create_line(2,y, int(can2["width"]),y,fill="#240631")
+                                can2.create_line(2,y, int(can2["width"]),y,fill="#360b4e")
 
                                 #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
                                 #draw_round_rec(can2,2,y, int(can2["width"]),y+50,10,col1,col1,0)
@@ -4890,7 +4891,7 @@ def main():
                                 _del_=delete2
 
                                 can2.create_image(5,y+10,image=musical_note1,anchor="nw")
-                                col="#240631"
+                                col="#360b4e"
 
                             else:
 
@@ -5064,7 +5065,7 @@ def main():
 
 
                 if song[0]==current_playing:
-                    can2.create_line(2,y, int(can2["width"]),y,fill="#240631")
+                    can2.create_line(2,y, int(can2["width"]),y,fill="#360b4e")
 
                     #can2.create_rectangle(2,y, int(can2["width"]),y+50-1,fill=col1,outline=col1)
 
@@ -5072,7 +5073,7 @@ def main():
 
                     draw_active(can2,0,y,int(can2["width"])-1,51,col1)
 
-                    col="#240631"
+                    col="#360b4e"
                     _del_=delete2
 
                     can2.create_image(5,y+10,image=musical_note1,anchor="nw")
@@ -5186,12 +5187,12 @@ def main():
 
         """
         if y<=((h-121)-80-10):
-            hex(can2,-30,-30,w+60,int(can2["height"])+60,30,"#390200","#240631")
+            hex(can2,-30,-30,w+60,int(can2["height"])+60,30,"#390200","#360b4e")
 
 
         else:
 
-            hex(can2,-30,-30,w+60,y+60,30,"#390200","#240631")
+            hex(can2,-30,-30,w+60,y+60,30,"#390200","#360b4e")
 
         """
 
@@ -5362,7 +5363,7 @@ def draw_can():
 
 
 
-    can["bg"]="#240631"
+    can["bg"]="#360b4e"
 
     can.create_image(0,0,image=bg,anchor="nw")
 
@@ -5522,7 +5523,7 @@ def draw_can():
 
                 can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col1,outline=col1)
 
-                can.create_text(x,y+15,text="Lyrics",font=("FreeMono",12),fill="#240631")
+                can.create_text(x,y+15,text="Lyrics",font=("FreeMono",12),fill="#360b4e")
 
 
                 can.create_image(x+40+10-5,y+2.5,image=add,anchor="nw")
@@ -5546,10 +5547,10 @@ def draw_can():
             
             if _search==1:
 
-                can.create_oval(10,40+30-10-5-5, 10+30,40+30+30-10-5-5,fill="#240631",outline="#240631")
-                can.create_oval(w-10-30-1,40+30-10-5-5, w-10-1,40+30+30-10-5-5,fill="#240631",outline="#240631")
+                can.create_oval(10,40+30-10-5-5, 10+30,40+30+30-10-5-5,fill="#360b4e",outline="#360b4e")
+                can.create_oval(w-10-30-1,40+30-10-5-5, w-10-1,40+30+30-10-5-5,fill="#360b4e",outline="#360b4e")
 
-                can.create_rectangle(10+15,40+30-10-5-5, w-10-15-1,40+30+30-10-5-5,fill="#240631",outline="#240631")
+                can.create_rectangle(10+15,40+30-10-5-5, w-10-15-1,40+30+30-10-5-5,fill="#360b4e",outline="#360b4e")
             
 
 
@@ -5649,7 +5650,7 @@ def draw_can():
         col=col1
 
         if l==st:
-            col="#240631"
+            col="#360b4e"
 
 
 
@@ -5714,7 +5715,7 @@ def draw_can():
 
                         can.create_image(10+15,h-20-60-20-27-15+3+10+5+3+2+2-3+2+10, image=playlist4,anchor="nw")
 
-                        can.create_text(10+15+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playlist_,font=("FreeMono",12,),anchor="w",fill="#240631")
+                        can.create_text(10+15+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playlist_,font=("FreeMono",12,),anchor="w",fill="#360b4e")
                               
                         can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=_text_(can2,current_playing[:-4],"FreeMono",12,(w-10)-(10+15+length_in_pixels+15+10+30)),font=("FreeMono",12),anchor="w",fill=col1)
 
@@ -5906,7 +5907,7 @@ def draw_can():
 
 
 
-        can.create_text(w/2,yv+15,text="Add Folder",fill="#240631",font=("FreeMono",12))
+        can.create_text(w/2,yv+15,text="Add Folder",fill="#360b4e",font=("FreeMono",12))
 
 
 
@@ -5919,7 +5920,7 @@ def draw_can():
         can.create_rectangle(w/2-80,yv+60, w/2+80,yv+30-1+60,fill=col1,outline=col1)
 
 
-        can.create_text(w/2,yv+15+60,text="Add Audio File",fill="#240631",font=("FreeMono",12))
+        can.create_text(w/2,yv+15+60,text="Add Audio File",fill="#360b4e",font=("FreeMono",12))
 
         prog()
 
@@ -6068,7 +6069,7 @@ def show_lyrics():
                     
 
 
-                    can_lyrics["bg"]="#240631"
+                    can_lyrics["bg"]="#360b4e"
 
                     can_lyrics["width"]=w-20
                     can_lyrics["height"]=(h-121-30-50/2+(50-30)/2)-50
@@ -7045,7 +7046,7 @@ def __list(e):
 
 
 
-can=tk.Canvas(width=w,height=h,bg="#240631",relief="flat",highlightthickness=0,border=0,cursor="arrow")
+can=tk.Canvas(width=w,height=h,bg="#360b4e",relief="flat",highlightthickness=0,border=0,cursor="arrow")
 can.place(in_=root,x=0,y=0)
 
 can.bind("<Button-1>",can_b1)
@@ -7084,8 +7085,8 @@ style.layout("My.Vertical.TScrollbar",
 
 
 style.configure("My.Vertical.TScrollbar", gripcount=0, background=col1,
-                troughcolor='#240631', borderwidth=0, bordercolor='#240631',
-                lightcolor='#240631',relief="flat", darkcolor='#240631',
+                troughcolor='#360b4e', borderwidth=0, bordercolor='#360b4e',
+                lightcolor='#360b4e',relief="flat", darkcolor='#360b4e',
                 arrowsize=6)
 
 
@@ -7115,8 +7116,8 @@ style2.layout("My.Vertical.TScrollbar2",
 
 
 style2.configure("My.Vertical.TScrollbar2", gripcount=0, background=col1,
-                troughcolor='#240631', borderwidth=0, bordercolor='#240631',
-                lightcolor='#240631',relief="flat", darkcolor='#240631',
+                troughcolor='#360b4e', borderwidth=0, bordercolor='#360b4e',
+                lightcolor='#360b4e',relief="flat", darkcolor='#360b4e',
                 arrowsize=6)
 
 
@@ -7133,9 +7134,9 @@ style2.configure("My.Vertical.TScrollbar2", gripcount=0, background=col1,
         
 
 
-frame=tk.Frame(bg="#240631",width=w-20,height=((h-121)-80-10))
+frame=tk.Frame(bg="#360b4e",width=w-20,height=((h-121)-80-10))
 
-can2=tk.Canvas(frame,bg="#240631",width=w-20,height=((h-121)-80-10),relief="flat",highlightthickness=0,border=0)
+can2=tk.Canvas(frame,bg="#360b4e",width=w-20,height=((h-121)-80-10),relief="flat",highlightthickness=0,border=0)
 can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
 can2.pack(side=tk.LEFT)
@@ -7157,17 +7158,17 @@ sb.pack(side=tk.LEFT,fill=tk.Y)
 
 
 
-frame2=tk.Frame(bg="#240631",width=350+100,height=250)
+frame2=tk.Frame(bg="#360b4e",width=350+100,height=250)
 
-can4=tk.Canvas(frame2,bg="#240631",width=350+100,height=40,relief="flat",highlightthickness=0,border=0,
+can4=tk.Canvas(frame2,bg="#360b4e",width=350+100,height=40,relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,300-7,250))
 can4.pack(side=tk.TOP)
 
 
 
-frame3=tk.Frame(frame2,bg="#240631",width=350+100,height=250-40)
+frame3=tk.Frame(frame2,bg="#360b4e",width=350+100,height=250-40)
 
-can3=tk.Canvas(frame3,bg="#240631",width=350+100-5-2-1,height=250-40,relief="flat",highlightthickness=0,border=0,
+can3=tk.Canvas(frame3,bg="#360b4e",width=350+100-5-2-1,height=250-40,relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,300-7,250-40))
 can3.pack(side=tk.LEFT)
 can3.bind_all("<MouseWheel>",_on_mousewheel)
@@ -7184,7 +7185,7 @@ can3.config(yscrollcommand=sb2.set)
 sb2.pack(side=tk.LEFT,fill=tk.Y)
 
 
-can5=tk.Canvas(frame3,bg="#240631",width=2,height=250-40,relief="flat",highlightthickness=0,border=0)
+can5=tk.Canvas(frame3,bg="#360b4e",width=2,height=250-40,relief="flat",highlightthickness=0,border=0)
 can5.pack(side=tk.LEFT)
 
 
@@ -7193,7 +7194,7 @@ can5.pack(side=tk.LEFT)
 frame3.pack(side=tk.TOP)
 
 
-can6=tk.Canvas(frame2,bg="#240631",width=350+100,height=17,relief="flat",highlightthickness=0,border=0)
+can6=tk.Canvas(frame2,bg="#360b4e",width=350+100,height=17,relief="flat",highlightthickness=0,border=0)
 can6.pack(side=tk.TOP)
 
 
@@ -7227,9 +7228,9 @@ def search__():
 
     root.after(1,search__)
 
-search=tk.Entry(bg="#240631",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=115,font=("FreeMono",13))
+search=tk.Entry(bg="#360b4e",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=115,font=("FreeMono",13))
 #search.bind("<KeyPress>",search_keypress)
-npl=tk.Entry(bg="#240631",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=112,font=("FreeMono",13))
+npl=tk.Entry(bg="#360b4e",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=112,font=("FreeMono",13))
 
 ls=0
 def mvar_():
@@ -7307,7 +7308,7 @@ def can_sort_b1(e):
 
 sort_st=0
 _sort=0
-can_sort=tk.Canvas(bg="#240631",width=250,height=160,relief="flat",highlightthickness=0,border=0)
+can_sort=tk.Canvas(bg="#360b4e",width=250,height=160,relief="flat",highlightthickness=0,border=0)
 
 can_sort.bind("<Button-1>",can_sort_b1)
 
@@ -7332,7 +7333,7 @@ for _ in sa:
 
 
 
-can_lyrics=tk.Canvas(bg="#240631",relief="flat",highlightthickness=0,border=0)
+can_lyrics=tk.Canvas(bg="#360b4e",relief="flat",highlightthickness=0,border=0)
 
 
 
