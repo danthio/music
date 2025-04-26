@@ -3825,14 +3825,14 @@ def main():
 
 
     style.configure("My.Vertical.TScrollbar", gripcount=0, background=col1,
-                    troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
-                    lightcolor="#471e31",relief="flat", darkcolor="#471e31",
+                    troughcolor="#5c283e", borderwidth=0, bordercolor="#5c283e",
+                    lightcolor="#5c283e",relief="flat", darkcolor="#5c283e",
                     arrowsize=6)
 
 
     style2.configure("My.Vertical.TScrollbar2", gripcount=0, background=col1,
-                    troughcolor='#250f25', borderwidth=0, bordercolor='#250f25',
-                    lightcolor='#250f25',relief="flat", darkcolor='#250f25',
+                    troughcolor='#311432', borderwidth=0, bordercolor='#311432',
+                    lightcolor='#311432',relief="flat", darkcolor='#311432',
                     arrowsize=6)
 
 
@@ -4447,9 +4447,9 @@ def main():
 
 
 
-                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
-                                troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
-                                lightcolor="#471e31",relief="flat", darkcolor="#471e31",
+                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#5c283e",
+                                troughcolor="#5c283e", borderwidth=0, bordercolor="#5c283e",
+                                lightcolor="#5c283e",relief="flat", darkcolor="#5c283e",
                                 arrowsize=6)
 
 
@@ -4598,9 +4598,9 @@ def main():
                 #can2.create_text(int(can2["width"])/2,((h-121)-80-10)/2,text="No Record!",font=("FreeMono",12),fill=col1)
 
 
-                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
-                                troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
-                                lightcolor="#471e31",relief="flat", darkcolor="#471e31",
+                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#5c283e",
+                                troughcolor="#5c283e", borderwidth=0, bordercolor="#5c283e",
+                                lightcolor="#5c283e",relief="flat", darkcolor="#5c283e",
                                 arrowsize=6)
 
 
@@ -4616,10 +4616,10 @@ def main():
 
                 if _search==1:
 
-                    can.create_oval(10,40, 10+30,40+30,fill="#471e31",outline="#471e31")
-                    can.create_oval(w-10-30,40, w-10,40+30,fill="#471e31",outline="#471e31")
+                    can.create_oval(10,40, 10+30,40+30,fill="#5c283e",outline="#5c283e")
+                    can.create_oval(w-10-30,40, w-10,40+30,fill="#5c283e",outline="#5c283e")
 
-                    can.create_rectangle(10+15,40, w-10-15,40+30,fill="#471e31",outline="#471e31")
+                    can.create_rectangle(10+15,40, w-10-15,40+30,fill="#5c283e",outline="#5c283e")
 
 
 
@@ -4819,9 +4819,9 @@ def main():
                     #can2.create_text(int(can2["width"])/2,y+(((h-121)-80-10)-y)/2,text="No Record",font=("FreeMono",12),fill=col1)
 
 
-                    style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
-                                    troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
-                                    lightcolor="#471e31",relief="flat", darkcolor="#471e31",
+                    style.configure("My.Vertical.TScrollbar", gripcount=0, background="#5c283e",
+                                    troughcolor="#5c283e", borderwidth=0, bordercolor="#5c283e",
+                                    lightcolor="#5c283e",relief="flat", darkcolor="#5c283e",
                                     arrowsize=6)
 
 
@@ -5003,9 +5003,9 @@ def main():
                     #can2.create_text(int(can2["width"])/2,((h-121)-80-10)/2,text="No Record!",font=("FreeMono",12),fill=col1)
 
 
-                    style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
-                                    troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
-                                    lightcolor="#471e31",relief="flat", darkcolor="#471e31",
+                    style.configure("My.Vertical.TScrollbar", gripcount=0, background="#5c283e",
+                                    troughcolor="#5c283e", borderwidth=0, bordercolor="#5c283e",
+                                    lightcolor="#5c283e",relief="flat", darkcolor="#5c283e",
                                     arrowsize=6)
 
 
@@ -5179,9 +5179,9 @@ def main():
                 #can2.create_text(int(can2["width"])/2,((h-121)-80-10)/2,text="No Record!",font=("FreeMono",12),fill=col1)
 
 
-                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#471e31",
-                                troughcolor="#471e31", borderwidth=0, bordercolor="#471e31",
-                                lightcolor="#471e31",relief="flat", darkcolor="#471e31",
+                style.configure("My.Vertical.TScrollbar", gripcount=0, background="#5c283e",
+                                troughcolor="#5c283e", borderwidth=0, bordercolor="#5c283e",
+                                lightcolor="#5c283e",relief="flat", darkcolor="#5c283e",
                                 arrowsize=6)
 
         """
