@@ -2432,6 +2432,20 @@ def can_b1(e):
 
 
 
+    if root_st==1:
+
+
+
+        root_st=0
+
+
+        root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
+
+        main()
+
+        move_to_playing()
+
+        return
 
 
 
@@ -2449,20 +2463,6 @@ def can_b1(e):
                 return
 
 
-    if root_st==1:
-
-
-
-        root_st=0
-
-
-        root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
-
-        main()
-
-        move_to_playing()
-
-        return
 
 
 
@@ -5592,7 +5592,7 @@ def main():
     draw_can()
 
 
-    draw_round_rec(can,0,0,w-1,h-1,30,"#780f3e","",1)
+    draw_round_rec(can,0,0,w-1,h-1,30,col1,"",1)
 
 
     can.create_image(w-10-25,(50-25)/2,image=quit,anchor="nw")
