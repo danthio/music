@@ -7026,7 +7026,7 @@ root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
 
-w,h=int(680*1.78),680
+w,h=int(680*1.7),680
 
 
 
