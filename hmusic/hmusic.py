@@ -1334,6 +1334,7 @@ def timer():
 
 
                 tm=0
+                tts=0
                 
                 current_playing=_songs_[mvar][0]
 
@@ -1478,6 +1479,7 @@ def can3_b1(e):
 
 song_add_pl=0
 bgp=0
+cp2_im=0
 def add_playlist():
     global can4,can3,can5,can6
     global sel_playlist,playlist,playlist2,checked
@@ -1485,6 +1487,8 @@ def add_playlist():
     global song_add_pl
     global bg
     global bgp
+    global cp2_im
+    global sb2_sz
 
 
 
@@ -1519,6 +1523,80 @@ def add_playlist():
     can3.delete("all")
 
     bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)),image=bg,anchor="nw")
+
+
+    ar=[]
+
+    r=10
+    y_=0
+
+    a_=180
+
+
+    cx,cy=r,y_+r
+
+    for a in range(90):
+
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+
+        ar.append(int(x))
+        ar.append(int(y))
+
+        a_+=1
+
+    a_=270
+
+    cx,cy=r,y_+50-r
+
+    for a in range(90):
+
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+
+        ar.append(int(x))
+        ar.append(int(y))
+
+        a_+=1
+    
+
+    a_=0
+
+    cx,cy=(int(can3["width"])-sb2_sz-1)-2-r,y_+50-r
+
+    for a in range(90):
+
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+
+        ar.append(int(x))
+        ar.append(int(y))
+
+        a_+=1
+
+ 
+    a_=90
+
+    cx,cy=(int(can3["width"])-sb2_sz-1)-2-r,y_+r
+
+    for a in range(90):
+
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+
+        ar.append(int(x))
+        ar.append(int(y))
+
+        a_+=1
+
+
+    cp2_im=create_polygon(*ar, fill="#ff1f83", alpha=0.2,can=can3)
+
+    can3.coords(cp2_im,0,-100)
 
     y=0
     
@@ -1594,7 +1672,7 @@ def can2_b1(e):
     global sel_playlist
     global _npl,npl
     global can_sort
-    global shuffle_st,shuff,sort_val,sort_ar
+    global shuffle_st,shuff,sort_val,sort_ar,sort_st
 
     global playlist_select,select_st
     global songs2
@@ -1724,6 +1802,7 @@ def can2_b1(e):
 
 
     can_sort.place_forget()
+    sort_st=0
 
     frame2.place_forget()
     can3["scrollregion"]=(0,0,int(can3["width"]),int(can3["height"]))
@@ -2105,6 +2184,8 @@ def can2_b1(e):
 
 
                 try:
+
+                    p_=play_st
                     
 
                     if songs_status[0]==st:
@@ -2123,78 +2204,89 @@ def can2_b1(e):
                     os.remove("music/"+s[0])
 
 
-
-                    if play_st==0:
-
-                        conn=0
-
-
-                        if current_playing==s[0]:
+                    play_st=p_
 
 
 
-                            if len(_songs_)==1:
-                                mvar=0
-                            elif mvar==len(_songs_)-1:
-                                mvar=0
-                            else:
-                                mvar=mvar+1
+
+                    conn=0
 
 
-                            current_playing=_songs_[mvar][0]
+                    if current_playing==s[0]:
 
-                            tm=0
 
-                            play_music("music/"+current_playing,tm,1)
+
+                        if len(_songs_)==1:
+                            mvar=0
+                        elif mvar==len(_songs_)-1:
+                            mvar=0
+                        else:
+                            mvar=mvar+1
+
+
+                        current_playing=_songs_[mvar][0]
+
+                        tm=0
+
+
+
+                        if len(_songs_)==1:
                             pygame.mixer.quit()
+                            current_playing=""
+
+                        else:
 
 
+                            if play_st==0:
 
+                                play_music("music/"+current_playing,tm,1)
+                                pygame.mixer.quit()
+                            elif play_st==1:
 
-
-                            if len(_songs_)==1:
-                                current_playing=""
-                            
-                            songs_status[-1]=current_playing
-
-
-                            conn=1
-
-
-
+                                play_music("music/"+current_playing,tm)
 
 
 
 
                         
-                        del_wave()
-                        main()
+                        songs_status[-1]=current_playing
 
 
-                        st_=st
-                        cp=current_playlist
-                        p=playlist_st
+                        conn=1
 
 
-                        st=songs_status[0]
-                        current_playlist=songs_status[1]
-                        playlist_st=1
-
-                        main()
-
-                        st=st_
-                        current_playlist=cp
-                        playlist_st=p
 
 
-                        main()
 
-                        if conn==1:
-                            move_to_playing()
+
 
                     
-                        return
+                    del_wave()
                     main()
+
+
+                    st_=st
+                    cp=current_playlist
+                    p=playlist_st
+
+
+                    st=songs_status[0]
+                    current_playlist=songs_status[1]
+                    playlist_st=1
+
+                    main()
+
+                    st=st_
+                    current_playlist=cp
+                    playlist_st=p
+
+
+                    main()
+
+                    if conn==1:
+                        move_to_playing()
+
+                
 
                 except:
                     pass
@@ -2398,7 +2490,7 @@ input_folder=""
 
 v_st=0
 play_st2=0
-
+csv_im=0
 def can_b1(e):
     global st,w,h,tm,current_playing
     global pp,play_st
@@ -2447,6 +2539,7 @@ def can_b1(e):
     global can3
     global bg__
     global v_st,play_st2
+    global csv_im
 
 
 
@@ -2509,6 +2602,7 @@ def can_b1(e):
 
 
     can_sort.place_forget()
+    sort_st=0
     main()
 
 
@@ -2538,6 +2632,7 @@ def can_b1(e):
             _search=0
             sort_st=0
             can_sort.place_forget()
+            sort_st=0
 
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
             shuffle_st=0
@@ -2602,6 +2697,7 @@ def can_b1(e):
             _search=0
             sort_st=0
             can_sort.place_forget()
+            sort_st=0
 
 
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
@@ -2665,6 +2761,7 @@ def can_b1(e):
             _search=0
             sort_st=0
             can_sort.place_forget()
+            sort_st=0
 
 
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
@@ -2739,6 +2836,7 @@ def can_b1(e):
             _search=0
             sort_st=0
             can_sort.place_forget()
+            sort_st=0
 
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
             shuffle_st=0
@@ -2813,6 +2911,7 @@ def can_b1(e):
             lst=1
             _search=0
             can_sort.place_forget()
+            sort_st=0
 
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
             main()
@@ -3233,7 +3332,83 @@ def can_b1(e):
 
                     can_sort.create_image(-(10+25+15+25),-(h-20-30-15+5+10+2.5-160),image=bg,anchor="nw")
 
-                    draw_round_rec(can_sort,2,2, 250-2,160-2,15,col1,col1,1)
+
+
+                    ar=[]
+
+                    r=10
+                    y_=0
+
+                    a_=180
+
+
+                    cx,cy=r,y_+r
+
+                    for a in range(90):
+
+                        x=r*math.sin(math.radians(a_))+cx
+                        y=r*math.cos(math.radians(a_))+cy
+
+
+                        ar.append(int(x))
+                        ar.append(int(y))
+
+                        a_+=1
+
+                    a_=270
+
+                    cx,cy=r,y_+30-r
+
+                    for a in range(90):
+
+                        x=r*math.sin(math.radians(a_))+cx
+                        y=r*math.cos(math.radians(a_))+cy
+
+
+                        ar.append(int(x))
+                        ar.append(int(y))
+
+                        a_+=1
+                    
+
+                    a_=0
+
+                    cx,cy=(int(can_sort["width"])-1)-r,y_+30-r
+
+                    for a in range(90):
+
+                        x=r*math.sin(math.radians(a_))+cx
+                        y=r*math.cos(math.radians(a_))+cy
+
+
+                        ar.append(int(x))
+                        ar.append(int(y))
+
+                        a_+=1
+
+                 
+                    a_=90
+
+                    cx,cy=(int(can_sort["width"])-1)-r,y_+r
+
+                    for a in range(90):
+
+                        x=r*math.sin(math.radians(a_))+cx
+                        y=r*math.cos(math.radians(a_))+cy
+
+
+                        ar.append(int(x))
+                        ar.append(int(y))
+
+                        a_+=1
+
+
+                    csv_im=create_polygon(*ar, fill="#ff1f83", alpha=0.2,can=can_sort)
+
+                    can_sort.coords(csv_im,0,-100)
+
+
+                    draw_round_rec(can_sort,0,0, 250-2,160-1,15,col1,col1,1)
 
                     can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
 
@@ -3294,6 +3469,7 @@ def can_b1(e):
 
                 else:
                     can_sort.place_forget()
+                    sort_st=0
 
                 return
 
@@ -4114,8 +4290,9 @@ def main():
 
 
 
+    if add_st==0 and sort_st==0:
 
-    images=[]
+        images=[]
 
 
 
@@ -4304,7 +4481,7 @@ def main():
 
     #can2.create_polygon(ar,fill="red")
 
-    cp_im=create_polygon(*ar, fill="#ff1f83", alpha=0.15,can=can2)
+    cp_im=create_polygon(*ar, fill="#ff1f83", alpha=0.2,can=can2)
 
     can2.coords(cp_im,0,-100)
 
@@ -6557,6 +6734,7 @@ attr=[0,0,0]
 
 
 cr_pos=[]
+
 def check_cur_pos():
     global can2,attr,current_playing,playlist,songs
     global _pl_,playlist2,playlist3,_fv_,music_details,favourite1,favourite1_,favourite2_,favourite2
@@ -6568,135 +6746,181 @@ def check_cur_pos():
     global current_playlist
     global lst
     global songs2
+    global cp2_im
+    global add_st
+    global sort_st,sort_ar,csv_im
 
 
-    if lst==1:
+    
 
-        x,y=pyautogui.position()
-
-
-
-        can2.delete(attr[0])
-        can2.delete(attr[1])
-        can2.delete(attr[2])
-        can2.coords(cp_im,0,-100)
+    x,y=pyautogui.position()
 
 
 
-        y_=y-int(((ht-get_taskbar_height())-h)/2)-88
+    can2.delete(attr[0])
+    can2.delete(attr[1])
+    can2.delete(attr[2])
+    can2.coords(cp_im,0,-100)
+    can3.coords(cp2_im,0,-100)
+    can_sort.coords(csv_im,0,-100)
 
 
 
-        if st==2 and playlist_st==0 and select_st==0:
-
-            y=95
-
-            ar=[]
-
-            for pl in playlist:
-                ar.append([pl,y])
-                y+=50
+    y_=y-int(((ht-get_taskbar_height())-h)/2)-88
 
 
-            for p in ar:
+
+    if st==2 and playlist_st==0 and select_st==0 and add_st==0 and sort_st==0 and lst==1:
+
+        y=95
+
+        ar=[]
+
+        for pl in playlist:
+            ar.append([pl,y])
+            y+=50
 
 
-                if p[1]<=can2.canvasy(y_)<=p[1]+50:
-
-                    y=p[1]
-
-                    can2.coords(cp_im,0,y)
-                    if current_playlist==p[0]:
-
-                        attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add2,anchor="nw")
-                        _del_=delete2
-                    else:
-
-                        attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add,anchor="nw")
-                        _del_=delete
-
-                    attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
-
-                    break
+        for p in ar:
 
 
-        elif select_st==1:
+            if p[1]<=can2.canvasy(y_)<=p[1]+50:
+
+                y=p[1]
+
+                can2.coords(cp_im,0,y)
+                if current_playlist==p[0]:
+
+                    attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add2,anchor="nw")
+                    _del_=delete2
+                else:
+
+                    attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add,anchor="nw")
+                    _del_=delete
+
+                attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
+
+                break
 
 
-            for song in songs2:
+    elif sort_st==1:
 
-                if song[1]<=can2.canvasy(y_)<=song[1]+50:
-                    y=song[1]
+        y=30
 
-                    can2.coords(cp_im,0,y)
-                    break
+        ar=[]
 
-        else:
+        for s in sort_ar:
 
 
-            for song in songs:
+            if y<30+30*4:
 
-                if song[1]<=can2.canvasy(y_)<=song[1]+50:
-                    y=song[1]
+                if y<=can_sort.canvasy(y_-(h-20-30-15+5+10+2.5-160)+88)<=y+30:
 
-                    can2.coords(cp_im,0,y)
+                    can_sort.coords(csv_im,0,y)
 
-                    if song[0]==current_playing:
-                        _del_=delete2
+            y+=30
 
-                    else:
-                        _del_=delete
+
+
+
+
+    elif add_st==1 and lst==1:
+
+
+        y=0
+
+        ar=[]
+
+        for pl in playlist:
+
+            if y<=can3.canvasy(y_-((h-(40+250-40+10+50))/2)-40+88)<=y+50:
+
+                can3.coords(cp2_im,0,y)
+
+
+            y+=50
+
+
+
+
+
+    elif select_st==1 and lst==1:
+
+
+        for song in songs2:
+
+            if song[1]<=can2.canvasy(y_)<=song[1]+50:
+                y=song[1]
+
+                can2.coords(cp_im,0,y)
+                break
+
+    else:
+
+
+        for song in songs:
+
+            if song[1]<=can2.canvasy(y_)<=song[1]+50:
+                y=song[1]
+
+                can2.coords(cp_im,0,y)
+
+                if song[0]==current_playing:
+                    _del_=delete2
+
+                else:
+                    _del_=delete
+                
+                attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
+
+
+                con=0
+
+                for i in playlist:
+
+
+                    try: 
+                        v=playlist[i].index(song[0])
+                    except:
+                        pass
+
+
+                _pl_=playlist2
+
+
+
+
+                if song[0]==current_playing:
+                    _pl_=playlist3
+
                     
-                    attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
 
 
-                    con=0
-
-                    for i in playlist:
+                attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=_pl_,anchor="nw")
 
 
-                        try: 
-                            v=playlist[i].index(song[0])
-                        except:
-                            pass
 
 
-                    _pl_=playlist2
+                if music_details[song[0]][0]==0:
+
+                    _fv_=favourite1
+
+                    if song[0]==current_playing:
+                        _fv_=favourite1_
 
 
+                elif music_details[song[0]][0]==1:
+
+
+                    _fv_=favourite2
 
 
                     if song[0]==current_playing:
-                        _pl_=playlist3
+                        _fv_=favourite2_
 
-                        
+                attr[2]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
 
-
-                    attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=_pl_,anchor="nw")
-
-
-
-
-                    if music_details[song[0]][0]==0:
-
-                        _fv_=favourite1
-
-                        if song[0]==current_playing:
-                            _fv_=favourite1_
-
-
-                    elif music_details[song[0]][0]==1:
-
-
-                        _fv_=favourite2
-
-
-                        if song[0]==current_playing:
-                            _fv_=favourite2_
-
-                    attr[2]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
-
-                    break
+                break
 
 
 
@@ -7600,9 +7824,12 @@ def draw_sb():
 
     h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
 
-    sb[0]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
-    sb[1]=can2.create_rectangle(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+3),int(can2["width"])-1,can2.canvasy(sb_h+h-3),fill=sb_col,outline=sb_col)
-    sb[2]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+h-6),image=circle10,anchor="nw")
+
+    if not int(h)==int(can2["scrollregion"].split(" ")[-1]):
+
+        sb[0]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
+        sb[1]=can2.create_rectangle(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+3),int(can2["width"])-1,can2.canvasy(sb_h+h-3),fill=sb_col,outline=sb_col)
+        sb[2]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+h-6),image=circle10,anchor="nw")
 def sb_move(v1,v2):
 
     global can2
@@ -7724,9 +7951,13 @@ def draw_sb2():
 
     h=int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])*int(can3["height"])
 
-    sb2[0]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h),image=circle10,anchor="nw")
-    sb2[1]=can3.create_rectangle(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+3),int(can3["width"])-4,can3.canvasy(sb2_h+h-3),fill=sb2_col,outline=sb2_col)
-    sb2[2]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+h-6),image=circle10,anchor="nw")
+    if not int(h)==int(can3["scrollregion"].split(" ")[-1]):
+
+        sb2[0]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h),image=circle10,anchor="nw")
+        sb2[1]=can3.create_rectangle(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+3),int(can3["width"])-4,can3.canvasy(sb2_h+h-3),fill=sb2_col,outline=sb2_col)
+        sb2[2]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+h-6),image=circle10,anchor="nw")
+
+
 def sb2_move(v1,v2):
 
     global can3
