@@ -4302,7 +4302,7 @@ def main():
 
     #can2.create_polygon(ar,fill="red")
 
-    cp_im=create_polygon(*ar, fill="#ff1f83", alpha=0.2,can=can2)
+    cp_im=create_polygon(*ar, fill="#ff1f83", alpha=0.15,can=can2)
 
     can2.coords(cp_im,0,-100)
 
@@ -5784,7 +5784,7 @@ def draw_can():
 
             can.create_line(10,90-5,w-10,90-5,fill=col1,width=1)
 
-            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=col1,width=2)
+            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=col1,width=1)
 
             frame.place(in_=root,x=10,y=90-1-1)
 
@@ -6727,7 +6727,7 @@ def check_cur_pos():
 
                         _fv_=favourite1
 
-                        if song==current_playing:
+                        if song[0]==current_playing:
                             _fv_=favourite1_
 
 
