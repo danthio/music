@@ -2685,6 +2685,9 @@ def can_b1(e):
             _npl=0
             npl.place_forget()
 
+
+            current_playlist=songs_status[1]
+
             
 
 
@@ -2705,8 +2708,7 @@ def can_b1(e):
                 try:
 
                     current_playing=songs_status[-1]
-                    current_playlist=songs_status[1]
-
+                    
                     get_audio_duration("music/"+current_playing)
                 except:
                     pass   
@@ -4450,7 +4452,7 @@ def main():
 
             if scon==1:
 
-                can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
                 col=col1
 
 
@@ -4705,7 +4707,7 @@ def main():
                         #draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
                         draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
 
-                        can2.create_image(5,y+10,image=musical_note1,anchor="nw")
+                        can2.create_image(0,y+10,image=musical_note1,anchor="nw")
                         col="#19030d"
 
 
@@ -4714,7 +4716,7 @@ def main():
 
 
 
-                        can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                        can2.create_image(0,y+10,image=musical_note2,anchor="nw")
                         col="#ff1f83"
 
 
@@ -4824,11 +4826,11 @@ def main():
                             draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
                             col="#19030d"
 
-                            can2.create_image(5,y+10,image=musical_note1,anchor="nw")
+                            can2.create_image(0,y+10,image=musical_note1,anchor="nw")
 
                         else:
                             col=col1
-                            can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                            can2.create_image(0,y+10,image=musical_note2,anchor="nw")
 
 
 
@@ -5020,7 +5022,7 @@ def main():
 
 
 
-                        can2.create_image(10,y+12.5+2,image=_pl_,anchor="nw")
+                        can2.create_image(5,y+12.5+2,image=_pl_,anchor="nw")
 
 
 
@@ -5116,14 +5118,14 @@ def main():
                                 draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
 
 
-                                can2.create_image(5,y+10,image=musical_note1,anchor="nw")
+                                can2.create_image(0,y+10,image=musical_note1,anchor="nw")
                                 col="#19030d"
 
                             else:
 
 
 
-                                can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
                                 col=col1
 
 
@@ -5237,12 +5239,12 @@ def main():
 
                     col="#19030d"
 
-                    can2.create_image(5,y+10,image=musical_note1,anchor="nw")
+                    can2.create_image(0,y+10,image=musical_note1,anchor="nw")
 
                 else:
 
 
-                    can2.create_image(5,y+10,image=musical_note2,anchor="nw")
+                    can2.create_image(0,y+10,image=musical_note2,anchor="nw")
                     col=col1
 
 
@@ -5255,54 +5257,6 @@ def main():
 
 
 
-
-                con=0
-
-                for i in playlist:
-
-
-                    try:
-                        v=playlist[i].index(song[0])
-                    except:
-                        pass
-
-
-                _pl_=playlist2
-
-
-
-
-                if song[0]==current_playing:
-                    _pl_=playlist3
-
-                    
-
-
-                can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=_pl_,anchor="nw")
-
-
-
-
-                if music_details[song[0]][0]==0:
-
-                    _fv_=favourite1
-
-                    if song[0]==current_playing:
-                        _fv_=favourite1_
-
-
-                elif music_details[song[0]][0]==1:
-
-
-                    _fv_=favourite2
-
-
-                    if song[0]==current_playing:
-                        _fv_=favourite2_
-
-
-
-                can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
 
 
 
@@ -5395,7 +5349,7 @@ def main():
     draw_can()
 
 
-    draw_round_rec(can,0,0,w-1,h-1,30,col1,"",1)
+    draw_round_rec(can,0,0,w-1,h-1,25,col1,"",1)
 
 
 
@@ -5608,7 +5562,7 @@ def draw_can():
         c.create_polygon(ar,fill=col,outline=col)
 
 
-    draw_round_rec2(can,0,0,w-1,h-1,30,"#333333")
+    draw_round_rec2(can,0,0,w-1,h-1,25,"#333333")
 
 
 
@@ -5784,7 +5738,7 @@ def draw_can():
 
             can.create_line(10,90-5,w-10,90-5,fill=col1,width=1)
 
-            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=col1,width=1)
+            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=col1,width=2)
 
             frame.place(in_=root,x=10,y=90-1-1)
 
