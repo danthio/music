@@ -131,14 +131,6 @@ def get_taskbar_height():
 
 
 
-im=Image.open("data/play.png")
-im=im.resize((30,30))
-im.save("data/play.png")
-
-im=Image.open("data/pause.png")
-im=im.resize((30,30))
-im.save("data/pause.png")
-
 """
 
 im=Image.open("data/speaker.png")
@@ -2554,6 +2546,8 @@ def can_b1(e):
     global csv_im
 
 
+
+
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     if root_st==1:
 
@@ -3781,6 +3775,8 @@ def can_b1(e):
 
             main()
 
+            move_to_playing()
+
 
             return
 
@@ -3794,6 +3790,8 @@ def can_b1(e):
             search.focus_set()
 
             main()
+
+
 
             return
 
@@ -4045,6 +4043,8 @@ def can_b1(e):
             except:
                 pass
 
+
+    move_to_playing()
 
 
     
@@ -5562,7 +5562,7 @@ def main():
 
     draw_sb()
 
-    move_to_playing()
+
 
 
 
@@ -8072,6 +8072,8 @@ def search__():
 
 
         main()
+
+        move_to_playing()
 
 
 
