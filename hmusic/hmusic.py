@@ -1974,23 +1974,14 @@ def can2_b1(e):
 
 
 
-                    main()
 
-
-                    search.delete(0,tk.END)
-                    search.place_forget()
-                    frame.place_forget()
 
 
 
                     main()
                     return
 
-        _search=0
 
-        search.delete(0,tk.END)
-
-        search.place_forget()
 
         main()
 
@@ -2584,12 +2575,8 @@ def can_b1(e):
 
 
 
-
-    _search=0
     _npl=0
 
-    search.delete(0,tk.END)
-    search.place_forget()
     npl.place_forget()
 
     main()   
@@ -2640,8 +2627,11 @@ def can_b1(e):
             
 
             lst=1
-
             _search=0
+            _npl=0
+
+            search.delete(0,tk.END)
+            search.place_forget()
             sort_st=0
             can_sort.place_forget()
             sort_st=0
@@ -2708,6 +2698,10 @@ def can_b1(e):
             lst=1
 
             _search=0
+            _npl=0
+
+            search.delete(0,tk.END)
+            search.place_forget()
             sort_st=0
             can_sort.place_forget()
             sort_st=0
@@ -2773,6 +2767,10 @@ def can_b1(e):
             main()
 
             _search=0
+            _npl=0
+
+            search.delete(0,tk.END)
+            search.place_forget()
             sort_st=0
             can_sort.place_forget()
             sort_st=0
@@ -2848,6 +2846,10 @@ def can_b1(e):
             lst=1
 
             _search=0
+            _npl=0
+
+            search.delete(0,tk.END)
+            search.place_forget()
             sort_st=0
             can_sort.place_forget()
             sort_st=0
@@ -2926,6 +2928,10 @@ def can_b1(e):
 
             lst=1
             _search=0
+            _npl=0
+
+            search.delete(0,tk.END)
+            search.place_forget()
             can_sort.place_forget()
             sort_st=0
 
@@ -3262,7 +3268,10 @@ def can_b1(e):
                     else:
                         lst=0
                         _search=0
+                        _npl=0
 
+                        search.delete(0,tk.END)
+                        search.place_forget()
                         frame.place_forget()
 
                 main()
@@ -3762,10 +3771,11 @@ def can_b1(e):
 
     #search
 
-    cx,cy=w-10-5-20+10,45+10+30
+    cx,cy=w-10-5-20+10,40+5+30-10-5-5+10
 
     if cx-10<=e.x<=cx+10:
         if cy-10<=e.y<=cy+10:
+
 
 
             search.delete(0,tk.END)
@@ -4044,7 +4054,6 @@ def can_b1(e):
                 pass
 
 
-    move_to_playing()
 
 
     
@@ -5504,6 +5513,9 @@ def main():
             if not playlist_st==0:
 
                 _search=0
+                _npl=0
+
+                search.delete(0,tk.END)
                 search.place_forget()
 
 
@@ -6782,6 +6794,7 @@ def check_cur_pos():
     global cp2_im
     global add_st
     global sort_st,sort_ar,csv_im
+    global search_var
 
 
     
@@ -6812,8 +6825,41 @@ def check_cur_pos():
             ar=[]
 
             for pl in playlist:
-                ar.append([pl,y])
-                y+=50
+
+                scon=0
+
+
+                sval=search_var.lower()
+
+                if sval.find(" ")!=-1:
+
+                    ss=[]
+
+                    s_ar=sval.split(" ")
+
+                    for sv in s_ar:
+
+                        if pl.lower().find(sv)!=-1:
+                            ss.append(1)
+                        else:
+                            ss.append(0)
+
+                    scon=1
+
+                    for ss_ in ss:
+
+                        if ss_==0:
+                            scon=0
+                            break
+
+                else:
+                    if pl.lower().find(sval)!=-1:
+                        scon=1
+
+                if scon==1:
+
+                    ar.append([pl,y])
+                    y+=50
 
 
             for p in ar:
@@ -6890,6 +6936,7 @@ def check_cur_pos():
     elif select_st==1 and lst==1:
 
         if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
+
 
 
             for song in songs2:
@@ -7608,7 +7655,10 @@ def __list(e):
             else:
                 lst=0
                 _search=0
+                _npl=0
 
+                search.delete(0,tk.END)
+                search.place_forget()
                 frame.place_forget()
                 frame2.place_forget()
 
