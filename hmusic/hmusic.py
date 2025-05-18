@@ -2425,7 +2425,7 @@ def move_to_playing(con_=0):
                         pixel_value = v
                         fraction = pixel_value / int(can2["scrollregion"].split(" ")[-1])
                         can2.yview_moveto(fraction)
-                        #main()
+                        move_bg()
     except:
         pass
 
@@ -3284,6 +3284,7 @@ def can_b1(e):
 
                     else:
                         move_to_playing()
+
 
 
 
@@ -5573,6 +5574,8 @@ def main():
     save()
 
     draw_sb()
+
+    move_bg()
 
 
 
@@ -8305,7 +8308,7 @@ default_font = tk.Label(root, text="Sample Text").cget("font")
 
 
 load_()
-update_bg_pos()
+#update_bg_pos()
 
 
 check_sound_device()
