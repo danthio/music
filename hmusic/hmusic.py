@@ -5822,7 +5822,7 @@ def draw_can():
                 can.create_image(x+40-30+1,y+1,image=circle6,anchor="nw")
 
 
-                can.create_rectangle(x-40+15+1,y+1, x+40-15+1,y+30-1-1, fill="#000000",outline="#000000")
+                can.create_rectangle(x-40+15+1,y+1, x+40-15+1,y+30-1-1, fill="#020410",outline="#020410")
 
 
                 can.create_text(x,y+15,text="Lyrics",font=("FreeMono",13),fill="#ff1f83")
