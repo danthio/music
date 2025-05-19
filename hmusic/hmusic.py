@@ -7350,7 +7350,6 @@ def move_bg():
 
     can2.coords(bg2,-10,-(90-2)+int(can2.canvasy(0)))
 
-    y1=int(can2.canvasy(0))
 
     sb_h=can2.canvasy(0)*int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])
     draw_sb()
@@ -8311,7 +8310,7 @@ default_font = tk.Label(root, text="Sample Text").cget("font")
 
 
 load_()
-#update_bg_pos()
+update_bg_pos()
 
 
 check_sound_device()
@@ -8320,4 +8319,5 @@ update_sb()
 update_sb2()
 
 check_cur_pos()
+move_bg()
 root.mainloop()
