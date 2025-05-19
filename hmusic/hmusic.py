@@ -3704,6 +3704,8 @@ def can_b1(e):
                 if cx-12.5<=e.x<=cx+12.5:
                     if cy-12.5<=e.y<=cy+12.5:
 
+                        clipboard()
+
 
                         if not current_playing=="":
                             update_details(current_playing,2,_lyric)
@@ -6714,8 +6716,6 @@ def clipboard():
     if _lyric!=clipboard_content:
         _lyric=clipboard_content
 
-    root.after(1,clipboard)
-
 
 
 
@@ -8251,7 +8251,7 @@ can_lyrics=tk.Canvas(bg="#19030d",relief="flat",highlightthickness=0,border=0)
 can2.focus_set()
 load_im()
 
-clipboard()
+
 
 
 try:
