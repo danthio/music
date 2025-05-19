@@ -6718,6 +6718,10 @@ def clipboard():
 
 
 
+        pyperclip.copy("")
+
+
+
 
 def sync_lyrics():
 
