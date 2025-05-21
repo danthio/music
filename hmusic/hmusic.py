@@ -6801,227 +6801,231 @@ def check_cur_pos():
     global add_st
     global sort_st,sort_ar,csv_im
     global search_var
+    global root_st
 
 
-    
-
-    x,y=pyautogui.position()
+    if root_st==0:
 
 
+        
 
-    can2.delete(attr[0])
-    can2.delete(attr[1])
-    can2.delete(attr[2])
-    can2.coords(cp_im,0,-100)
-    can3.coords(cp2_im,0,-100)
-    can_sort.coords(csv_im,0,-100)
+        x,y=pyautogui.position()
 
 
 
-    y_=y-int(((ht-get_taskbar_height())-h)/2)-88
+        can2.delete(attr[0])
+        can2.delete(attr[1])
+        can2.delete(attr[2])
+        can2.coords(cp_im,0,-100)
+        can3.coords(cp2_im,0,-100)
+        can_sort.coords(csv_im,0,-100)
 
 
 
-    if st==2 and playlist_st==0 and select_st==0 and add_st==0 and sort_st==0 and lst==1:
-
-        if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
-
-            y=95
-
-            ar=[]
-
-            for pl in playlist:
-
-                scon=0
+        y_=y-int(((ht-get_taskbar_height())-h)/2)-88
 
 
-                sval=search_var.lower()
 
-                if sval.find(" ")!=-1:
+        if st==2 and playlist_st==0 and select_st==0 and add_st==0 and sort_st==0 and lst==1:
 
-                    ss=[]
+            if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
 
-                    s_ar=sval.split(" ")
+                y=95
 
-                    for sv in s_ar:
+                ar=[]
 
-                        if pl.lower().find(sv)!=-1:
-                            ss.append(1)
-                        else:
-                            ss.append(0)
+                for pl in playlist:
 
-                    scon=1
+                    scon=0
 
-                    for ss_ in ss:
 
-                        if ss_==0:
-                            scon=0
-                            break
+                    sval=search_var.lower()
 
-                else:
-                    if pl.lower().find(sval)!=-1:
+                    if sval.find(" ")!=-1:
+
+                        ss=[]
+
+                        s_ar=sval.split(" ")
+
+                        for sv in s_ar:
+
+                            if pl.lower().find(sv)!=-1:
+                                ss.append(1)
+                            else:
+                                ss.append(0)
+
                         scon=1
 
-                if scon==1:
+                        for ss_ in ss:
 
-                    ar.append([pl,y])
+                            if ss_==0:
+                                scon=0
+                                break
+
+                    else:
+                        if pl.lower().find(sval)!=-1:
+                            scon=1
+
+                    if scon==1:
+
+                        ar.append([pl,y])
+                        y+=50
+
+
+                for p in ar:
+
+
+
+                    if p[1]<=can2.canvasy(y_)<=p[1]+50:
+
+                        y=p[1]
+
+                        can2.coords(cp_im,0,y)
+                        if current_playlist==p[0]:
+
+                            attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add2,anchor="nw")
+                            _del_=delete2
+                        else:
+
+                            attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add,anchor="nw")
+                            _del_=delete
+
+                        attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
+
+                        break
+
+
+        elif sort_st==1:
+
+
+            if (root.winfo_screenwidth()-w)/2+can_sort.winfo_x()<=x<=(root.winfo_screenwidth()-w)/2+can_sort.winfo_x()+int(can_sort["width"]):
+
+
+                y=30
+
+                ar=[]
+
+                for s in sort_ar:
+
+
+                    if y<30+30*4:
+
+                        if y<=can_sort.canvasy(y_-(h-20-30-15+5+10+2.5-160)+88)<=y+30:
+
+                            can_sort.coords(csv_im,0,y)
+
+                    y+=30
+
+
+
+
+
+        elif add_st==1 and lst==1:
+
+
+            if (root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2+int(can3["width"]):
+
+
+                y=0
+
+                ar=[]
+
+                for pl in playlist:
+
+                    if y<=can3.canvasy(y_-((h-(40+250-40+10+50))/2)-40+88)<=y+50:
+
+                        can3.coords(cp2_im,0,y)
+
+
                     y+=50
 
 
-            for p in ar:
 
 
 
-                if p[1]<=can2.canvasy(y_)<=p[1]+50:
+        elif select_st==1 and lst==1:
 
-                    y=p[1]
+            if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
 
-                    can2.coords(cp_im,0,y)
-                    if current_playlist==p[0]:
 
-                        attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add2,anchor="nw")
-                        _del_=delete2
-                    else:
 
-                        attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add,anchor="nw")
-                        _del_=delete
+                for song in songs2:
 
-                    attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
+                    if song[1]<=can2.canvasy(y_)<=song[1]+50:
+                        y=song[1]
 
-                    break
+                        can2.coords(cp_im,0,y)
+                        break
 
+        else:
 
-    elif sort_st==1:
 
+            if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
 
-        if (root.winfo_screenwidth()-w)/2+can_sort.winfo_x()<=x<=(root.winfo_screenwidth()-w)/2+can_sort.winfo_x()+int(can_sort["width"]):
 
+                for song in songs:
 
-            y=30
+                    if song[1]<=can2.canvasy(y_)<=song[1]+50:
+                        y=song[1]
 
-            ar=[]
+                        can2.coords(cp_im,0,y)
 
-            for s in sort_ar:
+                        if song[0]==current_playing:
+                            _del_=delete2
 
-
-                if y<30+30*4:
-
-                    if y<=can_sort.canvasy(y_-(h-20-30-15+5+10+2.5-160)+88)<=y+30:
-
-                        can_sort.coords(csv_im,0,y)
-
-                y+=30
-
-
-
-
-
-    elif add_st==1 and lst==1:
-
-
-        if (root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2+int(can3["width"]):
-
-
-            y=0
-
-            ar=[]
-
-            for pl in playlist:
-
-                if y<=can3.canvasy(y_-((h-(40+250-40+10+50))/2)-40+88)<=y+50:
-
-                    can3.coords(cp2_im,0,y)
-
-
-                y+=50
-
-
-
-
-
-    elif select_st==1 and lst==1:
-
-        if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
-
-
-
-            for song in songs2:
-
-                if song[1]<=can2.canvasy(y_)<=song[1]+50:
-                    y=song[1]
-
-                    can2.coords(cp_im,0,y)
-                    break
-
-    else:
-
-
-        if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
-
-
-            for song in songs:
-
-                if song[1]<=can2.canvasy(y_)<=song[1]+50:
-                    y=song[1]
-
-                    can2.coords(cp_im,0,y)
-
-                    if song[0]==current_playing:
-                        _del_=delete2
-
-                    else:
-                        _del_=delete
-                    
-                    attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
-
-
-                    con=0
-
-                    for i in playlist:
-
-
-                        try: 
-                            v=playlist[i].index(song[0])
-                        except:
-                            pass
-
-
-                    _pl_=playlist2
-
-
-
-
-                    if song[0]==current_playing:
-                        _pl_=playlist3
-
+                        else:
+                            _del_=delete
                         
+                        attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
 
 
-                    attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=_pl_,anchor="nw")
+                        con=0
+
+                        for i in playlist:
 
 
+                            try: 
+                                v=playlist[i].index(song[0])
+                            except:
+                                pass
 
 
-                    if music_details[song[0]][0]==0:
-
-                        _fv_=favourite1
-
-                        if song[0]==current_playing:
-                            _fv_=favourite1_
+                        _pl_=playlist2
 
 
-                    elif music_details[song[0]][0]==1:
-
-
-                        _fv_=favourite2
 
 
                         if song[0]==current_playing:
-                            _fv_=favourite2_
+                            _pl_=playlist3
 
-                    attr[2]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
+                            
 
-                    break
+
+                        attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=_pl_,anchor="nw")
+
+
+
+
+                        if music_details[song[0]][0]==0:
+
+                            _fv_=favourite1
+
+                            if song[0]==current_playing:
+                                _fv_=favourite1_
+
+
+                        elif music_details[song[0]][0]==1:
+
+
+                            _fv_=favourite2
+
+
+                            if song[0]==current_playing:
+                                _fv_=favourite2_
+
+                        attr[2]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
+
+                        break
 
 
 
@@ -7340,35 +7344,49 @@ root.overrideredirect(True)
 
 
 
-
+y1,y2,y3=0,0,0
 def move_bg():
 
     global can2,can_lyrics,can3
     global bg2,bg3,bgp
     global sb_h,sb2_h
+    global root_st
+    global y1,y2,y3
 
 
-    can2.coords(bg2,-10,-(90-2)+int(can2.canvasy(0)))
+    if root_st==0:
+
+        if y1!=can2.canvasy(0):
 
 
-    sb_h=can2.canvasy(0)*int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])
-    draw_sb()
+            can2.coords(bg2,-10,-(90-2)+int(can2.canvasy(0)))
 
 
+            sb_h=can2.canvasy(0)*int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])
+            draw_sb()
+
+            y1=can2.canvasy(0)
 
 
-    can_lyrics.coords(bg2,-10,-(50)+int(can_lyrics.canvasy(0)))
+        if y2!=can_lyrics.canvasy(0):
 
 
+            can_lyrics.coords(bg2,-10,-(50)+int(can_lyrics.canvasy(0)))
 
-        
-
-    can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)))
+            y2=can_lyrics.canvasy(0)
 
 
-    sb2_h=can3.canvasy(0)*int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])
-    draw_sb2()
+        if y3!=can3.canvasy(0):
 
+            
+
+            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)))
+
+
+            sb2_h=can3.canvasy(0)*int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])
+            draw_sb2()
+
+            y3=can3.canvasy(0)
 
 def update_bg_pos():
 
