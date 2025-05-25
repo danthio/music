@@ -452,7 +452,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(4,draw_wave)
+    root.after(2,draw_wave)
 
 
 
@@ -914,7 +914,7 @@ def check_sound_device():
         )
         volume = interface.QueryInterface(IAudioEndpointVolume)
 
-    root.after(1,check_sound_device)
+    root.after(4,check_sound_device)
 
 
 music_details={}
@@ -6687,22 +6687,8 @@ def check_pl():
                 npl.place_forget()
 
 
-    root.after(1,check_pl)
+    root.after(4,check_pl)
 
-def load_():
-    global can,load,load_ang,load_st
-    global st,w
-
-
-    if st==4 and load_st==1:
-
-        can.delete(load)
-
-        load=can.create_arc(w/2-20,493-20-40, w/2+20,493-20,outline=col1,width=2,style=tk.ARC,start=load_ang,extent=270)
-
-        load_ang-=30
-
-    root.after(100,load_)
 
 
 
@@ -6777,7 +6763,7 @@ def load_():
 
 
 
-    root.after(1,load_)
+    root.after(4,load_)
 
 mot_val=0
 my_cursor=0
@@ -7031,7 +7017,7 @@ def check_cur_pos():
 
 
 
-    root.after(1,check_cur_pos)
+    root.after(4,check_cur_pos)
 
 
 def can_motion(e):
@@ -7393,7 +7379,7 @@ def update_bg_pos():
     move_bg()
 
 
-    root.after(1,update_bg_pos)
+    root.after(4,update_bg_pos)
 
 
 
@@ -7935,7 +7921,7 @@ def update_sb():
 
 
 
-    root.after(1,update_sb)
+    root.after(4,update_sb)
 
 
 def draw_sb():
@@ -8062,7 +8048,7 @@ def update_sb2():
 
 
 
-    root.after(1,update_sb2)
+    root.after(4,update_sb2)
 
 
 def draw_sb2():
@@ -8155,7 +8141,7 @@ def search__():
 
 
 
-    root.after(1,search__)
+    root.after(4,search__)
 
 search=tk.Entry(bg="#550a2b",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=115,font=("FreeMono",13))
 #search.bind("<KeyPress>",search_keypress)
@@ -8184,7 +8170,7 @@ def mvar_():
     except:
         pass
 
-    root.after(1,mvar_)
+    root.after(4,mvar_)
 
 
 
