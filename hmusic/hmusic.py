@@ -1607,7 +1607,7 @@ def add_playlist():
         a_+=1
 
 
-    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.17,can=can3)
+    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can3)
 
     can3.coords(cp2_im,0,-100)
 
@@ -2482,7 +2482,7 @@ def can_b3(e):
         # Display the color
         print("#%02x%02x%02x" % color)
 
-    #get_pixel_color(e.x, e.y)
+    get_pixel_color(e.x, e.y)
 
     #capture_canvas()
     move_to_playing()
@@ -3436,7 +3436,7 @@ def can_b1(e):
                         a_+=1
 
 
-                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.17,can=can_sort)
+                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can_sort)
 
                     can_sort.coords(csv_im,0,-100)
 
@@ -4525,7 +4525,7 @@ def main():
 
     #can2.create_polygon(ar,fill="red")
 
-    cp_im=create_polygon(*ar, fill="#38fca5", alpha=0.17,can=can2)
+    cp_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can2)
 
     can2.coords(cp_im,0,-100)
 
@@ -5833,7 +5833,7 @@ def draw_can():
                 can.create_image(x+40-30+1,y+1,image=circle6,anchor="nw")
 
 
-                can.create_rectangle(x-40+15+1,y+1, x+40-15+1,y+30-1-1, fill="#020410",outline="#020410")
+                can.create_rectangle(x-40+15+1,y+1, x+40-15+1,y+30-1-1, fill="#010917",outline="#010917")
 
 
                 can.create_text(x,y+15,text="Lyrics",font=("FreeMono",13),fill="#38fca5")
