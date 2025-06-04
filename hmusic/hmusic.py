@@ -381,6 +381,8 @@ def draw_wave():
 
     global tot_tm_
 
+    global current_volume
+
 
 
     col1="#38fca5"
@@ -414,7 +416,7 @@ def draw_wave():
 
 
 
-                sig.append(-amplitude*amp)
+                sig.append(-amplitude*amp*current_volume)
 
 
                 xn=int((w-20)/xv)
@@ -5123,7 +5125,7 @@ def main():
                     a_+=1
 
 
-                create_polygon(*ar, fill="#38fca5", alpha=0.6,can=can2)
+                create_polygon(*ar, fill="#38fca5", alpha=0.5,can=can2)
 
                 if _npl==1:
 
@@ -5895,7 +5897,7 @@ def draw_can():
                 a_+=1
 
 
-            create_polygon(*ar, fill="#38fca5", alpha=0.6,can=can)
+            create_polygon(*ar, fill="#38fca5", alpha=0.5,can=can)
 
 
 
@@ -6847,6 +6849,12 @@ def check_cur_pos():
 
         if st==2 and playlist_st==0 and select_st==0 and add_st==0 and sort_st==0 and lst==1:
 
+
+            if y_<0 or y_>int(can2["height"]):
+
+                root.after(4,check_cur_pos)
+                return
+
             if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
 
                 y=95
@@ -6942,6 +6950,16 @@ def check_cur_pos():
         elif add_st==1 and lst==1:
 
 
+
+
+
+            if y_>((h-(40+250-40+10+50))/2)+40+int(can3["height"])-88:
+
+
+                root.after(4,check_cur_pos)
+                return
+
+
             if (root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2+int(can3["width"]):
 
 
@@ -6964,6 +6982,15 @@ def check_cur_pos():
 
         elif select_st==1 and lst==1:
 
+
+
+
+            if y_<0 or y_>int(can2["height"]):
+
+                root.after(4,check_cur_pos)
+                return
+
+
             if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
 
 
@@ -6978,6 +7005,13 @@ def check_cur_pos():
 
         else:
 
+
+
+
+            if y_<0 or y_>int(can2["height"]):
+
+                root.after(4,check_cur_pos)
+                return
 
             if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
 
@@ -7339,7 +7373,7 @@ root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
 
-w,h=int(680*1.7),680
+w,h=int(680*1.75),680
 
 
 
