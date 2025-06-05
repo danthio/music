@@ -2268,24 +2268,6 @@ def can2_b1(e):
 
                     
                     del_wave()
-                    main()
-
-
-                    st_=st
-                    cp=current_playlist
-                    p=playlist_st
-
-
-                    st=songs_status[0]
-                    current_playlist=songs_status[1]
-                    playlist_st=1
-
-                    main()
-
-                    st=st_
-                    current_playlist=cp
-                    playlist_st=p
-
 
                     main()
 
@@ -5823,9 +5805,18 @@ def draw_can():
 
 
             if lyric_st==0:
+                can.create_image(x-40,y,image=circle3,anchor="nw")
+                can.create_image(x+40-30,y,image=circle3,anchor="nw")
 
 
-                draw_round_rec(can,x-40,y,x+40,y+30,15,col1,"",1)
+                can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col1,outline=col1)
+
+
+                can.create_image(x-40+1,y+1,image=circle6,anchor="nw")
+                can.create_image(x+40-30+1,y+1,image=circle6,anchor="nw")
+
+
+                can.create_rectangle(x-40+15+1,y+1, x+40-15+1,y+30-1-1, fill="#00080a",outline="#00080a")
 
 
                 can.create_text(x,y+15,text="Lyrics",font=("FreeMono",13),fill="#38fca5")
@@ -5963,9 +5954,9 @@ def draw_can():
 
 
 
-            can.create_line(10,90-5,w-10,90-5,fill=col1,width=1)
+            can.create_line(10,90-5,w-10,90-5,fill=col1,width=2)
 
-            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=col1,width=1)
+            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=col1,width=2)
 
             frame.place(in_=root,x=10,y=90-1-1)
 
@@ -8001,12 +7992,15 @@ def draw_sb():
 
     h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
 
+    #if not int(h)==int(can2["scrollregion"].split(" ")[-1]):
 
-    if not int(h)==int(can2["scrollregion"].split(" ")[-1]):
 
-        sb[0]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
-        sb[1]=can2.create_rectangle(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+3),int(can2["width"])-1,can2.canvasy(sb_h+h-3),fill=sb_col,outline=sb_col)
-        sb[2]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+h-6),image=circle10,anchor="nw")
+
+
+    sb[0]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
+    sb[1]=can2.create_rectangle(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+4),int(can2["width"])-1,can2.canvasy(sb_h+h-4),fill=sb_col,outline=sb_col)
+    sb[2]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+h-6),image=circle10,anchor="nw")
+
 def sb_move(v1,v2):
 
     global can2
@@ -8128,11 +8122,10 @@ def draw_sb2():
 
     h=int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])*int(can3["height"])
 
-    if not int(h)==int(can3["scrollregion"].split(" ")[-1]):
 
-        sb2[0]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h),image=circle10,anchor="nw")
-        sb2[1]=can3.create_rectangle(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+3),int(can3["width"])-4,can3.canvasy(sb2_h+h-3),fill=sb2_col,outline=sb2_col)
-        sb2[2]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+h-6),image=circle10,anchor="nw")
+    sb2[0]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h),image=circle10,anchor="nw")
+    sb2[1]=can3.create_rectangle(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+4),int(can3["width"])-4,can3.canvasy(sb2_h+h-4),fill=sb2_col,outline=sb2_col)
+    sb2[2]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+h-6),image=circle10,anchor="nw")
 
 
 def sb2_move(v1,v2):
