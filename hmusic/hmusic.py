@@ -131,7 +131,6 @@ def get_taskbar_height():
 
 
 
-
 """
 im=Image.open("data/circlex.png")
 im=im.resize((50,50))
@@ -325,6 +324,7 @@ im.save("data/bin2.png")
 
 
 """
+
 
 
 directory_path = Path("music")
@@ -1556,8 +1556,8 @@ def add_playlist():
         y=r*math.cos(math.radians(a_))+cy
 
 
-        ar.append(int(x))
-        ar.append(int(y))
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_+=1
 
@@ -1571,8 +1571,8 @@ def add_playlist():
         y=r*math.cos(math.radians(a_))+cy
 
 
-        ar.append(int(x))
-        ar.append(int(y))
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_+=1
     
@@ -1587,8 +1587,8 @@ def add_playlist():
         y=r*math.cos(math.radians(a_))+cy
 
 
-        ar.append(int(x))
-        ar.append(int(y))
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_+=1
 
@@ -1603,13 +1603,13 @@ def add_playlist():
         y=r*math.cos(math.radians(a_))+cy
 
 
-        ar.append(int(x))
-        ar.append(int(y))
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_+=1
 
 
-    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can3)
+    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can3)
 
     can3.coords(cp2_im,0,-100)
 
@@ -3367,8 +3367,9 @@ def can_b1(e):
                         y=r*math.cos(math.radians(a_))+cy
 
 
-                        ar.append(int(x))
-                        ar.append(int(y))
+
+                        ar.append(int(round(x,0)))
+                        ar.append(int(round(y,0)))
 
                         a_+=1
 
@@ -3382,8 +3383,8 @@ def can_b1(e):
                         y=r*math.cos(math.radians(a_))+cy
 
 
-                        ar.append(int(x))
-                        ar.append(int(y))
+                        ar.append(int(round(x,0)))
+                        ar.append(int(round(y,0)))
 
                         a_+=1
                     
@@ -3398,8 +3399,8 @@ def can_b1(e):
                         y=r*math.cos(math.radians(a_))+cy
 
 
-                        ar.append(int(x))
-                        ar.append(int(y))
+                        ar.append(int(round(x,0)))
+                        ar.append(int(round(y,0)))
 
                         a_+=1
 
@@ -3414,13 +3415,13 @@ def can_b1(e):
                         y=r*math.cos(math.radians(a_))+cy
 
 
-                        ar.append(int(x))
-                        ar.append(int(y))
+                        ar.append(int(round(x,0)))
+                        ar.append(int(round(y,0)))
 
                         a_+=1
 
 
-                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can_sort)
+                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can_sort)
 
                     can_sort.coords(csv_im,0,-100)
 
@@ -3691,41 +3692,44 @@ def can_b1(e):
 
 
 
-                cx,cy=x+40+10+5+12.5,y+2.5+12.5
+                cx,cy=x+40+10+12.5,y+2.5+12.5
+
+                r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
 
-                if cx-12.5<=e.x<=cx+12.5:
-                    if cy-12.5<=e.y<=cy+12.5:
+                if r<=12.5:
 
-                        clipboard()
+                    clipboard()
 
 
-                        if not current_playing=="":
-                            update_details(current_playing,2,_lyric)
+                    if not current_playing=="":
+                        update_details(current_playing,2,_lyric)
 
-                            lvar=0
+                        lvar=0
 
-                            main()
-                            prog()
-
+                        main()
+                        prog()
 
 
 
-                        return
+
+                    return
 
 
                 if music_details[current_playing][2]!="":
 
-                    cx,cy=x+40+10+25+10+5+12.5,y+2.5+12.5
+                    cx,cy=x+40+10+25+10+12.5,y+2.5+12.5
+
+                    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
 
-                    if cx-12.5<=e.x<=cx+12.5:
-                        if cy-12.5<=e.y<=cy+12.5:
+                    if r<=12.5:
 
-                            update_details(current_playing,2,"")
-                            main()
 
-                            return
+                        update_details(current_playing,2,"")
+                        main()
+
+                        return
 
 
 
@@ -4454,8 +4458,9 @@ def main():
         y=r*math.cos(math.radians(a_))+cy
 
 
-        ar.append(int(x))
-        ar.append(int(y))
+
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_+=1
 
@@ -4469,8 +4474,9 @@ def main():
         y=r*math.cos(math.radians(a_))+cy
 
 
-        ar.append(int(x))
-        ar.append(int(y))
+
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_+=1
     
@@ -4485,8 +4491,9 @@ def main():
         y=r*math.cos(math.radians(a_))+cy
 
 
-        ar.append(int(x))
-        ar.append(int(y))
+
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_+=1
 
@@ -4501,15 +4508,16 @@ def main():
         y=r*math.cos(math.radians(a_))+cy
 
 
-        ar.append(int(x))
-        ar.append(int(y))
+
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_+=1
 
 
     #can2.create_polygon(ar,fill="red")
 
-    cp_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can2)
+    cp_im=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can2)
 
     can2.coords(cp_im,0,-100)
 
@@ -5090,8 +5098,8 @@ def main():
                     x=15*math.sin(math.radians(a_))+10+15
                     y_=15*math.cos(math.radians(a_))+y+15
 
-                    ar.append(int(x))
-                    ar.append(int(y_))
+                    ar.append(int(round(x,0)))
+                    ar.append(int(round(y_,0)))
 
                     a_+=1
 
@@ -5101,13 +5109,16 @@ def main():
                     x=15*math.sin(math.radians(a_))+(int(can2["width"])-sb_sz-1)-10-15
                     y_=15*math.cos(math.radians(a_))+y+15
 
-                    ar.append(int(x))
-                    ar.append(int(y_))
+
+
+                    ar.append(int(round(x,0)))
+                    ar.append(int(round(y_,0)))
+
                     
                     a_+=1
 
 
-                create_polygon(*ar, fill="#38fca5", alpha=0.5,can=can2)
+                create_polygon(*ar, fill="#38fca5", alpha=0.4,can=can2)
 
                 if _npl==1:
 
@@ -5118,15 +5129,7 @@ def main():
 
 
 
-                can2.create_arc(10,y, 10+30,y+30, style=tk.ARC,start=90,extent=180,outline=col1)
-                can2.create_arc((int(can2["width"])-sb_sz-1)-10-30,y, (int(can2["width"])-sb_sz-1)-10,y+30, style=tk.ARC,start=270,extent=180,outline=col1)
-
-                can2.create_line(10+15,y, (int(can2["width"])-sb_sz-1)-10-15,y, fill=col1)
-                can2.create_line(10-1+15,y+30, (int(can2["width"])-sb_sz-1)-10-15,y+30, fill=col1)
-
-
-
-
+                draw_round_rec(can2,10,y,(int(can2["width"])-sb_sz-1)-10,y+30,15,col1,"",1)
 
 
 
@@ -5828,7 +5831,7 @@ def draw_can():
                     if not music_details[current_playing][2]=="":
 
 
-                        can.create_image(x+40+5,y+15-3, image=circle5,anchor="nw")
+                        can.create_image(x+40+10,y+15-3, image=circle5,anchor="nw")
                 except:
                     pass
 
@@ -5844,10 +5847,10 @@ def draw_can():
                 can.create_text(x,y+15,text="Lyrics",font=("FreeMono",13),fill="#071f14")
 
 
-                can.create_image(x+40+10+5,y+2.5,image=add,anchor="nw")
+                can.create_image(x+40+10,y+2.5,image=add,anchor="nw")
 
                 if music_details[current_playing][2]!="":
-                    can.create_image(x+40+10+25+10+5,y+2.5,image=delete,anchor="nw")
+                    can.create_image(x+40+10+25+10,y+2.5,image=delete,anchor="nw")
 
 
 
@@ -5871,8 +5874,8 @@ def draw_can():
                 x=15*math.sin(math.radians(a_))+10+15
                 y=15*math.cos(math.radians(a_))+40+30-10-5-5+15
 
-                ar.append(int(x))
-                ar.append(int(y))
+                ar.append(int(round(x,0)))
+                ar.append(int(round(y,0)))
 
                 a_+=1
 
@@ -5882,13 +5885,13 @@ def draw_can():
                 x=15*math.sin(math.radians(a_))+w-10-15
                 y=15*math.cos(math.radians(a_))+40+30-10-5-5+15
 
-                ar.append(int(x))
-                ar.append(int(y))
+                ar.append(int(round(x,0)))
+                ar.append(int(round(y,0)))
                 
                 a_+=1
 
 
-            create_polygon(*ar, fill="#38fca5", alpha=0.5,can=can)
+            create_polygon(*ar, fill="#38fca5", alpha=0.4,can=can)
 
 
 
@@ -5908,11 +5911,7 @@ def draw_can():
                 
             can.create_image(w-10-5-20,40+5+30-10-5-5,image=cancel,anchor="nw")
 
-            can.create_arc(10,40+30-10-5-5, 10+30,40+30+30-10-5-5, style=tk.ARC,start=90,extent=180,outline=col1)
-            can.create_arc(w-10-30,40+30-10-5-5, w-10,40+30+30-10-5-5, style=tk.ARC,start=270,extent=180,outline=col1)
-
-            can.create_line(10+15,40+30-10-5-5, w-10-15,40+30-10-5-5, fill=col1)
-            can.create_line(10-1+15,40+30+30-10-5-5, w-10-15,40+30+30-10-5-5, fill=col1)
+            draw_round_rec(can,10,40+30-10-5-5,w-10,40+30-10-5-5+30,15,col1,"",1)
 
 
 
@@ -6489,12 +6488,9 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
         x=r*math.sin(math.radians(a_))+cx
         y=r*math.cos(math.radians(a_))+cy
 
-        ar.append(x)
-        ar.append(y)
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
-
-        ar2.append(x)
-        ar2.append(y)
 
 
         a_-=1
@@ -6508,11 +6504,8 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
         x=r*math.sin(math.radians(a_))+cx
         y=r*math.cos(math.radians(a_))+cy
 
-        ar.append(x)
-        ar.append(y)
-
-        ar2.append(x)
-        ar2.append(y)
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
 
         a_-=1
@@ -6526,11 +6519,8 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
         x=r*math.sin(math.radians(a_))+cx
         y=r*math.cos(math.radians(a_))+cy
 
-        ar.append(x)
-        ar.append(y)
-
-        ar3.append(x)
-        ar3.append(y)
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
         a_-=1
         
@@ -6544,11 +6534,9 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
         x=r*math.sin(math.radians(a_))+cx
         y=r*math.cos(math.radians(a_))+cy
 
-        ar.append(x)
-        ar.append(y)
+        ar.append(int(round(x,0)))
+        ar.append(int(round(y,0)))
 
-        ar3.append(x)
-        ar3.append(y)
 
 
         a_-=1
@@ -6597,14 +6585,6 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
     elif con==1:    
         c.create_line(ar,fill=col,width=width,smooth=True)
 
-    elif con==2:
-
-        c.create_line(ar2,fill=col,width=width,smooth=True)
-
-        c.create_line(ar3,fill=col,width=width,smooth=True)
-
-
-
 
 
 def hex_to_rgb(hex_color: str) -> tuple:
@@ -6623,6 +6603,7 @@ bg=0
 
 copy=0
 circle9=0
+circle11=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -6642,6 +6623,7 @@ def load_im():
     global cur
     global copy
     global circle9,circle10
+    global circle11
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -6653,6 +6635,7 @@ def load_im():
     circle8=ImageTk.PhotoImage(file="data/circle8.png")
     circle9=ImageTk.PhotoImage(file="data/circle9.png")
     circle10=ImageTk.PhotoImage(file="data/circle10.png")
+    circle11=ImageTk.PhotoImage(file="data/circle11.png")
     play=ImageTk.PhotoImage(file="data/play.png")
     play=ImageTk.PhotoImage(file="data/play.png")
     pause=ImageTk.PhotoImage(file="data/pause.png")
@@ -6798,6 +6781,81 @@ attr=[0,0,0]
 
 cr_pos=[]
 
+cur_can=[0,0]
+cur_can2=[0,0]
+cur_can_lyrics=[0,0]
+cur_can_sort=[0,0]
+
+def draw_cur():
+
+
+    global can,can2,can_lyrics,can_sort
+    global cur_can,cur_can2,cur_can_lyrics,cur_can_sort
+    global circle7,circle11
+    global root_st
+
+
+    x,y=pyautogui.position()
+
+
+
+    can.delete(cur_can[0])
+    can.delete(cur_can[1])
+    can2.delete(cur_can2[0])
+    can2.delete(cur_can2[1])        
+    can_lyrics.delete(cur_can_lyrics[0])
+    can_lyrics.delete(cur_can_lyrics[1])
+    can_sort.delete(cur_can_sort[0])
+    can_sort.delete(cur_can_sort[1])
+
+
+    if root_st==1:
+
+
+        #str(wd-3-50)+"+"+str(ht-51-50)
+
+
+        xx,yy=x-(wd-3-50),y-(ht-51-50)
+
+        cx,cy=(wd-3-50)+25,(ht-51-50)+25
+
+        r=math.sqrt((x-cx)**2+(y-cy)**2)
+
+
+        if r<=25:
+
+
+            cur_can[0]=can.create_image(xx-4,yy-4,image=circle7,anchor="nw")
+            cur_can[1]=can.create_image(xx-3,yy-3,image=circle11,anchor="nw")
+
+        root.after(1,draw_cur)
+        return
+
+
+
+    xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
+
+    cur_can[0]=can.create_image(xx-4,yy-4,image=circle7,anchor="nw")
+    cur_can[1]=can.create_image(xx-3,yy-3,image=circle11,anchor="nw")
+
+    xx,yy=x-(wd-w)/2-10,y-(ht-get_taskbar_height()-h)/2-88+can2.canvasy(0)
+
+    cur_can2[0]=can2.create_image(xx-4,yy-4,image=circle7,anchor="nw")
+    cur_can2[1]=can2.create_image(xx-3,yy-3,image=circle11,anchor="nw")
+
+    xx,yy=x-(wd-w)/2-10,y-(ht-get_taskbar_height()-h)/2-50+can_lyrics.canvasy(0)
+
+    cur_can_lyrics[0]=can_lyrics.create_image(xx-4,yy-4,image=circle7,anchor="nw")
+    cur_can_lyrics[1]=can_lyrics.create_image(xx-3,yy-3,image=circle11,anchor="nw")
+
+    xx,yy=x-(wd-w)/2-(10+25+15+25),y-(ht-get_taskbar_height()-h)/2-(h-20-30-15+5+10+2.5-160)
+
+    cur_can_sort[0]=can_sort.create_image(xx-4,yy-4,image=circle7,anchor="nw")
+    cur_can_sort[1]=can_sort.create_image(xx-3,yy-3,image=circle11,anchor="nw")
+
+
+    root.after(1,draw_cur)
+
 def check_cur_pos():
     global can2,attr,current_playing,playlist,songs
     global _pl_,playlist2,playlist3,_fv_,music_details,favourite1,favourite1_,favourite2_,favourite2
@@ -6814,6 +6872,7 @@ def check_cur_pos():
     global sort_st,sort_ar,csv_im
     global search_var
     global root_st
+
 
 
     if root_st==0:
@@ -7828,7 +7887,7 @@ def drag_can(e):
 
 
 
-can=tk.Canvas(width=w,height=h,bg="#071f14",relief="flat",highlightthickness=0,border=0,cursor="arrow")
+can=tk.Canvas(width=w,height=h,bg="#071f14",relief="flat",highlightthickness=0,border=0,cursor="none")
 can.place(in_=root,x=0,y=0)
 
 can.bind("<Button-1>",can_b1)
@@ -8023,7 +8082,7 @@ psb_h=0
 sb_st=0
 
 
-can2=tk.Canvas(frame,bg="#071f14",width=w-20,height=((h-121)-80-10),relief="flat",highlightthickness=0,border=0)
+can2=tk.Canvas(frame,bg="#071f14",width=w-20,height=((h-121)-80-10),relief="flat",highlightthickness=0,border=0,cursor="none")
 can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
 can2.pack(side=tk.LEFT)
@@ -8283,7 +8342,7 @@ def can_sort_b1(e):
 
 sort_st=0
 _sort=0
-can_sort=tk.Canvas(bg="#071f14",width=250,height=160,relief="flat",highlightthickness=0,border=0)
+can_sort=tk.Canvas(bg="#071f14",width=250,height=160,relief="flat",highlightthickness=0,border=0,cursor="none")
 
 can_sort.bind("<Button-1>",can_sort_b1)
 
@@ -8308,7 +8367,7 @@ for _ in sa:
 
 
 
-can_lyrics=tk.Canvas(bg="#071f14",relief="flat",highlightthickness=0,border=0)
+can_lyrics=tk.Canvas(bg="#071f14",relief="flat",highlightthickness=0,border=0,cursor="none")
 
 
 
@@ -8384,4 +8443,5 @@ update_sb2()
 
 check_cur_pos()
 move_bg()
+draw_cur()
 root.mainloop()
