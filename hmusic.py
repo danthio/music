@@ -463,7 +463,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(4,draw_wave)
+    root.after(1,draw_wave)
 
 
 
@@ -1405,7 +1405,7 @@ def timer():
         except:
             pass
 
-    root.after(4,timer)
+    root.after(1,timer)
 
 
 def can3_b1(e):
@@ -5851,6 +5851,9 @@ def draw_can():
 
 
 
+
+
+
     def draw_round_rec2(c,x,y,x2,y2,r,col):
 
 
@@ -6334,7 +6337,7 @@ def draw_can():
 
 
 
-        can.create_line(w-10-100,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=col2,width=3)
+        can.create_line(w-10-100,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=col2,width=2)
 
 
         can.create_image(w-10-100-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
