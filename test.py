@@ -1,4 +1,5 @@
-from PIL import Image 
+from PIL import Image,ImageTk,ImageDraw,ImageGrab
+import tkinter as tk
 
 #38fca5 #125437 #071f14
 
@@ -33,12 +34,15 @@ def convert(file,output,col):
 
             color = im.getpixel((x, y))
 
-            #print(mx)
+            mx=max(rgb)
+
+            c_=max(color)#color[rgb.index(mx)]
 
 
-            r=int(rgb[0]*color[1]/rgb[1])
-            g=int(rgb[1]*color[1]/rgb[1])
-            b=int(rgb[2]*color[1]/rgb[1])
+
+            r=int(c_*rgb[0]/mx)
+            g=int(c_*rgb[1]/mx)
+            b=int(c_*rgb[2]/mx)
 
 
             pixels[x,y]=(r,g,b)
@@ -125,7 +129,7 @@ print(col2,col3,col4)
 
 """
 
-convert("data/bg_.jpg","data/bg.png","#38fca5")
+convert("data/bg_.png","data/bg.png","#38fca5")
 #print(680*1.7)
 im=Image.open("data/bg.png")
 x,y=im.size 
@@ -137,7 +141,8 @@ xx=int((x-y*1.75)/2)
 im=im.crop((xx,0,x-xx,y))
 im.save("data/bg.png")
 
-darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.4)
+darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.7)
+
 """
 im=Image.open("data/bg_ref2.png")
 x,y=im.size 
@@ -148,4 +153,102 @@ yy=int((y-680))
 
 im=im.crop((0,yy,x,y))
 im.save("data/bg_ref.png")"""
+
+
+
+
+
+images = []  # to hold the newly created image
+
+def create_rectangle(can,x1, y1, x2, y2, **kwargs):
+    global images
+    if 'alpha' in kwargs:
+        alpha = int(kwargs.pop('alpha') * 255)
+        fill = kwargs.pop('fill')
+        fill = root.winfo_rgb(fill) + (alpha,)
+        image = Image.new('RGBA', (x2-x1, y2-y1), fill)
+        images.append(ImageTk.PhotoImage(image))
+        can.create_image(x1, y1, image=images[-1], anchor='nw')
+
+
+
+def hex_to_rgba(hex_color, alpha):
+    """Convert hex color like '#38fca5' to RGBA tuple."""
+    hex_color = hex_color.lstrip('#')
+    r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+    return (r, g, b, int(alpha * 255))
+
+
+def create_polygon(*args, **kwargs):
+    global can
+
+
+
+
+
+    if "alpha" in kwargs:         
+        if "fill" in kwargs:
+            # Get and process the input data
+            c=kwargs.pop("can")
+            outline = kwargs.pop("outline") if "outline" in kwargs else None
+
+            # We need to find a rectangle the polygon is inscribed in
+            # (max(args[::2]), max(args[1::2])) are x and y of the bottom right point of this rectangle
+            # and they also are the width and height of it respectively (the image will be inserted into
+            # (0, 0) coords for simplicity)
+            image = Image.new("RGBA", (max(args[::2])+1, max(args[1::2])+1))
+
+            fill=hex_to_rgba(kwargs.pop("fill"), kwargs.pop("alpha"))
+
+            ImageDraw.Draw(image).polygon(args, fill=fill, outline=outline)
+
+
+
+            images.append(ImageTk.PhotoImage(image))  # prevent the Image from being garbage-collected
+
+
+            return c.create_image(0, 0, image=images[-1], anchor="nw")  # insert the Image to the 0, 0 coords
+
+def capture_canvas(e):
+
+    global can
+    # Ensure Tkinter updates before capturing
+    root.update_idletasks()
+
+    # Get the absolute coordinates of the canvas
+    x = root.winfo_rootx() + can.winfo_x()
+    y = root.winfo_rooty() + can.winfo_y()
+    x1 = x + can.winfo_width()
+    y1 = y + can.winfo_height()
+
+    # Capture the specified screen region
+    image = ImageGrab.grab(bbox=(x, y, x1, y1))
+
+    # Convert and save as high-quality image
+    image = image.convert("RGB")  
+    image.save("data/bg.png", quality=10000)
+
+
+
+
+
+w,h=int(680*1.75),680
+
+root=tk.Tk()
+root.geometry(str(w)+"x"+str(h)+"+0+0")
+
+can=tk.Canvas(width=w,height=h,relief="flat",highlightthickness=0,border=0,bg="#000000")
+can.place(in_=root,x=0,y=0)
+
+bg=ImageTk.PhotoImage(file="data/bg.png")
+
+can.create_image(0,0,image=bg,anchor="nw")
+
+
+#create_polygon(*[0,559, w,559, w,h, 0,h], fill="#000000", alpha=0.6,can=can)
+
+
+can.bind("<Button-1>",capture_canvas)
+
+root.mainloop()
 
