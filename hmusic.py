@@ -129,8 +129,13 @@ def get_taskbar_height():
     
     return max(0, taskbar_height)  # Ensure no negative values
 
-
 """
+
+
+im=Image.open("data/cursor.png")
+im=im.resize((25,25))
+im.save("data/cursor.png")
+
 im=Image.open("data/circlex.png")
 im=im.resize((50,50))
 im.save("data/circlex.png")
@@ -1213,6 +1218,8 @@ def prog():
     global circle9,circle5,circle7,circle8,circle11
     global cur_can,can
 
+    global cursor
+
 
 
     if not select_st==1:
@@ -1300,12 +1307,10 @@ def prog():
 
 
                         can.delete(cur_can[0])
-                        can.delete(cur_can[1])
 
                         
 
-                        cur_can[0]=can.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-                        cur_can[1]=can.create_image(xx-3,yy-3,image=circle11,anchor="nw")
+                        cur_can[0]=can.create_image(xx-4,yy-4,image=cursor,anchor="nw")
 
 
 
@@ -1700,48 +1705,6 @@ def add_playlist():
 
 
     draw_sb2()
-
-
-
-
-    ar=[]
-
-    cx,cy=15,15
-
-    for a in range(360):
-
-        x=int(round(15*math.sin(math.radians(a))+cx,0))
-        y=int(round(15*math.cos(math.radians(a))+cy,0))
-
-        ar.append(x)
-        ar.append(y)
-
-    ar.append(ar[0])
-    ar.append(ar[1])
-
-    cur_can3[2]=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can3)
-    cur_can4[2]=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can4)
-    cur_can6[2]=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can6)
-
-
-    ar=[]
-
-    cx,cy=10,10
-
-    for a in range(360):
-
-        x=int(round(10*math.sin(math.radians(a))+cx,0))
-        y=int(round(10*math.cos(math.radians(a))+cy,0))
-
-        ar.append(x)
-        ar.append(y)
-
-    ar.append(ar[0])
-    ar.append(ar[1])
-
-    cur_can3[3]=create_polygon(*ar, fill="#38fca5", alpha=0.4,can=can3)
-    cur_can4[3]=create_polygon(*ar, fill="#38fca5", alpha=0.4,can=can4)
-    cur_can6[3]=create_polygon(*ar, fill="#38fca5", alpha=0.4,can=can6)
 
 
 def can2_b1(e):
@@ -4428,6 +4391,8 @@ def main():
 
     global cur_can,circle7,circle11
 
+    global cursor
+
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     can["bg"]="#333333"
 
@@ -5233,10 +5198,10 @@ def main():
 
                     if _npl==1:
 
-                        can2.create_oval(10,y, 10+30,y+30, fill="#000000",outline="#000000")
-                        can2.create_oval((int(can2["width"])-sb_sz-1)-10-30,y, (int(can2["width"])-sb_sz-1)-10,y+30,fill="#000000",outline="#000000")
+                        can2.create_oval(10,y, 10+30,y+30, fill="#0b3723",outline="#0b3723")
+                        can2.create_oval((int(can2["width"])-sb_sz-1)-10-30,y, (int(can2["width"])-sb_sz-1)-10,y+30,fill="#0b3723",outline="#0b3723")
 
-                        can2.create_rectangle(10+15,y, (int(can2["width"])-sb_sz-1)-10-15,y+30,fill="#000000",outline="#000000")
+                        can2.create_rectangle(10+15,y, (int(can2["width"])-sb_sz-1)-10-15,y+30,fill="#0b3723",outline="#0b3723")
 
 
 
@@ -5687,62 +5652,12 @@ def main():
 
     x,y=pyautogui.position()
 
-
-    can.delete(cur_can[0])
-    can.delete(cur_can[1])
-    can.delete(cur_can[2])
-    can.delete(cur_can[3])
-    
     xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
 
 
-    ar=[]
+    can.delete(cur_can[0])
 
-    cx,cy=15,15
-
-    for a in range(360):
-
-        x=int(round(15*math.sin(math.radians(a))+cx,0))
-        y=int(round(15*math.cos(math.radians(a))+cy,0))
-
-        ar.append(x)
-        ar.append(y)
-
-    ar.append(ar[0])
-    ar.append(ar[1])
-
-    cur_can[2]=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can)
-    cur_can2[2]=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can2)
-
-
-
-    ar=[]
-
-    cx,cy=10,10
-
-    for a in range(360):
-
-        x=int(round(10*math.sin(math.radians(a))+cx,0))
-        y=int(round(10*math.cos(math.radians(a))+cy,0))
-
-        ar.append(x)
-        ar.append(y)
-
-    ar.append(ar[0])
-    ar.append(ar[1])
-
-    cur_can[3]=create_polygon(*ar, fill="#38fca5", alpha=0.4,can=can)
-    cur_can2[3]=create_polygon(*ar, fill="#38fca5", alpha=0.4,can=can2)
-
-
-
-    can.coords(cur_can[2],xx-15,yy-15)
-    can.coords(cur_can[3],xx-10,yy-10)
-
-
-    cur_can[0]=can.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-    cur_can[1]=can.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-
+    cur_can[0]=can.create_image(xx,yy,image=cursor,anchor="nw")
 
 def get_text_length(canvas, text, font_name, font_size):
     # Create a tkinter font object with the given font name and size
@@ -6069,10 +5984,10 @@ def draw_can():
             
             if _search==1:
 
-                can.create_oval(10,40+30-10-5-5, 10+30,40+30+30-10-5-5,fill="#000000",outline="#000000")
-                can.create_oval(w-10-30-1,40+30-10-5-5, w-10-1,40+30+30-10-5-5,fill="#000000",outline="#000000")
+                can.create_oval(10,40+30-10-5-5, 10+30,40+30+30-10-5-5,fill="#0b3723",outline="#0b3723")
+                can.create_oval(w-10-30-1,40+30-10-5-5, w-10-1,40+30+30-10-5-5,fill="#0b3723",outline="#0b3723")
 
-                can.create_rectangle(10+15,40+30-10-5-5, w-10-15-1,40+30+30-10-5-5,fill="#000000",outline="#000000")
+                can.create_rectangle(10+15,40+30-10-5-5, w-10-15-1,40+30+30-10-5-5,fill="#0b3723",outline="#0b3723")
                 
             can.create_image(w-10-5-20,40+5+30-10-5-5,image=cancel,anchor="nw")
 
@@ -6643,41 +6558,6 @@ def show_lyrics():
 
 
 
-    ar=[]
-
-    cx,cy=15,15
-
-    for a in range(360):
-
-        x=int(round(15*math.sin(math.radians(a))+cx,0))
-        y=int(round(15*math.cos(math.radians(a))+cy,0))
-
-        ar.append(x)
-        ar.append(y)
-
-    ar.append(ar[0])
-    ar.append(ar[1])
-
-    cur_can_lyrics[2]=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can_lyrics)
-
-
-    ar=[]
-
-    cx,cy=10,10
-
-    for a in range(360):
-
-        x=int(round(10*math.sin(math.radians(a))+cx,0))
-        y=int(round(10*math.cos(math.radians(a))+cy,0))
-
-        ar.append(x)
-        ar.append(y)
-
-    ar.append(ar[0])
-    ar.append(ar[1])
-
-    cur_can_lyrics[3]=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can_lyrics)
-
 
 
 def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
@@ -6811,6 +6691,7 @@ bg=0
 copy=0
 circle9=0
 circle11=0
+cursor=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -6831,6 +6712,7 @@ def load_im():
     global copy
     global circle9,circle10
     global circle11
+    global cursor
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -6883,6 +6765,8 @@ def load_im():
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
     bg=ImageTk.PhotoImage(file="data/bg.png")
+
+    cursor=ImageTk.PhotoImage(file="data/cursor.png")
 
 
 
@@ -6988,14 +6872,14 @@ attr=[0,0,0]
 
 cr_pos=[]
 
-cur_can=[0,0,0,0]
-cur_can2=[0,0,0,0]
-cur_can3=[0,0,0,0]
-cur_can4=[0,0,0,0]
-cur_can6=[0,0,0,0]
+cur_can=[0]
+cur_can2=[0]
+cur_can3=[0]
+cur_can4=[0]
+cur_can6=[0]
 
-cur_can_lyrics=[0,0,0,0,0]
-cur_can_sort=[0,0,0,0,0]
+cur_can_lyrics=[0]
+cur_can_sort=[0]
 
 
 cur_p=[]
@@ -7095,6 +6979,7 @@ def draw_cur():
     global cur_p
     global _search,_npl
     global lst
+    global cursor
 
 
     x,y=pyautogui.position()
@@ -7113,43 +6998,22 @@ def draw_cur():
         cur_p=[x,y]
 
         can.delete(cur_can[0])
-        can.delete(cur_can[1])
-        can.coords(cur_can[2],-100,-100)
-        can.coords(cur_can[3],-100,-100)
 
     can2.delete(cur_can2[0])
-    can2.delete(cur_can2[1])    
-    can2.coords(cur_can2[2],-100,-100)
-    can2.coords(cur_can2[3],-100,-100)
 
 
     can3.delete(cur_can3[0])
-    can3.delete(cur_can3[1])    
-    can3.coords(cur_can3[2],-100,-100)
-    can3.coords(cur_can3[3],-100,-100)
 
 
     can4.delete(cur_can4[0])
-    can4.delete(cur_can4[1]) 
-    can4.coords(cur_can4[2],-100,-100)
-    can4.coords(cur_can4[3],-100,-100)
 
     can6.delete(cur_can6[0])
-    can6.delete(cur_can6[1]) 
-    can6.coords(cur_can6[2],-100,-100)
-    can6.coords(cur_can6[3],-100,-100)
 
     can_lyrics.delete(cur_can_lyrics[0])
-    can_lyrics.delete(cur_can_lyrics[1])
-    can_lyrics.coords(cur_can_lyrics[2],-100,-100)
-    can_lyrics.coords(cur_can_lyrics[3],-100,-100)
 
 
 
     can_sort.delete(cur_can_sort[0])
-    can_sort.delete(cur_can_sort[1])
-    can_sort.coords(cur_can_sort[2],-100,-100)
-    can_sort.coords(cur_can_sort[3],-100,-100)
 
     if root_st==1 and con==1:
 
@@ -7167,10 +7031,7 @@ def draw_cur():
         if r<=25:
 
 
-            cur_can[0]=can.create_image(xx-3,yy-3,image=circle7,anchor="nw")
-            cur_can[1]=can.create_image(xx-2,yy-2,image=circle11,anchor="nw")
-            can.coords(cur_can[2],xx-15,yy-15)
-            can.coords(cur_can[3],xx-10,yy-10)
+            cur_can[0]=can.create_image(xx,yy,image=cursor,anchor="nw")
 
         root.after(10,draw_cur)
         return
@@ -7192,10 +7053,7 @@ def draw_cur():
 
                 xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
 
-                cur_can[0]=can.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-                cur_can[1]=can.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-                can.coords(cur_can[2],xx-15,yy-15)
-                can.coords(cur_can[3],xx-10,yy-10)
+                cur_can[0]=can.create_image(xx,yy,image=cursor,anchor="nw")
     else:
 
         if con==1:
@@ -7205,10 +7063,7 @@ def draw_cur():
 
             xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
 
-            cur_can[0]=can.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-            cur_can[1]=can.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-            can.coords(cur_can[2],xx-15,yy-15)
-            can.coords(cur_can[3],xx-10,yy-10)
+            cur_can[0]=can.create_image(xx,yy,image=cursor,anchor="nw")
 
     if lst==1:
 
@@ -7220,53 +7075,34 @@ def draw_cur():
         else:
             can2["cursor"]="none"
 
-            cur_can2[0]=can2.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-            cur_can2[1]=can2.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-            can2.coords(cur_can2[2],xx-15,yy-15)
-            can2.coords(cur_can2[3],xx-10,yy-10)
+            cur_can2[0]=can2.create_image(xx,yy,image=cursor,anchor="nw")
 
         xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(40+250-40+10+50))/2
 
-        cur_can4[0]=can4.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-        cur_can4[1]=can4.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-        can4.coords(cur_can4[2],xx-15,yy-15)
-        can4.coords(cur_can4[3],xx-10,yy-10)
+        cur_can4[0]=can4.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
         xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(40+250-40+10+50))/2-40+can3.canvasy(0)
 
-        cur_can3[0]=can3.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-        cur_can3[1]=can3.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-        can3.coords(cur_can3[2],xx-15,yy-15)
-        can3.coords(cur_can3[3],xx-10,yy-10)
+        cur_can3[0]=can3.create_image(xx,yy,image=cursor,anchor="nw")
 
 
         xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(40+250-40+10+50))/2-40-int(can3["height"])
 
-        cur_can6[0]=can6.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-        cur_can6[1]=can6.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-        can6.coords(cur_can6[2],xx-15,yy-15)
-        can6.coords(cur_can6[3],xx-10,yy-10)
+        cur_can6[0]=can6.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
     xx,yy=x-(wd-w)/2-10,y-(ht-get_taskbar_height()-h)/2-50+can_lyrics.canvasy(0)
 
-    cur_can_lyrics[0]=can_lyrics.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-    cur_can_lyrics[1]=can_lyrics.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-    can_lyrics.coords(cur_can_lyrics[2],xx-15,yy-15)
-    can_lyrics.coords(cur_can_lyrics[3],xx-10,yy-10)
+    cur_can_lyrics[0]=can_lyrics.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
     xx,yy=x-(wd-w)/2-(10+25+15+25),y-(ht-get_taskbar_height()-h)/2-(h-20-30-15+5+10+2.5-160)
 
-    cur_can_sort[0]=can_sort.create_image(xx-4,yy-4,image=circle7,anchor="nw")
-    cur_can_sort[1]=can_sort.create_image(xx-3,yy-3,image=circle11,anchor="nw")
-
-    can_sort.coords(cur_can_sort[2],xx-15,yy-15)
-    can_sort.coords(cur_can_sort[3],xx-10,yy-10)
+    cur_can_sort[0]=can_sort.create_image(xx,yy,image=cursor,anchor="nw")
 
     root.after(10,draw_cur)
 
@@ -8693,8 +8529,8 @@ def search__():
 
     root.after(4,search__)
 
-search=tk.Entry(bg="#000000",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=115+10,font=("FreeMono",13))
-npl=tk.Entry(bg="#000000",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=112+10,font=("FreeMono",13))
+search=tk.Entry(bg="#0b3723",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=115+10,font=("FreeMono",13))
+npl=tk.Entry(bg="#0b3723",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=112+10,font=("FreeMono",13))
 
 ls=0
 def mvar_():
