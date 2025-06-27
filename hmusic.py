@@ -129,6 +129,9 @@ def get_taskbar_height():
     
     return max(0, taskbar_height)  # Ensure no negative values
 
+
+
+
 """
 
 
@@ -438,7 +441,7 @@ def draw_wave():
                 for a in sig:
 
                     sig2.append(x)
-                    sig2.append(a+50+((h-121)-50)/2)
+                    sig2.append(a+50+((h-121-30)-50)/2)
 
                     x+=xv
 
@@ -2416,26 +2419,26 @@ def move_to_playing(con_=0):
 
         if not current_playing=="":
 
+            con=0
 
-            if st==songs_status[0]:
 
-                if st==2:
-                    if current_playlist==songs_status[1]:
-                        con=1
+            for s in songs:
 
-                else:
+                if s[0]==current_playing:
+
                     con=1
+
 
 
             if con==1:
 
 
-                for s in _songs_:
+                for s in songs:
 
                     if s[0]==current_playing:
 
 
-                        t=len(_songs_)*50
+                        t=len(songs)*50
 
 
                         v=s[1]
@@ -3316,20 +3319,20 @@ def can_b1(e):
 
 
         #volume
-        if w-10-100-10<=e.x<=w-10+10:
+        if w-10-120-10<=e.x<=w-10+10:
             if h-20-30+5-10+10-3<=e.y<=h-20-30+5+10+10-3:
 
-                if e.x<w-10-100:
+                if e.x<w-10-120:
                     current_volume=0
                     volume.SetMasterVolumeLevelScalar(current_volume, None)
                 elif e.x>w-10:
                     current_volume=1
                     volume.SetMasterVolumeLevelScalar(current_volume, None)
-                elif w-10-100<=e.x<=w-10:
+                elif w-10-120<=e.x<=w-10:
 
-                    x=e.x-(w-10-100)
+                    x=e.x-(w-10-120)
 
-                    r=100
+                    r=120
 
                     current_volume=x/r
 
@@ -3498,42 +3501,6 @@ def can_b1(e):
 
 
 
-
-                    ar=[]
-
-                    cx,cy=15,15
-
-                    for a in range(360):
-
-                        x=int(round(15*math.sin(math.radians(a))+cx,0))
-                        y=int(round(15*math.cos(math.radians(a))+cy,0))
-
-                        ar.append(x)
-                        ar.append(y)
-
-                    ar.append(ar[0])
-                    ar.append(ar[1])
-
-                    cur_can_sort[2]=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can_sort)
-
-
-
-                    ar=[]
-
-                    cx,cy=10,10
-
-                    for a in range(360):
-
-                        x=int(round(10*math.sin(math.radians(a))+cx,0))
-                        y=int(round(10*math.cos(math.radians(a))+cy,0))
-
-                        ar.append(x)
-                        ar.append(y)
-
-                    ar.append(ar[0])
-                    ar.append(ar[1])
-
-                    cur_can_sort[3]=create_polygon(*ar, fill="#38fca5", alpha=0.4,can=can_sort)
 
 
 
@@ -4155,14 +4122,14 @@ def check_volume():
         can.delete(vol4)        
 
 
-        r=(w-10)-(w-10-100)
+        r=(w-10)-(w-10-120)
 
-        vol1=can.create_line(w-10-100,h-20-30+5+10-3 ,w-10-100+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
+        vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
 
         vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
 
-        vol3=can.create_image(w-10-100+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
-        vol4=can.create_image(w-10-100+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
+        vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
+        vol4=can.create_image(w-10-120+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
   
 
     root.after(500,check_volume)
@@ -5763,6 +5730,10 @@ def draw_can():
     can.create_image(0,0,image=bg,anchor="nw")
 
 
+    create_polygon(*[5,int(h-20-30-15+5+10-3+2.5-5), int(10+25+15+25+15+25+15+25+5),int(h-20-30-15+5+10-3+2.5-5),
+     int(10+25+15+25+15+25+15+25+5),int(h-20-30-15+5+10-3+2.5+25+5), 5,int(h-20-30-15+5+10-3+2.5+25+5)], fill="#000000", alpha=0.8,can=can)
+
+
 
 
 
@@ -6252,10 +6223,10 @@ def draw_can():
 
 
 
-        can.create_line(w-10-100,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=col2,width=2)
+        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=col2,width=2)
 
 
-        can.create_image(w-10-100-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
+        can.create_image(w-10-120-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
 
 
 
@@ -6264,14 +6235,14 @@ def draw_can():
         can.delete(vol3)
         can.delete(vol4)
 
-        r=(w-10)-(w-10-100)
+        r=(w-10)-(w-10-120)
 
 
-        vol1=can.create_line(w-10-100,h-20-30+5+10-3 ,w-10-100+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
+        vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
 
         vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
-        vol3=can.create_image(w-10-100+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
-        vol4=can.create_image(w-10-100+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
+        vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
+        vol4=can.create_image(w-10-120+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
 
 
 
@@ -6426,7 +6397,7 @@ def show_lyrics():
     global ylyrics
     global _bg3_,note
     global _bg5_,note2
-    global bg3,bg
+    global bg3,_bg2
     global cur_can_lyrics
 
 
@@ -6488,7 +6459,7 @@ def show_lyrics():
 
                     can_lyrics.delete("all")
 
-                    bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg,anchor="nw")
+                    bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=_bg2,anchor="nw")
 
 
                     
@@ -6692,6 +6663,7 @@ copy=0
 circle9=0
 circle11=0
 cursor=0
+_bg2=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -6706,7 +6678,7 @@ def load_im():
     global note_
     global note
     global circle6,circle7,circle8
-    global bg
+    global bg,_bg2
     global note2
     global cur
     global copy
@@ -6765,6 +6737,7 @@ def load_im():
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
     bg=ImageTk.PhotoImage(file="data/bg.png")
+    _bg2=ImageTk.PhotoImage(file="data/bg2.png")
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
 
@@ -6981,8 +6954,13 @@ def draw_cur():
     global lst
     global cursor
 
+    
+
 
     x,y=pyautogui.position()
+
+
+    can_label(x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2)
 
 
 
@@ -7104,7 +7082,7 @@ def draw_cur():
 
     cur_can_sort[0]=can_sort.create_image(xx,yy,image=cursor,anchor="nw")
 
-    root.after(10,draw_cur)
+    root.after(1,draw_cur)
 
 def check_cur_pos():
     global can2,attr,current_playing,playlist,songs
@@ -7127,6 +7105,8 @@ def check_cur_pos():
 
 
     if root_st==0:
+
+        con__=1
 
 
 
@@ -7224,6 +7204,8 @@ def check_cur_pos():
                         attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
 
                         break
+            root.after(5,check_cur_pos)
+            return
 
 
         elif sort_st==1:
@@ -7246,12 +7228,20 @@ def check_cur_pos():
                             can_sort.coords(csv_im,0,y)
 
                     y+=30
+            root.after(5,check_cur_pos)
+            return
 
 
 
 
 
         elif add_st==1 and lst==1:
+
+
+
+
+
+
 
 
             y_+=88
@@ -7263,29 +7253,39 @@ def check_cur_pos():
 
 
 
-            if y_<0 or y_>int(can3["height"]):
-
-
-                root.after(4,check_cur_pos)
-                return
 
 
             if (root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2+int(can3["width"]):
 
+                if -40<=y_<=int(can3["height"])+17:
 
-                y=0
-
-                ar=[]
-
-                for pl in playlist:
+                    con__=0
 
 
-                    if y<=can3.canvasy(y_)<=y+50:
 
-                        can3.coords(cp2_im,0,y)
+            if y_<0 or y_>int(can3["height"]):
+                pass
 
 
-                    y+=50
+            else:
+
+                if (root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2+int(can3["width"]):
+
+                    y=0
+
+                    ar=[]
+
+                    for pl in playlist:
+
+
+                        if y<=can3.canvasy(y_)<=y+50:
+
+                            can3.coords(cp2_im,0,y)
+
+
+                        y+=50
+
+
 
 
 
@@ -7313,8 +7313,14 @@ def check_cur_pos():
 
                         can2.coords(cp_im,0,y)
                         break
+            root.after(5,check_cur_pos)
+            return
 
-        else:
+        
+
+        if con__==1:
+
+            y_=y-int(((ht-get_taskbar_height())-h)/2)-88
 
 
             if lst==1:
@@ -7396,10 +7402,10 @@ def check_cur_pos():
 
 
 
-    root.after(4,check_cur_pos)
+    root.after(5,check_cur_pos)
 
 
-def can_motion(e):
+def can_label(x,y):
 
     global can,mot_val
     global root_st
@@ -7420,8 +7426,8 @@ def can_motion(e):
 
         cx,cy=10+12.5,h-20-30-15+5+10-3+2.5+12.5
 
-        if cx-12.5<=e.x<=cx+12.5:
-            if cy-12.5<=e.y<=cy+12.5:
+        if cx-12.5<=x<=cx+12.5:
+            if cy-12.5<=y<=cy+12.5:
 
                 mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("FreeMono",10),anchor="c")
 
@@ -7431,8 +7437,8 @@ def can_motion(e):
 
         cx,cy=10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
 
-        if cx-12.5<=e.x<=cx+12.5:
-            if cy-12.5<=e.y<=cy+12.5:
+        if cx-12.5<=x<=cx+12.5:
+            if cy-12.5<=y<=cy+12.5:
                 mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
             
 
@@ -7442,8 +7448,8 @@ def can_motion(e):
 
         cx,cy=10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
 
-        if cx-12.5<=e.x<=cx+12.5:
-            if cy-12.5<=e.y<=cy+12.5:
+        if cx-12.5<=x<=cx+12.5:
+            if cy-12.5<=y<=cy+12.5:
 
                 mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
             
@@ -7453,8 +7459,8 @@ def can_motion(e):
 
         cx,cy=10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
 
-        if cx-12.5<=e.x<=cx+12.5:
-            if cy-12.5<=e.y<=cy+12.5:
+        if cx-12.5<=x<=cx+12.5:
+            if cy-12.5<=y<=cy+12.5:
 
                 mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
             
@@ -8121,9 +8127,9 @@ def drag_can(e):
 
 
 
-            x=e.x-(w-10-100)
+            x=e.x-(w-10-120)
 
-            r=100
+            r=120
 
             current_volume=x/r
 
@@ -8137,12 +8143,12 @@ def drag_can(e):
             can.delete(vol4)        
 
 
-            vol1=can.create_line(w-10-100,h-20-30+5+10-3 ,w-10-100+current_volume*r,h-20-30+5+10-3,fill="#38fca5",width=2)
+            vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill="#38fca5",width=2)
 
             vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill="#38fca5",font=("FreeMono",11),anchor="e")
 
-            vol3=can.create_image(w-10-100+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
-            vol4=can.create_image(w-10-100+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
+            vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
+            vol4=can.create_image(w-10-120+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
 
 
 
@@ -8158,7 +8164,6 @@ can.bind_all("<MouseWheel>",_on_mousewheel)
 can.bind("<space>",play_pause)
 can.bind("<Right>",play_next)
 can.bind("<Left>",play_previous)
-can.bind("<Motion>",can_motion)
 can.bind("<KeyPress>",__list)
 can.bind("<B1-Motion>",drag_can)
 can.bind("<ButtonRelease-1>",on_release_can)
@@ -8364,7 +8369,6 @@ can2.bind("<KeyPress>",__list)
 can2.bind("<B1-Motion>",drag)
 
 can2.bind("<ButtonRelease-1>",on_release)
-can2.bind("<Motion>",can_motion)
 
 
 frame2=tk.Frame(bg="#000000",width=350+100+100,height=250)
