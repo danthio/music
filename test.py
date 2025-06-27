@@ -141,7 +141,7 @@ xx=int((x-y*1.75)/2)
 im=im.crop((xx,0,x-xx,y))
 im.save("data/bg.png")
 
-darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.7)
+darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.6)
 
 """
 im=Image.open("data/bg_ref2.png")
