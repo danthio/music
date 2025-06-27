@@ -36,7 +36,7 @@ def convert(file,output,col):
 
             mx=max(rgb)
 
-            c_=max(color)#color[rgb.index(mx)]
+            c_=color[1]#max(color)#color[rgb.index(mx)]
 
 
 
@@ -129,7 +129,7 @@ print(col2,col3,col4)
 
 """
 
-convert("data/bg_.png","data/bg.png","#38fca5")
+convert("data/bg_.webp","data/bg.png","#38fca5")
 #print(680*1.7)
 im=Image.open("data/bg.png")
 x,y=im.size 
@@ -141,7 +141,7 @@ xx=int((x-y*1.75)/2)
 im=im.crop((xx,0,x-xx,y))
 im.save("data/bg.png")
 
-darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.5)
+darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.5)
 
 """
 im=Image.open("data/bg_ref2.png")
