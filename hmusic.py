@@ -132,6 +132,7 @@ def get_taskbar_height():
 
 
 
+
 """
 
 
@@ -1536,11 +1537,11 @@ def add_playlist():
     global sel_playlist,playlist,playlist2,checked
     global songs
     global song_add_pl
-    global bg
     global bgp
     global cp2_im
     global sb2_sz
     global cur_can3,cur_can4,cur_can6
+    global bg
 
 
 
@@ -1855,7 +1856,7 @@ def can2_b1(e):
 
     can_sort.place_forget()
     sort_st=0
-
+    add_st=0
     frame2.place_forget()
     can3["scrollregion"]=(0,0,int(can3["width"]),int(can3["height"]))
 
@@ -2324,7 +2325,7 @@ def can2_b1(e):
 
     #play song
 
-    if e.x<=(int(can2["width"])-sb_sz-1)-10-25-15-25-15-25-10:
+    if e.x<=(int(can2["width"])-sb_sz-1)-1:
         for a in range(len(songs)):
 
 
@@ -5730,8 +5731,6 @@ def draw_can():
     can.create_image(0,0,image=bg,anchor="nw")
 
 
-    create_polygon(*[5,int(h-20-30-15+5+10-3+2.5-5), int(10+25+15+25+15+25+15+25+5),int(h-20-30-15+5+10-3+2.5-5),
-     int(10+25+15+25+15+25+15+25+5),int(h-20-30-15+5+10-3+2.5+25+5), 5,int(h-20-30-15+5+10-3+2.5+25+5)], fill="#000000", alpha=0.8,can=can)
 
 
 
@@ -6397,7 +6396,7 @@ def show_lyrics():
     global ylyrics
     global _bg3_,note
     global _bg5_,note2
-    global bg3,_bg2
+    global bg3
     global cur_can_lyrics
 
 
@@ -6459,7 +6458,7 @@ def show_lyrics():
 
                     can_lyrics.delete("all")
 
-                    bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=_bg2,anchor="nw")
+                    bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg,anchor="nw")
 
 
                     
@@ -6663,7 +6662,6 @@ copy=0
 circle9=0
 circle11=0
 cursor=0
-_bg2=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -6678,7 +6676,7 @@ def load_im():
     global note_
     global note
     global circle6,circle7,circle8
-    global bg,_bg2
+    global bg
     global note2
     global cur
     global copy
@@ -6737,7 +6735,6 @@ def load_im():
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
     bg=ImageTk.PhotoImage(file="data/bg.png")
-    _bg2=ImageTk.PhotoImage(file="data/bg2.png")
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
 
