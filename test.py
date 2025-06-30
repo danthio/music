@@ -129,7 +129,8 @@ print(col2,col3,col4)
 
 """
 
-convert("data/bg_.webp","data/bg.png","#38fca5")
+convert("data/bg_.jpg","data/bg.png","#38fca5")
+"""
 #print(680*1.7)
 im=Image.open("data/bg.png")
 x,y=im.size 
@@ -140,11 +141,9 @@ xx=int((x-y*1.75)/2)
 
 im=im.crop((xx,0,x-xx,y))
 im.save("data/bg.png")
-
-darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.5)
-
 """
-im=Image.open("data/bg_ref2.png")
+
+im=Image.open("data/bg.png")
 x,y=im.size 
 im=im.resize((int(680*1.75),int(680*1.75*y/x)))
 x,y=im.size
@@ -152,9 +151,11 @@ x,y=im.size
 yy=int((y-680))
 
 im=im.crop((0,yy,x,y))
-im.save("data/bg_ref.png")"""
+im.save("data/bg.png")
 
 
+
+darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.6)
 
 
 
