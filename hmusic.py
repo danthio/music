@@ -57,7 +57,7 @@ from datetime import datetime
 import pyautogui
 
 
-def darken_image(image_path, output_path, opacity=0.5):
+def darken_image(image_path, output_path,col, opacity=0.5):
     """
     Darkens an image by overlaying a semi-transparent black layer.
     
@@ -70,13 +70,14 @@ def darken_image(image_path, output_path, opacity=0.5):
     img = Image.open(image_path).convert("RGBA")
     
     # Create a black overlay with the same size as the image
-    black_overlay = Image.new("RGBA", img.size, (0, 0, 0, int(255 * opacity)))
+    black_overlay = Image.new("RGBA", img.size, (*col, int(255 * opacity)))
     
     # Composite the black overlay onto the image
     darkened_img = Image.alpha_composite(img, black_overlay)
     
     # Save the result
     darkened_img.save(output_path)
+
 
 # Example usage
 
@@ -137,7 +138,7 @@ def get_taskbar_height():
 
 
 im=Image.open("data/cursor.png")
-im=im.resize((25,25))
+im=im.resize((30,30))
 im.save("data/cursor.png")
 
 im=Image.open("data/circlex.png")
@@ -1647,7 +1648,7 @@ def add_playlist():
         a_+=1
 
 
-    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can3)
+    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.2,can=can3)
 
     can3.coords(cp2_im,0,-100)
 
@@ -3462,7 +3463,7 @@ def can_b1(e):
                         a_+=1
 
 
-                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can_sort)
+                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.2,can=can_sort)
 
                     can_sort.coords(csv_im,0,-100)
 
@@ -4561,7 +4562,7 @@ def main():
 
         #can2.create_polygon(ar,fill="red")
 
-        cp_im=create_polygon(*ar, fill="#38fca5", alpha=0.1,can=can2)
+        cp_im=create_polygon(*ar, fill="#38fca5", alpha=0.2,can=can2)
 
         can2.coords(cp_im,0,-100)
 
@@ -5603,7 +5604,7 @@ def main():
         draw_can()
 
 
-        draw_round_rec(can,0,0,w-1,h-1,25,col1,"",1)
+        draw_round_rec(can,0,0,w-1,h-1,30,col1,"",1)
 
 
 
@@ -5626,6 +5627,8 @@ def main():
     can.delete(cur_can[0])
 
     cur_can[0]=can.create_image(xx,yy,image=cursor,anchor="nw")
+
+    can_label(xx,yy)
 
 def get_text_length(canvas, text, font_name, font_size):
     # Create a tkinter font object with the given font name and size
@@ -5827,7 +5830,7 @@ def draw_can():
         c.create_polygon(ar,fill=col,outline=col)
 
 
-    draw_round_rec2(can,0,0,w-1,h-1,25,"#333333")
+    draw_round_rec2(can,0,0,w-1,h-1,30,"#333333")
 
 
 
@@ -6957,7 +6960,7 @@ def draw_cur():
     x,y=pyautogui.position()
 
 
-    can_label(x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2)
+    
 
 
 
@@ -7028,6 +7031,8 @@ def draw_cur():
 
                 xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
 
+                can_label(xx,yy)
+
                 cur_can[0]=can.create_image(xx,yy,image=cursor,anchor="nw")
     else:
 
@@ -7037,6 +7042,8 @@ def draw_cur():
 
 
             xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
+
+            can_label(xx,yy)
 
             cur_can[0]=can.create_image(xx,yy,image=cursor,anchor="nw")
 
@@ -7461,7 +7468,42 @@ def can_label(x,y):
 
                 mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
             
+def convert_(file,output,col):
 
+
+    im=Image.open(file)
+    w,h=im.size
+
+    rgb=hex_to_rgb(col)
+
+
+
+
+    image = Image.new('RGB', (w, h), '#000000')
+    pixels = image.load()
+
+
+    for y in range(h):
+
+        for x in range(w):
+
+
+            color = im.getpixel((x, y))
+
+            mx=max(rgb)
+
+            c_=color[1]#max(color)#color[rgb.index(mx)]
+
+
+
+            r=int(c_*rgb[0]/mx)
+            g=int(c_*rgb[1]/mx)
+            b=int(c_*rgb[2]/mx)
+
+
+            pixels[x,y]=(r,g,b)
+
+    image.save(output)
 
 
 circle=0
@@ -7687,8 +7729,8 @@ if playlist_st==0 and current_playing!="":
 root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
-
-w,h=int(680*1.75),680
+h=int(ht-get_taskbar_height()-60)
+w=int(wd-60)
 
 
 
@@ -7703,6 +7745,34 @@ root.title("HMUSIC")
 root.overrideredirect(True)
 
 
+
+convert_("data/bg_.jpg","data/bg.png","#38fca5")
+"""
+#print(680*1.7)
+im=Image.open("data/bg.png")
+x,y=im.size 
+im=im.resize((int(680*x/y),680))
+x,y=im.size
+
+xx=int((x-y*1.75)/2)
+
+im=im.crop((xx,0,x-xx,y))
+im.save("data/bg.png")
+"""
+
+im=Image.open("data/bg.png")
+x,y=im.size 
+im=im.resize((int(h*1.75),int(h*1.75*y/x)))
+x,y=im.size
+
+yy=int((y-h))
+
+im=im.crop((0,yy,x,y))
+im.save("data/bg.png")
+
+
+
+darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.5)
 
 
 
@@ -8530,8 +8600,23 @@ def search__():
 
     root.after(4,search__)
 
-search=tk.Entry(bg="#0b3723",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=115+10,font=("FreeMono",13))
-npl=tk.Entry(bg="#0b3723",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=112+10,font=("FreeMono",13))
+def est_sz(con):
+    global w
+
+    w_=680*1.75
+
+    if con==0:
+
+        return int(w*125/w_)
+
+    elif con==1:
+
+        return int(w*122/w_)
+
+
+
+search=tk.Entry(bg="#0b3723",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(0),font=("FreeMono",13))
+npl=tk.Entry(bg="#0b3723",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(1),font=("FreeMono",13))
 
 ls=0
 def mvar_():
@@ -8691,7 +8776,7 @@ except:
     pass
 
 
-move_to_playing()
+move_to_playing(1)
 if playlist_st==0:
     pass#can2["scrollregion"]=(0,0,w-7,((h-121)-80-10))
 
