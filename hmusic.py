@@ -403,7 +403,7 @@ def draw_wave():
 
 
     xv=5
-    amp=200
+    amp=(((h-121-30)-50)-40)/2
 
     if play_st==1:
 
@@ -1308,7 +1308,7 @@ def prog():
                 xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
 
                 if 10<=xx<=w-10:
-                    if h-20-60-20+10+2+5-3+10-5<=yy<=h-20-60-20+10+2+5-3+10+5:
+                    if h-20-60-20+10+2+5-3+10-30<=yy<=h-20-60-20+10+2+5-3+10+1:
 
 
                         can.delete(cur_can[0])
@@ -1542,7 +1542,7 @@ def add_playlist():
     global cp2_im
     global sb2_sz
     global cur_can3,cur_can4,cur_can6
-    global bg
+    global bg2_
 
 
 
@@ -1558,8 +1558,8 @@ def add_playlist():
 
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
-    can4.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2),image=bg,anchor="nw")
-    can6.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+250+50),image=bg,anchor="nw")
+    can4.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2),image=bg2_,anchor="nw")
+    can6.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+250+50),image=bg2_,anchor="nw")
 
 
     can4.create_text(550/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
@@ -1576,7 +1576,7 @@ def add_playlist():
 
     can3.delete("all")
 
-    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)),image=bg,anchor="nw")
+    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)),image=bg2_,anchor="nw")
 
 
     ar=[]
@@ -1857,7 +1857,7 @@ def can2_b1(e):
 
     can_sort.place_forget()
     sort_st=0
-    add_st=0
+    
     frame2.place_forget()
     can3["scrollregion"]=(0,0,int(can3["width"]),int(can3["height"]))
 
@@ -2397,6 +2397,7 @@ def can2_b1(e):
                 move_to_playing()
 
                 return
+    add_st=0
 
 
 
@@ -5605,7 +5606,7 @@ def main():
         #125437
 
 
-        draw_round_rec(can,0,0,w-1,h-1,30,"#125437","",1)
+        draw_round_rec(can,0,0,w-1,h-1,25,col1,"",1)
 
 
 
@@ -5831,7 +5832,7 @@ def draw_can():
         c.create_polygon(ar,fill=col,outline=col)
 
 
-    draw_round_rec2(can,0,0,w-1,h-1,30,"#333333")
+    draw_round_rec2(can,0,0,w-1,h-1,25,"#333333")
 
 
 
@@ -6666,6 +6667,8 @@ copy=0
 circle9=0
 circle11=0
 cursor=0
+
+bg2_=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -6680,7 +6683,7 @@ def load_im():
     global note_
     global note
     global circle6,circle7,circle8
-    global bg
+    global bg,bg2_
     global note2
     global cur
     global copy
@@ -6739,6 +6742,7 @@ def load_im():
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
     bg=ImageTk.PhotoImage(file="data/bg.png")
+    bg2_=ImageTk.PhotoImage(file="data/bg2.png")
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
 
@@ -7772,8 +7776,8 @@ im=im.crop((0,yy,x,y))
 im.save("data/bg.png")
 
 
-
-darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.5)
+darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.6)
+darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.4)
 
 
 
