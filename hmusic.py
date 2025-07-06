@@ -5602,9 +5602,10 @@ def main():
 
 
         draw_can()
+        #125437
 
 
-        draw_round_rec(can,0,0,w-1,h-1,30,col1,"",1)
+        draw_round_rec(can,0,0,w-1,h-1,30,"#125437","",1)
 
 
 
