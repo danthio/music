@@ -1558,8 +1558,8 @@ def add_playlist():
 
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
-    can4.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2),image=bg2_,anchor="nw")
-    can6.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+250+50),image=bg2_,anchor="nw")
+    #can4.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2),image=bg2_,anchor="nw")
+    #can6.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+250+50),image=bg2_,anchor="nw")
 
 
     can4.create_text(550/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
@@ -1576,81 +1576,9 @@ def add_playlist():
 
     can3.delete("all")
 
-    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)),image=bg2_,anchor="nw")
+    #bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)),image=bg2_,anchor="nw")
 
 
-    ar=[]
-
-    r=10
-    y_=0
-
-    a_=180
-
-
-    cx,cy=r,y_+r
-
-    for a in range(90):
-
-        x=r*math.sin(math.radians(a_))+cx
-        y=r*math.cos(math.radians(a_))+cy
-
-
-        ar.append(int(round(x,0)))
-        ar.append(int(round(y,0)))
-
-        a_+=1
-
-    a_=270
-
-    cx,cy=r,y_+50-r
-
-    for a in range(90):
-
-        x=r*math.sin(math.radians(a_))+cx
-        y=r*math.cos(math.radians(a_))+cy
-
-
-        ar.append(int(round(x,0)))
-        ar.append(int(round(y,0)))
-
-        a_+=1
-    
-
-    a_=0
-
-    cx,cy=(int(can3["width"])-sb2_sz-1)-2-r,y_+50-r
-
-    for a in range(90):
-
-        x=r*math.sin(math.radians(a_))+cx
-        y=r*math.cos(math.radians(a_))+cy
-
-
-        ar.append(int(round(x,0)))
-        ar.append(int(round(y,0)))
-
-        a_+=1
-
- 
-    a_=90
-
-    cx,cy=(int(can3["width"])-sb2_sz-1)-2-r,y_+r
-
-    for a in range(90):
-
-        x=r*math.sin(math.radians(a_))+cx
-        y=r*math.cos(math.radians(a_))+cy
-
-
-        ar.append(int(round(x,0)))
-        ar.append(int(round(y,0)))
-
-        a_+=1
-
-
-    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.2,can=can3)
-
-    can3.coords(cp2_im,0,-100)
 
     y=0
     
@@ -2458,7 +2386,7 @@ def move_to_playing(con_=0):
                         pixel_value = v
                         fraction = pixel_value / int(can2["scrollregion"].split(" ")[-1])
                         can2.yview_moveto(fraction)
-                        move_bg()
+                        #move_bg()
     except:
         pass
 
@@ -3390,83 +3318,7 @@ def can_b1(e):
 
                     can_sort.delete("all")
 
-                    can_sort.create_image(-(10+25+15+25),-(h-20-30-15+5+10+2.5-160),image=bg,anchor="nw")
-
-
-
-                    ar=[]
-
-                    r=10
-                    y_=0
-
-                    a_=180
-
-
-                    cx,cy=r,y_+r
-
-                    for a in range(90):
-
-                        x=r*math.sin(math.radians(a_))+cx
-                        y=r*math.cos(math.radians(a_))+cy
-
-
-
-                        ar.append(int(round(x,0)))
-                        ar.append(int(round(y,0)))
-
-                        a_+=1
-
-                    a_=270
-
-                    cx,cy=r,y_+30-r
-
-                    for a in range(90):
-
-                        x=r*math.sin(math.radians(a_))+cx
-                        y=r*math.cos(math.radians(a_))+cy
-
-
-                        ar.append(int(round(x,0)))
-                        ar.append(int(round(y,0)))
-
-                        a_+=1
-                    
-
-                    a_=0
-
-                    cx,cy=(int(can_sort["width"])-1)-r,y_+30-r
-
-                    for a in range(90):
-
-                        x=r*math.sin(math.radians(a_))+cx
-                        y=r*math.cos(math.radians(a_))+cy
-
-
-                        ar.append(int(round(x,0)))
-                        ar.append(int(round(y,0)))
-
-                        a_+=1
-
-                 
-                    a_=90
-
-                    cx,cy=(int(can_sort["width"])-1)-r,y_+r
-
-                    for a in range(90):
-
-                        x=r*math.sin(math.radians(a_))+cx
-                        y=r*math.cos(math.radians(a_))+cy
-
-
-                        ar.append(int(round(x,0)))
-                        ar.append(int(round(y,0)))
-
-                        a_+=1
-
-
-                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.2,can=can_sort)
-
-                    can_sort.coords(csv_im,0,-100)
+                    #can_sort.create_image(-(10+25+15+25),-(h-20-30-15+5+10+2.5-160),image=bg,anchor="nw")
 
 
                     draw_round_rec(can_sort,0,0, 250-2,160-1,15,col1,col1,1)
@@ -4484,7 +4336,7 @@ def main():
         can2.delete("all")
 
 
-        bg2=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg,anchor="nw")
+        #bg2=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg,anchor="nw")
 
 
 
@@ -5618,7 +5470,7 @@ def main():
 
         draw_sb()
 
-        move_bg()
+        #move_bg()
 
 
     x,y=pyautogui.position()
@@ -5733,7 +5585,7 @@ def draw_can():
 
     can["bg"]="#000000"
 
-    can.create_image(0,0,image=bg,anchor="nw")
+    #can.create_image(0,0,image=bg,anchor="nw")
 
 
 
@@ -6463,7 +6315,7 @@ def show_lyrics():
 
                     can_lyrics.delete("all")
 
-                    bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg,anchor="nw")
+                    #bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg,anchor="nw")
 
 
                     
@@ -6741,8 +6593,8 @@ def load_im():
 
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
-    bg=ImageTk.PhotoImage(file="data/bg.png")
-    bg2_=ImageTk.PhotoImage(file="data/bg2.png")
+    #bg=ImageTk.PhotoImage(file="data/bg.png")
+    #bg2_=ImageTk.PhotoImage(file="data/bg2.png")
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
 
@@ -7734,8 +7586,8 @@ if playlist_st==0 and current_playing!="":
 root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
-h=int(ht-get_taskbar_height()-60)
-w=int(wd-60)
+h=int(ht-get_taskbar_height()-40)
+w=int(wd-40)
 
 
 
@@ -7750,9 +7602,9 @@ root.title("HMUSIC")
 root.overrideredirect(True)
 
 
-
-convert_("data/bg_.jpg","data/bg.png","#38fca5")
 """
+convert_("data/bg_.jpg","data/bg.png","#38fca5")
+
 #print(680*1.7)
 im=Image.open("data/bg.png")
 x,y=im.size 
@@ -7763,7 +7615,7 @@ xx=int((x-y*1.75)/2)
 
 im=im.crop((xx,0,x-xx,y))
 im.save("data/bg.png")
-"""
+
 
 im=Image.open("data/bg.png")
 x,y=im.size 
@@ -7777,9 +7629,9 @@ im.save("data/bg.png")
 
 
 darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.4)
-darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.2)
+darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=1)
 
-
+"""
 
 
 
@@ -8790,7 +8642,7 @@ default_font = tk.Label(root, text="Sample Text").cget("font")
 
 
 load_()
-update_bg_pos()
+#update_bg_pos()
 
 
 check_sound_device()
