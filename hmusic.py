@@ -7631,7 +7631,7 @@ x,y=im.size
 
 yy=int((y-h))
 
-im=im.crop((0,yy,x,y))
+im=im.crop((0,0,x,y-yy))
 im.save("data/bg.png")
 
 
