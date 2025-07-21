@@ -1738,9 +1738,9 @@ def add_playlist():
 
             for s_ in range(len(song)):
 
-                if get_text_length(can6, song[:p], "FreeMono", 12)<=sz:
+                if get_text_length(can6, song[:p]+"...", "FreeMono", 12)<=sz:
 
-                    return song[:p]
+                    return song[:p]+"..."
 
 
                 p-=1
@@ -7802,6 +7802,7 @@ if playlist_st==0 and current_playing!="":
 root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
+#wd,ht=1366,768
 h=int(ht-get_taskbar_height()-40)
 w=int(wd-40)
 
@@ -7837,9 +7838,20 @@ im=Image.open("data/bg.png")
 x,y=im.size 
 
 
-yy=int((y-y*h/w)/2)
+if w/h>x/y:
 
-im=im.crop((0,yy,x,y-yy))
+    yy=int((y-x*h/w)/2)
+
+    im=im.crop((0,yy,x,y-yy))
+
+elif w/h>x/y:
+
+    xx=int((x-y*w/h)/2)
+
+    im=im.crop((xx,0,x-xx,y))
+
+
+
 
 
 im=im.resize((w,h))
