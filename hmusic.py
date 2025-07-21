@@ -1558,8 +1558,11 @@ def add_playlist():
 
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
-    can4.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2),image=bg2_,anchor="nw")
-    can6.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+250+50),image=bg2_,anchor="nw")
+    can4.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2),image=bg2_,anchor="nw")
+    can6.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+int(can4["height"])+int(can3["height"])),image=bg2_,anchor="nw")
+
+
+
 
 
     can4.create_text(550/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
@@ -1567,7 +1570,7 @@ def add_playlist():
 
     draw_round_rec(can4,1,2 ,550-2,80,15,col1,"",1)
 
-    draw_round_rec(can6,1,-15 ,550-2,15,15,col1,"",1)
+    draw_round_rec(can6,1,-15 ,550-2,38,15,col1,"",1)
 
 
 
@@ -1576,8 +1579,84 @@ def add_playlist():
 
     can3.delete("all")
 
-    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)),image=bg2_,anchor="nw")
+    bgp=can3.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+40)+int(can3.canvasy(0)),image=bg2_,anchor="nw")
 
+
+    ar=[]
+
+    cx,cy=3+10,10
+
+    a_=180
+
+    for a in range(90):
+
+        x=10*math.sin(math.radians(a_))+cx
+        y=10*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append(x)
+        ar.append(y)
+
+        a_+=1
+
+
+    cx,cy=3+10,40
+
+    a_=270
+
+    for a in range(90):
+
+        x=10*math.sin(math.radians(a_))+cx
+        y=10*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append(x)
+        ar.append(y)
+
+        a_+=1
+
+
+    cx,cy=int(can3["width"])-sb2_sz-6-10,40
+
+    a_=0
+
+    for a in range(90):
+
+        x=10*math.sin(math.radians(a_))+cx
+        y=10*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append(x)
+        ar.append(y)
+
+        a_+=1
+
+    cx,cy=int(can3["width"])-sb2_sz-6-10,10
+
+    a_=90
+
+    for a in range(90):
+
+        x=10*math.sin(math.radians(a_))+cx
+        y=10*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append(x)
+        ar.append(y)
+
+        a_+=1
+
+
+
+    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can3)
 
 
     y=0
@@ -1637,7 +1716,47 @@ def add_playlist():
         can3["scrollregion"]=(0,0,int(can3["width"]),y)
 
 
+    def label_sel_song(song):
+
+
+        n=len(song)
+
+        sz=int(can6["width"])-20
+
+
+        if get_text_length(can6, song, "FreeMono", 12)<=sz:
+
+
+            return song
+
+        else:
+
+
+            p=-1
+
+
+
+            for s_ in range(len(song)):
+
+                if get_text_length(can6, song[:p], "FreeMono", 12)<=sz:
+
+                    return song[:p]
+
+
+                p-=1
+
+
+
+    can6.create_text(int(can6["width"])/2,20,text=label_sel_song(song_add_pl),font=("FreeMono",12),fill="#38fca5")
+
+
+
+
+
+
+
     draw_sb2()
+
 
 
 def can2_b1(e):
@@ -1668,6 +1787,8 @@ def can2_b1(e):
 
 
     global sb_sz,sb_col,sb_h,sb_st
+
+    global can4,can3,can6
 
     if (int(can2["width"])-sb_sz-1)<=e.x<=(int(can2["width"])):
 
@@ -2089,7 +2210,7 @@ def can2_b1(e):
 
                     add_playlist()
 
-                    frame2.place(in_=root,x=(w-550)/2,y=(h-(40+250-40+10+50))/2)
+                    frame2.place(in_=root,x=(w-550)/2,y=(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2)
 
                     #can3.focus_set()
 
@@ -3326,6 +3447,89 @@ def can_b1(e):
                     can_sort.delete("all")
 
                     can_sort.create_image(-(10+25+15+25),-(h-20-30-15+5+10+2.5-160),image=bg,anchor="nw")
+
+
+
+
+
+                    ar=[]
+
+                    cx,cy=3+10,10
+
+                    a_=180
+
+                    for a in range(90):
+
+                        x=10*math.sin(math.radians(a_))+cx
+                        y=10*math.cos(math.radians(a_))+cy
+
+                        x=int(round(x,0))
+                        y=int(round(y,0))
+
+                        ar.append(x)
+                        ar.append(y)
+
+                        a_+=1
+
+
+                    cx,cy=3+10,20
+
+                    a_=270
+
+                    for a in range(90):
+
+                        x=10*math.sin(math.radians(a_))+cx
+                        y=10*math.cos(math.radians(a_))+cy
+
+                        x=int(round(x,0))
+                        y=int(round(y,0))
+
+                        ar.append(x)
+                        ar.append(y)
+
+                        a_+=1
+
+
+                    cx,cy=int(can_sort["width"])-5-10,20
+
+                    a_=0
+
+                    for a in range(90):
+
+                        x=10*math.sin(math.radians(a_))+cx
+                        y=10*math.cos(math.radians(a_))+cy
+
+                        x=int(round(x,0))
+                        y=int(round(y,0))
+
+                        ar.append(x)
+                        ar.append(y)
+
+                        a_+=1
+
+                    cx,cy=int(can_sort["width"])-5-10,10
+
+                    a_=90
+
+                    for a in range(90):
+
+                        x=10*math.sin(math.radians(a_))+cx
+                        y=10*math.cos(math.radians(a_))+cy
+
+                        x=int(round(x,0))
+                        y=int(round(y,0))
+
+                        ar.append(x)
+                        ar.append(y)
+
+                        a_+=1
+
+
+
+                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can_sort)
+
+
+
 
 
                     draw_round_rec(can_sort,0,0, 250-2,160-1,15,col1,col1,1)
@@ -6923,18 +7127,18 @@ def draw_cur():
 
             cur_can2[0]=can2.create_image(xx,yy,image=cursor,anchor="nw")
 
-        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(40+250-40+10+50))/2
+        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
 
         cur_can4[0]=can4.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
-        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(40+250-40+10+50))/2-40+can3.canvasy(0)
+        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40+can3.canvasy(0)
 
         cur_can3[0]=can3.create_image(xx,yy,image=cursor,anchor="nw")
 
 
-        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(40+250-40+10+50))/2-40-int(can3["height"])
+        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40-int(can3["height"])
 
         cur_can6[0]=can6.create_image(xx,yy,image=cursor,anchor="nw")
 
@@ -6969,6 +7173,7 @@ def check_cur_pos():
     global search_var
     global root_st
     global lst
+    global can4,can3,can6
 
 
 
@@ -7113,8 +7318,11 @@ def check_cur_pos():
 
 
             y_+=88
-            y_-=((h-(40+250-40+10+50))/2)
+            y_-=((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2)
             y_-=40
+
+
+            #print(y_)
 
 
 
@@ -7125,7 +7333,7 @@ def check_cur_pos():
 
             if (root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2+int(can3["width"]):
 
-                if -40<=y_<=int(can3["height"])+17:
+                if -40<=y_<=int(can3["height"])+40:
 
                     con__=0
 
@@ -7147,6 +7355,7 @@ def check_cur_pos():
 
 
                         if y<=can3.canvasy(y_)<=y+50:
+
 
                             can3.coords(cp2_im,0,y)
 
@@ -7626,12 +7835,14 @@ im.save("data/bg.png")
 
 im=Image.open("data/bg.png")
 x,y=im.size 
-im=im.resize((int(h*1.75),int(h*1.75*y/x)))
-x,y=im.size
 
-yy=int((y-h))
 
-im=im.crop((0,0,x,y-yy))
+yy=int((y-y*h/w)/2)
+
+im=im.crop((0,yy,x,y-yy))
+
+
+im=im.resize((w,h))
 im.save("data/bg.png")
 
 
@@ -7681,7 +7892,7 @@ def move_bg():
 
             
 
-            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)))
+            can3.coords(bgp,-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+40)+int(can3.canvasy(0)))
 
 
             sb2_h=can3.canvasy(0)*int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])
@@ -7729,7 +7940,7 @@ def _on_mousewheel(e):
 
         if int(can3["scrollregion"].split(" ")[-1])>210:
             can3.yview_scroll(int(-1*(e.delta/120)), "units")
-            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+10+50))/2+40)+int(can3.canvasy(0)))
+            can3.coords(bgp,-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+40)+int(can3.canvasy(0)))
 
             sb2_h=can3.canvasy(0)*int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])
             draw_sb2()
@@ -8427,7 +8638,7 @@ can3.bind("<ButtonRelease-1>",on_release2)
 frame3.pack(side=tk.TOP)
 
 
-can6=tk.Canvas(frame2,bg="#000000",width=350+100+100,height=17,relief="flat",highlightthickness=0,border=0,cursor="none")
+can6=tk.Canvas(frame2,bg="#000000",width=350+100+100,height=40,relief="flat",highlightthickness=0,border=0,cursor="none")
 can6.pack(side=tk.TOP)
 
 
