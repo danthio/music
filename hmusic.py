@@ -1543,6 +1543,7 @@ def add_playlist():
     global sb2_sz
     global cur_can3,cur_can4,cur_can6
     global bg2_
+    global bg
 
 
 
@@ -1558,8 +1559,8 @@ def add_playlist():
 
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
-    can4.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2),image=bg2_,anchor="nw")
-    can6.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+int(can4["height"])+int(can3["height"])),image=bg2_,anchor="nw")
+    can4.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2),image=bg,anchor="nw")
+    can6.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+int(can4["height"])+int(can3["height"])),image=bg,anchor="nw")
 
 
 
@@ -1579,7 +1580,7 @@ def add_playlist():
 
     can3.delete("all")
 
-    bgp=can3.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+40)+int(can3.canvasy(0)),image=bg2_,anchor="nw")
+    bgp=can3.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+40)+int(can3.canvasy(0)),image=bg,anchor="nw")
 
 
     ar=[]
@@ -6805,7 +6806,7 @@ def load_im():
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
     bg=ImageTk.PhotoImage(file="data/bg.png")
-    bg2_=ImageTk.PhotoImage(file="data/bg2.png")
+    #bg2_=ImageTk.PhotoImage(file="data/bg2.png")
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
 
@@ -7858,7 +7859,7 @@ im=im.resize((w,h))
 im.save("data/bg.png")
 
 
-darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.6)
+#darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.6)
 darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.4)
 
 
