@@ -7860,7 +7860,7 @@ im.save("data/bg.png")
 
 
 #darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.6)
-darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.4)
+darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.5)
 
 
 
