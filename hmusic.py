@@ -57,6 +57,87 @@ from datetime import datetime
 import pyautogui
 
 
+_theme=["#38fca5","#1a754d"]
+
+
+def hex_to_rgb(hex_color: str) -> tuple:
+    # Remove the '#' if it exists
+    hex_color = hex_color.lstrip('#')
+    # Convert to RGB
+    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+
+def change_theme(pcol):
+
+    col1=hex_to_rgb(pcol)
+
+    mxc=max(col1)
+
+    col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
+    col3=(int(col1[0]*32/mxc),int(col1[1]*32/mxc),int(col1[2]*32/mxc))
+
+
+
+
+    images_=[]
+
+
+    for i in os.listdir("data/im_ref/"):
+
+        if i.split(".")[-1]=="png":
+
+            images_.append(i)
+
+
+
+    for i in images_:
+
+        im=Image.open("data/im_ref/"+i)
+
+
+        x,y=im.size
+
+        #print(x,y)
+
+
+        image_ = Image.new('RGBA', (x, y), (0, 0, 0, 0))
+        pixels = image_.load()
+
+
+        for x_ in range(x):
+            for y_ in range(y):
+
+
+                col=im.getpixel((x_, y_))
+
+                mxc=max(col[:3])
+
+                if 240<=mxc<=255:
+                    pixels[x_,y_]=(*col1, 255)
+
+                elif 119-10<=mxc<=119+10:
+                    pixels[x_,y_]=(*col2, 255)
+
+
+                elif 32-10<=mxc<=32+10:
+                    pixels[x_,y_]=(*col3, 255)
+
+                else:
+
+                    if col[-1]!=0:
+                        pixels[x_,y_]=(0,0,0, 255)
+
+
+
+                #print(col,pixels[x_,y_])
+
+
+        image_.save("data/"+i, "PNG", quality=10000)
+
+
+
+change_theme(_theme[0])
+
+
 def darken_image(image_path, output_path,col, opacity=0.5):
     """
     Darkens an image by overlaying a semi-transparent black layer.
@@ -134,205 +215,203 @@ def get_taskbar_height():
 
 
 
-"""
 
 
-im=Image.open("data/cursor.png")
-im=im.resize((30,30))
-im.save("data/cursor.png")
+def resize_im():
 
-im=Image.open("data/circlex.png")
-im=im.resize((50,50))
-im.save("data/circlex.png")
+    im=Image.open("data/settings.png")
+    im=im.resize((25,25))
+    im.save("data/settings.png")
 
-im=Image.open("data/musical_note1.png")
-im=im.resize((30,30))
-im.save("data/musical_note1.png")
+    im=Image.open("data/cursor.png")
+    im=im.resize((30,30))
+    im.save("data/cursor.png")
 
+    im=Image.open("data/circlex.png")
+    im=im.resize((50,50))
+    im.save("data/circlex.png")
 
+    im=Image.open("data/musical_note1.png")
+    im=im.resize((30,30))
+    im.save("data/musical_note1.png")
 
-im=Image.open("data/musical_note2.png")
-im=im.resize((30,30))
-im.save("data/musical_note2.png")
 
 
-im=Image.open("data/search.png")
-im=im.resize((25,25))
-im.save("data/search.png")
+    im=Image.open("data/musical_note2.png")
+    im=im.resize((30,30))
+    im.save("data/musical_note2.png")
 
 
-im=Image.open("data/musical_note2.png")
-im=im.resize((30,30))
-im.save("data/musical_note2.png")
+    im=Image.open("data/search.png")
+    im=im.resize((25,25))
+    im.save("data/search.png")
 
-im=Image.open("data/circle8.png")
-im=im.resize((6,6))
-im.save("data/circle8.png")
 
+    im=Image.open("data/circle8.png")
+    im=im.resize((6,6))
+    im.save("data/circle8.png")
 
-im=Image.open("data/circle.png")
-im=im.resize((60,60))
-im2=im.resize((50,50))
-im3=im.resize((30,30))
-im4=im.resize((20,20))
-im5=im.resize((8,8))
-im6=im.resize((6,6))
-im7=im.resize((3,3))
-im.save("data/circle.png")
-im2.save("data/circle2.png")
-im3.save("data/circle3.png")
-im4.save("data/circle4.png")
-im5.save("data/circle7.png")
-im6.save("data/circle5.png")
-im6.save("data/circle10.png")
-im7.save("data/circle9.png")
 
+    im=Image.open("data/circle.png")
+    im=im.resize((60,60))
+    im2=im.resize((50,50))
+    im3=im.resize((30,30))
+    im4=im.resize((20,20))
+    im5=im.resize((8,8))
+    im6=im.resize((6,6))
+    im7=im.resize((3,3))
+    im.save("data/circle.png")
+    im2.save("data/circle2.png")
+    im3.save("data/circle3.png")
+    im4.save("data/circle4.png")
+    im5.save("data/circle7.png")
+    im6.save("data/circle5.png")
+    im6.save("data/circle10.png")
+    im7.save("data/circle9.png")
 
-im=Image.open("data/quit.png")
-im=im.resize((25,25))
-im2=im.resize((20,20))
-im.save("data/quit.png")
-im.save("data/bin.png")
-im2.save("data/cancel.png")
 
+    im=Image.open("data/quit.png")
+    im=im.resize((25,25))
+    im2=im.resize((20,20))
+    im.save("data/quit.png")
+    im.save("data/bin.png")
+    im2.save("data/cancel.png")
 
 
-im=Image.open("data/minimize.png")
-im=im.resize((25,25))
-im.save("data/minimize.png")
 
+    im=Image.open("data/minimize.png")
+    im=im.resize((25,25))
+    im.save("data/minimize.png")
 
 
-im=Image.open("data/favourite2.png")
-im=im.resize((25,25))
-im.save("data/favourite2.png")
 
+    im=Image.open("data/favourite2.png")
+    im=im.resize((25,25))
+    im.save("data/favourite2.png")
 
-im=Image.open("data/favourite2_.png")
-im=im.resize((25,25))
-im.save("data/favourite2_.png")
 
+    im=Image.open("data/favourite2_.png")
+    im=im.resize((25,25))
+    im.save("data/favourite2_.png")
 
-im=Image.open("data/favourite1.png")
-im=im.resize((25,25))
-im.save("data/favourite1.png")
 
+    im=Image.open("data/favourite1.png")
+    im=im.resize((25,25))
+    im.save("data/favourite1.png")
 
-im=Image.open("data/favourite1_.png")
-im=im.resize((25,25))
-im.save("data/favourite1_.png")
 
+    im=Image.open("data/favourite1_.png")
+    im=im.resize((25,25))
+    im.save("data/favourite1_.png")
 
-im=Image.open("data/playlist2.png")
-im=im.resize((25,25))
-im.save("data/playlist2.png")
 
-im=Image.open("data/playlist3.png")
-im=im.resize((25,25))
-im2=im.resize((20,20))
-im.save("data/playlist3.png")
-im2.save("data/playlist4.png")
+    im=Image.open("data/playlist2.png")
+    im=im.resize((25,25))
+    im.save("data/playlist2.png")
 
+    im=Image.open("data/playlist3.png")
+    im=im.resize((25,25))
+    im2=im.resize((20,20))
+    im.save("data/playlist3.png")
+    im2.save("data/playlist4.png")
 
-im=Image.open("data/list2.png")
-im=im.resize((25,25))
-im.save("data/list2.png")
 
+    im=Image.open("data/list2.png")
+    im=im.resize((25,25))
+    im.save("data/list2.png")
 
-im=Image.open("data/list1.png")
-im=im.resize((25,25))
-im.save("data/list1.png")
 
+    im=Image.open("data/list1.png")
+    im=im.resize((25,25))
+    im.save("data/list1.png")
 
 
-im=Image.open("data/sort.png")
-im=im.resize((25,25))
-im.save("data/sort.png")
 
+    im=Image.open("data/sort.png")
+    im=im.resize((25,25))
+    im.save("data/sort.png")
 
-im=Image.open("data/sort2.png")
-im=im.resize((25,25))
-im.save("data/sort2.png")
 
-im=Image.open("data/shuffle2.png")
-im=im.resize((25,25))
-im.save("data/shuffle2.png")
+    im=Image.open("data/sort2.png")
+    im=im.resize((25,25))
+    im.save("data/sort2.png")
 
+    im=Image.open("data/shuffle2.png")
+    im=im.resize((25,25))
+    im.save("data/shuffle2.png")
 
-im=Image.open("data/shuffle1.png")
-im=im.resize((25,25))
-im.save("data/shuffle1.png")
 
+    im=Image.open("data/shuffle1.png")
+    im=im.resize((25,25))
+    im.save("data/shuffle1.png")
 
-im=Image.open("data/loop2.png")
-im=im.resize((25,25))
-im.save("data/loop2.png")
 
+    im=Image.open("data/loop2.png")
+    im=im.resize((25,25))
+    im.save("data/loop2.png")
 
-im=Image.open("data/loop1.png")
-im=im.resize((25,25))
-im.save("data/loop1.png")
 
+    im=Image.open("data/loop1.png")
+    im=im.resize((25,25))
+    im.save("data/loop1.png")
 
 
-im=Image.open("data/forward.png")
-im=im.resize((25,25))
-im.save("data/forward.png")
 
+    im=Image.open("data/forward.png")
+    im=im.resize((25,25))
+    im.save("data/forward.png")
 
-im=Image.open("data/backward.png")
-im=im.resize((25,25))
-im.save("data/backward.png")
+    im=im.rotate(180)
+    im.save("data/backward.png")
 
 
-im=Image.open("data/previous.png")
-im=im.resize((25,25))
-im.save("data/previous.png")
 
-im=Image.open("data/next.png")
-im=im.resize((25,25))
-im.save("data/next.png")
+    im=Image.open("data/previous.png")
+    im=im.resize((25,25))
+    im.save("data/previous.png")
 
+    im=im.rotate(-180)
+    im.save("data/next.png")
 
-im=Image.open("data/play.png")
-im=im.resize((30,30))
-im.save("data/play.png")
 
+    im=Image.open("data/play.png")
+    im=im.resize((30,30))
+    im.save("data/play.png")
 
-im=Image.open("data/pause.png")
-im=im.resize((30,30))
-im.save("data/pause.png")
 
+    im=Image.open("data/pause.png")
+    im=im.resize((30,30))
+    im.save("data/pause.png")
 
-im=Image.open("data/speaker.png")
-im=im.resize((30,30))
-im.save("data/speaker.png")
 
+    im=Image.open("data/speaker.png")
+    im=im.resize((30,30))
+    im.save("data/speaker.png")
 
 
-im=Image.open("data/add.png")
-im=im.resize((25,25))
-im.save("data/add.png")
 
+    im=Image.open("data/add.png")
+    im=im.resize((25,25))
+    im.save("data/add.png")
 
-im=Image.open("data/add2.png")
-im=im.resize((25,25))
-im.save("data/add2.png")
 
+    im=Image.open("data/add2.png")
+    im=im.resize((25,25))
+    im.save("data/add2.png")
 
-im=Image.open("data/checked.png")
-im=im.resize((20,20))
-im.save("data/checked.png")
 
+    im=Image.open("data/checked.png")
+    im=im.resize((20,20))
+    im.save("data/checked.png")
 
 
-im=Image.open("data/bin2.png")
-im=im.resize((25,25))
-im.save("data/bin2.png")
 
+    im=Image.open("data/bin2.png")
+    im=im.resize((25,25))
+    im.save("data/bin2.png")
 
 
-"""
+
 
 
 directory_path = Path("music")
@@ -393,8 +472,8 @@ def draw_wave():
 
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
 
 
@@ -661,8 +740,8 @@ def convert_folder_to_audio():
 
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
 
 
@@ -775,7 +854,7 @@ def convert_folder_to_audio():
             pass
 
 
-        can.create_text(w/2,499,text="Done!",fill="#38fca5",font=("FreeMono",17))
+        can.create_text(w/2,499,text="Done!",fill=_theme[0],font=("FreeMono",17))
 
         convert=0
         update_waves()
@@ -792,8 +871,8 @@ def convert_file_to_audio():
 
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
 
 
@@ -879,7 +958,7 @@ def convert_file_to_audio():
             pass
 
 
-        can.create_text(w/2,499,text="Done!",fill="#38fca5",font=("FreeMono",17))
+        can.create_text(w/2,499,text="Done!",fill=_theme[0],font=("FreeMono",17))
 
         convert=0
         update_waves()
@@ -1235,8 +1314,8 @@ def prog():
             if not current_playing=="":
 
 
-                col1="#38fca5"
-                col2="#1a754d"
+                col1=_theme[0]
+                col2=_theme[1]
 
 
 
@@ -1547,8 +1626,8 @@ def add_playlist():
 
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
 
 
@@ -1657,7 +1736,7 @@ def add_playlist():
 
 
 
-    cp2_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can3)
+    cp2_im=create_polygon(*ar, fill=_theme[0], alpha=0.12,can=can3)
 
 
     y=0
@@ -1748,7 +1827,7 @@ def add_playlist():
 
 
 
-    can6.create_text(int(can6["width"])/2,20,text=label_sel_song(song_add_pl),font=("FreeMono",12),fill="#38fca5")
+    can6.create_text(int(can6["width"])/2,20,text=label_sel_song(song_add_pl),font=("FreeMono",12),fill=_theme[0])
 
 
 
@@ -2577,6 +2656,8 @@ input_folder=""
 v_st=0
 play_st2=0
 csv_im=0
+
+im_bg=0
 def can_b1(e):
     global st,w,h,tm,current_playing
     global pp,play_st
@@ -2627,7 +2708,17 @@ def can_b1(e):
     global v_st,play_st2
     global csv_im
     global cur_can_sort
+    global can_settings,theme_ent
+    global im_bg
+    global circle3
+    global sel_op_ent
+    global bg2_
+    global quit
 
+
+
+    col1=_theme[0]
+    col2=_theme[1]
 
 
 
@@ -2667,6 +2758,150 @@ def can_b1(e):
 
 
 
+    if 10<=e.x<=10+25:
+        if 12.5<=e.y<=12.5+25:
+
+            can_settings.delete("all")
+            can_settings.place(in_=root,x=(w-int(can_settings["width"]))/2,y=(h-int(can_settings["height"]))/2)
+            can_settings.create_image(-(w-int(can_settings["width"]))/2,-(h-int(can_settings["height"]))/2,
+                image=bg2_,anchor="nw")
+
+            draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,25,col1,col1,1)
+
+            can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
+
+
+            can_settings.create_text(20,30,text="Theme",font=("FreeMono",13),fill=_theme[0],anchor="w")
+
+            x_=(w-int(can_settings["width"]))/2+20+get_text_length(can_settings, "Theme", "FreeMono", 13)+10
+            y_=(h-int(can_settings["height"]))/2+30-9
+            theme_ent.place(in_=root,x=x_,y=y_)
+
+            can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
+
+            can_settings.create_line(20+10,60, 20,60, 20,int(can_settings["height"])-95,
+                int(can_settings["width"])-20,int(can_settings["height"])-95,
+                int(can_settings["width"])-20,60,20+10+5+get_text_length(can_settings, "Background", "FreeMono", 13)+5,60,
+                fill=_theme[0])
+
+            can_settings.create_text(20+10+5,60,text="Background",font=("FreeMono",13),fill=_theme[0],
+                anchor="w")
+
+
+            ar=os.listdir("data")
+
+            for i in ar:
+
+                if i.split(".")[0]=="bg_":
+
+                    ext=i.split(".")[1]
+
+            im=Image.open("data/bg_."+ext)
+            x,y=im.size
+
+            xx=(int(can_settings["width"])-20)-(20)-60
+            yy=(int(can_settings["height"])-95)-60-60
+
+            if xx/yy<x/y:
+
+
+                x2=int(xx)
+                y2=int(x2*y/x)
+
+                im=im.resize((x2,y2))
+
+                im.save("data/bg3.png")
+
+            elif xx/yy>x/y:
+
+
+                x2=int(yy*x/y)
+                y2=int(yy)
+
+                im=im.resize((x2,y2))
+
+                im.save("data/bg3.png")
+
+            else:
+
+                x2=int(xx)
+                y2=int(yy)
+
+                im=im.resize((x2,y2))
+
+                im.save("data/bg3.png")
+
+
+            im=Image.open("data/bg3.png")
+            x,y=im.size
+
+            x_=(xx-x)/2
+            y_=(yy-y)/2
+
+            im_bg=ImageTk.PhotoImage(file="data/bg3.png")
+
+            can_settings.create_image(20+30+x_,60+30+y_,image=im_bg,anchor="nw")
+
+
+            can_settings.create_rectangle(20+30,60+30,20+30+xx,60+30+yy,outline=_theme[1])
+
+            sz=90
+            can_settings.create_image(int(can_settings["width"])-20-30,int(can_settings["height"])-95+5,
+                image=circle3,anchor="nw")
+            can_settings.create_image(int(can_settings["width"])-20-30-(sz-30),int(can_settings["height"])-95+5,
+                image=circle3,anchor="nw")
+
+            can_settings.create_rectangle(int(can_settings["width"])-20-sz+15,int(can_settings["height"])-95+5,
+                int(can_settings["width"])-20-15,int(can_settings["height"])-95+5+30-1,
+                fill=_theme[0],outline=_theme[0])
+
+            can_settings.create_text(int(can_settings["width"])-20-sz/2,int(can_settings["height"])-95+5+30/2,
+                fill="#000000",text="Remove",font=("FreeMono",13))
+
+
+
+            can_settings.create_image(int(can_settings["width"])-20-30-sz-10,int(can_settings["height"])-95+5,
+                image=circle3,anchor="nw")
+            can_settings.create_image(int(can_settings["width"])-20-30-(sz-30)-sz-10,int(can_settings["height"])-95+5,
+                image=circle3,anchor="nw")
+
+            can_settings.create_rectangle(int(can_settings["width"])-20-sz+15-sz-10,int(can_settings["height"])-95+5,
+                int(can_settings["width"])-20-15-sz-10,int(can_settings["height"])-95+5+30-1,
+                fill=_theme[0],outline=_theme[0])
+
+            can_settings.create_text(int(can_settings["width"])-20-sz/2-sz-10,int(can_settings["height"])-95+5+30/2,
+                fill="#000000",text="Add",font=("FreeMono",13))
+
+
+
+            can_settings.create_text(20,int(can_settings["height"])-65,text="Select Opacity",
+                fill=_theme[0],font=("FreeMono",13),anchor="w")
+
+            x_=(w-int(can_settings["width"]))/2+20+get_text_length(can_settings, "Select Opacity", "FreeMono", 13)+10
+            y_=(h-int(can_settings["height"]))/2+int(can_settings["height"])-65-9
+            sel_op_ent.place(in_=root,x=x_,y=y_)
+
+
+            x_=20+get_text_length(can_settings, "Select Opacity", "FreeMono", 13)+10
+            y_=int(can_settings["height"])-65-9
+
+            can_settings.create_rectangle(x_-1,y_-1, x_+183-1,y_+22-1,outline=_theme[0])
+
+
+
+            can_settings.create_image(int(can_settings["width"])/2-sz/2,int(can_settings["height"])-40,
+                image=circle3,anchor="nw")
+            can_settings.create_image(int(can_settings["width"])/2+sz/2-30,int(can_settings["height"])-40,
+                image=circle3,anchor="nw")
+
+            can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40,
+                int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1,
+                fill=_theme[0],outline=_theme[0])
+
+            can_settings.create_text(int(can_settings["width"])/2,int(can_settings["height"])-40+15,text="Save",
+                fill="#000000",font=("FreeMono",13),anchor="c")
+
+
 
     _npl=0
 
@@ -2678,10 +2913,6 @@ def can_b1(e):
 
 
 
-
-
-    col1="#38fca5"
-    col2="#1a754d"
 
 
 
@@ -3437,8 +3668,8 @@ def can_b1(e):
 
 
 
-                    col1="#38fca5"
-                    col2="#1a754d"
+                    col1=_theme[0]
+                    col2=_theme[1]
 
 
 
@@ -3527,7 +3758,7 @@ def can_b1(e):
 
 
 
-                    csv_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can_sort)
+                    csv_im=create_polygon(*ar, fill=_theme[0], alpha=0.12,can=can_sort)
 
 
 
@@ -4175,8 +4406,8 @@ def check_volume():
 
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
 
     if volume.GetMasterVolumeLevelScalar()!=current_volume:
@@ -4426,6 +4657,7 @@ def main():
     global cur_can,circle7,circle11
 
     global cursor
+    global settings
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     can["bg"]="#333333"
@@ -4455,7 +4687,7 @@ def main():
 
 
 
-        col1="#38fca5"
+        col1=_theme[0]
 
 
 
@@ -4627,7 +4859,7 @@ def main():
 
         #can2.create_polygon(ar,fill="red")
 
-        cp_im=create_polygon(*ar, fill="#38fca5", alpha=0.12,can=can2)
+        cp_im=create_polygon(*ar, fill=_theme[0], alpha=0.12,can=can2)
 
         can2.coords(cp_im,0,-100)
 
@@ -5040,7 +5272,7 @@ def main():
 
 
                             can2.create_image(0,y+10,image=musical_note2,anchor="nw")
-                            col="#38fca5"
+                            col=_theme[0]
 
 
 
@@ -5228,7 +5460,7 @@ def main():
                         a_+=1
 
 
-                    create_polygon(*ar, fill="#38fca5", alpha=0.35,can=can2)
+                    create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can2)
 
                     if _npl==1:
 
@@ -5243,7 +5475,7 @@ def main():
 
 
 
-                    can2.create_text(30,y+15,text="New Playlist",font=("FreeMono",13),fill="#38fca5",anchor="w")
+                    can2.create_text(30,y+15,text="New Playlist",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
                     can2.create_image((int(can2["width"])-sb_sz-1)-10-5-20,y+5,image=cancel,anchor="nw")
 
@@ -5674,8 +5906,10 @@ def main():
 
 
 
+        can.create_image(10,(50-25)/2,image=settings,anchor="nw")
         can.create_image(w-10-25,(50-25)/2,image=quit,anchor="nw")
         can.create_image(w-10-25-10-25,(50-25)/2,image=minimize,anchor="nw")
+
 
 
         save()
@@ -5775,6 +6009,7 @@ def draw_can():
     global delete
     global volume
     global copy
+    global settings
 
     can.delete("all")
 
@@ -5789,8 +6024,8 @@ def draw_can():
 
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
 
 
@@ -6010,12 +6245,12 @@ def draw_can():
                 a_+=1
 
 
-            create_polygon(*ar, fill="#38fca5", alpha=0.35,can=can)
+            create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can)
 
 
 
 
-            can.create_text(10+15+20+10,40+15+30-10-5-5,text="Search",font=("FreeMono",13),fill="#38fca5",anchor="w")
+            can.create_text(10+15+20+10,40+15+30-10-5-5,text="Search",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
 
 
@@ -6470,8 +6705,8 @@ def show_lyrics():
 
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
 
 
@@ -6713,11 +6948,6 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
 
 
-def hex_to_rgb(hex_color: str) -> tuple:
-    # Remove the '#' if it exists
-    hex_color = hex_color.lstrip('#')
-    # Convert to RGB
-    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
 note=0
 note2=0
@@ -6733,6 +6963,7 @@ circle11=0
 cursor=0
 
 bg2_=0
+settings=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -6754,6 +6985,7 @@ def load_im():
     global circle9,circle10
     global circle11
     global cursor
+    global settings
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -6806,10 +7038,10 @@ def load_im():
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
     bg=ImageTk.PhotoImage(file="data/bg.png")
-    #bg2_=ImageTk.PhotoImage(file="data/bg2.png")
+    bg2_=ImageTk.PhotoImage(file="data/bg2.png")
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
-
+    settings=ImageTk.PhotoImage(file="data/settings.png")
 
 
 
@@ -6883,8 +7115,8 @@ def load_():
     global ang
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
 
     can.delete(load)
@@ -7489,8 +7721,8 @@ def can_label(x,y):
     global root_st
 
 
-    col1="#38fca5"
-    col2="#1a754d"
+    col1=_theme[0]
+    col2=_theme[1]
 
     if not root_st==1:
 
@@ -7820,9 +8052,12 @@ root.title("HMUSIC")
 root.overrideredirect(True)
 
 
+change_theme(_theme[0])
+resize_im()
 
-convert_("data/bg_.jpg","data/bg.png","#38fca5")
-"""
+
+convert_("data/bg_.jpg","data/bg.png",_theme[0])
+
 #print(680*1.7)
 im=Image.open("data/bg.png")
 x,y=im.size 
@@ -7833,7 +8068,7 @@ xx=int((x-y*1.75)/2)
 
 im=im.crop((xx,0,x-xx,y))
 im.save("data/bg.png")
-"""
+
 
 im=Image.open("data/bg.png")
 x,y=im.size 
@@ -7859,10 +8094,8 @@ im=im.resize((w,h))
 im.save("data/bg.png")
 
 
-#darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.6)
+darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.7)
 darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.5)
-
-
 
 
 
@@ -8297,9 +8530,9 @@ def drag_can(e):
             can.delete(vol4)        
 
 
-            vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill="#38fca5",width=2)
+            vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=_theme[0],width=2)
 
-            vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill="#38fca5",font=("FreeMono",11),anchor="e")
+            vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
 
             vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
             vol4=can.create_image(w-10-120+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
@@ -8326,8 +8559,8 @@ can.bind("<ButtonRelease-1>",on_release_can)
 
 
 
-col1="#38fca5"
-col2="#1a754d"
+col1=_theme[0]
+col2=_theme[1]
 
 
 
@@ -8501,7 +8734,7 @@ def sb_move(v1,v2):
 sb=[0,0,0]
 sb_sz=3
 
-sb_col="#38fca5"
+sb_col=_theme[0]
 sb_region=()
 sb_h=0
 psb_h=0
@@ -8627,7 +8860,7 @@ def sb2_move(v1,v2):
 
 sb2=[0,0,0]
 sb2_sz=3
-sb2_col="#38fca5"
+sb2_col=_theme[0]
 sb2_region=()
 sb2_h=0
 psb2_h=0
@@ -8808,10 +9041,17 @@ for _ in sa:
 
 can_lyrics=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 
+def can_settings_b1(e):
 
+    print(e.x,e.y)
+can_settings=tk.Canvas(width=w-100,height=h-200,bg="#000000",relief="flat",highlightthickness=0,border=0)
+can_settings.bind("<Button-1>",can_settings_b1)
 
+theme_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],relief="flat",highlightthickness=0,
+    border=0,insertbackground=_theme[0],selectbackground="#000000",selectforeground=_theme[0])
 
-
+sel_op_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],relief="flat",highlightthickness=0,
+    border=0,insertbackground=_theme[0],selectbackground="#000000",selectforeground=_theme[0])
 
 can2.focus_set()
 load_im()
@@ -8883,4 +9123,6 @@ update_sb2()
 check_cur_pos()
 move_bg()
 draw_cur()
+
+print(hex_to_rgb("#200000"))
 root.mainloop()
