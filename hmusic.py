@@ -57,7 +57,19 @@ from datetime import datetime
 import pyautogui
 
 
-_theme=["#38fca5","#1a754d"]
+
+
+
+def configure_theme(pcol):
+    col1=hex_to_rgb(pcol)
+
+    mxc=max(col1)
+
+    col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
+
+    _theme[1]="#%02x%02x%02x" % col2
+
+
 
 
 def hex_to_rgb(hex_color: str) -> tuple:
@@ -133,12 +145,14 @@ def change_theme(pcol):
 
         image_.save("data/"+i, "PNG", quality=10000)
 
+        #print("ok")
 
 
-change_theme(_theme[0])
+
+#change_theme(_theme[0])
 
 
-def darken_image(image_path, output_path,col, opacity=0.5):
+def darken_image(image_path, output_path,col, alpha):
     """
     Darkens an image by overlaying a semi-transparent black layer.
     
@@ -151,7 +165,7 @@ def darken_image(image_path, output_path,col, opacity=0.5):
     img = Image.open(image_path).convert("RGBA")
     
     # Create a black overlay with the same size as the image
-    black_overlay = Image.new("RGBA", img.size, (*col, int(255 * opacity)))
+    black_overlay = Image.new("RGBA", img.size, (*col, int(255 * alpha)))
     
     # Composite the black overlay onto the image
     darkened_img = Image.alpha_composite(img, black_overlay)
@@ -258,7 +272,7 @@ def resize_im():
     im3=im.resize((30,30))
     im4=im.resize((20,20))
     im5=im.resize((8,8))
-    im6=im.resize((6,6))
+    im6=im.resize((4,4))
     im7=im.resize((3,3))
     im.save("data/circle.png")
     im2.save("data/circle2.png")
@@ -1226,7 +1240,7 @@ create_playlist()
 def save():
 
     global st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,save_,shuffle_ar,shuffle_st,songs_status
-
+    global _theme
 
     try:
 
@@ -1736,7 +1750,7 @@ def add_playlist():
 
 
 
-    cp2_im=create_polygon(*ar, fill=_theme[0], alpha=0.12,can=can3)
+    cp2_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can3)
 
 
     y=0
@@ -2714,6 +2728,7 @@ def can_b1(e):
     global sel_op_ent
     global bg2_
     global quit
+    global _theme
 
 
 
@@ -2761,145 +2776,9 @@ def can_b1(e):
     if 10<=e.x<=10+25:
         if 12.5<=e.y<=12.5+25:
 
-            can_settings.delete("all")
-            can_settings.place(in_=root,x=(w-int(can_settings["width"]))/2,y=(h-int(can_settings["height"]))/2)
-            can_settings.create_image(-(w-int(can_settings["width"]))/2,-(h-int(can_settings["height"]))/2,
-                image=bg2_,anchor="nw")
-
-            draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,25,col1,col1,1)
-
-            can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
+            draw_settings()
 
 
-            can_settings.create_text(20,30,text="Theme",font=("FreeMono",13),fill=_theme[0],anchor="w")
-
-            x_=(w-int(can_settings["width"]))/2+20+get_text_length(can_settings, "Theme", "FreeMono", 13)+10
-            y_=(h-int(can_settings["height"]))/2+30-9
-            theme_ent.place(in_=root,x=x_,y=y_)
-
-            can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
-
-            can_settings.create_line(20+10,60, 20,60, 20,int(can_settings["height"])-95,
-                int(can_settings["width"])-20,int(can_settings["height"])-95,
-                int(can_settings["width"])-20,60,20+10+5+get_text_length(can_settings, "Background", "FreeMono", 13)+5,60,
-                fill=_theme[0])
-
-            can_settings.create_text(20+10+5,60,text="Background",font=("FreeMono",13),fill=_theme[0],
-                anchor="w")
-
-
-            ar=os.listdir("data")
-
-            for i in ar:
-
-                if i.split(".")[0]=="bg_":
-
-                    ext=i.split(".")[1]
-
-            im=Image.open("data/bg_."+ext)
-            x,y=im.size
-
-            xx=(int(can_settings["width"])-20)-(20)-60
-            yy=(int(can_settings["height"])-95)-60-60
-
-            if xx/yy<x/y:
-
-
-                x2=int(xx)
-                y2=int(x2*y/x)
-
-                im=im.resize((x2,y2))
-
-                im.save("data/bg3.png")
-
-            elif xx/yy>x/y:
-
-
-                x2=int(yy*x/y)
-                y2=int(yy)
-
-                im=im.resize((x2,y2))
-
-                im.save("data/bg3.png")
-
-            else:
-
-                x2=int(xx)
-                y2=int(yy)
-
-                im=im.resize((x2,y2))
-
-                im.save("data/bg3.png")
-
-
-            im=Image.open("data/bg3.png")
-            x,y=im.size
-
-            x_=(xx-x)/2
-            y_=(yy-y)/2
-
-            im_bg=ImageTk.PhotoImage(file="data/bg3.png")
-
-            can_settings.create_image(20+30+x_,60+30+y_,image=im_bg,anchor="nw")
-
-
-            can_settings.create_rectangle(20+30,60+30,20+30+xx,60+30+yy,outline=_theme[1])
-
-            sz=90
-            can_settings.create_image(int(can_settings["width"])-20-30,int(can_settings["height"])-95+5,
-                image=circle3,anchor="nw")
-            can_settings.create_image(int(can_settings["width"])-20-30-(sz-30),int(can_settings["height"])-95+5,
-                image=circle3,anchor="nw")
-
-            can_settings.create_rectangle(int(can_settings["width"])-20-sz+15,int(can_settings["height"])-95+5,
-                int(can_settings["width"])-20-15,int(can_settings["height"])-95+5+30-1,
-                fill=_theme[0],outline=_theme[0])
-
-            can_settings.create_text(int(can_settings["width"])-20-sz/2,int(can_settings["height"])-95+5+30/2,
-                fill="#000000",text="Remove",font=("FreeMono",13))
-
-
-
-            can_settings.create_image(int(can_settings["width"])-20-30-sz-10,int(can_settings["height"])-95+5,
-                image=circle3,anchor="nw")
-            can_settings.create_image(int(can_settings["width"])-20-30-(sz-30)-sz-10,int(can_settings["height"])-95+5,
-                image=circle3,anchor="nw")
-
-            can_settings.create_rectangle(int(can_settings["width"])-20-sz+15-sz-10,int(can_settings["height"])-95+5,
-                int(can_settings["width"])-20-15-sz-10,int(can_settings["height"])-95+5+30-1,
-                fill=_theme[0],outline=_theme[0])
-
-            can_settings.create_text(int(can_settings["width"])-20-sz/2-sz-10,int(can_settings["height"])-95+5+30/2,
-                fill="#000000",text="Add",font=("FreeMono",13))
-
-
-
-            can_settings.create_text(20,int(can_settings["height"])-65,text="Select Opacity",
-                fill=_theme[0],font=("FreeMono",13),anchor="w")
-
-            x_=(w-int(can_settings["width"]))/2+20+get_text_length(can_settings, "Select Opacity", "FreeMono", 13)+10
-            y_=(h-int(can_settings["height"]))/2+int(can_settings["height"])-65-9
-            sel_op_ent.place(in_=root,x=x_,y=y_)
-
-
-            x_=20+get_text_length(can_settings, "Select Opacity", "FreeMono", 13)+10
-            y_=int(can_settings["height"])-65-9
-
-            can_settings.create_rectangle(x_-1,y_-1, x_+183-1,y_+22-1,outline=_theme[0])
-
-
-
-            can_settings.create_image(int(can_settings["width"])/2-sz/2,int(can_settings["height"])-40,
-                image=circle3,anchor="nw")
-            can_settings.create_image(int(can_settings["width"])/2+sz/2-30,int(can_settings["height"])-40,
-                image=circle3,anchor="nw")
-
-            can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40,
-                int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1,
-                fill=_theme[0],outline=_theme[0])
-
-            can_settings.create_text(int(can_settings["width"])/2,int(can_settings["height"])-40+15,text="Save",
-                fill="#000000",font=("FreeMono",13),anchor="c")
 
 
 
@@ -3758,7 +3637,7 @@ def can_b1(e):
 
 
 
-                    csv_im=create_polygon(*ar, fill=_theme[0], alpha=0.12,can=can_sort)
+                    csv_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can_sort)
 
 
 
@@ -4658,6 +4537,7 @@ def main():
 
     global cursor
     global settings
+    global _theme
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     can["bg"]="#333333"
@@ -4859,7 +4739,7 @@ def main():
 
         #can2.create_polygon(ar,fill="red")
 
-        cp_im=create_polygon(*ar, fill=_theme[0], alpha=0.12,can=can2)
+        cp_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can2)
 
         can2.coords(cp_im,0,-100)
 
@@ -5460,7 +5340,7 @@ def main():
                         a_+=1
 
 
-                    create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can2)
+                    create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can2)
 
                     if _npl==1:
 
@@ -6010,6 +5890,7 @@ def draw_can():
     global volume
     global copy
     global settings
+    global _theme
 
     can.delete("all")
 
@@ -6245,7 +6126,8 @@ def draw_can():
                 a_+=1
 
 
-            create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can)
+
+            create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can)
 
 
 
@@ -7997,7 +7879,7 @@ backward=None
 
 note_=None
 
-
+_theme=["#38fca5","#1a754d",0.5,0.35]
 try:
 
     with open("data/save.json", "r") as file:
@@ -8052,55 +7934,65 @@ root.title("HMUSIC")
 root.overrideredirect(True)
 
 
-change_theme(_theme[0])
-resize_im()
+def adjust_theme():
+    global _theme
 
 
-convert_("data/bg_.jpg","data/bg.png",_theme[0])
+    configure_theme(_theme[0])
+    change_theme(_theme[0])
+    resize_im()
 
-#print(680*1.7)
-im=Image.open("data/bg.png")
-x,y=im.size 
-im=im.resize((int(680*x/y),680))
-x,y=im.size
+    
 
-xx=int((x-y*1.75)/2)
+    #print(680*1.7)
+    im=Image.open("data/bg_.jpg")
+    x,y=im.size 
+    im=im.resize((int(680*x/y),680))
+    x,y=im.size
 
-im=im.crop((xx,0,x-xx,y))
-im.save("data/bg.png")
-
-
-im=Image.open("data/bg.png")
-x,y=im.size 
-
-
-if w/h>x/y:
-
-    yy=int((y-x*h/w)/2)
-
-    im=im.crop((0,yy,x,y-yy))
-
-elif w/h>x/y:
-
-    xx=int((x-y*w/h)/2)
+    xx=int((x-y*1.75)/2)
 
     im=im.crop((xx,0,x-xx,y))
+    im.save("data/bg.png")
+
+    convert_("data/bg.png","data/bg.png",_theme[0])
+
+
+    im=Image.open("data/bg.png")
+    x,y=im.size 
+
+
+    if w/h>x/y:
+
+        yy=int((y-x*h/w)/2)
+
+        im=im.crop((0,yy,x,y-yy))
+
+    elif w/h>x/y:
+
+        xx=int((x-y*w/h)/2)
+
+        im=im.crop((xx,0,x-xx,y))
 
 
 
 
 
-im=im.resize((w,h))
-im.save("data/bg.png")
+    im=im.resize((w,h))
+    im.save("data/bg.png")
 
 
-darken_image("data/bg.png", "data/bg2.png",(0,0,0), opacity=0.7)
-darken_image("data/bg.png", "data/bg.png",(0,0,0), opacity=0.5)
+    darken_image("data/bg.png", "data/bg2.png",(0,0,0), 0.7)
+    darken_image("data/bg.png", "data/bg.png",(0,0,0), _theme[2])
 
 
+    load_im()
+
+    root.after(0,dummy)
+    
 
 
-
+adjust_theme()
 
 y1,y2,y3=0,0,0
 def move_bg():
@@ -8701,11 +8593,14 @@ def update_sb():
 
 def draw_sb():
     global can2
-    global sb,sb_sz,sb_region,sb_h,circle10
+    global sb,sb_sz,sb_region,sb_h,sb_col,circle10
+    global _theme
 
     can2.delete(sb[0])
     can2.delete(sb[1])
     can2.delete(sb[2])
+
+    sb_col=_theme[0]
 
     h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
 
@@ -8831,7 +8726,10 @@ def update_sb2():
 
 def draw_sb2():
     global can3
-    global sb2,sb2_sz,sb2_region,sb2_h,circle10
+    global sb2,sb2_sz,sb2_region,sb2_h,sb2_col,circle10
+    global _theme
+
+    sb2_col=_theme[0]
 
     can3.delete(sb2[0])
     can3.delete(sb2[1])
@@ -9043,15 +8941,254 @@ can_lyrics=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cu
 
 def can_settings_b1(e):
 
-    print(e.x,e.y)
+    global can_settings,theme_ent,sel_op_ent
+    global settings_st
+    global _theme
+
+    #quit
+
+    if int(can_settings["width"])-10-25<=e.x<=int(can_settings["width"])-10:
+        if 10<=e.y<=10+25:
+            settings_st=0
+            can_settings.place_forget()
+            theme_ent.place_forget()
+            sel_op_ent.place_forget()
+
+            return
+
+
+    #save
+
+    cx,cy=int(can_settings["width"])/2-45+15,int(can_settings["height"])-10-15
+
+    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+
+    if r<=15:
+        _theme[0]=str(theme_ent.get())
+        op1,op2=sel_op_ent.get().replace(" ","").split(",")
+
+        _theme[2]=float(op1)
+        _theme[3]=float(op2)
+
+        adjust_theme()
+
+        #threading.Thread(target=adjust_theme, daemon=True).start()
+        main()
+        draw_settings()
+        return
+
+
+    cx,cy=int(can_settings["width"])/2+45-15,int(can_settings["height"])-10-15
+
+    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+
+    if r<=15:
+        _theme[0]=str(theme_ent.get())
+        op1,op2=sel_op_ent.get().replace(" ","").split(",")
+
+        _theme[2]=float(op1)
+        _theme[3]=float(op2)
+
+        adjust_theme()
+
+        #threading.Thread(target=adjust_theme, daemon=True).start()
+        main()
+        draw_settings()
+        return
+
+    if int(can_settings["width"])/2-45+15<=e.x<=int(can_settings["width"])/2+45-15:
+        if int(can_settings["height"])-10-30<=e.y<=int(can_settings["height"])-10:
+            _theme[0]=str(theme_ent.get())
+            op1,op2=sel_op_ent.get().replace(" ","").split(",")
+
+            _theme[2]=float(op1)
+            _theme[3]=float(op2)
+
+            adjust_theme()
+
+            #threading.Thread(target=adjust_theme, daemon=True).start()
+            main()
+            draw_settings()
+            return          
+
+    #print(e.x,e.y)
+
+def draw_settings():
+
+    global can_settings,theme_ent,sel_op_ent
+    global settings_st
+    global im_bg
+
+    can_settings.delete("all")
+    can_settings.place(in_=root,x=(w-int(can_settings["width"]))/2,y=(h-int(can_settings["height"]))/2)
+    can_settings.create_image(-(w-int(can_settings["width"]))/2,-(h-int(can_settings["height"]))/2,
+        image=bg2_,anchor="nw")
+
+    draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,25,_theme[0],col1,1)
+
+    can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
+
+
+    can_settings.create_text(20,30,text="Theme",font=("FreeMono",13),fill=_theme[0],anchor="w")
+
+    x_=(w-int(can_settings["width"]))/2+20+get_text_length(can_settings, "Theme", "FreeMono", 13)+10
+    y_=(h-int(can_settings["height"]))/2+30-9
+    theme_ent.place(in_=root,x=x_,y=y_)
+
+    theme_ent["fg"]=_theme[0]
+    theme_ent["insertbackground"]=_theme[0]
+    theme_ent["selectbackground"]=_theme[0]
+
+    theme_ent.delete(0,tk.END)
+    theme_ent.insert(tk.END,_theme[0])
+
+    can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
+
+    can_settings.create_line(20+10,60, 20,60, 20,int(can_settings["height"])-95,
+        int(can_settings["width"])-20,int(can_settings["height"])-95,
+        int(can_settings["width"])-20,60,20+10+5+get_text_length(can_settings, "Background", "FreeMono", 13)+5,60,
+        fill=_theme[0])
+
+    can_settings.create_text(20+10+5,60,text="Background",font=("FreeMono",13),fill=_theme[0],
+        anchor="w")
+
+
+    ar=os.listdir("data")
+
+    for i in ar:
+
+        if i.split(".")[0]=="bg_":
+
+            ext=i.split(".")[1]
+
+    im=Image.open("data/bg_."+ext)
+    x,y=im.size
+
+    xx=(int(can_settings["width"])-20)-(20)-60
+    yy=(int(can_settings["height"])-95)-60-60
+
+    if xx/yy<x/y:
+
+
+        x2=int(xx)
+        y2=int(x2*y/x)
+
+        im=im.resize((x2,y2))
+
+        im.save("data/bg3.png")
+
+    elif xx/yy>x/y:
+
+
+        x2=int(yy*x/y)
+        y2=int(yy)
+
+        im=im.resize((x2,y2))
+
+        im.save("data/bg3.png")
+
+    else:
+
+        x2=int(xx)
+        y2=int(yy)
+
+        im=im.resize((x2,y2))
+
+        im.save("data/bg3.png")
+
+
+    im=Image.open("data/bg3.png")
+    x,y=im.size
+
+    x_=(xx-x)/2
+    y_=(yy-y)/2
+
+    im_bg=ImageTk.PhotoImage(file="data/bg3.png")
+
+    can_settings.create_image(20+30+x_,60+30+y_,image=im_bg,anchor="nw")
+
+
+    can_settings.create_rectangle(20+30,60+30,20+30+xx,60+30+yy,outline=_theme[1])
+
+    sz=90
+    can_settings.create_image(int(can_settings["width"])-20-30,int(can_settings["height"])-95+5,
+        image=circle3,anchor="nw")
+    can_settings.create_image(int(can_settings["width"])-20-30-(sz-30),int(can_settings["height"])-95+5,
+        image=circle3,anchor="nw")
+
+    can_settings.create_rectangle(int(can_settings["width"])-20-sz+15,int(can_settings["height"])-95+5,
+        int(can_settings["width"])-20-15,int(can_settings["height"])-95+5+30-1,
+        fill=_theme[0],outline=_theme[0])
+
+    can_settings.create_text(int(can_settings["width"])-20-sz/2,int(can_settings["height"])-95+5+30/2,
+        fill="#000000",text="Remove",font=("FreeMono",13))
+
+
+
+    can_settings.create_image(int(can_settings["width"])-20-30-sz-10,int(can_settings["height"])-95+5,
+        image=circle3,anchor="nw")
+    can_settings.create_image(int(can_settings["width"])-20-30-(sz-30)-sz-10,int(can_settings["height"])-95+5,
+        image=circle3,anchor="nw")
+
+    can_settings.create_rectangle(int(can_settings["width"])-20-sz+15-sz-10,int(can_settings["height"])-95+5,
+        int(can_settings["width"])-20-15-sz-10,int(can_settings["height"])-95+5+30-1,
+        fill=_theme[0],outline=_theme[0])
+
+    can_settings.create_text(int(can_settings["width"])-20-sz/2-sz-10,int(can_settings["height"])-95+5+30/2,
+        fill="#000000",text="Add",font=("FreeMono",13))
+
+
+
+    can_settings.create_text(20,int(can_settings["height"])-65,text="Opacity (bg , select)",
+        fill=_theme[0],font=("FreeMono",13),anchor="w")
+
+    x_=(w-int(can_settings["width"]))/2+20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
+    y_=(h-int(can_settings["height"]))/2+int(can_settings["height"])-65-9
+    sel_op_ent.place(in_=root,x=x_,y=y_)
+
+
+    sel_op_ent["fg"]=_theme[0]
+    sel_op_ent["insertbackground"]=_theme[0]
+    sel_op_ent["selectbackground"]=_theme[0]
+
+    sel_op_ent.delete(0,tk.END)
+
+    op=str(_theme[2])+","+str(_theme[3])
+
+    sel_op_ent.insert(tk.END,op)
+
+
+    x_=20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
+    y_=int(can_settings["height"])-65-9
+
+    can_settings.create_rectangle(x_-1,y_-1, x_+183-1,y_+22-1,outline=_theme[0])
+
+
+
+    can_settings.create_image(int(can_settings["width"])/2-sz/2,int(can_settings["height"])-40,
+        image=circle3,anchor="nw")
+    can_settings.create_image(int(can_settings["width"])/2+sz/2-30,int(can_settings["height"])-40,
+        image=circle3,anchor="nw")
+
+    can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40,
+        int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1,
+        fill=_theme[0],outline=_theme[0])
+
+    can_settings.create_text(int(can_settings["width"])/2,int(can_settings["height"])-40+15,text="Save",
+        fill="#000000",font=("FreeMono",13),anchor="c")
+
+
+
+settings_st=0
+
 can_settings=tk.Canvas(width=w-100,height=h-200,bg="#000000",relief="flat",highlightthickness=0,border=0)
 can_settings.bind("<Button-1>",can_settings_b1)
 
 theme_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],relief="flat",highlightthickness=0,
-    border=0,insertbackground=_theme[0],selectbackground="#000000",selectforeground=_theme[0])
+    border=0,insertbackground=_theme[0],selectbackground=_theme[0],selectforeground="#000000")
 
 sel_op_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],relief="flat",highlightthickness=0,
-    border=0,insertbackground=_theme[0],selectbackground="#000000",selectforeground=_theme[0])
+    border=0,insertbackground=_theme[0],selectbackground=_theme[0],selectforeground="#000000")
 
 can2.focus_set()
 load_im()
