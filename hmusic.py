@@ -61,6 +61,8 @@ import pyautogui
 
 
 def configure_theme(pcol):
+    global _theme
+
     col1=hex_to_rgb(pcol)
 
     mxc=max(col1)
@@ -68,6 +70,27 @@ def configure_theme(pcol):
     col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
 
     _theme[1]="#%02x%02x%02x" % col2
+
+
+    ar=[pcol]
+
+    print(_theme)
+
+
+    for c in _theme[4]:
+
+        if c!=pcol:
+            ar.append(c)
+
+
+    if len(ar)>7:
+
+        _theme[4]=ar[:7]
+
+    else:
+        _theme[4]=ar
+
+    print(_theme[4])
 
 
 
@@ -232,6 +255,15 @@ def get_taskbar_height():
 
 
 def resize_im():
+
+    im=Image.open("data/crop.png")
+    im=im.resize((25,25))
+    im.save("data/crop.png")
+
+    im=Image.open("data/crop2.png")
+    im=im.resize((25,25))
+    im.save("data/crop2.png")
+
 
     im=Image.open("data/settings.png")
     im=im.resize((25,25))
@@ -1247,7 +1279,7 @@ def save():
         with open("data/save.json", "r") as file:
             data = json.load(file)
 
-        data["save"]=[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status]
+        data["save"]=[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]
 
 
 
@@ -1258,7 +1290,7 @@ def save():
 
 
     except:
-        data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status]}
+        data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]}
 
 
 
@@ -5340,14 +5372,14 @@ def main():
                         a_+=1
 
 
-                    create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can2)
+                    create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can2)
 
                     if _npl==1:
 
-                        can2.create_oval(10,y, 10+30,y+30, fill="#0b3723",outline="#0b3723")
-                        can2.create_oval((int(can2["width"])-sb_sz-1)-10-30,y, (int(can2["width"])-sb_sz-1)-10,y+30,fill="#0b3723",outline="#0b3723")
+                        can2.create_oval(10,y, 10+30,y+30, fill=_theme[1],outline=_theme[1])
+                        can2.create_oval((int(can2["width"])-sb_sz-1)-10-30,y, (int(can2["width"])-sb_sz-1)-10,y+30,fill=_theme[1],outline=_theme[1])
 
-                        can2.create_rectangle(10+15,y, (int(can2["width"])-sb_sz-1)-10-15,y+30,fill="#0b3723",outline="#0b3723")
+                        can2.create_rectangle(10+15,y, (int(can2["width"])-sb_sz-1)-10-15,y+30,fill=_theme[1],outline=_theme[1])
 
 
 
@@ -6016,11 +6048,11 @@ def draw_can():
 
 
 
-
+    search["bg"]=_theme[1]
     search["fg"]=col1
     search["insertbackground"]=col1
 
-
+    npl["bg"]=_theme[1]
     npl["fg"]=col1
     npl["insertbackground"]=col1
  
@@ -6127,7 +6159,7 @@ def draw_can():
 
 
 
-            create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can)
+            create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can)
 
 
 
@@ -6140,10 +6172,10 @@ def draw_can():
             
             if _search==1:
 
-                can.create_oval(10,40+30-10-5-5, 10+30,40+30+30-10-5-5,fill="#0b3723",outline="#0b3723")
-                can.create_oval(w-10-30-1,40+30-10-5-5, w-10-1,40+30+30-10-5-5,fill="#0b3723",outline="#0b3723")
+                can.create_oval(10,40+30-10-5-5, 10+30,40+30+30-10-5-5,fill=_theme[1],outline=_theme[1])
+                can.create_oval(w-10-30-1,40+30-10-5-5, w-10-1,40+30+30-10-5-5,fill=_theme[1],outline=_theme[1])
 
-                can.create_rectangle(10+15,40+30-10-5-5, w-10-15-1,40+30+30-10-5-5,fill="#0b3723",outline="#0b3723")
+                can.create_rectangle(10+15,40+30-10-5-5, w-10-15-1,40+30+30-10-5-5,fill=_theme[1],outline=_theme[1])
                 
             can.create_image(w-10-5-20,40+5+30-10-5-5,image=cancel,anchor="nw")
 
@@ -7879,13 +7911,13 @@ backward=None
 
 note_=None
 
-_theme=["#38fca5","#1a754d",0.5,0.35]
+_theme=["#38fca5","#1a754d",0.5,0.35,[]]
 try:
 
     with open("data/save.json", "r") as file:
         data = json.load(file)
 except:
-    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status]}
+    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]}
 
 
 
@@ -7898,7 +7930,7 @@ except:
 try:
 
 
-    st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status=data["save"]
+    st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme=data["save"]
 
 
     st,current_playlist,shuffle_st,sort_val,shuffle_ar,loop,current_playing=songs_status
@@ -7942,24 +7974,17 @@ def adjust_theme():
     change_theme(_theme[0])
     resize_im()
 
+    ar=os.listdir("data")
+
+    for i in ar:
+
+        if i.split(".")[0]=="bg_":
+            ext=i.split(".")[1]
+
     
 
-    #print(680*1.7)
-    im=Image.open("data/bg_.jpg")
-    x,y=im.size 
-    im=im.resize((int(680*x/y),680))
+    im=Image.open("data/bg_."+ext)
     x,y=im.size
-
-    xx=int((x-y*1.75)/2)
-
-    im=im.crop((xx,0,x-xx,y))
-    im.save("data/bg.png")
-
-    convert_("data/bg.png","data/bg.png",_theme[0])
-
-
-    im=Image.open("data/bg.png")
-    x,y=im.size 
 
 
     if w/h>x/y:
@@ -7974,12 +7999,20 @@ def adjust_theme():
 
         im=im.crop((xx,0,x-xx,y))
 
+    im.save("data/bg.png")
 
-
-
+    im=Image.open("data/bg.png")
 
     im=im.resize((w,h))
     im.save("data/bg.png")
+
+
+
+
+    convert_("data/bg.png","data/bg.png",_theme[0])
+
+
+
 
 
     darken_image("data/bg.png", "data/bg2.png",(0,0,0), 0.7)
@@ -8833,8 +8866,8 @@ def est_sz(con):
 
 
 
-search=tk.Entry(bg="#0b3723",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(0),font=("FreeMono",13))
-npl=tk.Entry(bg="#0b3723",fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(1),font=("FreeMono",13))
+search=tk.Entry(bg=_theme[1],fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(0),font=("FreeMono",13))
+npl=tk.Entry(bg=_theme[1],fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(1),font=("FreeMono",13))
 
 ls=0
 def mvar_():
@@ -8944,6 +8977,7 @@ def can_settings_b1(e):
     global can_settings,theme_ent,sel_op_ent
     global settings_st
     global _theme
+    global ar_themes
 
     #quit
 
@@ -8964,6 +8998,19 @@ def can_settings_b1(e):
     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
     if r<=15:
+
+        ar=os.listdir("data")
+
+        for i in ar:
+
+            if i.split(".")[0]=="bg_":
+
+                os.remove("data/"+i)
+
+        im=Image.open("data/bg2_.png")
+        im.save("data/bg_.png")
+
+
         _theme[0]=str(theme_ent.get())
         op1,op2=sel_op_ent.get().replace(" ","").split(",")
 
@@ -8983,6 +9030,21 @@ def can_settings_b1(e):
     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
     if r<=15:
+
+
+        ar=os.listdir("data")
+
+        for i in ar:
+
+            if i.split(".")[0]=="bg_":
+
+                os.remove("data/"+i)
+
+
+        im=Image.open("data/bg2_.png")
+        im.save("data/bg_.png")
+
+
         _theme[0]=str(theme_ent.get())
         op1,op2=sel_op_ent.get().replace(" ","").split(",")
 
@@ -8998,6 +9060,20 @@ def can_settings_b1(e):
 
     if int(can_settings["width"])/2-45+15<=e.x<=int(can_settings["width"])/2+45-15:
         if int(can_settings["height"])-10-30<=e.y<=int(can_settings["height"])-10:
+
+
+            ar=os.listdir("data")
+
+            for i in ar:
+
+                if i.split(".")[0]=="bg_":
+
+                    os.remove("data/"+i)
+
+
+            im=Image.open("data/bg2_.png")
+            im.save("data/bg_.png")
+
             _theme[0]=str(theme_ent.get())
             op1,op2=sel_op_ent.get().replace(" ","").split(",")
 
@@ -9009,20 +9085,99 @@ def can_settings_b1(e):
             #threading.Thread(target=adjust_theme, daemon=True).start()
             main()
             draw_settings()
-            return          
+            return    
+
+    # add bg int(can_settings["width"])-20-30-sz-5,int(can_settings["height"])-95+5
+
+
+    #int(can_settings["width"])-20-30-sz-5,int(can_settings["height"])-95+5
+
+    sz=90
+
+
+    cx,cy=int(can_settings["width"])-20-30-(sz-30)-sz-5+15,int(can_settings["height"])-95+5+15
+
+    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+
+    if r<=15:
+
+        file=filedialog.askopenfilename()
+
+        im=Image.open(file)
+        im.save("data/bg2_.png")
+
+        draw_settings(1)
+
+
+
+        #if file!="":
+
+
+
+        return
+
+    cx,cy=int(can_settings["width"])-20-30-(sz-30)-sz-5+sz-15,int(can_settings["height"])-95+5+15
+
+    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+
+    if r<=15:
+
+        file=filedialog.askopenfilename()
+
+        im=Image.open(file)
+        im.save("data/bg2_.png")
+
+        draw_settings(1)
+        return
+
+
+    if int(can_settings["width"])-20-30-(sz-30)-sz-5+15<=e.x<=int(can_settings["width"])-20-30-(sz-30)-sz-5+sz-15:
+        if int(can_settings["height"])-95+5<=e.y<=int(can_settings["height"])-95+5+30:
+            
+            file=filedialog.askopenfilename()
+
+            im=Image.open(file)
+            im.save("data/bg2_.png")
+
+            draw_settings(1)
+
+            return
+
+
+
+    for c in ar_themes:
+
+        cx,cy=c[-2:]
+
+        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+
+        if r<=20:
+
+            theme_ent.delete(0,tk.END)
+            theme_ent.insert(tk.END,c[0])
+
+            return
+
+
+
+
 
     #print(e.x,e.y)
 
-def draw_settings():
+ar_themes=[]
+
+def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
     global settings_st
     global im_bg
+    global _theme
+    global ar_themes
 
     can_settings.delete("all")
     can_settings.place(in_=root,x=(w-int(can_settings["width"]))/2,y=(h-int(can_settings["height"]))/2)
     can_settings.create_image(-(w-int(can_settings["width"]))/2,-(h-int(can_settings["height"]))/2,
-        image=bg2_,anchor="nw")
+        image=bg,anchor="nw")
 
     draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,25,_theme[0],col1,1)
 
@@ -9042,7 +9197,28 @@ def draw_settings():
     theme_ent.delete(0,tk.END)
     theme_ent.insert(tk.END,_theme[0])
 
+
+
+
     can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
+
+
+
+    r=20
+    x=259+1+1+50
+    y=30-20
+
+    ar_themes=[]
+
+    for c in _theme[4]:
+
+        can_settings.create_oval(x,y,x+r*2,y+r*2,fill=c,outline=c)
+
+        ar_themes.append([c,x+r,y+r])
+
+        x+=r*2+20
+
+
 
     can_settings.create_line(20+10,60, 20,60, 20,int(can_settings["height"])-95,
         int(can_settings["width"])-20,int(can_settings["height"])-95,
@@ -9062,6 +9238,13 @@ def draw_settings():
             ext=i.split(".")[1]
 
     im=Image.open("data/bg_."+ext)
+
+    if con==0:
+
+        im.save("data/bg2_.png")
+
+    im=Image.open("data/bg2_.png")
+
     x,y=im.size
 
     xx=(int(can_settings["width"])-20)-(20)-60
@@ -9125,16 +9308,16 @@ def draw_settings():
 
 
 
-    can_settings.create_image(int(can_settings["width"])-20-30-sz-10,int(can_settings["height"])-95+5,
+    can_settings.create_image(int(can_settings["width"])-20-30-sz-5,int(can_settings["height"])-95+5,
         image=circle3,anchor="nw")
-    can_settings.create_image(int(can_settings["width"])-20-30-(sz-30)-sz-10,int(can_settings["height"])-95+5,
+    can_settings.create_image(int(can_settings["width"])-20-30-(sz-30)-sz-5,int(can_settings["height"])-95+5,
         image=circle3,anchor="nw")
 
-    can_settings.create_rectangle(int(can_settings["width"])-20-sz+15-sz-10,int(can_settings["height"])-95+5,
-        int(can_settings["width"])-20-15-sz-10,int(can_settings["height"])-95+5+30-1,
+    can_settings.create_rectangle(int(can_settings["width"])-20-sz+15-sz-5,int(can_settings["height"])-95+5,
+        int(can_settings["width"])-20-15-sz-5,int(can_settings["height"])-95+5+30-1,
         fill=_theme[0],outline=_theme[0])
 
-    can_settings.create_text(int(can_settings["width"])-20-sz/2-sz-10,int(can_settings["height"])-95+5+30/2,
+    can_settings.create_text(int(can_settings["width"])-20-sz/2-sz-5,int(can_settings["height"])-95+5+30/2,
         fill="#000000",text="Add",font=("FreeMono",13))
 
 
