@@ -454,7 +454,9 @@ def resize_im():
 
     im=Image.open("data/bin2.png")
     im=im.resize((25,25))
+    im2=im.resize((20,20))
     im.save("data/bin2.png")
+    im2.save("data/bin3.png")
 
 
 
@@ -6878,6 +6880,8 @@ cursor=0
 
 bg2_=0
 settings=0
+
+delete3=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -6900,6 +6904,7 @@ def load_im():
     global circle11
     global cursor
     global settings
+    global delete3
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -6936,6 +6941,8 @@ def load_im():
     favourite1_=ImageTk.PhotoImage(file="data/favourite1_.png")
     favourite2_=ImageTk.PhotoImage(file="data/favourite2_.png")
     delete2=ImageTk.PhotoImage(file="data/bin2.png")
+    delete3=ImageTk.PhotoImage(file="data/bin3.png")
+
     playlist3=ImageTk.PhotoImage(file="data/playlist3.png")
     playlist4=ImageTk.PhotoImage(file="data/playlist4.png")
     sort2=ImageTk.PhotoImage(file="data/sort2.png")
@@ -7911,7 +7918,7 @@ backward=None
 
 note_=None
 
-_theme=["#38fca5","#1a754d",0.5,0.35,[]]
+_theme=["#38fca5","#1a754d",0.5,0.35,[],[],[]]
 try:
 
     with open("data/save.json", "r") as file:
@@ -7986,18 +7993,33 @@ def adjust_theme():
     im=Image.open("data/bg_."+ext)
     x,y=im.size
 
+    if _theme[-2]!=[]:
 
-    if w/h>x/y:
+        im=im.crop((_theme[-2][0],_theme[-2][1],_theme[-2][2],_theme[-2][3]))
 
-        yy=int((y-x*h/w)/2)
 
-        im=im.crop((0,yy,x,y-yy))
 
-    elif w/h>x/y:
+    if _theme[-1]==[]:
 
-        xx=int((x-y*w/h)/2)
+        if w/h>x/y:
 
-        im=im.crop((xx,0,x-xx,y))
+            yy=int((y-x*h/w)/2)
+
+            im=im.crop((0,yy,x,y-yy))
+
+            _theme[-1]=[0,yy,x,y-yy]
+
+        elif w/h>x/y:
+
+            xx=int((x-y*w/h)/2)
+
+            im=im.crop((xx,0,x-xx,y))
+
+            _theme[-1]=[xx,0,x-xx,y]
+
+    else:
+
+        im=im.crop((_theme[-1][0],_theme[-1][1],_theme[-1][2],_theme[-1][3]))
 
     im.save("data/bg.png")
 
@@ -8978,6 +9000,10 @@ def can_settings_b1(e):
     global settings_st
     global _theme
     global ar_themes
+    global bg_xy
+    global bg_region_
+
+    bg_xy=[e.x,e.y]
 
     #quit
 
@@ -9017,6 +9043,27 @@ def can_settings_b1(e):
         _theme[2]=float(op1)
         _theme[3]=float(op2)
 
+
+        im=Image.open("data/bg3.png")
+        x,y=im.size
+
+        im2=Image.open("data/bg2_.png")
+        x_,y_=im2.size
+
+        ar=[]
+
+        bg_st=0
+        for p in range(len(bg_region_[1])):
+
+            if bg_st==0:
+                ar.append(int(round((bg_region_[1][p]-bg_region_[0][0])*x_/x,0)))
+                bg_st=1
+            elif bg_st==1:
+                ar.append(int(round((bg_region_[1][p]-bg_region_[0][1])*y_/y,0)))
+                bg_st=0
+
+        _theme[-1]=[ar[0],ar[1],ar[4],ar[5]]
+
         adjust_theme()
 
         #threading.Thread(target=adjust_theme, daemon=True).start()
@@ -9051,6 +9098,26 @@ def can_settings_b1(e):
         _theme[2]=float(op1)
         _theme[3]=float(op2)
 
+
+        im=Image.open("data/bg3.png")
+        x,y=im.size
+
+        im2=Image.open("data/bg2_.png")
+        x_,y_=im2.size
+
+        ar=[]
+
+        bg_st=0
+        for p in range(len(bg_region_[1])):
+
+            if bg_st==0:
+                ar.append(int(round((bg_region_[1][p]-bg_region_[0][0])*x_/x,0)))
+                bg_st=1
+            elif bg_st==1:
+                ar.append(int(round((bg_region_[1][p]-bg_region_[0][1])*y_/y,0)))
+                bg_st=0
+
+        _theme[-1]=[ar[0],ar[1],ar[4],ar[5]]
         adjust_theme()
 
         #threading.Thread(target=adjust_theme, daemon=True).start()
@@ -9079,6 +9146,30 @@ def can_settings_b1(e):
 
             _theme[2]=float(op1)
             _theme[3]=float(op2)
+
+            im=Image.open("data/bg3.png")
+            x,y=im.size
+
+            im2=Image.open("data/bg2_.png")
+            x_,y_=im2.size
+
+            ar=[]
+
+            bg_st=0
+            for p in range(len(bg_region_[1])):
+
+                if bg_st==0:
+                    ar.append(int(round((bg_region_[1][p]-bg_region_[0][0])*x_/x,0)))
+                    bg_st=1
+                elif bg_st==1:
+                    ar.append(int(round((bg_region_[1][p]-bg_region_[0][1])*y_/y,0)))
+                    bg_st=0
+
+            _theme[-1]=[ar[0],ar[1],ar[4],ar[5]]
+
+
+
+
 
             adjust_theme()
 
@@ -9153,6 +9244,17 @@ def can_settings_b1(e):
 
         if r<=20:
 
+            cx,cy=c[1]-10+10,c[2]-20+2+10
+
+            r_=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+
+            if r_<=10:
+
+                _theme[4].pop(_theme[4].index(c[0]))
+                save()
+                draw_settings()
+                return
+
             theme_ent.delete(0,tk.END)
             theme_ent.insert(tk.END,c[0])
 
@@ -9164,8 +9266,36 @@ def can_settings_b1(e):
 
     #print(e.x,e.y)
 
+def draw_sel_theme():
+
+    global theme_ent
+    global sel_theme
+    global _theme
+
+    try:
+        col=theme_ent.get()
+
+        theme_ent["fg"]=col
+        theme_ent["insertbackground"]=col
+        theme_ent["selectbackground"]=col
+        can_settings.delete(sel_theme)
+
+        sel_theme=can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=col)
+    except:
+
+        theme_ent["fg"]=_theme[0]
+        theme_ent["insertbackground"]=_theme[0]
+        theme_ent["selectbackground"]=_theme[0]
+        can_settings.delete(sel_theme)
+
+        sel_theme=can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
+
+    root.after(1,draw_sel_theme)
+
 ar_themes=[]
 
+sel_theme=0
+bg_region,bg_region_=0,[]
 def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
@@ -9173,6 +9303,11 @@ def draw_settings(con=0):
     global im_bg
     global _theme
     global ar_themes
+    global sel_theme
+    global bg_region,bg_region_
+    global bg_xy
+
+    
 
     can_settings.delete("all")
     can_settings.place(in_=root,x=(w-int(can_settings["width"]))/2,y=(h-int(can_settings["height"]))/2)
@@ -9200,7 +9335,7 @@ def draw_settings(con=0):
 
 
 
-    can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
+    sel_theme=can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
 
 
 
@@ -9247,14 +9382,14 @@ def draw_settings(con=0):
 
     x,y=im.size
 
-    xx=(int(can_settings["width"])-20)-(20)-60
+    xx=(int(can_settings["width"])-20)-20-60
     yy=(int(can_settings["height"])-95)-60-60
 
     if xx/yy<x/y:
 
 
         x2=int(xx)
-        y2=int(x2*y/x)
+        y2=int(round(x2*h/w,0))
 
         im=im.resize((x2,y2))
 
@@ -9263,7 +9398,7 @@ def draw_settings(con=0):
     elif xx/yy>x/y:
 
 
-        x2=int(yy*x/y)
+        x2=int(round(yy*w/h,0))
         y2=int(yy)
 
         im=im.resize((x2,y2))
@@ -9286,12 +9421,100 @@ def draw_settings(con=0):
     x_=(xx-x)/2
     y_=(yy-y)/2
 
+
+    ar=os.listdir("data")
+
+    for i in ar:
+
+        if i.split(".")[0]=="bg_":
+            ext=i.split(".")[1]
+
+    
+
+    im=Image.open("data/bg_."+ext)
+    _x,_y=im.size
+
+
+
+    if w/h>x/y:
+
+        __x=x
+        __y=x*h/w
+
+    elif w/h<x/y:
+
+        __y=y
+        __x=y*w/h
+    else:
+
+        __x=x
+        __y=y
+
+    xy=[0,0]
+
+    if _theme[-1]!=[]:
+
+
+
+
+        if w/h>_x/_y:
+
+            yy_=int((_y-_x*h/w)/2)
+
+            xy=[0,yy_*__y/_y]
+
+            _theme[-1]=[0,yy_,_x,_y-yy_]
+
+        elif w/h>_x/_y:
+
+            xx_=int((_x-_y*w/h)/2)
+
+
+            xy=[xx_*__x/_x,0]
+
+            _theme[-1]=[xx_,0,_x-xx_,_y]
+
+    else:
+
+        if w/h>_x/_y:
+
+            yy_=int((_y-_x*h/w)/2)
+
+            xy=[0,yy_*__y/_y]
+
+        elif w/h>_x/_y:
+
+            xx_=int((_x-_y*w/h)/2)
+
+
+            xy=[xx_*__x/_x,0]
+
+
+
+
     im_bg=ImageTk.PhotoImage(file="data/bg3.png")
 
     can_settings.create_image(20+30+x_,60+30+y_,image=im_bg,anchor="nw")
 
 
     can_settings.create_rectangle(20+30,60+30,20+30+xx,60+30+yy,outline=_theme[1])
+
+
+    x1=_theme[-1][0]*__x/_x+20+30+xy[0]
+    y1=_theme[-1][1]*__y/_y+60+30+xy[1]
+
+    x2=_theme[-1][2]*__x/_x+20+30-xy[0]
+    y2=_theme[-1][3]*__y/_y+60+30-xy[1]
+
+
+    print(w/h,x2/y2,x/y)
+
+    bg_region_=[[20+30+x_,60+30+y_],[x1+x_,y1+y_, x2+x_,y1+y_, x2+x_,y2+y_,
+        x1+x_,y2+y_, x1+x_,y1+y_]]
+
+    bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
+
+
 
     sz=90
     can_settings.create_image(int(can_settings["width"])-20-30,int(can_settings["height"])-95+5,
@@ -9361,11 +9584,110 @@ def draw_settings(con=0):
         fill="#000000",font=("FreeMono",13),anchor="c")
 
 
+del_theme=0
+def can_settings_m(e):
+    global can_settings
+    global ar_themes
+    global delete3
+    global del_theme
+
+    can_settings.delete(del_theme)
+
+    for c in ar_themes:
+
+        cx,cy=c[1:]
+
+        r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+
+        if r<=20:
+
+            del_theme=can_settings.create_image(c[1]-10,c[2]-20+2,
+                image=delete3,anchor="nw")
+            return
+bg_xy=[]
+def can_settings_drag(e):
+    global can_settings
+    global bg_region,bg_region_
+    global bg_xy
+
+
+
+    if bg_region_[1][0]<=e.x<=bg_region_[1][4]:
+        if bg_region_[1][1]<=e.y<=bg_region_[1][5]:
+
+            im=Image.open("data/bg3.png")
+            xx,yy=im.size
+
+            ar=[]
+
+            for p in bg_region_[1]:
+                ar.append(p)
+
+            bg_st=0
+            for p in range(len(ar)):
+
+                if bg_st==0:
+
+                    ar[p]-=bg_xy[0]-e.x
+                    bg_st=1
+                elif bg_st==1:
+
+                    ar[p]-=bg_xy[1]-e.y
+                    bg_st=0
+
+            bg_xy=[e.x,e.y]
+
+
+            if bg_region_[0][0]<=ar[0] and ar[4]<=bg_region_[0][0]+xx:
+
+
+                bg_st=0
+                for p in range(len(ar)):
+
+                    if bg_st==0:
+
+                        bg_region_[1][p]=ar[p]
+                        bg_st=1
+
+                    elif bg_st==1:
+                        bg_st=0
+
+
+
+                can_settings.delete(bg_region)
+
+                bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
+
+
+
+            if bg_region_[0][1]<=ar[1] and ar[5]<=bg_region_[0][1]+yy:
+
+                    bg_st=0
+                    for p in range(len(ar)):
+
+                        if bg_st==0:
+
+                            
+                            bg_st=1
+
+                        elif bg_st==1:
+
+                            bg_region_[1][p]=ar[p]
+                            bg_st=0
+
+                    can_settings.delete(bg_region)
+
+                    bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
+            
+
+
 
 settings_st=0
 
 can_settings=tk.Canvas(width=w-100,height=h-200,bg="#000000",relief="flat",highlightthickness=0,border=0)
 can_settings.bind("<Button-1>",can_settings_b1)
+can_settings.bind("<Motion>",can_settings_m)
+can_settings.bind("<B1-Motion>",can_settings_drag)
 
 theme_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],relief="flat",highlightthickness=0,
     border=0,insertbackground=_theme[0],selectbackground=_theme[0],selectforeground="#000000")
@@ -9444,5 +9766,6 @@ check_cur_pos()
 move_bg()
 draw_cur()
 
+draw_sel_theme()
 print(hex_to_rgb("#200000"))
 root.mainloop()
