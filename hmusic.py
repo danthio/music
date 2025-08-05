@@ -1694,8 +1694,8 @@ def add_playlist():
 
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
-    can4.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2),image=bg,anchor="nw")
-    can6.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+int(can4["height"])+int(can3["height"])),image=bg,anchor="nw")
+    can4.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2),image=bg2_,anchor="nw")
+    can6.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+int(can4["height"])+int(can3["height"])),image=bg2_,anchor="nw")
 
 
 
@@ -1715,7 +1715,7 @@ def add_playlist():
 
     can3.delete("all")
 
-    bgp=can3.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+40)+int(can3.canvasy(0)),image=bg,anchor="nw")
+    bgp=can3.create_image(-((w-550)/2),-((h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2+40)+int(can3.canvasy(0)),image=bg2_,anchor="nw")
 
 
     ar=[]
@@ -8062,8 +8062,9 @@ def adjust_theme():
 
 
 
-    darken_image("data/bg.png", "data/bg2.png",(0,0,0), 0.7)
+    
     darken_image("data/bg.png", "data/bg.png",(0,0,0), _theme[2])
+    darken_image("data/bg.png", "data/bg2.png",(0,0,0), 0.5)
 
 
     load_im()
@@ -9437,6 +9438,7 @@ def draw_settings(con=0):
     global delete_,add
     global cr
     global no_bg_st
+    global bg2_
 
 
     if con==0:
@@ -9449,9 +9451,9 @@ def draw_settings(con=0):
     can_settings.delete("all")
     can_settings.place(in_=root,x=10+25+5,y=25+12.5+5)
     can_settings.create_image(-(w-int(can_settings["width"]))/2,-(h-int(can_settings["height"]))/2,
-        image=bg,anchor="nw")
+        image=bg2_,anchor="nw")
 
-    draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,15,_theme[0],col1,1)
+    draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,20,_theme[0],col1,1)
 
     can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
 
