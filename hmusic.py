@@ -68,13 +68,16 @@ def configure_theme(pcol):
     mxc=max(col1)
 
     col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
+    col3=(int(col1[0]*32/mxc),int(col1[1]*32/mxc),int(col1[2]*32/mxc))
 
-    _theme[1]="#%02x%02x%02x" % col2
+    ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3]
+
+
+    _theme[1]=ar
 
 
     ar=[pcol]
 
-    print(_theme)
 
 
     for c in _theme[4]:
@@ -165,12 +168,21 @@ def change_theme(pcol):
 
                 #print(col,pixels[x_,y_])
 
+            root.after(1,update)
+
+
+        
+
+
+
 
         if i.split(".")[0]=="icon":
             image_.save("data/icon.ico", "ICO", quality=10000)
 
         else:
             image_.save("data/"+i, "PNG", quality=10000)
+
+
 
         #print("ok")
 
@@ -529,7 +541,7 @@ def draw_wave():
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
 
@@ -797,7 +809,7 @@ def convert_folder_to_audio():
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
 
@@ -894,11 +906,11 @@ def convert_folder_to_audio():
 
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-                    root.after(0,dummy)
+                    root.after(1,update)
 
 
                 except:
-                    root.after(0,dummy)
+                    root.after(1,update)
                     
 
 
@@ -928,7 +940,7 @@ def convert_file_to_audio():
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
 
@@ -1002,11 +1014,11 @@ def convert_file_to_audio():
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
-                    root.after(0,dummy)
+                    root.after(1,update)
                     
 
                 except:
-                    root.after(0,dummy)
+                    root.after(1,update)
                     
 
 
@@ -1020,9 +1032,6 @@ def convert_file_to_audio():
         update_waves()
         
 
-
-def dummy():
-    pass
 
 
 def start_conversion():
@@ -1371,7 +1380,7 @@ def prog():
 
 
                 col1=_theme[0]
-                col2=_theme[1]
+                col2=_theme[1][0]
 
 
 
@@ -1683,7 +1692,7 @@ def add_playlist():
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
 
@@ -2775,7 +2784,7 @@ def can_b1(e):
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
 
@@ -3590,7 +3599,7 @@ def can_b1(e):
 
 
                     col1=_theme[0]
-                    col2=_theme[1]
+                    col2=_theme[1][0]
 
 
 
@@ -3981,13 +3990,15 @@ def can_b1(e):
                     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
 
-                    if r<=12.5:
+                    if cx-12.5<=e.x<=cx+12.5:
+                        if cy-12.5<=e.y<=cy+12.5:
 
 
-                        update_details(current_playing,2,"")
-                        main()
 
-                        return
+                            update_details(current_playing,2,"")
+                            main()
+
+                            return
 
 
 
@@ -4328,7 +4339,7 @@ def check_volume():
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
     if volume.GetMasterVolumeLevelScalar()!=current_volume:
@@ -5386,10 +5397,10 @@ def main():
 
                     if _npl==1:
 
-                        can2.create_oval(10,y, 10+30,y+30, fill=_theme[1],outline=_theme[1])
-                        can2.create_oval((int(can2["width"])-sb_sz-1)-10-30,y, (int(can2["width"])-sb_sz-1)-10,y+30,fill=_theme[1],outline=_theme[1])
+                        can2.create_oval(10,y, 10+30,y+30, fill=_theme[1][1],outline=_theme[1][1])
+                        can2.create_oval((int(can2["width"])-sb_sz-1)-10-30,y, (int(can2["width"])-sb_sz-1)-10,y+30,fill=_theme[1][1],outline=_theme[1][1])
 
-                        can2.create_rectangle(10+15,y, (int(can2["width"])-sb_sz-1)-10-15,y+30,fill=_theme[1],outline=_theme[1])
+                        can2.create_rectangle(10+15,y, (int(can2["width"])-sb_sz-1)-10-15,y+30,fill=_theme[1][1],outline=_theme[1][1])
 
 
 
@@ -5933,6 +5944,7 @@ def draw_can():
     global copy
     global settings
     global _theme
+    global delete_
 
     can.delete("all")
 
@@ -5948,7 +5960,7 @@ def draw_can():
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
 
@@ -6058,11 +6070,11 @@ def draw_can():
 
 
 
-    search["bg"]=_theme[1]
+    search["bg"]=_theme[1][1]
     search["fg"]=col1
     search["insertbackground"]=col1
 
-    npl["bg"]=_theme[1]
+    npl["bg"]=_theme[1][1]
     npl["fg"]=col1
     npl["insertbackground"]=col1
  
@@ -6108,7 +6120,7 @@ def draw_can():
                     if not music_details[current_playing][2]=="":
 
 
-                        can.create_image(x+40+5,y+15-3, image=circle5,anchor="nw")
+                        can.create_image(x+40+5,y+15-4, image=circle7,anchor="nw")
                 except:
                     pass
 
@@ -6127,7 +6139,7 @@ def draw_can():
                 can.create_image(x+40+10,y+2.5,image=add,anchor="nw")
 
                 if music_details[current_playing][2]!="":
-                    can.create_image(x+40+10+25+10,y+2.5,image=delete,anchor="nw")
+                    can.create_image(x+40+10+25+10,y+2.5,image=delete_,anchor="nw")
 
 
 
@@ -6182,10 +6194,10 @@ def draw_can():
             
             if _search==1:
 
-                can.create_oval(10,40+30-10-5-5, 10+30,40+30+30-10-5-5,fill=_theme[1],outline=_theme[1])
-                can.create_oval(w-10-30-1,40+30-10-5-5, w-10-1,40+30+30-10-5-5,fill=_theme[1],outline=_theme[1])
+                can.create_oval(10,40+30-10-5-5, 10+30,40+30+30-10-5-5,fill=_theme[1][1],outline=_theme[1][1])
+                can.create_oval(w-10-30-1,40+30-10-5-5, w-10-1,40+30+30-10-5-5,fill=_theme[1][1],outline=_theme[1][1])
 
-                can.create_rectangle(10+15,40+30-10-5-5, w-10-15-1,40+30+30-10-5-5,fill=_theme[1],outline=_theme[1])
+                can.create_rectangle(10+15,40+30-10-5-5, w-10-15-1,40+30+30-10-5-5,fill=_theme[1][1],outline=_theme[1][1])
                 
             can.create_image(w-10-5-20,40+5+30-10-5-5,image=cancel,anchor="nw")
 
@@ -6630,7 +6642,7 @@ def show_lyrics():
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
 
@@ -7057,7 +7069,7 @@ def load_():
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
 
     can.delete(load)
@@ -7672,7 +7684,7 @@ def can_label(x,y):
 
 
     col1=_theme[0]
-    col2=_theme[1]
+    col2=_theme[1][0]
 
     if not root_st==1:
 
@@ -7735,7 +7747,7 @@ def convert_(file,output,col):
 
 
 
-    image = Image.new('RGB', (w, h), '#000000')
+    image = Image.new('RGBA', (w, h), (0,0,0,255))
     pixels = image.load()
 
 
@@ -7757,7 +7769,9 @@ def convert_(file,output,col):
             b=int(c_*rgb[2]/mx)
 
 
-            pixels[x,y]=(r,g,b)
+            pixels[x,y]=(r,g,b,255)
+
+        root.after(1,update)
 
     image.save(output)
 
@@ -7947,7 +7961,7 @@ backward=None
 
 note_=None
 
-_theme=["#38fca5","#1a754d",0.5,0.35,[],0,[]]
+_theme=["#38fca5",[],0.5,0.35,[],0,[]]
 try:
 
     with open("data/save.json", "r") as file:
@@ -7981,7 +7995,8 @@ if playlist_st==0 and current_playing!="":
 
 
 
-
+def update():
+    pass
 root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
@@ -8002,12 +8017,27 @@ root.title("HMUSIC")
 root.overrideredirect(True)
 
 
+configure_theme(_theme[0])
+
+adj_st=0
+
 def adjust_theme():
-    global _theme
+    global _theme,theme_ent
+    global adj_st
+    global sel_col
 
 
-    configure_theme(_theme[0])
-    change_theme(_theme[0])
+    if adj_st==0:
+        col=_theme[0]
+        configure_theme(_theme[0])
+
+    else:
+        col=sel_col
+
+
+
+    
+    change_theme(col)
     resize_im()
 
     ar=os.listdir("data")
@@ -8056,7 +8086,7 @@ def adjust_theme():
 
 
 
-    convert_("data/bg.png","data/bg.png",_theme[0])
+    convert_("data/bg.png","data/bg.png",col)
 
 
 
@@ -8067,13 +8097,18 @@ def adjust_theme():
     darken_image("data/bg.png", "data/bg2.png",(0,0,0), 0.5)
 
 
+
+
     load_im()
 
-    root.after(0,dummy)
+    root.after(1,update)
+    adj_st=1
+
+
     
 
 
-adjust_theme()
+
 
 y1,y2,y3=0,0,0
 def move_bg():
@@ -8533,7 +8568,7 @@ can.bind("<ButtonRelease-1>",on_release_can)
 
 
 col1=_theme[0]
-col2=_theme[1]
+col2=_theme[1][0]
 
 
 
@@ -8914,8 +8949,8 @@ def est_sz(con):
 
 
 
-search=tk.Entry(bg=_theme[1],fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(0),font=("FreeMono",13))
-npl=tk.Entry(bg=_theme[1],fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(1),font=("FreeMono",13))
+search=tk.Entry(bg=_theme[1][1],fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(0),font=("FreeMono",13))
+npl=tk.Entry(bg=_theme[1][1],fg=col1,insertbackground=col1,relief="flat",highlightthickness=0,border=0,width=est_sz(1),font=("FreeMono",13))
 
 ls=0
 def mvar_():
@@ -9020,6 +9055,50 @@ for _ in sa:
 
 can_lyrics=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 
+l1,l2=0,0
+ang_=0
+def check_up_theme():
+    global up_theme,_theme,theme_ent,sel_col
+    global l1,l2,ang_
+
+
+
+    if not up_theme==None:
+
+        if up_theme.is_alive():
+
+
+            can_settings.delete(l1)
+            can_settings.delete(l2)
+
+            cx,cy=int(can_settings["width"])/2,int(can_settings["height"])-95+(95-30-10)/2
+            r=20
+
+            l1=can_settings.create_arc(cx-r,cy-r,cx+r,cy+r,start=ang_,extent=70,style="arc",outline=_theme[0],width=2)
+            l2=can_settings.create_arc(cx-r,cy-r,cx+r,cy+r,start=ang_+180,extent=70,style="arc",outline=_theme[0],width=2)
+            
+
+            ang_+=1
+
+        else:
+
+
+            _theme[0]=str(sel_col)
+
+            configure_theme(_theme[0])
+
+            main()
+            draw_settings()
+            up_theme=None
+
+            can_settings.create_text(int(can_settings["width"])/2,int(can_settings["height"])-95+(95-30-10)/2,
+                text="Theme Updated!",font=("FreeMono",13),fill=_theme[0])
+
+            ang_=0
+
+    root.after(1,check_up_theme)
+up_theme=None
+sel_col=""
 def can_settings_b1(e):
 
     global can_settings,theme_ent,sel_op_ent
@@ -9034,6 +9113,8 @@ def can_settings_b1(e):
     global crop,crop2
 
     global no_bg_st
+    global up_theme
+    global sel_col
 
     bg_xy=[e.x,e.y]
 
@@ -9069,8 +9150,10 @@ def can_settings_b1(e):
         im.save("data/bg_.png")
 
 
-        _theme[0]=str(theme_ent.get())
+        
         op1,op2=sel_op_ent.get().replace(" ","").split(",")
+
+        sel_col=str(theme_ent.get())
 
         _theme[2]=float(op1)
         _theme[3]=float(op2)
@@ -9100,11 +9183,11 @@ def can_settings_b1(e):
 
         save()
 
-        adjust_theme()
+        #adjust_theme()
 
-        #threading.Thread(target=adjust_theme, daemon=True).start()
-        main()
-        draw_settings()
+        up_theme=threading.Thread(target=adjust_theme,daemon=True)
+        up_theme.start()
+
         return
 
 
@@ -9128,8 +9211,9 @@ def can_settings_b1(e):
         im.save("data/bg_.png")
 
 
-        _theme[0]=str(theme_ent.get())
         op1,op2=sel_op_ent.get().replace(" ","").split(",")
+
+        sel_col=str(theme_ent.get())
 
         _theme[2]=float(op1)
         _theme[3]=float(op2)
@@ -9158,11 +9242,10 @@ def can_settings_b1(e):
         _theme[-2]=no_bg_st
 
         save()
-        adjust_theme()
+        #adjust_theme()
 
-        #threading.Thread(target=adjust_theme, daemon=True).start()
-        main()
-        draw_settings()
+        up_theme=threading.Thread(target=adjust_theme,daemon=True)
+        up_theme.start()
         return
 
     if int(can_settings["width"])/2-45+15<=e.x<=int(can_settings["width"])/2+45-15:
@@ -9181,8 +9264,9 @@ def can_settings_b1(e):
             im=Image.open("data/bg2_.png")
             im.save("data/bg_.png")
 
-            _theme[0]=str(theme_ent.get())
             op1,op2=sel_op_ent.get().replace(" ","").split(",")
+
+            sel_col=str(theme_ent.get())
 
             _theme[2]=float(op1)
             _theme[3]=float(op2)
@@ -9213,11 +9297,10 @@ def can_settings_b1(e):
 
 
 
-            adjust_theme()
+            #adjust_theme()
 
-            #threading.Thread(target=adjust_theme, daemon=True).start()
-            main()
-            draw_settings()
+            up_theme=threading.Thread(target=adjust_theme,daemon=True)
+            up_theme.start()
             return    
 
     # add bg 
@@ -9658,7 +9741,7 @@ def draw_settings(con=0):
     can_settings.create_image(20+30+x_,60+30+y_,image=im_bg,anchor="nw")
 
 
-    can_settings.create_rectangle(20+30,60+30,20+30+xx,60+30+yy,outline=_theme[1])
+    can_settings.create_rectangle(20+30,60+30,20+30+xx,60+30+yy,outline=_theme[1][0])
 
 
 
@@ -9882,15 +9965,18 @@ sel_op_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],reli
     border=0,insertbackground=_theme[0],selectbackground=_theme[0],selectforeground="#000000")
 
 can2.focus_set()
+
+
+
+
+
+
+adjust_theme()
+
 load_im()
 
 
 
-
-try:
-    main()
-except:
-    pass
 
 timer()
 
@@ -9953,5 +10039,14 @@ move_bg()
 draw_cur()
 
 draw_sel_theme()
-print(hex_to_rgb("#200000"))
+
+
+
+
+
+
+
+#update()
+check_up_theme()
+
 root.mainloop()
