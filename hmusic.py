@@ -150,6 +150,7 @@ def change_theme(pcol):
                 mxc=max(col[:3])
 
                 if 240<=mxc<=255:
+
                     pixels[x_,y_]=(*col1, 255)
 
                 elif 119-10<=mxc<=119+10:
@@ -176,8 +177,8 @@ def change_theme(pcol):
 
 
 
-        if i.split(".")[0]=="icon":
-            image_.save("data/icon.ico", "ICO", quality=10000)
+        if i=="icon.png":
+            pass
 
         else:
             image_.save("data/"+i, "PNG", quality=10000)
@@ -7962,10 +7963,30 @@ backward=None
 note_=None
 
 _theme=["#38fca5",[],0.5,0.35,[],0,[]]
+
+with open("data/save.json", "r") as file:
+    data = json.load(file)
+
 try:
 
     with open("data/save.json", "r") as file:
         data = json.load(file)
+
+
+    if not len(data["save"][-1][0])==7:
+
+
+        data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]}
+
+
+
+
+
+        with open("data/save.json", "w") as file:
+            json.dump(data, file, indent=4)
+
+
+
 except:
     data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]}
 
@@ -9533,7 +9554,7 @@ def draw_settings(con=0):
 
     can_settings.delete("all")
     can_settings.place(in_=root,x=10+25+5,y=25+12.5+5)
-    can_settings.create_image(-(w-int(can_settings["width"]))/2,-(h-int(can_settings["height"]))/2,
+    can_settings.create_image(-(10+25+5),-(25+12.5+5),
         image=bg2_,anchor="nw")
 
     draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,20,_theme[0],col1,1)
@@ -9973,9 +9994,11 @@ can2.focus_set()
 
 adjust_theme()
 
-load_im()
 
 
+
+
+main()
 
 
 timer()
