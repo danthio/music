@@ -56,9 +56,133 @@ import time
 from datetime import datetime
 import pyautogui
 
+import cv2
+
+cap=None 
+
+
+def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
+    # Open video file
+    cap = cv2.VideoCapture(video_path)
+    
+    if not cap.isOpened():
+        pass
+        #raise IOError("Error: Cannot open video file.")
+
+    # Get frames per second (fps) of the video
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    
+    # Calculate frame number from seconds
+    frame_number = int(fps * seconds)
+    
+    # Set the frame position
+    cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+    
+    # Read the frame
+    ret, frame = cap.read()
+    
+    if not ret:
+        pass
+        #raise ValueError("Error: Could not read frame at {} seconds.".format(seconds))
+    
+    # Save the frame if output path is provided
+    if output_path:
+        cv2.imwrite(output_path, frame)
+    
+    cap.release()
+    return frame
+
+# Example usage
+"""
+# Example usage
+video_path = "path/to/your/video.mp4"
+target_time_ms = 5000  # 5 seconds
+get_frame_at_time(video_path, target_time_ms, )
 
 
 
+self.canvas.itemconfig(self.canvas_image, image=self.images[self.current_image_index])
+"""
+
+
+vframe=[0,0,0]
+def play_vid():
+
+    global tm,play_st
+    global can_vid,vid_st
+    global current_playing
+    global vframe
+
+
+    if play_st==1 and vid_st==1:
+
+        #get_frame_at_time("videos/"+current_playing.replace(".mp3",".mp4"), 3)
+
+        get_frame_at("videos/"+current_playing.replace(".mp3",".mp4"), tm)
+
+        im=Image.open("data/frame.jpg")
+        x,y=im.size
+
+        x_,y_=int(can_vid["width"]),int(can_vid["height"])
+
+
+
+
+        if x/y>x_/y_:
+
+
+            xx=x_
+
+            yy=int(xx*y/x)
+
+            im=im.resize((xx,yy))
+
+        elif x/y<x_/y_:
+
+
+            yy=y_
+
+            xx=int(yy*x/y)
+
+            im=im.resize((xx,yy))
+        else:
+
+            im=im.resize((x_,y_))
+
+        im.save("data/frame.jpg")
+
+
+        vframe[0]=ImageTk.PhotoImage(file="data/frame.jpg")
+
+
+        
+
+        im=Image.open("data/frame.jpg")
+        x,y=im.size
+
+
+        _x,_y=(x_-x)/2,(y_-y)/2
+
+        if vframe[-1]==0:
+
+            vframe[1]=can_vid.create_image(_x,_y,image=vframe[0],anchor="nw")
+        else:
+            can_vid.itemconfig(vframe[1],image=vframe[0])
+
+        #can_vid.delete(vframe[1])
+
+        #vframe[1]=can_vid.create_image(_x,_y,image=vframe[0],anchor="nw")
+
+
+
+        if vframe[-1]==0:
+            vframe[-1]=1
+
+
+
+
+
+    root.after(10,play_vid)
 
 def configure_theme(pcol):
     global _theme
@@ -272,6 +396,23 @@ def get_taskbar_height():
 
 
 def resize_im():
+
+    im=Image.open("data/vid1.png")
+    im=im.resize((25,25))
+    im.save("data/vid1.png")
+
+
+    im=Image.open("data/vid2.png")
+    im=im.resize((25,25))
+    im.save("data/vid2.png")
+
+
+    im=Image.open("data/vid3.png")
+    im=im.resize((25,25))
+    im.save("data/vid3.png")
+
+
+
 
     im=Image.open("data/delete.png")
     im=im.resize((25,25))
@@ -502,6 +643,12 @@ else:
     os.makedirs("waves", exist_ok=True)
 
 
+directory_path = Path("videos")
+
+if directory_path.is_dir():
+    pass
+else:
+    os.makedirs("videos", exist_ok=True)
 
 
 
@@ -1497,6 +1644,7 @@ def timer():
 
             if tm+0.5>=tot_tm_:
 
+
                 st_=st
                 cp=current_playlist
                 p=playlist_st
@@ -2243,7 +2391,7 @@ def can2_b1(e):
 
         y=s[-1]
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25-15-25+12.5,y+12.5+12.5
+        cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25-15-25-15-25+12.5,y+12.5+12.5
 
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
@@ -2336,7 +2484,7 @@ def can2_b1(e):
 
         y=s[-1]
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25+12.5,y+12.5+12.5
+        cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25-15-25+12.5,y+12.5+12.5
 
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
@@ -2407,6 +2555,50 @@ def can2_b1(e):
             return
 
     """
+    #add/remove video
+
+
+    for s in songs:
+
+        #print(s[0])
+
+        y=s[-1]
+
+        cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25+12.5,y+12.5+12.5
+
+        if cx-12.5<=e.x<=cx+12.5:
+            if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
+
+                ar=os.listdir("videos")
+
+                try:
+
+                    v=ar.index(s[0].replace(".mp3",".mp4"))
+
+                    os.remove("videos/"+s[0].replace(".mp3",".mp4"))
+
+                    
+                    main()
+                except:
+
+
+                    file=filedialog.askopenfilename()
+
+                    try:
+
+                        if file[-3:]=="mp4":
+
+                            destination_file = os.path.join("videos", os.path.basename(file))
+                            shutil.copy(file, "videos")
+
+                            os.rename("videos/"+file.split("/")[-1],"videos/"+s[0].replace(".mp3",".mp4"))
+
+                    except:
+                        pass
+
+
+                    main()
+                return
 
     #delete file
 
@@ -2781,6 +2973,9 @@ def can_b1(e):
     global bg2_
     global quit
     global _theme
+    global vid_st
+    global can_vid
+    global vframe
 
 
 
@@ -2830,6 +3025,8 @@ def can_b1(e):
 
             draw_settings()
 
+            vid_st=0
+            can_vid.place_forget()
 
 
 
@@ -2870,6 +3067,10 @@ def can_b1(e):
 
     if xv-60<=e.x<=xv+60:
         if 50/2-15<=e.y<=50/2+15:
+
+            vid_st=0
+            can_vid.place_forget()
+
 
             lyric_st=0
 
@@ -2936,7 +3137,8 @@ def can_b1(e):
 
     if xv*2-60<=e.x<=xv*2+60:
         if 50/2-15<=e.y<=50/2+15:
-
+            vid_st=0
+            can_vid.place_forget()
             lyric_st=0
 
             select_st=0
@@ -3006,7 +3208,8 @@ def can_b1(e):
 
     if xv*3-60<=e.x<=xv*3+60:
         if 50/2-15<=e.y<=50/2+15:
-
+            vid_st=0
+            can_vid.place_forget()
             lyric_st=0
 
             select_st=0
@@ -3084,7 +3287,8 @@ def can_b1(e):
 
     if xv*4-60<=e.x<=xv*4+60:
         if 50/2-15<=e.y<=50/2+15:
-
+            vid_st=0
+            can_vid.place_forget()
             lyric_st=0
 
             select_st=0
@@ -3153,7 +3357,8 @@ def can_b1(e):
 
     if xv*5-60<=e.x<=xv*5+60:
         if 50/2-15<=e.y<=50/2+15:
-
+            vid_st=0
+            can_vid.place_forget()
             lyric_st=0
 
 
@@ -3507,8 +3712,6 @@ def can_b1(e):
                     lst=1
                     can_lyrics.place_forget()
 
-                    play_video_st=0
-                    cap=None
                     
 
                     can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
@@ -3525,6 +3728,9 @@ def can_b1(e):
                         search.delete(0,tk.END)
                         search.place_forget()
                         frame.place_forget()
+
+                        vid_st=0
+                        can_vid.place_forget()
 
                 main()
 
@@ -3892,6 +4098,67 @@ def can_b1(e):
                     else:
                         update_song_status()
 
+
+        #play_vid
+
+
+        if 10+25+15+25+15+25+15+25+15<=e.x<=10+25+15+25+15+25+15+25+15+25:
+            if h-20-30-15+5+10-3+2.5<=e.y<=h-20-30-15+5+10-3+2.5+25:
+
+                ar=os.listdir("videos")
+
+                try:
+
+
+
+
+                    v=ar.index(current_playing.replace(".mp3",".mp4"))
+                    
+                    if vid_st==0:
+                        vid_st=1
+                    elif vid_st==1:
+                        vid_st=0
+
+                    if vid_st==1:
+                        lyric_st=0
+                        lst=1
+                        can_lyrics.place_forget()
+
+                        
+
+                        can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
+
+                        main()
+
+                        if st==songs_status[0]:
+
+                            if st==2:
+                                if current_playlist==songs_status[1]:
+                                    move_to_playing()
+
+                            else:
+                                move_to_playing()
+
+
+
+
+
+                        can_vid.place(in_=root,x=10,y=90-1-1)
+
+                        can_vid.delete("all")
+
+                        #can_vid.create_image(-10,-(90-1-1),image=bg2_,anchor="nw")
+
+                        vframe=[0,0,0]
+
+                    else:
+
+                        can_vid.place_forget()
+
+                    main()
+                except:
+                    vid_st=0
+
         #lyrics
 
 
@@ -4064,6 +4331,8 @@ def can_b1(e):
 
             _search=1
 
+            vid_st=0
+            can_vid.place_forget()
 
             search.place(in_=root,x=10+15,y=45+30-10-5-5)
             search.focus_set()
@@ -4375,11 +4644,15 @@ def play_music(file,time,con=0):
     global sig,tts
     global play_st
 
+    global vid_st,can_vid
+
 
     if play_st==1:
 
         if time==0:
 
+            vid_st=0
+            can_vid.place_forget()
 
             sig=[]
             tts=0
@@ -5886,6 +6159,9 @@ def create_rectangle_(can,x1, y1, x2, y2, **kwargs):
         images_.append(ImageTk.PhotoImage(image))
         can.create_image(x1, y1, image=images_[-1], anchor='nw')
 _bg_=None
+
+
+vid_st=0
 def draw_can():
 
     global can,st,w,h
@@ -5946,6 +6222,8 @@ def draw_can():
     global settings
     global _theme
     global delete_
+    global vid1,vid2
+    global vid_st
 
     can.delete("all")
 
@@ -6463,6 +6741,27 @@ def draw_can():
 
 
 
+        if vid_st==0:
+
+            can.create_image(10+25+15+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=vid2,anchor="nw")
+
+
+        elif vid_st==1:
+
+            can.create_image(10+25+15+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=vid1,anchor="nw")
+
+
+
+        ar=os.listdir("videos")
+
+        try:
+            v=ar.index(current_playing.replace(".mp3",".mp4"))
+            can.create_image(10+25+15+25+15+25+15+25+15+25+3,h-20-30-15+5+10-3+2.5+12.5-2,image=circle5,anchor="nw")
+        except:
+            pass
+
+
+
         can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=col2,width=2)
 
 
@@ -6907,6 +7206,9 @@ delete3=0
 crop,crop2=0,0
 
 delete_=0
+
+vid1,vid2,vid3=0,0,0,
+
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -6932,6 +7234,7 @@ def load_im():
     global delete3
     global crop,crop2
     global delete_
+    global vid1,vid2,vid3
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -6996,6 +7299,9 @@ def load_im():
 
     delete_=ImageTk.PhotoImage(file="data/delete.png")
 
+    vid1=ImageTk.PhotoImage(file="data/vid1.png")
+    vid2=ImageTk.PhotoImage(file="data/vid2.png")
+    vid3=ImageTk.PhotoImage(file="data/vid3.png")    
 
 
 
@@ -7095,7 +7401,7 @@ def load_():
 
 mot_val=0
 my_cursor=0
-attr=[0,0,0]
+attr=[0,0,0,0]
 
 
 cr_pos=[]
@@ -7370,6 +7676,7 @@ def check_cur_pos():
     global root_st
     global lst
     global can4,can3,can6
+    global vid1,vid2,vid3
 
 
 
@@ -7388,6 +7695,7 @@ def check_cur_pos():
         can2.delete(attr[0])
         can2.delete(attr[1])
         can2.delete(attr[2])
+        can2.delete(attr[3])
         can2.coords(cp_im,0,-100)
         can3.coords(cp2_im,0,-100)
         can_sort.coords(csv_im,0,-100)
@@ -7623,6 +7931,35 @@ def check_cur_pos():
                             attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
 
 
+                            con_v=0
+
+                            try:
+
+                                ar=os.listdir("videos")
+
+                                v=ar.index(song[0].replace(".mp3",".mp4"))
+
+                                con_v=1
+
+                            except:
+                                pass
+
+
+                            
+
+                            if con_v==1:
+
+                                if song[0]==current_playing:
+
+                                    attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=vid3,anchor="nw")
+                                else:
+                                    attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=vid1,anchor="nw")
+
+                            elif con_v==0:
+
+                                attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=vid2,anchor="nw")
+
+
                             con=0
 
                             for i in playlist:
@@ -7645,7 +7982,7 @@ def check_cur_pos():
                                 
 
 
-                            attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=_pl_,anchor="nw")
+                            attr[2]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25,y+12.5,image=_pl_,anchor="nw")
 
 
 
@@ -7667,7 +8004,7 @@ def check_cur_pos():
                                 if song[0]==current_playing:
                                     _fv_=favourite2_
 
-                            attr[2]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
+                            attr[3]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
 
                             break
 
@@ -7737,6 +8074,18 @@ def can_label(x,y):
 
                 mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
             
+
+
+        #play vid
+
+        cx,cy=10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+
+        if cx-12.5<=x<=cx+12.5:
+            if cy-12.5<=y<=cy+12.5:
+
+                mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="play video",fill=col1,font=("FreeMono",10),anchor="c")
+            
+
 def convert_(file,output,col):
 
 
@@ -8446,6 +8795,7 @@ def __list(e):
     global lst,lyric_st,can_lyrics,can2,st,playlist_st,_search,frame
     global songs_status,current_playlist
     global frame2
+    global vid_st,can_vid
 
     if e.char.lower()=="l":
 
@@ -8471,6 +8821,9 @@ def __list(e):
                 search.place_forget()
                 frame.place_forget()
                 frame2.place_forget()
+
+                vid_st=0
+                can_vid.place_forget()
 
         main()
 
@@ -9115,6 +9468,7 @@ def check_up_theme():
             can_settings.create_text(int(can_settings["width"])/2,int(can_settings["height"])-95+(95-30-10)/2,
                 text="Theme Updated!",font=("FreeMono",13),fill=_theme[0])
 
+            sel_col=""
             ang_=0
 
     root.after(1,check_up_theme)
@@ -9548,6 +9902,14 @@ def draw_settings(con=0):
     if con==0:
 
         no_bg_st=_theme[-2]
+
+
+
+    if not sel_col=="":
+        col_=sel_col
+    else:
+
+        col_=_theme[0]
 
 
     
@@ -9987,7 +10349,7 @@ sel_op_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],reli
 
 can2.focus_set()
 
-
+can_vid=tk.Canvas(width=w-20,height=((h-121)-80-10),bg="#000000",relief="flat",highlightthickness=0,border=0)
 
 
 
@@ -10071,5 +10433,5 @@ draw_sel_theme()
 
 #update()
 check_up_theme()
-
+play_vid()
 root.mainloop()
