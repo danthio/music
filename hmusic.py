@@ -182,7 +182,7 @@ def play_vid():
 
 
 
-    root.after(10,play_vid)
+    root.after(20,play_vid)
 
 def configure_theme(pcol):
     global _theme
@@ -4124,7 +4124,6 @@ def can_b1(e):
                         lst=1
                         can_lyrics.place_forget()
 
-                        
 
                         can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
@@ -4147,7 +4146,7 @@ def can_b1(e):
 
                         can_vid.delete("all")
 
-                        #can_vid.create_image(-10,-(90-1-1),image=bg2_,anchor="nw")
+                        can_vid.create_image(-10,-(90-1-1),image=bg2_,anchor="nw")
 
                         vframe=[0,0,0]
 
