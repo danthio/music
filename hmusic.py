@@ -7414,6 +7414,7 @@ cur_can6=0
 cur_can_lyrics=0
 cur_can_sort=0
 cur_can_settings=0
+cur_can_vid=0
 
 
 cur_p=[]
@@ -7507,7 +7508,7 @@ def draw_cur():
 
 
     global can,can2,can3,can4,can6,can_lyrics,can_sort,can_settings
-    global cur_can,cur_can2,cur_can3,cur_can4,cur_can6,cur_can_lyrics,cur_can_sort,cur_can_settings
+    global cur_can,cur_can2,cur_can3,cur_can4,cur_can6,cur_can_lyrics,cur_can_sort,cur_can_settings,cur_can_vid
     global circle7,circle11
     global root_st
     global cur_p
@@ -7554,6 +7555,8 @@ def draw_cur():
     can_sort.delete(cur_can_sort)
 
     can_settings.delete(cur_can_settings)
+
+    can_vid.delete(cur_can_vid)
 
     if root_st==1 and con==1:
 
@@ -7653,6 +7656,11 @@ def draw_cur():
 
     cur_can_settings=can_settings.create_image(xx,yy,image=cursor,anchor="nw")
 
+
+
+    xx,yy=x-(wd-w)/2-10,y-(ht-get_taskbar_height()-h)/2-88
+
+    cur_can_vid=can_vid.create_image(xx,yy,image=cursor,anchor="nw")
 
     root.after(1,draw_cur)
 
@@ -10348,7 +10356,7 @@ sel_op_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],reli
 
 can2.focus_set()
 
-can_vid=tk.Canvas(width=w-20,height=((h-121)-80-10),bg="#000000",relief="flat",highlightthickness=0,border=0)
+can_vid=tk.Canvas(width=w-20,height=((h-121)-80-10),bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 
 
 
