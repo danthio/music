@@ -109,7 +109,7 @@ vframe=[0,0,0]
 def play_vid():
 
     global tm,play_st
-    global can_vid,vid_st
+    global vid_st
     global current_playing
     global vframe
 
@@ -1567,44 +1567,46 @@ def prog():
 
 
 
+                can.delete(ctime)
+                can.delete(prog1)
+                can.delete(prog2)
+                can.delete(prog3)
 
-                if vid_st2==1:
-
-
-
-
-                    can.delete(ctime)
-
-                    ctime=can.create_text(10,h-20-60-20+20+10+5-3+5-2+2,text=tt,font=("FreeMono",11),fill=col1,anchor="w")
-
-
-                    can.delete(prog1)
-                    can.delete(prog2)
-                    can.delete(prog3)
-
-                    x_=tm*(w-20)/tot_tm_
-
-                    prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
-
-                    prog2=can.create_image(x_+10-4,h-20-60-20+10+2+5-3-4+10,image=circle7,anchor="nw")
-                    prog3=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3+10,image=circle8,anchor="nw")
+                if vid_st2==0 and vid_st==1:
+                    return
 
 
 
-                    x,y=pyautogui.position()
 
 
-                    xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
 
-                    if 10<=xx<=w-10:
-                        if h-20-60-20+10+2+5-3+10-30<=yy<=h-20-60-20+10+2+5-3+10+1:
+                ctime=can.create_text(10,h-20-60-20+20+10+5-3+5-2+2,text=tt,font=("FreeMono",11),fill=col1,anchor="w")
 
 
-                            can.delete(cur_can)
+                x_=tm*(w-20)/tot_tm_
 
-                            
+                prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
 
-                            cur_can=can.create_image(xx-4,yy-4,image=cursor,anchor="nw")
+                prog2=can.create_image(x_+10-4,h-20-60-20+10+2+5-3-4+10,image=circle7,anchor="nw")
+                prog3=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3+10,image=circle8,anchor="nw")
+
+
+
+                x,y=pyautogui.position()
+
+
+                xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
+
+                if 10<=xx<=w-10:
+                    if h-20-60-20+10+2+5-3+10-30<=yy<=h-20-60-20+10+2+5-3+10+1:
+
+
+                        can.delete(cur_can)
+
+                        
+
+                        cur_can=can.create_image(xx-4,yy-4,image=cursor,anchor="nw")
+
 
 
 
@@ -2971,8 +2973,7 @@ def can_b1(e):
     global quit
     global _theme
     global vid_st,vid_st2
-    global can_vid
-    global vframe
+    global vframe,vid_tm
 
 
 
@@ -3069,7 +3070,6 @@ def can_b1(e):
 
             vid_st=0
             vid_st2=0
-            can_vid.place_forget()
 
 
             lyric_st=0
@@ -3139,7 +3139,6 @@ def can_b1(e):
         if 50/2-15<=e.y<=50/2+15:
             vid_st=0
             vid_st2=0
-            can_vid.place_forget()
             lyric_st=0
 
             select_st=0
@@ -3211,7 +3210,6 @@ def can_b1(e):
         if 50/2-15<=e.y<=50/2+15:
             vid_st=0
             vid_st2=0
-            can_vid.place_forget()
             lyric_st=0
 
             select_st=0
@@ -3291,7 +3289,6 @@ def can_b1(e):
         if 50/2-15<=e.y<=50/2+15:
             vid_st=0
             vid_st2=0
-            can_vid.place_forget()
             lyric_st=0
 
             select_st=0
@@ -3362,7 +3359,6 @@ def can_b1(e):
         if 50/2-15<=e.y<=50/2+15:
             vid_st=0
             vid_st2=0
-            can_vid.place_forget()
             lyric_st=0
 
 
@@ -3738,7 +3734,6 @@ def can_b1(e):
                         search.place_forget()
                         frame.place_forget()
 
-                        can_vid.place_forget()
 
                 main()
 
@@ -4129,9 +4124,13 @@ def can_b1(e):
                         vid_st2=0
 
                     if vid_st==1:
+
+                        vid_tm=time.time()
                         lst=0
                         _search=0
                         _npl=0
+
+                        lyric_st=0
 
                         search.delete(0,tk.END)
                         search.place_forget()
@@ -4327,7 +4326,7 @@ def can_b1(e):
             _search=1
 
             vid_st=0
-            can_vid.place_forget()
+            vid_st2=0
 
             search.place(in_=root,x=10+15,y=45+30-10-5-5)
             search.focus_set()
@@ -4639,7 +4638,7 @@ def play_music(file,time,con=0):
     global sig,tts
     global play_st
 
-    global vid_st,vid_st2,can_vid
+    global vid_st,vid_st2
 
 
     if play_st==1:
@@ -4648,7 +4647,6 @@ def play_music(file,time,con=0):
 
             vid_st=0
             vid_st2=0
-            can_vid.place_forget()
 
             sig=[]
             tts=0
@@ -6143,17 +6141,16 @@ vid_tm=0
 def vid_timer():
     global vid_tm,vid_st2,vid_st2_
     global vid_st
+    global can,cur_can
 
     if vid_st==1:
 
-        if vid_tm<5:
+        if time.time()<vid_tm+5:
             vid_st2=1
         else:
             vid_st2=0
-
-
-
-        vid_tm+=1
+            can.delete(cur_can)
+            
 
     else:
         vid_st2=0
@@ -6167,7 +6164,7 @@ def vid_timer():
 
 
 
-    root.after(1000,vid_timer)
+    root.after(1,vid_timer)
 
 
 vid_st=0
@@ -7530,7 +7527,6 @@ cur_can6=0
 cur_can_lyrics=0
 cur_can_sort=0
 cur_can_settings=0
-cur_can_vid=0
 
 
 cur_p=[]
@@ -7624,7 +7620,7 @@ def draw_cur():
 
 
     global can,can2,can3,can4,can6,can_lyrics,can_sort,can_settings
-    global cur_can,cur_can2,cur_can3,cur_can4,cur_can6,cur_can_lyrics,cur_can_sort,cur_can_settings,cur_can_vid
+    global cur_can,cur_can2,cur_can3,cur_can4,cur_can6,cur_can_lyrics,cur_can_sort,cur_can_settings
     global circle7,circle11
     global root_st
     global cur_p
@@ -7650,7 +7646,7 @@ def draw_cur():
 
     con=0
     if not cur_p==[x,y]:
-        vid_tm=0
+        vid_tm=time.time()
         con=1
         cur_p=[x,y]
 
@@ -7674,7 +7670,6 @@ def draw_cur():
 
     can_settings.delete(cur_can_settings)
 
-    can_vid.delete(cur_can_vid)
 
     if root_st==1 and con==1:
 
@@ -7775,10 +7770,6 @@ def draw_cur():
     cur_can_settings=can_settings.create_image(xx,yy,image=cursor,anchor="nw")
 
 
-
-    xx,yy=x-(wd-w)/2-10,y-(ht-get_taskbar_height()-h)/2-88
-
-    cur_can_vid=can_vid.create_image(xx,yy,image=cursor,anchor="nw")
 
     root.after(1,draw_cur)
 
@@ -8920,7 +8911,7 @@ def __list(e):
     global lst,lyric_st,can_lyrics,can2,st,playlist_st,_search,frame
     global songs_status,current_playlist
     global frame2
-    global vid_st,vid_st2,can_vid
+    global vid_st,vid_st2
 
     if e.char.lower()=="l":
 
@@ -8950,7 +8941,6 @@ def __list(e):
                 frame2.place_forget()
 
 
-                can_vid.place_forget()
 
         main()
 
@@ -10475,9 +10465,6 @@ sel_op_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],reli
     border=0,insertbackground=_theme[0],selectbackground=_theme[0],selectforeground="#000000")
 
 can2.focus_set()
-
-can_vid=tk.Canvas(width=w-20,height=((h-121)-80-10),bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
-
 
 
 
