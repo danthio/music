@@ -6270,6 +6270,8 @@ def draw_can(con=0):
 
     if vid_st==1:
 
+        can.create_rectangle(0,0,w,h,fill="#000000",outline="#000000")
+
 
 
 
