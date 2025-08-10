@@ -6237,6 +6237,7 @@ def draw_can(con=0):
     global vid_st
     global vframe,vid_st
     global vid_st2
+    global root_st
 
 
 
@@ -6615,6 +6616,25 @@ def draw_can(con=0):
     if vid_st2==0 and vid_st==1:
 
 
+
+        
+
+        if root_st==1:
+
+            can["bg"]="#333333"
+
+            root.geometry(str(50)+"x"+str(50)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
+
+            can.delete("all")
+
+            can.create_image(0,0, image=circlex, anchor="nw")
+
+            can.create_image(10,10, image=musical_note2, anchor="nw")
+
+            frame.place_forget()
+            search.place_forget()
+            
+            play_video_st=0
         draw_round_rec(can,0,0,w-1,h-1,25,col1,"",1)
 
 
