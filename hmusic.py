@@ -6619,10 +6619,6 @@ def draw_can(con=0):
 
 
 
-        can.create_image(10,(50-25)/2,image=settings,anchor="nw")
-        can.create_image(w-10-25,(50-25)/2,image=quit,anchor="nw")
-        can.create_image(w-10-25-10-25,(50-25)/2,image=minimize,anchor="nw")
-
 
 
         save()
