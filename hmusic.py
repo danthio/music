@@ -2974,6 +2974,7 @@ def can_b1(e):
     global _theme
     global vid_st,vid_st2
     global vframe,vid_tm
+    global settings_st2
 
 
 
@@ -3022,7 +3023,7 @@ def can_b1(e):
         if 12.5<=e.y<=12.5+25:
 
 
-
+            settings_st2=1
             can_settings["width"]=int(can_settings["height"])*1.5
 
             draw_settings()
@@ -6142,6 +6143,11 @@ def vid_timer():
     global vid_tm,vid_st2,vid_st2_
     global vid_st
     global can,cur_can
+    global sort_st,settings_st2
+
+
+    if settings_st2==1 or sort_st==1:
+        vid_tm=time.time()
 
     if vid_st==1:
 
@@ -6158,9 +6164,14 @@ def vid_timer():
 
 
 
+
+
+
     if vid_st2!=vid_st2_:
         draw_can()
         vid_st2_=vid_st2
+
+
 
 
 
@@ -6294,26 +6305,91 @@ def draw_can(con=0):
 
     if vid_st2==1:
 
-        ar=[0,0,
-            w,0,
-            w,50,
-            0,50,
-            0,0]
+        ar=[]
+
+        r=20
+
+        cx,cy=r,50+r
+        a_=270
+        for a in range(90):
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+            
+            x=int(round(x,0))
+            y=int(round(y,0))
+            
+            ar.append(x)
+            ar.append(y)
+            a_-=1
 
 
-        create_polygon(*ar, fill="#000000", alpha=0.8,can=can)
+
+        cx,cy=w-r,50+r
+        a_=180
+        for a in range(90):
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+            
+            x=int(round(x,0))
+            y=int(round(y,0))
+            
+            ar.append(x)
+            ar.append(y)
+            a_-=1
+
+        ar.append(w)
+        ar.append(0)
+
+        ar.append(0)
+        ar.append(0)
+
+
+        create_polygon(*ar, fill=_theme[1][1], alpha=0.8,can=can)
 
 
 
-
-        ar=[0,90+int(can2["height"]),
-            w,90+int(can2["height"]),
-            w,h,
-            0,h,
-            0,90+int(can2["height"])]
+        ar=[]
 
 
-        create_polygon(*ar, fill="#000000", alpha=0.8,can=can)
+
+        cx,cy=r,90+int(can2["height"])-r
+        a_=270
+        for a in range(90):
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+            
+            x=int(round(x,0))
+            y=int(round(y,0))
+            
+            ar.append(x)
+            ar.append(y)
+            a_+=1
+
+
+
+        cx,cy=w-r,90+int(can2["height"])-r
+        a_=0
+        for a in range(90):
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+            
+            x=int(round(x,0))
+            y=int(round(y,0))
+            
+            ar.append(x)
+            ar.append(y)
+            a_+=1
+
+        ar.append(w)
+        ar.append(h)
+
+        ar.append(0)
+        ar.append(h)
+
+        
+
+
+        create_polygon(*ar, fill=_theme[1][1], alpha=0.8,can=can)
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
@@ -9551,6 +9627,8 @@ ang_=0
 def check_up_theme():
     global up_theme,_theme,theme_ent,sel_col
     global l1,l2,ang_
+    global con_theme
+    global bg_region_
 
 
 
@@ -9587,10 +9665,60 @@ def check_up_theme():
 
             sel_col=""
             ang_=0
+            con_theme=0
+            bg_region_=0
 
     root.after(1,check_up_theme)
+theme_attr=[0,0]
+def check_theme_attr():
+    global settings_st2
+    global can_settings
+    global bg_region_,bg_region,bg_region2_
+    global theme_ent,sel_op_ent
+    global sel_col
+    global theme_attr
+
+    if settings_st2==1:
+
+
+        if theme_ent.get()!=theme_attr[0] or sel_op_ent.get()!=theme_attr[1]:
+
+            theme_attr=[theme_ent.get(),sel_op_ent.get()]
+
+            can_settings.delete(bg_region)
+            can_settings.delete(bg_region2_)
+
+
+            sel_col=theme_ent.get()
+
+            try:
+
+                try:
+
+                    bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(sel_col),anchor="nw")
+        
+                except:
+                    pass
+                bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
+
+
+            except:
+                pass
+
+
+
+
+
+
+
+
+    root.after(1,check_theme_attr)
+
+
+
 up_theme=None
 sel_col=""
+settings_st2=0
 def can_settings_b1(e):
 
     global can_settings,theme_ent,sel_op_ent
@@ -9599,7 +9727,6 @@ def can_settings_b1(e):
     global ar_themes
     global bg_xy
     global bg_region_,bg_region
-    global settings_st
     global _crop_,cr,cr2
 
     global crop,crop2
@@ -9607,6 +9734,9 @@ def can_settings_b1(e):
     global no_bg_st
     global up_theme
     global sel_col
+    global settings_st2
+    global bg_region2_
+    global con_theme
 
     bg_xy=[e.x,e.y]
 
@@ -9619,6 +9749,8 @@ def can_settings_b1(e):
             theme_ent.place_forget()
             sel_op_ent.place_forget()
 
+            settings_st2=0
+
             return
 
 
@@ -9629,6 +9761,8 @@ def can_settings_b1(e):
     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
     if r<=15:
+
+
 
         ar=os.listdir("data")
 
@@ -9646,6 +9780,8 @@ def can_settings_b1(e):
         op1,op2=sel_op_ent.get().replace(" ","").split(",")
 
         sel_col=str(theme_ent.get())
+
+        con_theme=1
 
         _theme[2]=float(op1)
         _theme[3]=float(op2)
@@ -9680,6 +9816,8 @@ def can_settings_b1(e):
         up_theme=threading.Thread(target=adjust_theme,daemon=True)
         up_theme.start()
 
+
+
         return
 
 
@@ -9706,6 +9844,8 @@ def can_settings_b1(e):
         op1,op2=sel_op_ent.get().replace(" ","").split(",")
 
         sel_col=str(theme_ent.get())
+
+        con_theme=1
 
         _theme[2]=float(op1)
         _theme[3]=float(op2)
@@ -9759,6 +9899,8 @@ def can_settings_b1(e):
             op1,op2=sel_op_ent.get().replace(" ","").split(",")
 
             sel_col=str(theme_ent.get())
+
+            con_theme=1
 
             _theme[2]=float(op1)
             _theme[3]=float(op2)
@@ -9866,6 +10008,7 @@ def can_settings_b1(e):
                 settings_st=2
 
                 can_settings.delete(bg_region)
+                can_settings.delete(bg_region2_)
 
 
                 _crop_=[]
@@ -9998,6 +10141,32 @@ settings_st=0
 cr=0
 _crop_=[]
 cr2=0
+bg_region2=0
+def conf_bg(col):
+    global _theme
+    global bg_region_,bg_region2
+    global sel_op_ent
+
+    x1=int(round(bg_region_[1][0]-bg_region_[0][0],0))
+    x2=int(round(bg_region_[1][4]-bg_region_[0][0],0))
+
+    y1=int(round(bg_region_[1][1]-bg_region_[0][1],0))
+    y2=int(round(bg_region_[1][5]-bg_region_[0][1],0))
+
+    im=Image.open("data/bg3.png")
+    im=im.crop((x1,y1,x2,y2))
+    im.save("data/bg3_.png")
+
+    convert_("data/bg3_.png","data/bg3_.png",col)
+    darken_image("data/bg3_.png", "data/bg3_.png",(0,0,0), float(str(sel_op_ent.get()).replace(" ","").split(",")[0]))
+
+    bg_region2=ImageTk.PhotoImage(file="data/bg3_.png")
+
+    return bg_region2
+
+bg_region2_=0
+con_theme=0
+bg_region_=0
 def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
@@ -10014,6 +10183,10 @@ def draw_settings(con=0):
     global cr
     global no_bg_st
     global bg2_
+    global bg_region2,bg_region2_
+    global sel_col
+    global con_theme
+    global bg_region_
 
 
     if con==0:
@@ -10022,7 +10195,7 @@ def draw_settings(con=0):
 
 
 
-    if not sel_col=="":
+    if con_theme==1:
         col_=sel_col
     else:
 
@@ -10047,17 +10220,17 @@ def draw_settings(con=0):
     y_=25+12.5+5+30-9
     theme_ent.place(in_=root,x=x_,y=y_)
 
-    theme_ent["fg"]=_theme[0]
-    theme_ent["insertbackground"]=_theme[0]
-    theme_ent["selectbackground"]=_theme[0]
+    theme_ent["fg"]=col_
+    theme_ent["insertbackground"]=col_
+    theme_ent["selectbackground"]=col_
 
     theme_ent.delete(0,tk.END)
-    theme_ent.insert(tk.END,_theme[0])
+    theme_ent.insert(tk.END,col_)
 
 
 
 
-    sel_theme=can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
+    sel_theme=can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=col_)
 
 
 
@@ -10260,12 +10433,6 @@ def draw_settings(con=0):
 
 
 
-    bg_region_=[[20+30+x_,60+30+y_],[x1+x_,y1+y_, x2+x_,y1+y_, x2+x_,y2+y_,
-        x1+x_,y2+y_, x1+x_,y1+y_]]
-
-    bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
-
-
 
     sz=90
     can_settings.create_image(int(can_settings["width"])-20-25,int(can_settings["height"])-95+5,
@@ -10294,9 +10461,9 @@ def draw_settings(con=0):
 
 
 
-    x_=10+25+5+20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
-    y_=25+12.5+5+int(can_settings["height"])-65-9
-    sel_op_ent.place(in_=root,x=x_,y=y_)
+    xx_=10+25+5+20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
+    yy_=25+12.5+5+int(can_settings["height"])-65-9
+    sel_op_ent.place(in_=root,x=xx_,y=yy_)
 
 
     sel_op_ent["fg"]=_theme[0]
@@ -10310,10 +10477,10 @@ def draw_settings(con=0):
     sel_op_ent.insert(tk.END,op)
 
 
-    x_=20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
-    y_=int(can_settings["height"])-65-9
+    xx_=20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
+    yy_=int(can_settings["height"])-65-9
 
-    can_settings.create_rectangle(x_-1,y_-1, x_+183-1,y_+22-1,outline=_theme[0])
+    can_settings.create_rectangle(xx_-1,yy_-1, xx_+183-1,yy_+22-1,outline=_theme[0])
 
 
 
@@ -10328,6 +10495,16 @@ def draw_settings(con=0):
 
     can_settings.create_text(int(can_settings["width"])/2,int(can_settings["height"])-40+15,text="Save",
         fill="#000000",font=("FreeMono",13),anchor="c")
+
+
+    if bg_region_==0:
+        bg_region_=[[20+30+x_,60+30+y_],[x1+x_,y1+y_, x2+x_,y1+y_, x2+x_,y2+y_,
+            x1+x_,y2+y_, x1+x_,y1+y_]]
+
+
+    bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(col_),anchor="nw")
+    bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
+
 
 
 del_theme=0
@@ -10376,7 +10553,7 @@ def can_settings_m(e):
 bg_xy=[]
 def can_settings_drag(e):
     global can_settings
-    global bg_region,bg_region_
+    global bg_region,bg_region_,bg_region2_
     global bg_xy
 
 
@@ -10424,6 +10601,7 @@ def can_settings_drag(e):
 
 
                 can_settings.delete(bg_region)
+                can_settings.delete(bg_region2_)
 
                 bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
 
@@ -10445,9 +10623,31 @@ def can_settings_drag(e):
                             bg_st=0
 
                     can_settings.delete(bg_region)
+                    can_settings.delete(bg_region2_)
 
                     bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
             
+
+def on_release_s(e):
+
+    global bg_region_
+    global settings_st
+    global bg_region,bg_region2_
+    global can_settings
+    global sel_col
+
+
+    if bg_region_[1][0]<=e.x<=bg_region_[1][4]:
+        if bg_region_[1][1]<=e.y<=bg_region_[1][5]:
+
+            if not settings_st==2:
+                can_settings.delete(bg_region)
+                can_settings.delete(bg_region2_)
+
+
+
+                bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(sel_col),anchor="nw")
+                bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
 
 
 
@@ -10457,6 +10657,7 @@ can_settings=tk.Canvas(width=w-100,height=h-200,bg="#000000",relief="flat",highl
 can_settings.bind("<Button-1>",can_settings_b1)
 can_settings.bind("<Motion>",can_settings_m)
 can_settings.bind("<B1-Motion>",can_settings_drag)
+can_settings.bind("<ButtonRelease-1>",on_release_s)
 
 theme_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],relief="flat",highlightthickness=0,
     border=0,insertbackground=_theme[0],selectbackground=_theme[0],selectforeground="#000000")
@@ -10549,4 +10750,5 @@ draw_sel_theme()
 check_up_theme()
 play_vid()
 vid_timer()
+check_theme_attr()
 root.mainloop()
