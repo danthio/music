@@ -10497,9 +10497,8 @@ def draw_settings(con=0):
         fill="#000000",font=("FreeMono",13),anchor="c")
 
 
-    if bg_region_==0:
-        bg_region_=[[20+30+x_,60+30+y_],[x1+x_,y1+y_, x2+x_,y1+y_, x2+x_,y2+y_,
-            x1+x_,y2+y_, x1+x_,y1+y_]]
+    bg_region_=[[20+30+x_,60+30+y_],[x1+x_,y1+y_, x2+x_,y1+y_, x2+x_,y2+y_,
+        x1+x_,y2+y_, x1+x_,y1+y_]]
 
 
     bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(col_),anchor="nw")
