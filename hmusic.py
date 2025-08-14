@@ -158,6 +158,10 @@ def play_vid():
 
         vframe[0]=ImageTk.PhotoImage(file="data/frame.jpg")
 
+
+        im=Image.open("data/frame.jpg")
+        x,y=im.size
+
         
 
 
@@ -168,6 +172,7 @@ def play_vid():
             draw_can()
         else:
             can.itemconfig(vframe[1],image=vframe[0])
+            can.coords(vframe[1],(w-x)/2,(h-y)/2)
 
 
     root.after(5,play_vid)
