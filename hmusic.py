@@ -2892,6 +2892,7 @@ def can_b1(e):
     global filter_st,filter_val,filter_pl
 
     global bg_so
+    global conf_del
 
 
 
@@ -2986,6 +2987,8 @@ def can_b1(e):
     if xv-60<=e.x<=xv+60:
         if 50/2-15<=e.y<=50/2+15:
 
+            conf_del.place_forget()
+
             filter_st=0
             filter_val="None"
             filter_pl=None
@@ -3062,6 +3065,7 @@ def can_b1(e):
 
     if xv*2-60<=e.x<=xv*2+60:
         if 50/2-15<=e.y<=50/2+15:
+            conf_del.place_forget()
 
             filter_st=0
             filter_val="None"
@@ -3140,6 +3144,7 @@ def can_b1(e):
 
     if xv*3-60<=e.x<=xv*3+60:
         if 50/2-15<=e.y<=50/2+15:
+            conf_del.place_forget()
 
             filter_st=0
             filter_val="None"
@@ -3226,6 +3231,7 @@ def can_b1(e):
 
     if xv*4-60<=e.x<=xv*4+60:
         if 50/2-15<=e.y<=50/2+15:
+            conf_del.place_forget()
 
 
             filter_st=0
@@ -3304,6 +3310,8 @@ def can_b1(e):
 
     if xv*5-60<=e.x<=xv*5+60:
         if 50/2-15<=e.y<=50/2+15:
+
+            conf_del.place_forget()
 
 
             filter_st=0
@@ -3689,6 +3697,8 @@ def can_b1(e):
                         search.delete(0,tk.END)
                         search.place_forget()
                         frame.place_forget()
+
+                        conf_del.place_forget()
 
                         filter_st=0
                         filter_can1.place_forget()
@@ -4099,6 +4109,8 @@ def can_b1(e):
                         filter_st=0
                         filter_can1.place_forget()
                         filter_can2.place_forget()
+
+                        conf_del.place_forget()
 
 
                         vframe=[0,0,0]
@@ -9313,6 +9325,7 @@ def __list(e):
     global songs_status,current_playlist
     global frame2
     global vid_st,vid_st2
+    global conf_del
 
     if e.char.lower()=="l":
 
@@ -9343,6 +9356,7 @@ def __list(e):
                 filter_st=0
                 filter_can1.place_forget()
                 filter_can2.place_forget()
+                conf_del.place_forget()
 
 
         main()
@@ -11034,6 +11048,8 @@ def filter1_b1(e):
 
             filter_pl=None
 
+            draw_can()
+
             main()
 
             if not a=="Playlists":
@@ -11055,6 +11071,7 @@ def filter1_b1(e):
                     current_playing=""
 
             main()
+            move_to_playing()
 
             
 
@@ -11075,7 +11092,7 @@ def filter2_b1(e):
             filter_pl=pl
 
 
-
+            draw_can()
             main()
             con=0
 
@@ -11091,6 +11108,7 @@ def filter2_b1(e):
                 current_playing=""
 
             main()
+            move_to_playing()
 
             return
 
