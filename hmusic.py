@@ -175,7 +175,7 @@ def play_vid():
             can.coords(vframe[1],(w-x)/2,(h-y)/2)
 
 
-    root.after(5,play_vid)
+    root.after(10,play_vid)
 
 def configure_theme(pcol):
     global _theme
@@ -394,9 +394,6 @@ def resize_im():
     im=im.resize((25,25))
     im.save("data/filter.png")
 
-    im=Image.open("data/filter2.png")
-    im=im.resize((25,25))
-    im.save("data/filter2.png")
 
 
     im=Image.open("data/vid1.png")
@@ -1871,11 +1868,12 @@ def add_playlist():
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
 
-
-
+    can4.create_image(-((w-550)/2),-((h-(40+250-40+10))/2),image=bg2_,anchor="nw")
+    can6.create_image(-((w-550)/2),-((h-(40+250-40+10))/2+40+250),image=bg2_,anchor="nw")
 
     can4.create_text(550/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
     can4.create_line(2,38,550-2,38,fill=col1)
+
 
     draw_round_rec(can4,1,2 ,550-2,80,10,col1,"",1)
 
@@ -1887,6 +1885,8 @@ def add_playlist():
 
 
     can3.delete("all")
+
+    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+10))/2+40)+can3.canvasy(0),image=bg2_,anchor="nw")
 
     ar=[]
 
@@ -2325,36 +2325,8 @@ def can2_b1(e):
             if cx-12.5<=e.x<=cx+12.5:
                 if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
-                    can2["scrollregion"]=(0,0,(int(can2["width"])-sb_sz-1),int(can2["height"]))
 
-                    if st==songs_status[0]:
-                        if st==2:
-                            if _pl[0]==songs_status[1]:
-
-                                try:
-                                    play_music("music/"+current_playing,tm,1)
-                                    pygame.mixer.quit()
-                                except:
-                                    pass
-
-
-                                current_playing=""
-                                current_playlist=""
-
-                                update_song_status()
-
-
-                    create_playlist(_pl[0],con=3)
-
-
-
-                    main()
-
-                    if st==songs_status[0]:
-                        if st==2:
-                            if current_playlist==songs_status[1]:
-                                update_song_status()
-
+                    conf_del_(_pl[0],"playlist")
 
 
                     return
@@ -2581,16 +2553,18 @@ def can2_b1(e):
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
+                
+
                 ar=os.listdir("videos")
 
                 try:
 
                     v=ar.index(s[0].replace(".mp3",".mp4"))
 
-                    os.remove("videos/"+s[0].replace(".mp3",".mp4"))
 
-                    
-                    main()
+                    conf_del_("videos/"+s[0].replace(".mp3",".mp4"),"video")
+
+
                 except:
 
 
@@ -2629,88 +2603,9 @@ def can2_b1(e):
 
                 try:
 
-                    p_=play_st
-                    
-
-                    if songs_status[0]==st:
-                        if songs_status[1]==current_playlist:
-
-                            if current_playing==s[0]:
-                                play_st=0
-                                pygame.mixer.quit() 
-                        else:
-                            
-                            if current_playing==s[0]:
-                                play_st=0
-                                pygame.mixer.quit() 
+                    conf_del_("music/"+s[0],"music")
 
 
-                    os.remove("music/"+s[0])
-
-
-                    play_st=p_
-
-
-
-
-                    conn=0
-
-
-                    if current_playing==s[0]:
-
-
-
-                        if len(_songs_)==1:
-                            mvar=0
-                        elif mvar==len(_songs_)-1:
-                            mvar=0
-                        else:
-                            mvar=mvar+1
-
-
-                        current_playing=_songs_[mvar][0]
-
-                        tm=0
-
-
-
-                        if len(_songs_)==1:
-                            pygame.mixer.quit()
-                            current_playing=""
-
-                        else:
-
-
-                            if play_st==0:
-
-                                play_music("music/"+current_playing,tm,1)
-                                pygame.mixer.quit()
-                            elif play_st==1:
-
-                                play_music("music/"+current_playing,tm)
-
-
-
-
-                        
-                        songs_status[-1]=current_playing
-
-
-                        conn=1
-
-
-
-
-
-
-
-                    
-                    del_wave()
-
-                    main()
-
-                    if conn==1:
-                        move_to_playing()
 
                 
 
@@ -2928,6 +2823,9 @@ play_st2=0
 csv_im=0
 
 im_bg=0
+
+bg_so=0
+
 def can_b1(e):
     global st,w,h,tm,current_playing
     global pp,play_st
@@ -2992,6 +2890,8 @@ def can_b1(e):
     global filter_can1,filter_can2
     global favourite2,playlist2,vid1
     global filter_st,filter_val,filter_pl
+
+    global bg_so
 
 
 
@@ -3877,6 +3777,8 @@ def can_b1(e):
 
                     can_sort.delete("all")
 
+                    bg_so=can_sort.create_image(-(10+25+15+25),-(h-20-30-15+5+10+2.5-160),image=bg2_,anchor="nw")
+
 
 
 
@@ -3960,7 +3862,7 @@ def can_b1(e):
 
 
 
-                    draw_round_rec(can_sort,0,0, 250-2,160-1,10,col1,col1,1)
+                    draw_round_rec(can_sort,0,0, 250-2,160-1,15,col1,col1,1)
 
                     can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
 
@@ -4313,10 +4215,10 @@ def can_b1(e):
                         if cx-12.5<=e.x<=cx+12.5:
                             if cy-12.5<=e.y<=cy+12.5:
 
+                                conf_del_(current_playing,"lyrics")
 
 
-                                update_details(current_playing,2,"")
-                                main()
+
 
                                 return
 
@@ -6425,6 +6327,8 @@ vid_st2_=0
 
 filter_st=0
 filter_pl=None
+
+bg_f2=0
 def draw_can(con=0):
 
     global can,st,w,h
@@ -6476,7 +6380,7 @@ def draw_can(con=0):
 
     global note
     global circle6
-    global bg
+    global bg,bg2_
     global favourite2
     global can_cur,cur
     global delete
@@ -6492,10 +6396,11 @@ def draw_can(con=0):
     global root_st
 
 
-    global filter_st,filter_val,filter_,filter2_
+    global filter_st,filter_val,filter_
     global filter_can1,filter_can2
     global filter_pl
     global f2
+    global bg_f2
 
 
 
@@ -6560,19 +6465,22 @@ def draw_can(con=0):
 
         if vframe[-1]==0:
 
-            im=Image.open("data/frame.jpg")
-            x,y=im.size
+            try:
 
-            x_,y_=(w-x)/2,(h-y)/2
+                im=Image.open("data/frame.jpg")
+                x,y=im.size
 
-            if vframe[0]==0:
-                vframe[0]=ImageTk.PhotoImage(file="data/frame.jpg")
+                x_,y_=(w-x)/2,(h-y)/2
 
-            vframe[1]=can.create_image(x_,y_,image=vframe[0],anchor="nw")
+                if vframe[0]==0:
+                    vframe[0]=ImageTk.PhotoImage(file="data/frame.jpg")
 
-            vframe[-1]=1
+                vframe[1]=can.create_image(x_,y_,image=vframe[0],anchor="nw")
 
+                vframe[-1]=1
 
+            except:
+                pass
 
     if vid_st2==1:
 
@@ -6929,11 +6837,7 @@ def draw_can(con=0):
 
 
 
-            if filter_st==0:
-
-                can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter2_,anchor="nw")
-            else:
-                can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
+            can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
 
             can.create_line(10,90-5,w-10,90-5,fill=col1,width=1)
 
@@ -7313,7 +7217,10 @@ def draw_can(con=0):
 
         filter_can1.delete("all")
 
-        draw_round_rec(filter_can1,0,0,int(filter_can1["width"])-1,int(filter_can1["height"])-1,10,_theme[0],"",1)
+        filter_can1.create_image(-(w-10-int(filter_can1["width"])),-(40+30-10-5-5+30+10),
+            image=bg2_,anchor="nw")
+
+        draw_round_rec(filter_can1,0,0,int(filter_can1["width"])-1,int(filter_can1["height"])-1,15,_theme[0],"",1)
 
         filter_can2.place_forget()
 
@@ -7345,10 +7252,6 @@ def draw_can(con=0):
 
         if filter_val=="Playlists":
 
-
-
-            filter_can2.delete("all")
-
             l=0
             for p in playlist:
 
@@ -7357,7 +7260,20 @@ def draw_can(con=0):
                     l=get_text_length(filter_can2, p, "FreeMono", 13)
 
 
-            filter_can2["width"]=10+l+15+20
+            if (10+l+15+20)>300:
+
+                filter_can2["width"]=10+l+15+20
+
+            else:
+
+                filter_can2["width"]=300
+
+
+            filter_can2.delete("all")
+
+            bg_f2=filter_can2.create_image(-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
+                -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0),image=bg2_,anchor="nw")
+
 
             y=0
             for p in playlist:
@@ -7735,7 +7651,7 @@ delete_,delete2_=0,0
 
 vid1,vid2,vid3=0,0,0,
 
-filter_,filter2_=0,0
+filter_=0
 
 def load_im():
 
@@ -7763,7 +7679,7 @@ def load_im():
     global crop,crop2
     global delete_,delete2_
     global vid1,vid2,vid3
-    global filter_,filter2_
+    global filter_
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -7834,7 +7750,6 @@ def load_im():
     vid3=ImageTk.PhotoImage(file="data/vid3.png")    
 
     filter_=ImageTk.PhotoImage(file="data/filter.png") 
-    filter2_=ImageTk.PhotoImage(file="data/filter2.png") 
 
 
 
@@ -9108,6 +9023,8 @@ def move_bg():
 
             y3=can3.canvasy(0)
 
+            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+10))/2+40)+can3.canvasy(0))
+
 def update_bg_pos():
 
     move_bg()
@@ -9151,6 +9068,8 @@ def _on_mousewheel(e):
         if int(can3["scrollregion"].split(" ")[-1])>210:
             can3.yview_scroll(int(-1*(e.delta/120)), "units")
             sb2_h=can3.canvasy(0)*int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])
+
+            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+10))/2+40)+can3.canvasy(0))
             draw_sb2()
 
     if lyric_st==1:
@@ -9171,6 +9090,11 @@ def _on_mousewheel(e):
             filter_can2.yview_scroll(int(-1*(e.delta/120)), "units")
             f2=filter_can2.create_rectangle(0,filter_can2.canvasy(0), int(filter_can2["width"])-1,
                 filter_can2.canvasy(int(filter_can2["height"])-1),outline=_theme[0])
+
+
+            filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
+                -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0))
+
 def update_song_status():
     global songs,_songs_,songs_status
     global current_playlist,shuffle_st,sort_val,shuffle_ar,loop,current_playing
@@ -10575,6 +10499,7 @@ def conf_bg(col):
 bg_region2_=0
 con_theme=0
 bg_region_=0
+bg_se=0
 def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
@@ -10595,6 +10520,7 @@ def draw_settings(con=0):
     global sel_col
     global con_theme
     global bg_region_
+    global bg_se
 
 
     settings_st2=1
@@ -10617,7 +10543,11 @@ def draw_settings(con=0):
 
     can_settings.delete("all")
     can_settings.place(in_=root,x=10+25+5,y=25+12.5+5)
-    draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,10,_theme[0],col1,1)
+
+    can_settings.create_image(-(10+25+5),-(25+12.5+5),image=bg2_,anchor="nw")
+
+
+    draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,15,_theme[0],col1,1)
 
     can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
 
@@ -11088,6 +11018,7 @@ def filter1_b1(e):
 
     global filter_val,filter_pl
     global current_playing
+    global _songs_
 
     ar=["None","Favourites","Playlists","With Video"]
 
@@ -11103,14 +11034,29 @@ def filter1_b1(e):
 
             filter_pl=None
 
+            main()
+
             if not a=="Playlists":
 
-                if play_st==1:
+                con=0
 
-                    pygame.mixer.quit()
-                current_playing=""
+
+                for s in _songs_:
+
+                    if s[0]==current_playing:
+                        con=1
+
+
+                if con==0:
+
+                    if play_st==1:
+
+                        pygame.mixer.quit()
+                    current_playing=""
 
             main()
+
+            
 
             return
 
@@ -11118,6 +11064,7 @@ def filter1_b1(e):
 def filter2_b1(e):
     global filter_pl
     global current_playing
+    global _songs_
 
     y=0
 
@@ -11129,8 +11076,19 @@ def filter2_b1(e):
 
 
 
-            pygame.mixer.quit()
-            current_playing=""
+            main()
+            con=0
+
+
+            for s in _songs_:
+
+                if s[0]==current_playing:
+                    con=1
+
+            if con==0:
+
+                pygame.mixer.quit()
+                current_playing=""
 
             main()
 
@@ -11145,6 +11103,240 @@ filter_can1.bind("<Button-1>",filter1_b1)
 filter_can2=tk.Canvas(width=250,height=30*7,bg="#000000",relief="flat",highlightthickness=0,border=0)
 filter_can2.bind("<Button-1>",filter2_b1)
 filter_can2.bind_all("<MouseWheel>",_on_mousewheel)
+
+
+del_info=["",""]
+def conf_del_b1(e):
+
+    global del_info
+    global conf_del
+    global songs_status,play_st,current_playing,st,_songs_,mvar
+    global can2,current_playlist,tm
+
+    #song
+
+    if int(conf_del["height"])-30<=e.y<=int(conf_del["height"]):
+
+        if 0<=e.x<=int(conf_del["width"])/2:
+
+
+
+            if del_info[1]=="music":
+            
+
+            
+
+
+                song_=del_info[0].split("/")[-1]
+
+
+
+                p_=play_st
+                
+
+                if songs_status[0]==st:
+                    if songs_status[1]==current_playlist:
+
+                        if current_playing==song_:
+                            play_st=0
+                            pygame.mixer.quit() 
+                    else:
+                        
+                        if current_playing==song_:
+                            play_st=0
+                            pygame.mixer.quit() 
+
+
+                os.remove(del_info[0])
+
+
+                play_st=p_
+
+
+
+
+                conn=0
+
+
+                if current_playing==song_:
+
+
+
+                    if len(_songs_)==1:
+                        mvar=0
+                    elif mvar==len(_songs_)-1:
+                        mvar=0
+                    else:
+                        mvar=mvar+1
+
+
+                    current_playing=_songs_[mvar][0]
+
+                    tm=0
+
+
+
+                    if len(_songs_)==1:
+                        pygame.mixer.quit()
+                        current_playing=""
+
+                    else:
+
+
+                        if play_st==0:
+
+                            play_music("music/"+current_playing,tm,1)
+                            pygame.mixer.quit()
+                        elif play_st==1:
+
+                            play_music("music/"+current_playing,tm)
+
+
+
+
+                    
+                    songs_status[-1]=current_playing
+
+
+                    conn=1
+
+
+
+
+
+
+
+                
+                del_wave()
+
+                main()
+
+                if conn==1:
+                    move_to_playing()
+
+            elif del_info[1]=="video":
+
+                os.remove(del_info[0])
+
+                main()
+
+
+            elif del_info[1]=="playlist":
+
+
+                    can2["scrollregion"]=(0,0,(int(can2["width"])-sb_sz-1),int(can2["height"]))
+
+                    if st==songs_status[0]:
+                        if st==2:
+                            if del_info[0]==songs_status[1]:
+
+                                try:
+                                    play_music("music/"+current_playing,tm,1)
+                                    pygame.mixer.quit()
+                                except:
+                                    pass
+
+
+                                current_playing=""
+                                current_playlist=""
+
+                                update_song_status()
+
+
+                    create_playlist(del_info[0],con=3)
+
+
+
+                    main()
+
+                    if st==songs_status[0]:
+                        if st==2:
+                            if current_playlist==songs_status[1]:
+                                update_song_status()
+
+            elif del_info[1]=="lyrics":
+
+
+
+                update_details(del_info[0],2,"")
+                main()
+        conf_del.place_forget()
+
+
+def conf_del_(file,con):
+    global conf_del
+    global del_info
+    global bg2_
+    global _theme
+    global w,h
+
+
+    conf_del.delete("all")
+
+    conf_del.create_image(-(w-int(conf_del["width"]))/2,-(h-int(conf_del["height"]))/2,
+        image=bg2_,anchor="nw")
+
+    draw_round_rec(conf_del,0,0, int(conf_del["width"])-1,int(conf_del["height"])-1,15,_theme[0],"",1)
+
+    conf_del.create_line(0,int(conf_del["height"])-30,int(conf_del["width"]),int(conf_del["height"])-30,
+        fill=_theme[0])
+
+    conf_del.create_line(int(conf_del["width"])/2,int(conf_del["height"])-30,
+        int(conf_del["width"])/2,int(conf_del["height"]),fill=_theme[0])
+
+    xx=int(conf_del["width"])/4
+    conf_del.create_text(xx,int(conf_del["height"])-15,text="Confirm",font=("FreeMono",13),fill=_theme[0])
+    conf_del.create_text(int(conf_del["width"])-xx,int(conf_del["height"])-15,text="Cancel",font=("FreeMono",13),fill=_theme[0])
+
+    conf_del.place(in_=root,x=(w-int(conf_del["width"]))/2,y=(h-int(conf_del["height"]))/2)
+
+    del_info=[file,con]
+
+    #song
+
+    if con=="music":
+
+
+        conf_del.create_text(10,(int(conf_del["height"])-30)/2,text="Delete Song : "+file.split("/")[-1],
+            fill=_theme[0],font=("FreeMono",13),anchor="w")
+
+
+
+
+
+
+
+
+
+    #video
+
+    if con=="video":
+
+        conf_del.create_text(10,(int(conf_del["height"])-30)/2,text="Delete Video : "+file.split("/")[-1],
+            fill=_theme[0],font=("FreeMono",13),anchor="w")
+
+
+
+    #playlist
+
+    if con=="playlist":
+
+        conf_del.create_text(10,(int(conf_del["height"])-30)/2,text="Delete Playlist : "+file,
+            fill=_theme[0],font=("FreeMono",13),anchor="w")
+
+
+    #lyrics
+
+
+    if con=="lyrics":
+
+        conf_del.create_text(10,(int(conf_del["height"])-30)/2,text="Delete Lyrics : "+file,
+            fill=_theme[0],font=("FreeMono",13),anchor="w")
+
+
+conf_del=tk.Canvas(width=600,height=150,bg="#000000",relief="flat",highlightthickness=0,border=0)
+
+conf_del.bind("<Button-1>",conf_del_b1)
 
 adjust_theme()
 
@@ -11228,4 +11420,5 @@ check_up_theme()
 play_vid()
 vid_timer()
 check_theme_attr()
+
 root.mainloop()
