@@ -62,6 +62,7 @@ cap=None
 
 
 def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
+    global cap
     # Open video file
     cap = cv2.VideoCapture(video_path)
     
@@ -86,11 +87,9 @@ def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
         #raise ValueError("Error: Could not read frame at {} seconds.".format(seconds))
     
     # Save the frame if output path is provided
-    if output_path:
-        cv2.imwrite(output_path, frame)
+    cv2.imwrite(output_path, frame)
     
     cap.release()
-    return frame
 
 # Example usage
 """
@@ -122,57 +121,63 @@ def play_vid():
 
         #get_frame_at_time("videos/"+current_playing.replace(".mp3",".mp4"), 3)
 
-        get_frame_at("videos/"+current_playing.replace(".mp3",".mp4"), tm)
+        try:
 
-        im=Image.open("data/frame.jpg")
-        x,y=im.size
-
-        x_,y_=w,h
+            get_frame_at("videos/"+current_playing.replace(".mp3",".mp4"), tm)
 
 
 
+            im=Image.open("data/frame.jpg")
+            x,y=im.size
 
-        if x/y>x_/y_:
-
-
-            xx=x_
-
-            yy=int(xx*y/x)
-
-            im=im.resize((xx,yy))
-
-        elif x/y<x_/y_:
+            x_,y_=w,h
 
 
-            yy=y_
-
-            xx=int(yy*x/y)
-
-            im=im.resize((xx,yy))
-        else:
-
-            im=im.resize((x_,y_))
-
-        im.save("data/frame.jpg")
 
 
-        vframe[0]=ImageTk.PhotoImage(file="data/frame.jpg")
+            if x/y>x_/y_:
 
 
-        im=Image.open("data/frame.jpg")
-        x,y=im.size
+                xx=x_
 
-        
+                yy=int(xx*y/x)
+
+                im=im.resize((xx,yy))
+
+            elif x/y<x_/y_:
 
 
-        
+                yy=y_
+
+                xx=int(yy*x/y)
+
+                im=im.resize((xx,yy))
+            else:
+
+                im=im.resize((x_,y_))
+
+            im.save("data/frame.jpg")
 
 
-        if vframe[-1]==0:
-            draw_can()
-        else:
-            can.itemconfig(vframe[1],image=vframe[0])
-            can.coords(vframe[1],(w-x)/2,(h-y)/2)
+            vframe[0]=ImageTk.PhotoImage(file="data/frame.jpg")
+
+
+            im=Image.open("data/frame.jpg")
+            x,y=im.size
+
+            
+
+
+            
+
+
+            if vframe[-1]==0:
+                draw_can()
+            else:
+                can.itemconfig(vframe[1],image=vframe[0])
+                can.coords(vframe[1],(w-x)/2,(h-y)/2)
+        except:
+            pass
 
 
     root.after(10,play_vid)
@@ -478,10 +483,12 @@ def resize_im():
     im5=im.resize((8,8))
     im6=im.resize((7,7))
     im7=im.resize((3,3))
+    im8=im.resize((4,4))    
     im.save("data/circle.png")
     im2.save("data/circle2.png")
     im3.save("data/circle3.png")
     im4.save("data/circle4.png")
+    im8.save("data/circle6.png")
     im5.save("data/circle7.png")
     im6.save("data/circle5.png")
     im6.save("data/circle10.png")
@@ -4109,12 +4116,22 @@ def can_b1(e):
                     v=ar.index(current_playing.replace(".mp3",".mp4"))
                     
                     if vid_st==0:
+                        ar=os.listdir("data")
+                        try:
+                            v=ar.index("frame.jpg")
+                            os.remove("data/frame.jpg")
+
+                        except:
+                            pass
+
                         vid_st=1
                     elif vid_st==1:
                         vid_st=0
                         vid_st2=0
 
                     if vid_st==1:
+
+                        
 
                         vid_tm=time.time()
                         lst=0
@@ -6384,7 +6401,7 @@ def draw_can(con=0):
     global loop,loop1,loop2
     global wallpaper,wallpaper2
     global _search,_npl,npl
-    global circle2,circle3,circle4,circle5,circle7,circle8,circle9,circle5
+    global circle2,circle3,circle4,circle5,circle6,circle7,circle8,circle9,circle5
 
     global expand,expand2,expand_st
 
@@ -7123,7 +7140,7 @@ def draw_can(con=0):
 
         try:
             v=ar.index(current_playing.replace(".mp3",".mp4"))
-            can.create_image(10+25+15+25+15+25+15+25+15+25+3,h-20-30-15+5+10-3+2.5+12.5-2,image=circle5,anchor="nw")
+            can.create_image(10+25+15+25+15+25+15+25+15+25+3,h-20-30-15+5+10-3+2.5+12.5-2,image=circle6,anchor="nw")
         except:
             pass
 
@@ -7685,11 +7702,12 @@ vid1,vid2,vid3=0,0,0,
 filter_=0
 
 no_music=0
+circle6=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
     global cancel,cancel2,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,checked,sort,delete,favourite1_,favourite2_,delete2,playlist3,sort2,loop1,loop2,wallpaper
-    global circle2,circle3,circle4,circle5,circle4,circle7,circle8,circle9,circle5,expand,expand2,playlist4
+    global circle2,circle3,circle4,circle5,circle6,circle4,circle7,circle8,circle9,circle5,expand,expand2,playlist4
 
     global minimize,quit
     global circlex
@@ -7719,6 +7737,7 @@ def load_im():
     circle3=ImageTk.PhotoImage(file="data/circle3.png")
     circle4=ImageTk.PhotoImage(file="data/circle4.png")
     circle5=ImageTk.PhotoImage(file="data/circle5.png")
+    circle6=ImageTk.PhotoImage(file="data/circle6.png")
     circle7=ImageTk.PhotoImage(file="data/circle7.png")
     circle8=ImageTk.PhotoImage(file="data/circle8.png")
     circle9=ImageTk.PhotoImage(file="data/circle9.png")
