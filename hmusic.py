@@ -1875,9 +1875,9 @@ def add_playlist():
     can4.create_line(2,38,550-2,38,fill=col1)
 
 
-    draw_round_rec(can4,1,2 ,550-2,80,10,col1,"",1)
+    draw_round_rec(can4,1,2 ,550-2,80,15,col1,"",1)
 
-    draw_round_rec(can6,1,-15 ,550-2,38,10,col1,"",1)
+    draw_round_rec(can6,1,-15 ,550-2,38,15,col1,"",1)
 
 
 
@@ -11133,7 +11133,7 @@ def conf_del_b1(e):
 
     #song
 
-    if int(conf_del["height"])-30<=e.y<=int(conf_del["height"]):
+    if int(conf_del["height"])-35<=e.y<=int(conf_del["height"]):
 
         if 0<=e.x<=int(conf_del["width"])/2:
 
@@ -11296,15 +11296,15 @@ def conf_del_(file,con):
 
     draw_round_rec(conf_del,0,0, int(conf_del["width"])-1,int(conf_del["height"])-1,15,_theme[0],"",1)
 
-    conf_del.create_line(0,int(conf_del["height"])-30,int(conf_del["width"]),int(conf_del["height"])-30,
+    conf_del.create_line(0,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
         fill=_theme[0])
 
-    conf_del.create_line(int(conf_del["width"])/2,int(conf_del["height"])-30,
+    conf_del.create_line(int(conf_del["width"])/2,int(conf_del["height"])-35,
         int(conf_del["width"])/2,int(conf_del["height"]),fill=_theme[0])
 
     xx=int(conf_del["width"])/4
-    conf_del.create_text(xx,int(conf_del["height"])-15,text="Confirm",font=("FreeMono",13),fill=_theme[0])
-    conf_del.create_text(int(conf_del["width"])-xx,int(conf_del["height"])-15,text="Cancel",font=("FreeMono",13),fill=_theme[0])
+    conf_del.create_text(xx,int(conf_del["height"])-35/2,text="Confirm",font=("FreeMono",13),fill=_theme[0])
+    conf_del.create_text(int(conf_del["width"])-xx,int(conf_del["height"])-35/2,text="Cancel",font=("FreeMono",13),fill=_theme[0])
 
     conf_del.place(in_=root,x=(w-int(conf_del["width"]))/2,y=(h-int(conf_del["height"]))/2)
 
@@ -11315,7 +11315,7 @@ def conf_del_(file,con):
     if con=="music":
 
 
-        conf_del.create_text(10,(int(conf_del["height"])-30)/2,text="Delete Song : "+file.split("/")[-1],
+        conf_del.create_text(10,(int(conf_del["height"])-35)/2,text="Delete Song : "+file.split("/")[-1],
             fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
@@ -11330,7 +11330,7 @@ def conf_del_(file,con):
 
     if con=="video":
 
-        conf_del.create_text(10,(int(conf_del["height"])-30)/2,text="Delete Video : "+file.split("/")[-1],
+        conf_del.create_text(10,(int(conf_del["height"])-35)/2,text="Delete Video : "+file.split("/")[-1],
             fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
@@ -11339,7 +11339,7 @@ def conf_del_(file,con):
 
     if con=="playlist":
 
-        conf_del.create_text(10,(int(conf_del["height"])-30)/2,text="Delete Playlist : "+file,
+        conf_del.create_text(10,(int(conf_del["height"])-35)/2,text="Delete Playlist : "+file,
             fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
@@ -11348,7 +11348,7 @@ def conf_del_(file,con):
 
     if con=="lyrics":
 
-        conf_del.create_text(10,(int(conf_del["height"])-30)/2,text="Delete Lyrics : "+file,
+        conf_del.create_text(10,(int(conf_del["height"])-35)/2,text="Delete Lyrics : "+file,
             fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
