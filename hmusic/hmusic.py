@@ -6567,7 +6567,7 @@ def draw_can(con=0):
         ar.append(0)
 
 
-        create_polygon(*ar, fill="#000000", alpha=0.8,can=can)
+        create_polygon(*ar, fill=_theme[1][-1], alpha=0.8,can=can)
 
 
 
@@ -6612,7 +6612,7 @@ def draw_can(con=0):
         
 
 
-        create_polygon(*ar, fill="#000000", alpha=0.8,can=can)
+        create_polygon(*ar, fill=_theme[1][-1], alpha=0.8,can=can)
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
