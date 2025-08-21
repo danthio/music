@@ -6615,7 +6615,7 @@ def draw_can(con=0):
         ar.append(0)
 
 
-        create_polygon(*ar, fill=_theme[1][-1], alpha=0.4,can=can)
+        create_polygon(*ar, fill=_theme[1][-1], alpha=0.7,can=can)
 
 
 
@@ -6660,7 +6660,7 @@ def draw_can(con=0):
         
 
 
-        create_polygon(*ar, fill=_theme[1][-1], alpha=0.4,can=can)
+        create_polygon(*ar, fill=_theme[1][-1], alpha=0.7,can=can)
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
@@ -8145,21 +8145,18 @@ def draw_cur():
 
 
 
-    if lst==1:
+
+    if con==1:
 
 
 
 
-        if con==1:
+        xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
 
+        can_label(xx,yy)
 
+        cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
 
-
-            xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
-
-            can_label(xx,yy)
-
-            cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
 
     if lst==1:
 
@@ -9543,7 +9540,7 @@ def drag_can(e):
     if v_st==1:
 
 
-        if w-10-100<=e.x<=w-10:
+        if w-10-120<=e.x<=w-10:
 
 
 
@@ -10443,19 +10440,22 @@ def can_settings_b1(e):
 
     if r<=12.5:
 
-        file=filedialog.askopenfilename()
+        try:
 
-        im=Image.open(file)
-        im.save("data/bg2_.png")
+            file=filedialog.askopenfilename()
 
-        settings_st=1
+            im=Image.open(file)
+            im.save("data/bg2_.png")
 
-        draw_settings(1)
+            settings_st=1
+
+            draw_settings(1)
 
 
-        no_bg_st=0
+            no_bg_st=0
 
-
+        except:
+            pass
 
         #if file!="":
 
@@ -10740,7 +10740,7 @@ def draw_settings(con=0):
     can_settings.create_image(-(10+25+5),-(25+12.5+5),image=bg2_,anchor="nw")
 
 
-    draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,15,_theme[0],col1,1)
+    draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,25,_theme[0],col1,1)
 
     can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
 
@@ -11190,6 +11190,7 @@ def on_release_s(e):
     global can_settings
     global sel_col
     global theme_ent
+    global te_var
 
 
     if bg_region_[1][0]<=e.x<=bg_region_[1][4]:
@@ -11201,7 +11202,7 @@ def on_release_s(e):
 
                 try:
 
-                    bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(sel_col),anchor="nw")
+                    bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(te_var),anchor="nw")
                 except:
                     pass
 
