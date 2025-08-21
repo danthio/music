@@ -2094,7 +2094,7 @@ def can2_b1(e):
     global mvar
     global can2
     global st,npl,playlist_st,_playlist,current_playlist,playlist
-    global search,_search,frame
+    global search,_search,search_var,frame
     global add_st,frame2,can3,can4,can5,can6
     global sel_playlist
     global _npl,npl
@@ -2115,6 +2115,7 @@ def can2_b1(e):
     global sb_sz,sb_col,sb_h,sb_st
 
     global can4,can3,can6
+    global npl_var,can_npl
 
     if (int(can2["width"])-sb_sz-1)<=e.x<=(int(can2["width"])):
 
@@ -2224,7 +2225,7 @@ def can2_b1(e):
 
 
 
-    npl.place_forget()
+    can_npl.place_forget()
 
     main()   
 
@@ -2250,8 +2251,8 @@ def can2_b1(e):
 
             
                 _npl=0
-                npl.delete(0,tk.END)
-                npl.place_forget()
+                
+                can_npl.place_forget()
 
                 main()
                 return
@@ -2262,10 +2263,23 @@ def can2_b1(e):
             if 5<=e.y<=35:
 
                 can2["scrollregion"]=(0,0,(int(can2["width"])-sb_sz-1),int(can2["height"]))
-                npl.delete(0,tk.END)
+                
                 _npl=1
-                npl.place(in_=root,x=10+15+10,y=90+15-5-1-1)
-                npl.focus_set()
+                npl_var=""
+
+
+                can_npl["width"]=((int(can2["width"])-sb_sz-1)-10-5-20-5-10-10-5)
+                can_npl["height"]=28
+
+                can_npl.delete("all")
+
+                can_npl.create_image(-(10+15+10),-(5+1+88),image=bg,anchor="nw")
+                    
+
+                can_npl.place(in_=root,x=10+15+10,y=5+1+88)
+
+
+                can_npl.focus_set()
                 main()
 
                 return
@@ -2277,10 +2291,10 @@ def can2_b1(e):
         r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
         if r<=15:
 
-            if not npl.get()=="":
-                create_playlist(npl.get(),0)
-                npl.delete(0,tk.END)
-                npl.place_forget()
+            if not npl_var=="":
+                create_playlist(npl_var,0)
+                
+                can_npl.place_forget()
                 _npl=0
 
                 main()
@@ -2291,11 +2305,11 @@ def can2_b1(e):
         r=math.sqrt((e.x-cx)**2+(can2.canvasy(e.y)-cy)**2)
         if r<=15:
 
-            if not npl.get()=="":
-                create_playlist(npl.get(),0)
-                npl.delete(0,tk.END)
+            if not npl_var=="":
+                create_playlist(npl_var,0)
+                
                 _npl=0
-                npl.place_forget()
+                can_npl.place_forget()
                 main()
 
             return
@@ -2304,11 +2318,11 @@ def can2_b1(e):
         if (int(can2["width"])-sb_sz-1)/2-100<=e.x<=(int(can2["width"])-sb_sz-1)/2+100:
             if 45<=e.y<=45+30:
 
-                if not npl.get()=="":
-                    create_playlist(npl.get(),0)
+                if not npl_var=="":
+                    create_playlist(npl_var,0)
                     _npl=0
-                    npl.delete(0,tk.END)
-                    npl.place_forget()
+                    
+                    can_npl.place_forget()
                     main()
                 return
 
@@ -2327,10 +2341,11 @@ def can2_b1(e):
 
 
                 _search=0
+                search_var=""
 
-                search.delete(0,tk.END)
+                
 
-                search.place_forget()
+                can_search.place_forget()
 
                 main()
 
@@ -2913,6 +2928,7 @@ def can_b1(e):
 
     global bg_so
     global conf_del
+    global can_search
 
 
 
@@ -2955,11 +2971,13 @@ def can_b1(e):
                 _search=0
                 _npl=0
 
-                search.delete(0,tk.END)
-                search.place_forget()
+                search_var=""
 
-                npl.delete(0,tk.END)
-                npl.place_forget()
+                
+                can_search.place_forget()
+
+                
+                can_npl.place_forget()
 
 
                 main()
@@ -2982,7 +3000,7 @@ def can_b1(e):
 
     _npl=0
 
-    npl.place_forget()
+    can_npl.place_forget()
 
     main()   
 
@@ -3041,8 +3059,10 @@ def can_b1(e):
             _search=0
             _npl=0
 
-            search.delete(0,tk.END)
-            search.place_forget()
+            search_var=""
+
+            
+            can_search.place_forget()
             sort_st=0
             can_sort.place_forget()
             sort_st=0
@@ -3062,11 +3082,11 @@ def can_b1(e):
             frame2.place_forget()
 
             can2.focus_set()
-            search.delete(0,tk.END)
-            search.place_forget()
-            npl.delete(0,tk.END)
+            
+            can_search.place_forget()
+            
             _npl=0
-            npl.place_forget()
+            can_npl.place_forget()
 
 
 
@@ -3118,10 +3138,11 @@ def can_b1(e):
             lst=1
 
             _search=0
+            search_var=""
             _npl=0
 
-            search.delete(0,tk.END)
-            search.place_forget()
+            
+            can_search.place_forget()
             sort_st=0
             can_sort.place_forget()
             sort_st=0
@@ -3142,11 +3163,11 @@ def can_b1(e):
             can2.focus_set()
             add_st=0
             frame2.place_forget()
-            search.delete(0,tk.END)
-            search.place_forget()
-            npl.delete(0,tk.END)
+            
+            can_search.place_forget()
+            
             _npl=0
-            npl.place_forget()
+            can_npl.place_forget()
             
 
 
@@ -3174,6 +3195,8 @@ def can_b1(e):
 
     if xv*3-60<=e.x<=xv*3+60:
         if 50/2-15<=e.y<=50/2+15:
+
+            search_var=""
             conf_del.place_forget()
 
             filter_st=0
@@ -3198,8 +3221,8 @@ def can_b1(e):
             _search=0
             _npl=0
 
-            search.delete(0,tk.END)
-            search.place_forget()
+            
+            can_search.place_forget()
             sort_st=0
             can_sort.place_forget()
             sort_st=0
@@ -3217,11 +3240,11 @@ def can_b1(e):
             can2.focus_set()
             add_st=0
             frame2.place_forget()
-            search.delete(0,tk.END)
-            search.place_forget()
-            npl.delete(0,tk.END)
+            
+            can_search.place_forget()
+            
             _npl=0
-            npl.place_forget()
+            can_npl.place_forget()
 
 
             current_playlist=songs_status[1]
@@ -3261,6 +3284,8 @@ def can_b1(e):
 
     if xv*4-60<=e.x<=xv*4+60:
         if 50/2-15<=e.y<=50/2+15:
+
+            search_var=""
             conf_del.place_forget()
 
 
@@ -3287,8 +3312,8 @@ def can_b1(e):
             _search=0
             _npl=0
 
-            search.delete(0,tk.END)
-            search.place_forget()
+            
+            can_search.place_forget()
             sort_st=0
             can_sort.place_forget()
             sort_st=0
@@ -3310,11 +3335,11 @@ def can_b1(e):
             can2.focus_set()
             add_st=0
             frame2.place_forget()
-            search.delete(0,tk.END)
-            search.place_forget()
-            npl.delete(0,tk.END)
+            
+            can_search.place_forget()
+            
             _npl=0
-            npl.place_forget()
+            can_npl.place_forget()
 
             if st==4:
 
@@ -3340,6 +3365,8 @@ def can_b1(e):
 
     if xv*5-60<=e.x<=xv*5+60:
         if 50/2-15<=e.y<=50/2+15:
+
+            search_var=""
 
             conf_del.place_forget()
 
@@ -3381,8 +3408,8 @@ def can_b1(e):
             _search=0
             _npl=0
 
-            search.delete(0,tk.END)
-            search.place_forget()
+            
+            can_search.place_forget()
             can_sort.place_forget()
             sort_st=0
 
@@ -3396,11 +3423,11 @@ def can_b1(e):
             can2.focus_set()
             add_st=0
             frame2.place_forget()
-            search.delete(0,tk.END)
-            search.place_forget()
-            npl.delete(0,tk.END)
+            
+            can_search.place_forget()
+            
             _npl=0
-            npl.place_forget()
+            can_npl.place_forget()
 
 
 
@@ -3724,8 +3751,8 @@ def can_b1(e):
                         _search=0
                         _npl=0
 
-                        search.delete(0,tk.END)
-                        search.place_forget()
+                        
+                        can_search.place_forget()
                         frame.place_forget()
 
                         conf_del.place_forget()
@@ -4140,8 +4167,8 @@ def can_b1(e):
 
                         lyric_st=0
 
-                        search.delete(0,tk.END)
-                        search.place_forget()
+                        
+                        can_search.place_forget()
                         frame.place_forget()
 
                         can_lyrics.place_forget()
@@ -4291,8 +4318,8 @@ def can_b1(e):
                     lst=0
                     main()
                     frame.place_forget()
-                    search.place_forget()
-                    npl.place_forget()
+                    can_search.place_forget()
+                    can_npl.place_forget()
                     play_vid(tm)
 
 
@@ -4320,10 +4347,12 @@ def can_b1(e):
 
 
 
-            search.delete(0,tk.END)
-            search.place_forget()
+            
+            can_search.place_forget()
             can.focus_set()
             _search=0
+
+            search_var=""
 
             main()
 
@@ -4340,8 +4369,23 @@ def can_b1(e):
             vid_st=0
             vid_st2=0
 
-            search.place(in_=root,x=10+15,y=45+30-10-5-5)
-            search.focus_set()
+            #search.place(in_=root,x=10+15,y=45+30-10-5-5)
+            #search.focus_set()
+
+            can_search["width"]=w-10-10-25-10-15-10-20
+            can_search["height"]=28
+
+
+            search_var=""
+
+            can_search.delete("all")
+
+            can_search.create_image(-(10+15),-(50+1),image=bg,anchor="nw")
+
+
+
+            can_search.place(in_=root,x=10+15,y=50+1)
+            can_search.focus_set()
 
             main()
 
@@ -4899,6 +4943,8 @@ def main():
     global _theme
     global filter_val,filter_pl
     global no_music
+    global can_npl,npl_var
+    global settings_st2
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     can["bg"]="#333333"
@@ -4914,7 +4960,7 @@ def main():
         can.create_image(10,10, image=musical_note2, anchor="nw")
 
         frame.place_forget()
-        search.place_forget()
+        can_search.place_forget()
         
         play_video_st=0
 
@@ -5790,14 +5836,14 @@ def main():
                         a_+=1
 
 
-                    create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can2)
+                    
 
                     if _npl==1:
+                        pass
 
-                        can2.create_oval(10,y, 10+30,y+30, fill=_theme[1][1],outline=_theme[1][1])
-                        can2.create_oval((int(can2["width"])-sb_sz-1)-10-30,y, (int(can2["width"])-sb_sz-1)-10,y+30,fill=_theme[1][1],outline=_theme[1][1])
+                    else:
 
-                        can2.create_rectangle(10+15,y, (int(can2["width"])-sb_sz-1)-10-15,y+30,fill=_theme[1][1],outline=_theme[1][1])
+                        create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can2)
 
 
 
@@ -6242,19 +6288,19 @@ def main():
                     _search=0
                     _npl=0
 
-                    search.delete(0,tk.END)
-                    search.place_forget()
+                    
+                    can_search.place_forget()
 
 
 
                     _npl=0
-                    npl.place_forget()
+                    can_npl.place_forget()
 
             
             if lyric_st==0:
                 can_lyrics.place_forget()
 
-            if _search==0 and _npl==0:
+            if _search==0 and _npl==0 and settings_st2==0:
                 can.focus_set()
 
 
@@ -6461,7 +6507,7 @@ def draw_can(con=0):
         can.create_image(10,10, image=musical_note2, anchor="nw")
 
         frame.place_forget()
-        search.place_forget()
+        can_search.place_forget()
 
         return
 
@@ -6560,6 +6606,8 @@ def draw_can(con=0):
             ar.append(y)
             a_-=1
 
+
+
         ar.append(w)
         ar.append(0)
 
@@ -6567,7 +6615,7 @@ def draw_can(con=0):
         ar.append(0)
 
 
-        create_polygon(*ar, fill=_theme[1][-1], alpha=0.8,can=can)
+        create_polygon(*ar, fill=_theme[1][-1], alpha=0.4,can=can)
 
 
 
@@ -6612,7 +6660,7 @@ def draw_can(con=0):
         
 
 
-        create_polygon(*ar, fill=_theme[1][-1], alpha=0.8,can=can)
+        create_polygon(*ar, fill=_theme[1][-1], alpha=0.4,can=can)
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
@@ -6823,9 +6871,6 @@ def draw_can(con=0):
 
 
 
-            create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can)
-
-
 
 
             can.create_text(10+15+20+10,40+15+30-10-5-5,text="Search",font=("FreeMono",13),fill=_theme[0],anchor="w")
@@ -6836,11 +6881,13 @@ def draw_can(con=0):
             
             if _search==1:
 
-                draw_round_rec(can,10,40+30-10-5-5,w-10-25-10,40+30-10-5-5+30,15,_theme[1][1],_theme[0],0)
+                pass
             else:
+
+                create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can)
             
 
-                draw_round_rec(can,10,40+30-10-5-5,w-10-25-10,40+30-10-5-5+30,15,col1,"",1)
+            draw_round_rec(can,10,40+30-10-5-5,w-10-25-10,40+30-10-5-5+30,15,col1,"",1)
 
             can.create_image(w-10-5-20-25-10,40+5+30-10-5-5,image=cancel,anchor="nw")
 
@@ -7815,7 +7862,7 @@ def check_pl():
 
             if not can2.canvasy(0)==0:
                 _npl=0
-                npl.place_forget()
+                can_npl.place_forget()
 
 
     root.after(4,check_pl)
@@ -7912,6 +7959,12 @@ cur_can6=0
 cur_can_lyrics=0
 cur_can_sort=0
 cur_can_settings=0
+cur_can_search=0
+cur_can_npl=0
+cur_can_theme_ent=0
+cur_can_sel_op=0
+cur_filter_can1=0
+cur_filter_can2=0
 
 
 cur_p=[]
@@ -8004,8 +8057,11 @@ def check_cur_on_s2(x,y):
 def draw_cur():
 
 
-    global can,can2,can3,can4,can6,can_lyrics,can_sort,can_settings
+    global can,can2,can3,can4,can6,can_lyrics,can_sort,can_settings,can_search,can_npl,can_theme_ent,can_sel_op
+    global filter_can1,cur_filter_can1
+    global filter_can2,cur_filter_can2
     global cur_can,cur_can2,cur_can3,cur_can4,cur_can6,cur_can_lyrics,cur_can_sort,cur_can_settings
+    global cur_can_search,cur_can_npl,cur_can_theme_ent,cur_can_sel_op
     global circle7,circle11
     global root_st
     global cur_p
@@ -8055,6 +8111,16 @@ def draw_cur():
 
     can_settings.delete(cur_can_settings)
 
+    can_search.delete(cur_can_search)
+
+    can_npl.delete(cur_can_npl)
+
+    can_theme_ent.delete(cur_can_theme_ent)
+
+    can_sel_op.delete(cur_can_sel_op)
+
+    filter_can1.delete(cur_filter_can1)
+    filter_can2.delete(cur_filter_can2)
 
     if root_st==1 and con==1:
 
@@ -8083,22 +8149,6 @@ def draw_cur():
 
 
 
-        if check_cur_on_s(x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2)==1 and _search==1:
-
-            can["cursor"]="ibeam"
-            can.delete(cur_can)
-        else:
-            if con==1:
-
-
-                can["cursor"]="none"
-
-                xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
-
-                can_label(xx,yy)
-
-                cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
-    else:
 
         if con==1:
 
@@ -8115,13 +8165,7 @@ def draw_cur():
 
         xx,yy=x-(wd-w)/2-10,y-(ht-get_taskbar_height()-h)/2-88+can2.canvasy(0)
 
-        if check_cur_on_s2(xx,yy)==1 and _npl==1:
-            can2["cursor"]="ibeam"
-
-        else:
-            can2["cursor"]="none"
-
-            cur_can2=can2.create_image(xx,yy,image=cursor,anchor="nw")
+        cur_can2=can2.create_image(xx,yy,image=cursor,anchor="nw")
 
         xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
 
@@ -8154,6 +8198,43 @@ def draw_cur():
     xx,yy=x-(wd-w)/2-(10+25+5),y-(ht-get_taskbar_height()-h)/2-(25+12.5+5)
 
     cur_can_settings=can_settings.create_image(xx,yy,image=cursor,anchor="nw")
+
+    xx,yy=x-(wd-w)/2-(10+15),y-(ht-get_taskbar_height()-h)/2-(50+1)
+
+    cur_can_search=can_search.create_image(xx,yy,image=cursor,anchor="nw")
+
+
+
+    xx,yy=x-(wd-w)/2-(10+15+10),y-(ht-get_taskbar_height()-h)/2-(5+1+88)
+
+    cur_can_npl=can_npl.create_image(xx,yy,image=cursor,anchor="nw")
+
+
+    xx,yy=x-(wd-w)/2-(77-1+1+(10+25+5)),y-(ht-get_taskbar_height()-h)/2-(19+1+(25+12.5+5))
+
+    cur_can_theme_ent=can_theme_ent.create_image(xx,yy,image=cursor,anchor="nw")
+
+
+
+    xx_=10+25+5+20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
+    yy_=25+12.5+5+int(can_settings["height"])-65-9
+
+    xx,yy=x-(wd-w)/2-(xx_),y-(ht-get_taskbar_height()-h)/2-(yy_)
+
+    cur_can_sel_op=can_sel_op.create_image(xx,yy,image=cursor,anchor="nw")
+
+
+
+    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])),y-(ht-get_taskbar_height()-h)/2-(40+30-10-5-5+30+10)
+
+    cur_filter_can1=filter_can1.create_image(xx,yy,image=cursor,anchor="nw")
+
+
+    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),y-(ht-get_taskbar_height()-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
+
+    cur_filter_can2=filter_can2.create_image(xx,yy,image=cursor,anchor="nw")
+
+
 
 
 
@@ -9385,8 +9466,8 @@ def __list(e):
                 _search=0
                 _npl=0
 
-                search.delete(0,tk.END)
-                search.place_forget()
+                
+                can_search.place_forget()
                 frame.place_forget()
                 frame2.place_forget()
                 filter_st=0
@@ -10030,6 +10111,7 @@ def check_up_theme():
 
             configure_theme(_theme[0])
 
+            
             main()
             draw_settings()
             up_theme=None
@@ -10043,6 +10125,8 @@ def check_up_theme():
 
     root.after(1,check_up_theme)
 theme_attr=[0,0]
+can_sel_op_rec=0
+
 def check_theme_attr():
     global settings_st2
     global can_settings
@@ -10051,18 +10135,49 @@ def check_theme_attr():
     global sel_col
     global theme_attr
 
+    global can_theme_ent,te_var,can_theme_ent_rec
+    global can_sel_op,op_var,can_sel_op_rec
+
+
     if settings_st2==1:
 
 
-        if theme_ent.get()!=theme_attr[0] or sel_op_ent.get()!=theme_attr[1]:
+        if te_var!=theme_attr[0] or op_var!=theme_attr[1]:
 
-            theme_attr=[theme_ent.get(),sel_op_ent.get()]
+            theme_attr=[te_var,op_var]
 
             can_settings.delete(bg_region)
             can_settings.delete(bg_region2_)
 
 
-            sel_col=theme_ent.get()
+            sel_col=te_var
+
+
+
+
+
+
+            can_theme_ent.delete(can_theme_ent_rec)
+
+
+            try:
+
+
+                can_theme_ent_rec=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
+                    outline=sel_col)
+            except:
+
+
+
+                can_theme_ent_rec=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
+                    outline=_theme[0])
+
+
+
+
+
+
+            
 
             try:
 
@@ -10110,6 +10225,8 @@ def can_settings_b1(e):
     global settings_st2
     global bg_region2_
     global con_theme
+    global te_var,op_var
+    global cte_txt
 
     bg_xy=[e.x,e.y]
 
@@ -10119,8 +10236,8 @@ def can_settings_b1(e):
         if 10<=e.y<=10+25:
             settings_st=0
             can_settings.place_forget()
-            theme_ent.place_forget()
-            sel_op_ent.place_forget()
+            can_theme_ent.place_forget()
+            can_sel_op.place_forget()
 
             settings_st2=0
 
@@ -10150,9 +10267,9 @@ def can_settings_b1(e):
 
 
         
-        op1,op2=sel_op_ent.get().replace(" ","").split(",")
+        op1,op2=str(op_var).replace(" ","").split(",")
 
-        sel_col=str(theme_ent.get())
+        sel_col=str(te_var)
 
         con_theme=1
 
@@ -10216,9 +10333,9 @@ def can_settings_b1(e):
         im.save("data/bg_.png")
 
 
-        op1,op2=sel_op_ent.get().replace(" ","").split(",")
+        op1,op2=str(op_var).replace(" ","").split(",")
 
-        sel_col=str(theme_ent.get())
+        sel_col=str(te_var)
 
         con_theme=1
 
@@ -10273,9 +10390,9 @@ def can_settings_b1(e):
             im=Image.open("data/bg2_.png")
             im.save("data/bg_.png")
 
-            op1,op2=sel_op_ent.get().replace(" ","").split(",")
+            op1,op2=str(op_var).replace(" ","").split(",")
 
-            sel_col=str(theme_ent.get())
+            sel_col=str(te_var)
 
             con_theme=1
 
@@ -10367,8 +10484,28 @@ def can_settings_b1(e):
                 draw_settings()
                 return
 
-            theme_ent.delete(0,tk.END)
-            theme_ent.insert(tk.END,c[0])
+            te_var=c[0]
+
+
+            can_theme_ent.delete(cte_txt)
+
+            if get_text_length(can_theme_ent, te_var, "FreeMono", 13)>int(can_theme_ent["width"])-2:
+
+                try:
+                    cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=te_var,
+                        font=("FreeMono",13),anchor="e")
+                except:
+                    cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=_theme[0],
+                        font=("FreeMono",13),anchor="e")
+            else:
+
+                try:
+                    cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=te_var,
+                        font=("FreeMono",13),anchor="w")
+
+                except:
+                    cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=_theme[0],
+                        font=("FreeMono",13),anchor="w")
 
             return
 
@@ -10499,7 +10636,6 @@ def draw_sel_theme():
         theme_ent["selectbackground"]=col
         can_settings.delete(sel_theme)
 
-        sel_theme=can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=col)
     except:
 
         theme_ent["fg"]=_theme[0]
@@ -10524,7 +10660,7 @@ bg_region2=0
 def conf_bg(col):
     global _theme
     global bg_region_,bg_region2
-    global sel_op_ent
+    global op_var 
 
     x1=int(round(bg_region_[1][0]-bg_region_[0][0],0))
     x2=int(round(bg_region_[1][4]-bg_region_[0][0],0))
@@ -10537,7 +10673,7 @@ def conf_bg(col):
     im.save("data/bg3_.png")
 
     convert_("data/bg3_.png","data/bg3_.png",col)
-    darken_image("data/bg3_.png", "data/bg3_.png",(0,0,0), float(str(sel_op_ent.get()).replace(" ","").split(",")[0]))
+    darken_image("data/bg3_.png", "data/bg3_.png",(0,0,0), float(str(op_var).replace(" ","").split(",")[0]))
 
     bg_region2=ImageTk.PhotoImage(file="data/bg3_.png")
 
@@ -10547,6 +10683,8 @@ bg_region2_=0
 con_theme=0
 bg_region_=0
 bg_se=0
+
+focus__=0
 def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
@@ -10568,9 +10706,17 @@ def draw_settings(con=0):
     global con_theme
     global bg_region_
     global bg_se
+    global can_theme_ent,te_var
+    global can_theme_ent_rec,cte_txt
 
 
-    settings_st2=1
+    global can_sel_op,op_var
+    global can_sel_op_rec,cop_txt
+    global focus__
+
+
+
+    focus__=0
 
 
     if con==0:
@@ -10603,19 +10749,26 @@ def draw_settings(con=0):
 
     x_=10+25+5+20+get_text_length(can_settings, "Theme", "FreeMono", 13)+10
     y_=25+12.5+5+30-9
-    theme_ent.place(in_=root,x=x_,y=y_)
 
-    theme_ent["fg"]=col_
-    theme_ent["insertbackground"]=col_
-    theme_ent["selectbackground"]=col_
+    
 
-    theme_ent.delete(0,tk.END)
-    theme_ent.insert(tk.END,col_)
+    can_theme_ent["width"]=(259+1+1)-(77-1+1)
+    can_theme_ent["height"]=(42)-(20)
+
+    can_theme_ent.delete("all")
+
+    can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
+
+    te_var=col_
+
+    cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=col_,
+        font=("FreeMono",13),anchor="w")
+
+    can_theme_ent_rec=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
+        outline=col_)
 
 
-
-
-    sel_theme=can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=col_)
+    can_theme_ent.place(in_=root,x=77-1+1+(10+25+5),y=19+1+(25+12.5+5))
 
 
 
@@ -10853,25 +11006,33 @@ def draw_settings(con=0):
 
     xx_=10+25+5+20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
     yy_=25+12.5+5+int(can_settings["height"])-65-9
-    sel_op_ent.place(in_=root,x=xx_,y=yy_)
 
 
-    sel_op_ent["fg"]=_theme[0]
-    sel_op_ent["insertbackground"]=_theme[0]
-    sel_op_ent["selectbackground"]=_theme[0]
+    can_sel_op["width"]=(259+1+1)-(77-1+1)
+    can_sel_op["height"]=(42)-(20)
 
-    sel_op_ent.delete(0,tk.END)
+    can_sel_op.delete("all")
 
-    op=str(_theme[2])+","+str(_theme[3])
+    can_sel_op.create_image(-(xx_),-(yy_),image=bg2_,anchor="nw")
 
-    sel_op_ent.insert(tk.END,op)
+    op_var=str(_theme[2])+","+str(_theme[3])
+
+    cop_txt=can_sel_op.create_text(0,10,text=op_var,fill=_theme[0],
+        font=("FreeMono",13),anchor="w")
+
+    can_sel_op_rec=can_sel_op.create_rectangle(0,0, int(can_sel_op["width"])-1,int(can_sel_op["height"])-1,
+        outline=_theme[0])
+
+
+    can_sel_op.place(in_=root,x=xx_,y=yy_)
+
+
+
+
 
 
     xx_=20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
     yy_=int(can_settings["height"])-65-9
-
-    can_settings.create_rectangle(xx_-1,yy_-1, xx_+183-1,yy_+22-1,outline=_theme[0])
-
 
 
     can_settings.create_image(int(can_settings["width"])/2-sz/2,int(can_settings["height"])-40,
@@ -10891,10 +11052,14 @@ def draw_settings(con=0):
         x1+x_,y2+y_, x1+x_,y1+y_]]
 
 
-    bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(col_),anchor="nw")
+    try:
+        bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(col_),anchor="nw")
+    except:
+        pass
+
     bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
 
-
+    settings_st2=1
 
 del_theme=0
 def can_settings_m(e):
@@ -11036,7 +11201,7 @@ def on_release_s(e):
 
                 try:
 
-                    bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(theme_ent.get()),anchor="nw")
+                    bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(sel_col),anchor="nw")
                 except:
                     pass
 
@@ -11148,10 +11313,10 @@ def filter2_b1(e):
         y+=30
 
 
-filter_can1=tk.Canvas(width=250,height=30*4,bg="#000000",relief="flat",highlightthickness=0,border=0)
+filter_can1=tk.Canvas(width=250,height=30*4,bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 filter_can1.bind("<Button-1>",filter1_b1)
 
-filter_can2=tk.Canvas(width=250,height=30*7,bg="#000000",relief="flat",highlightthickness=0,border=0)
+filter_can2=tk.Canvas(width=250,height=30*7,bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 filter_can2.bind("<Button-1>",filter2_b1)
 filter_can2.bind_all("<MouseWheel>",_on_mousewheel)
 
@@ -11430,6 +11595,448 @@ conf_del=tk.Canvas(width=600,height=150,bg="#000000",relief="flat",highlightthic
 
 conf_del.bind("<Button-1>",conf_del_b1)
 
+cs_txt=0
+def can_search_kp(e):
+    global search_var
+    global can_search
+    global cs_txt
+
+
+
+    search_var+=e.char
+
+
+    can_search.delete(cs_txt)
+
+    if get_text_length(can_search, search_var, "FreeMono", 13)>int(can_search["width"])-2:
+
+        
+        cs_txt=can_search.create_text(int(can_search["width"])-2,14,text=search_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="e")
+    else:
+        cs_txt=can_search.create_text(0,14,text=search_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="w")
+
+    main()
+
+
+cs_i=0
+cs_i_st=0
+def can_search_insert():
+    global cs_i,cs_i_st
+    global search_var
+    global can_search
+
+    if cs_i_st==1:
+
+        can_search.delete(cs_i)
+
+        cs_i_st=0
+
+    elif cs_i_st==0:
+
+        if get_text_length(can_search, search_var, "FreeMono", 13)>int(can_search["width"])-2:
+
+            
+            cs_i=can_search.create_line(int(can_search["width"])-1,2, int(can_search["width"])-1,26,
+                fill=_theme[0])
+        else:
+            l=get_text_length(can_search, search_var, "FreeMono", 13)
+
+            cs_i=can_search.create_line(l+1,2, l+1,26,
+                fill=_theme[0])
+
+        cs_i_st=1
+
+    root.after(150,can_search_insert)
+
+def can_search_b1(e):
+    global can_search
+
+    can_search.focus_set()
+
+def can_search_bs(e):
+    global search_var
+    global can_search
+    global cs_txt
+
+
+
+    search_var=search_var[:-1]
+
+
+    can_search.delete(cs_txt)
+
+    if get_text_length(can_search, search_var, "FreeMono", 13)>int(can_search["width"])-2:
+
+        
+        cs_txt=can_search.create_text(int(can_search["width"])-2,14,text=search_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="e")
+    else:
+        cs_txt=can_search.create_text(0,14,text=search_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="w")
+
+    main()
+can_search=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
+can_search.bind("<Button-1>",can_search_b1)
+can_search.bind("<BackSpace>",can_search_bs)
+
+can_search.bind("<KeyPress>",can_search_kp)
+
+
+
+can_search_insert()
+
+
+cnpl_txt=0
+
+npl_var=""
+def can_npl_kp(e):
+    global npl_var
+    global can_npl
+    global cnpl_txt
+
+
+
+    npl_var+=e.char
+
+
+    can_npl.delete(cnpl_txt)
+
+    if get_text_length(can_npl, npl_var, "FreeMono", 13)>int(can_npl["width"])-2:
+
+        
+        cnpl_txt=can_npl.create_text(int(can_npl["width"])-2,14,text=npl_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="e")
+    else:
+        cnpl_txt=can_npl.create_text(0,14,text=npl_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="w")
+
+    main()
+
+
+cnpl_i=0
+cnpl_i_st=0
+def can_npl_insert():
+    global cnpl_i,cnpl_i_st
+    global npl_var
+    global can_npl
+
+    if cnpl_i_st==1:
+
+        can_npl.delete(cnpl_i)
+
+        cnpl_i_st=0
+
+    elif cnpl_i_st==0:
+
+        if get_text_length(can_npl, npl_var, "FreeMono", 13)>int(can_npl["width"])-2:
+
+            
+            cnpl_i=can_npl.create_line(int(can_npl["width"])-1,2, int(can_npl["width"])-1,26,
+                fill=_theme[0])
+        else:
+            l=get_text_length(can_npl, npl_var, "FreeMono", 13)
+
+            cnpl_i=can_npl.create_line(l+1,2, l+1,26,
+                fill=_theme[0])
+
+        cnpl_i_st=1
+
+    root.after(150,can_npl_insert)
+
+def can_npl_b1(e):
+    global can_npl
+
+    can_npl.focus_set()
+
+def can_npl_bs(e):
+    global npl_var
+    global can_npl
+    global cnpl_txt
+
+
+
+    npl_var=npl_var[:-1]
+
+
+    can_npl.delete(cnpl_txt)
+
+    if get_text_length(can_npl, npl_var, "FreeMono", 13)>int(can_npl["width"])-2:
+
+        
+        cnpl_txt=can_npl.create_text(int(can_npl["width"])-2,14,text=npl_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="e")
+    else:
+        cnpl_txt=can_npl.create_text(0,14,text=npl_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="w")
+
+    main()
+can_npl=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
+can_npl.bind("<Button-1>",can_npl_b1)
+can_npl.bind("<BackSpace>",can_npl_bs)
+
+can_npl.bind("<KeyPress>",can_npl_kp)
+
+
+
+can_npl_insert()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cte_txt=0
+
+te_var=""
+def can_theme_ent_kp(e):
+    global te_var
+    global can_theme_ent
+    global cte_txt
+
+
+
+    te_var+=e.char
+
+
+    can_theme_ent.delete(cte_txt)
+
+    if get_text_length(can_theme_ent, te_var, "FreeMono", 13)>int(can_theme_ent["width"])-2:
+
+        try:
+            cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=te_var,
+                font=("FreeMono",13),anchor="e")
+        except:
+            cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=_theme[0],
+                font=("FreeMono",13),anchor="e")
+    else:
+
+        try:
+            cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=te_var,
+                font=("FreeMono",13),anchor="w")
+
+        except:
+            cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=_theme[0],
+                font=("FreeMono",13),anchor="w")
+
+
+
+cte_i=0
+cte_i_st=0
+def can_theme_ent_insert():
+    global cte_i,cte_i_st
+    global te_var
+    global can_theme_ent
+    global sel_col
+    global focus__
+
+    if focus__==1:
+
+        if cte_i_st==1:
+
+            can_theme_ent.delete(cte_i)
+
+            cte_i_st=0
+
+        elif cte_i_st==0:
+
+            if get_text_length(can_theme_ent, te_var, "FreeMono", 13)>int(can_theme_ent["width"])-2:
+
+                try:
+                    cte_i=can_theme_ent.create_line(int(can_theme_ent["width"])-1,2, int(can_theme_ent["width"])-1,26,
+                        fill=sel_col)
+                except:
+                    cte_i=can_theme_ent.create_line(int(can_theme_ent["width"])-1,2, int(can_theme_ent["width"])-1,26,
+                        fill=_theme[0])
+            else:
+                l=get_text_length(can_theme_ent, te_var, "FreeMono", 13)
+
+                try:
+
+                    cte_i=can_theme_ent.create_line(l+1,2, l+1,26,
+                        fill=sel_col)
+
+                except:
+                    cte_i=can_theme_ent.create_line(l+1,2, l+1,26,
+                        fill=_theme[0])
+
+            cte_i_st=1
+    else:
+        can_theme_ent.delete(cte_i)
+
+    root.after(150,can_theme_ent_insert)
+
+def can_theme_ent_b1(e):
+    global can_theme_ent
+    global focus__
+
+
+    focus__=1
+
+    can_theme_ent.focus_set()
+
+def can_theme_ent_bs(e):
+    global te_var
+    global can_theme_ent
+    global cte_txt
+
+
+
+    te_var=te_var[:-1]
+
+
+    can_theme_ent.delete(cte_txt)
+
+    if get_text_length(can_theme_ent, te_var, "FreeMono", 13)>int(can_theme_ent["width"])-2:
+
+        
+        cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="e")
+    else:
+        cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="w")
+
+can_theme_ent=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
+can_theme_ent.bind("<Button-1>",can_theme_ent_b1)
+can_theme_ent.bind("<BackSpace>",can_theme_ent_bs)
+
+can_theme_ent.bind("<KeyPress>",can_theme_ent_kp)
+
+
+
+can_theme_ent_insert()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cop_txt=0
+
+op_var=""
+def can_sel_op_kp(e):
+    global op_var
+    global can_sel_op
+    global cop_txt
+
+
+
+    op_var+=e.char
+
+
+    can_sel_op.delete(cop_txt)
+
+    if get_text_length(can_sel_op, op_var, "FreeMono", 13)>int(can_sel_op["width"])-2:
+
+        cop_txt=can_sel_op.create_text(int(can_sel_op["width"])-2,10,text=op_var,fill=_theme[0],
+                font=("FreeMono",13),anchor="e")
+    else:
+
+        cop_txt=can_sel_op.create_text(0,10,text=op_var,fill=_theme[0],
+                font=("FreeMono",13),anchor="w")
+
+
+
+cop_i=0
+cop_i_st=0
+def can_sel_op_insert():
+    global cop_i,cop_i_st
+    global op_var
+    global can_sel_op
+    global sel_col
+    global focus__
+
+
+    if focus__==2:
+
+
+        if cop_i_st==1:
+
+            can_sel_op.delete(cop_i)
+
+            cop_i_st=0
+
+        elif cop_i_st==0:
+
+            if get_text_length(can_sel_op, op_var, "FreeMono", 13)>int(can_sel_op["width"])-2:
+
+                cop_i=can_sel_op.create_line(int(can_sel_op["width"])-1,2, int(can_sel_op["width"])-1,26,
+                        fill=_theme[0])
+            else:
+                l=get_text_length(can_sel_op, op_var, "FreeMono", 13)
+
+                cop_i=can_sel_op.create_line(l+1,2, l+1,26,
+                        fill=_theme[0])
+
+            cop_i_st=1
+    else:
+        can_sel_op.delete(cop_i)
+
+
+    root.after(150,can_sel_op_insert)
+
+def can_sel_op_b1(e):
+    global can_sel_op
+    global focus__
+
+    focus__=2
+
+    can_sel_op.focus_set()
+
+def can_sel_op_bs(e):
+    global op_var
+    global can_sel_op
+    global cop_txt
+
+
+
+    op_var=op_var[:-1]
+
+
+    can_sel_op.delete(cop_txt)
+
+    if get_text_length(can_sel_op, op_var, "FreeMono", 13)>int(can_sel_op["width"])-2:
+
+        
+        cop_txt=can_sel_op.create_text(int(can_sel_op["width"])-2,10,text=op_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="e")
+    else:
+        cop_txt=can_sel_op.create_text(0,10,text=op_var,fill=_theme[0],
+            font=("FreeMono",13),anchor="w")
+
+can_sel_op=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
+can_sel_op.bind("<Button-1>",can_sel_op_b1)
+can_sel_op.bind("<BackSpace>",can_sel_op_bs)
+
+can_sel_op.bind("<KeyPress>",can_sel_op_kp)
+
+
+
+can_sel_op_insert()
+
+
+
+
+
 adjust_theme()
 
 
@@ -11441,7 +12048,7 @@ main()
 
 timer()
 
-search__()
+#search__()
 check_volume()
 
 mvar_()
@@ -11499,7 +12106,7 @@ check_cur_pos()
 move_bg()
 draw_cur()
 
-draw_sel_theme()
+#draw_sel_theme()
 
 
 
