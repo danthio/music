@@ -10087,8 +10087,6 @@ def check_up_theme():
     global con_theme
     global bg_region_
 
-
-
     if not up_theme==None:
 
         if up_theme.is_alive():
@@ -10627,30 +10625,7 @@ def can_settings_b1(e):
 no_bg_st=0
     #print(e.x,e.y)
 
-def draw_sel_theme():
 
-    global theme_ent
-    global sel_theme
-    global _theme
-
-    try:
-        col=theme_ent.get()
-
-        theme_ent["fg"]=col
-        theme_ent["insertbackground"]=col
-        theme_ent["selectbackground"]=col
-        can_settings.delete(sel_theme)
-
-    except:
-
-        theme_ent["fg"]=_theme[0]
-        theme_ent["insertbackground"]=_theme[0]
-        theme_ent["selectbackground"]=_theme[0]
-        can_settings.delete(sel_theme)
-
-        sel_theme=can_settings.create_rectangle(77-1+1,19+1,259+1+1,40+2,outline=_theme[0])
-
-    root.after(1,draw_sel_theme)
 
 ar_themes=[]
 
@@ -11607,8 +11582,6 @@ def can_search_kp(e):
     global can_search
     global cs_txt
 
-
-
     search_var+=e.char
 
 
@@ -11683,8 +11656,15 @@ def can_search_bs(e):
             font=("FreeMono",13),anchor="w")
 
     main()
+
+def can_search_r(e):
+    pass
+
+
+
 can_search=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 can_search.bind("<Button-1>",can_search_b1)
+can_search.bind("<Return>",can_search_r)
 can_search.bind("<BackSpace>",can_search_bs)
 
 can_search.bind("<KeyPress>",can_search_kp)
@@ -11778,8 +11758,12 @@ def can_npl_bs(e):
             font=("FreeMono",13),anchor="w")
 
     main()
+def can_npl_r(e):
+    pass
+
 can_npl=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 can_npl.bind("<Button-1>",can_npl_b1)
+can_npl.bind("<Return>",can_npl_r)
 can_npl.bind("<BackSpace>",can_npl_bs)
 
 can_npl.bind("<KeyPress>",can_npl_kp)
@@ -11911,8 +11895,13 @@ def can_theme_ent_bs(e):
         cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=_theme[0],
             font=("FreeMono",13),anchor="w")
 
+
+def can_theme_ent_r(e):
+    pass
+
 can_theme_ent=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 can_theme_ent.bind("<Button-1>",can_theme_ent_b1)
+can_theme_ent.bind("<Return>",can_theme_ent_r)
 can_theme_ent.bind("<BackSpace>",can_theme_ent_bs)
 
 can_theme_ent.bind("<KeyPress>",can_theme_ent_kp)
@@ -12029,8 +12018,13 @@ def can_sel_op_bs(e):
         cop_txt=can_sel_op.create_text(0,10,text=op_var,fill=_theme[0],
             font=("FreeMono",13),anchor="w")
 
+def can_sel_op_r(e):
+    pass
+
+
 can_sel_op=tk.Canvas(bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 can_sel_op.bind("<Button-1>",can_sel_op_b1)
+can_sel_op.bind("<Return>",can_sel_op_r)
 can_sel_op.bind("<BackSpace>",can_sel_op_bs)
 
 can_sel_op.bind("<KeyPress>",can_sel_op_kp)
