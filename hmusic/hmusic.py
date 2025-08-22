@@ -1461,31 +1461,36 @@ def save():
 
     global st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,save_,shuffle_ar,shuffle_st,songs_status
     global _theme
-
-    try:
-
-        with open("data/save.json", "r") as file:
-            data = json.load(file)
-
-        data["save"]=[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]
+    global filter_val,filter_pl
 
 
+    con=0
+
+    if st==songs_status[0]:
+
+        if st==2:
+
+            if current_playlist==songs_status[1]:
+
+                f1,f2=filter_val,filter_pl
+                con=1
+        else:
+            f1,f2=filter_val,filter_pl
+            con=1
+
+    if con==0:
+
+        f1,f2="None",None
+
+
+    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,f1,f2]}
 
 
 
-        with open("data/save.json", "w") as file:
-            json.dump(data, file, indent=4)
 
 
-    except:
-        data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]}
-
-
-
-
-
-        with open("data/save.json", "w") as file:
-            json.dump(data, file, indent=4) 
+    with open("data/save.json", "w") as file:
+        json.dump(data, file, indent=4) 
 
 
 
@@ -8893,7 +8898,7 @@ _songs_=[]
 songs_status=[st,current_playlist,shuffle_st,sort_val,shuffle_ar,loop,current_playing]
 
 
-
+filter_val,filter_pl="None",None
 
 
 forward=None
@@ -8911,10 +8916,10 @@ try:
         data = json.load(file)
 
 
-    if not len(data["save"][-1][0])==7:
+    if not len(data["save"][-3][0])==7:
 
 
-        data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]}
+        data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl]}
 
 
 
@@ -8926,7 +8931,7 @@ try:
 
 
 except:
-    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme]}
+    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl]}
 
 
 
@@ -8939,7 +8944,7 @@ except:
 try:
 
 
-    st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme=data["save"]
+    st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl=data["save"]
 
 
     st,current_playlist,shuffle_st,sort_val,shuffle_ar,loop,current_playing=songs_status
