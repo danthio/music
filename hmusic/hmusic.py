@@ -12126,3 +12126,4 @@ vid_timer()
 check_theme_attr()
 
 root.mainloop()
+
