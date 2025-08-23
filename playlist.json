@@ -39,7 +39,10 @@
         "1 More Than 6.mp3",
         "CLAVISH X HEADIE ONE X K-TRAP - TRIPLE THREAT (OFFICIAL VIDEO).mp3",
         "Clavish - 1942 (Official Video).mp3",
-        "Clavish - Bad Influence [Music Video]  GRM Daily.mp3"
+        "Clavish - Bad Influence [Music Video]  GRM Daily.mp3",
+        "Clavish - LOL.mp3",
+        "Clavish feat Marnz Malone & KayMuni - Loose Lips Sink Ships (Official Audio).mp3",
+        "Clavish - Day Date (Official Video).mp3"
     ],
     "knucks": [
         "Knucks_-_Thames.mp3",
@@ -506,7 +509,13 @@
         "FourNine - Psycho MOB (Official music Video).mp3",
         "163Margs - Superstar (Official Visualiser).mp3",
         "NO MANNERS.mp3",
-        "AJ Tracey - Ladbroke Grove.mp3"
+        "AJ Tracey - Ladbroke Grove.mp3",
+        "Clavish - LOL.mp3",
+        "Fredo - Blood In My Eyes (Audio).mp3",
+        "Kidwild - Victory Lap [Music Video].mp3",
+        "Unknown T - Who said drills dead_ (Freestyle).mp3",
+        "Clavish feat Marnz Malone & KayMuni - Loose Lips Sink Ships (Official Audio).mp3",
+        "Clavish - Day Date (Official Video).mp3"
     ],
     "my best uk rap": [
         "Youngs_Teflon_-_Daily_Duppy___GRM_Daily.mp3",
@@ -737,7 +746,13 @@
         "JS x YD - Cloud 9 (Official Music Video).mp3",
         "FourNine - Psycho MOB (Official music Video).mp3",
         "163Margs - Superstar (Official Visualiser).mp3",
-        "NO MANNERS.mp3"
+        "NO MANNERS.mp3",
+        "Clavish - LOL.mp3",
+        "Fredo - Blood In My Eyes (Audio).mp3",
+        "Kidwild - Victory Lap [Music Video].mp3",
+        "Unknown T - Who said drills dead_ (Freestyle).mp3",
+        "Clavish feat Marnz Malone & KayMuni - Loose Lips Sink Ships (Official Audio).mp3",
+        "Clavish - Day Date (Official Video).mp3"
     ],
     "big yasa": [
         "BIG_YASA_-_LIL_BRO.mp3",
@@ -969,7 +984,8 @@
         "4._Bensoul_-_Napepea__Official_Audio_.mp3",
         "7._Bensoul_x_Bien_-_Navutishwa__Official_Audio_.mp3",
         "Marioo feat Bien - Nairobi (Visualiser).mp3",
-        "Bien ft. Breeder LW - Maandamano (Lyric Visualizer).mp3"
+        "Bien ft. Breeder LW - Maandamano (Lyric Visualizer).mp3",
+        "Nyashinski - TAI CHI (Official Music Video).mp3"
     ],
     "dancehall": [
         "Popcaan_-_Silence__Official_Video_.mp3",
@@ -983,7 +999,9 @@
         "Ce'Cile - Always Be Around [Diamonds & Gold Riddim] May 2013.mp3",
         "Koffee - Toast (Official Video).mp3",
         "Koffee - Rapture (Remix) [Official Video] ft. Govana.mp3",
-        "Koffee - Lockdown (Official Video).mp3"
+        "Koffee - Lockdown (Official Video).mp3",
+        "JahPlaka - Solitude (Official Music Video) ft. Shado Vybz.mp3",
+        "Tanzie - Mary Jane (Official Video).mp3"
     ],
     "GTA": [
         "MANDO_X_NATTY_-_LIFE__Official_Music_Video_.mp3",
@@ -1074,7 +1092,6 @@
         "21_Savage,_Offset___Metro_Boomin_-__Disrespectful___Official_Audio_.mp3",
         "21_Savage___Metro_Boomin_-__Run_Up_the_Racks_.mp3",
         "21_Savage_-_Mind_Yo_Business__Prod_By_Wheezy_.mp3",
-        "21_Savage,_Offset___Metro_Boomin_-__Darth_Vader___Official_Audio_.mp3",
         "Brand_New_Draco.mp3",
         "21_Savage_-_all_of_me__Official_Audio_.mp3",
         "21_Savage_-_redrum__Official_Audio_.mp3",
@@ -1082,7 +1099,8 @@
         "Slidin.mp3",
         "Many_Men.mp3",
         "Metro Boomin, Travis Scott, 21 Savage - Niagara Falls (Foot or 2) (Visualizer).mp3",
-        "Metro Boomin - 10 Freaky Girls ft. 21 Savage.mp3"
+        "Metro Boomin - 10 Freaky Girls ft. 21 Savage.mp3",
+        "21_Savage,_Offset___Metro_Boomin_-__Darth_Vader___Official_Audio_.mp3"
     ],
     "Kendrick Lamar": [
         "Money_Trees.mp3",
@@ -1092,7 +1110,6 @@
     "Amapiano": [
         "MFR Souls - Amanikiniki (Official Video) ft. Major League Djz, Kamo Mphela & Bontle Smith.mp3",
         "Cassper Nyovest - Siyathandana ft. Abidoza, Boohle.mp3",
-        "Wanitwa Mos, Master KG & Lowsheen - Sofa Silahlane [ft. Nkosazana Daughter] (Official Music Video).mp3",
         "Uzozisola - S.A Students  Justin vibes (remix lyrics).mp3",
         "Goya Menor & Nektunez  Ameno Amapiano Remix (You Wanna Bamba) [Official Video].mp3",
         "CIZA - ISAKA (6AM) ft Jazzworx & Thukuthela.mp3",
@@ -1101,10 +1118,7 @@
         "Goon Flavour,Master KG & Eemoh Ngishutheni (Official Music Video ).mp3",
         "Jazzworx, GLCeejay & Thukuthela  - Tholukuthi (Clap Song) (Official Audio) (feat.MaWhoo).mp3",
         "Kcee - Ojapiano (Official Video).mp3",
-        "MaWhoo, GLCeejay and Thukuthela - Bengicela [Feat. Jazzworx] (Official Audio).mp3",
-        "Nandipha808 - Forgive our trespasses [Ft. Ceeka RSA, Demola] (Official Audio).mp3",
-        "Nollypiano.mp3",
-        "Pro-Tee & Chaos Xxvii - Ungkhumbule Nami (ft Pretty Masompisi)(Official Audio).mp3"
+        "MaWhoo, GLCeejay and Thukuthela - Bengicela [Feat. Jazzworx] (Official Audio).mp3"
     ],
     "Future": [
         "Future - Tricks on Me (Audio).mp3",
@@ -1147,7 +1161,6 @@
         "Natti_Natasha_-_Noches_En_Miami_[Official_Video].mp3",
         "Natti_Natasha_x_Anitta__-_Te_lo_Dije_[Official_Video].mp3",
         "Natti_Natasha_-_Era_Necesario_[Official_Audio].mp3",
-        "Dj_No_Pare_REMIX_-_Justin_Quiles_ft_Natti_Natasha,_Farruko,_Zion,_Dalex,_Lenny_Tav\u00e1rez.mp3",
         "Natti_Natasha_-_No_Pare_[Official_Video].mp3",
         "KAROL_G,_Mariah_Angeliq_-_EL_MAKINON__Official_Video_.mp3",
         "Becky_G,_KAROL_G_-_MAMIII__Official_Video_.mp3",
@@ -1196,7 +1209,8 @@
         "Rkm___Ken-Y_\u274c_Natti_Natasha_-_Tonta_[Official_Video].mp3",
         "Natti_Natasha_\u274c_Ozuna_-_Criminal_[Official_Video].mp3",
         "KAROL_G,_Shakira_-_TQG__Official_Video_.mp3",
-        "Becky G - Sola (Official Video).mp3"
+        "Becky G - Sola (Official Video).mp3",
+        "Dj_No_Pare_REMIX_-_Justin_Quiles_ft_Natti_Natasha,_Farruko,_Zion,_Dalex,_Lenny_Tav\u00e1rez.mp3"
     ],
     "Kidwild": [
         "Kidwild - Fake Friends [Net Video].mp3",
@@ -1204,7 +1218,8 @@
         "Kidwild - Redemption Ft. Nemzzz [Music Video].mp3",
         "Kidwild - Indecisive [Music Video].mp3",
         "Kidwild - Cutting Ties [Music Video].mp3",
-        "has to be you 2.mp3"
+        "has to be you 2.mp3",
+        "Kidwild - Victory Lap [Music Video].mp3"
     ],
     "Pozer": [
         "Lusho X Pozer - Cross Waters.mp3",
@@ -1225,7 +1240,9 @@
         "Billie Eilish - BIRDS OF A FEATHER (Official Music Video).mp3",
         "SZA - Snooze (Audio).mp3",
         "The_Kid_LAROI,_Jung_Kook,_Central_Cee_-_TOO_MUCH__Official_Video_.mp3",
-        "Allo (Choir Version).mp3"
+        "Allo (Choir Version).mp3",
+        "ERA - Ameno (Official Video).mp3",
+        "sapientdream, Slushii - Past Lives (Official Lyric Video).mp3"
     ],
     "Best of kenyan rap": [
         "MADGAZA REPUBLIK FT UNSPOKEN SALATON  - BUDGET (FAMEE)(official VISUALIZER).mp3",
@@ -1288,14 +1305,60 @@
         "Toxic_Lyrikali_-_Wrong_People_Freestyle__Lyric_Video__Prod._@beatkidd(0).mp3",
         "Mauru_Gwash_x_Toxic_Lyrikali_-__PACKE__Remix___Official_Video____DIR_by_Zethy.(128k).mp3",
         "TOXIC LYRIKALI - BACKBENCHER (Official Video).mp3",
-        "R BANDIT FT SCAR MKADINALI - YAP YAP (OFFICIAL VIDEO).mp3"
+        "R BANDIT FT SCAR MKADINALI - YAP YAP (OFFICIAL VIDEO).mp3",
+        "MOTI THE NRG - MOST PROBABLY  Ft METRO STUNNA(MUSIC VIDEO).mp3",
+        "KENRAZY - WACHA KUTUPIMA ft. MZAGATAS MZAGLA.mp3",
+        "BIG_YASA_-_DIVIDE_FT_SPINX_MAFIA.mp3",
+        "BIG_YASA_-_NO_CHORUS.mp3",
+        "BIG_YASA_-_CRYSTAL_CLEAR.mp3",
+        "BIG_YASA_-_NATURAL.mp3",
+        "BIG_YASA_-_CLAX_FT__AJAY___BURUKLYN_BOYZ___SILVERSTONE_BARZ.mp3",
+        "BIG_YASA_-_TUTOKE_FT_$B.mp3",
+        "BIG YASA - COLD  (Dir by AllDayAmar).mp3",
+        "BIG YASA - OVER 18.mp3",
+        "BURUKLYN BOYZ, MR RIGHT - PIGA LEAN (Dir By AllDayAmar ).mp3",
+        "BURUKLYN BOYZ - MACHETE (Official Music Video).mp3",
+        "TALK_Ni_CHEAP-_Buruklyn_Boyz,MR_RIGHT_Dir_by_badmanbright_.mp3",
+        "BURUKLYN_BOYZ_-_NISKIZE_FT_@MayaAmolo__VISUALIZER_.mp3",
+        "BURUKLYN_BOYZ_-_LAST_AIR_BENDER-_FT_Big_Yasa___@silverstonebarz9215___VISUALISER_.mp3",
+        "BURUKLYN_BOYZ_-_23__VISUALISER_.mp3",
+        "BURUKLYN_BOYZ_-_DREAM_YA_KUTOKA_KWA_BLOCK___VISUALISER_.mp3",
+        "MR.RIGHT_-_TANO_NANE__OFFICIAL_VIDEO_.mp3",
+        "BURUKLYN_BOYZ,_AJAY_-_WILD_[OFFICIAL_MUSIC_VIDEO].mp3",
+        "BURUKLYN_BOYZ_-_INTRO.mp3",
+        "BURUKLYN_BOYZ_-_EX__VISUALISER_.mp3",
+        "BURUKLYN_BOYZ_FT_YOUNGLOUIE58__-_NOTHING_BUT_LOVE___VISUALISER_.mp3",
+        "Njoki (Skillo) (feat. Domani Munga).mp3",
+        "Masterpiece King X Wakadinali - kichwa Mbaya (Visualizer).mp3",
+        "Wakadinali_-__Dilated___Official_Album_Audio__.mp3",
+        "Scar_Mkadinali_-__Kovu___Official_Music_Video_.mp3",
+        "Wakadinali_-__Mangana_Manangos___Official_Music_Video_.mp3",
+        "Wakadinali_-__Ekelea_Kazi___Official_Audio_.mp3",
+        "Domani_Munga_-__MUNGU_3___Official_Music_Video_.mp3",
+        "Scar_Mkadinali_X_Exray_-__Brother_In_Law___Official_Music_Video_.mp3",
+        "Wakadinali_-__Geri_Inengi__ft_SirBwoy__Official_Music_Video_.mp3",
+        "Wakadinali_-__McMca___Official_Music_Video_.mp3",
+        "Wakadinali_Ft._Wangechi_-_Shit_Yangu__Ndani_Ya_Cockpit_3__#NYC3_Audio.mp3",
+        "Wakadinali_Ft._Khaligraph_Jones_-_Tourist__Ndani_Ya_Cockpit_3__#NYC3_Audio.mp3",
+        "Wakadinali_-_Huu_Kijana__Ndani_Ya_Cockpit_3__#NYC3_Audio.mp3",
+        "Wakadinali_-__Mariwana___Official_Music_Video_.mp3",
+        "Wakadinali_-__Kim_Jong-Un___Official_Album_Audio__.mp3",
+        "Wakadinali_-__Kuna_Siku_Youths_Wataungana__Ft_Sir_Bwoy__Official_Music_Video_.mp3",
+        "Wakadinali_-__Chesswoh___Official_Album_Audio__.mp3",
+        "Mbogi Genje - Giz Giz (Official Music Video) [SMS 'Skiza 6384536' to 811].mp3",
+        "Bloody_War_-_Mbogi_Genje__Smady_Tings__X_Ethic__Seska__X_Dullah_[SMS__Skiza_5707916__to_811].mp3",
+        "Toxic_Lyrikali_-_Long_Story__Official_Lyric_Video__prod_by_@beatkidd(0).mp3",
+        "Toxic_Lyrikali_-_Forgive__Official_Lyrical_Video__prod_by_@beatkidd(0).mp3",
+        "TOXIC_LYRIKALI_-_CEASE__prod._@beatkidd__(0).mp3",
+        "Nyashinski - TAI CHI (Official Music Video).mp3"
     ],
     "Mzagatas Mgazla": [
         "MADGAZA REPUBLIK FT UNSPOKEN SALATON  - BUDGET (FAMEE)(official VISUALIZER).mp3",
         "Mzagatas X Madova - Utagenya.mp3",
         "MADGAZA REPUBLIK - SANKA SENKE (OFFICIAL VIDEO) (kasa ananisaka).mp3",
         "MADGAZA REPUBLIK - KABANYOLA(Life nishort lakini yangu ni toja) [Official Music Video].mp3",
-        "Joefes, Unspoken Salaton , Mad Gaza Republik - Anaku Rada  Official Music Video.mp3"
+        "Joefes, Unspoken Salaton , Mad Gaza Republik - Anaku Rada  Official Music Video.mp3",
+        "KENRAZY - WACHA KUTUPIMA ft. MZAGATAS MZAGLA.mp3"
     ],
     "MGEE": [
         "MGee x Numba - Wallahi (Music Video).mp3",
@@ -1307,5 +1370,17 @@
         "NO MANNERS.mp3",
         "Take Off.mp3",
         "SCHEMING.mp3"
+    ],
+    "nemzzz": [
+        "NEMZZZ - US VS THEM (OFFICIAL VIDEO).mp3",
+        "NEMZZZ - DILEMMA (FEAT. CENTRAL CEE) [OFFICIAL AUDIO].mp3",
+        "Nemzzz- Evicted (Official Video).mp3",
+        "NEMZZZ - L'S (OFFICIAL VIDEO).mp3",
+        "Iframe Pozer \u2013 Kitchen Stove (Remix) ft. Nemzzz, JS x YD (Visualiser) [01deCvntjtM].mp3",
+        "Nemzzz - Escape.mp3",
+        "NEMZZZ - PTSD (OFFICIAL VIDEO).mp3",
+        "Nemzzz - Money and Vibes (Official Video).mp3",
+        "Kidwild - Redemption Ft. Nemzzz [Music Video].mp3",
+        "Blanco_ft._Nemzzz_-_Brilliant_Mind_II__Official_Music_Video_.mp3"
     ]
 }
