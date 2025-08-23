@@ -1543,6 +1543,7 @@ def prog():
 
     global cursor
     global vid_st2
+    global root_st
 
 
 
@@ -1624,22 +1625,22 @@ def prog():
                 prog2=can.create_image(x_+10-4,h-20-60-20+10+2+5-3-4+10,image=circle7,anchor="nw")
                 prog3=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3+10,image=circle8,anchor="nw")
 
+                if not root_st==1:
+
+                    x,y=pyautogui.position()
 
 
-                x,y=pyautogui.position()
+                    xx,yy=x-(wd-w)/2,y-(ht-h)/2
+
+                    if 10<=xx<=w-10:
+                        if h-20-60-20+10+2+5-3+10-30<=yy<=h-20-60-20+10+2+5-3+10+1:
 
 
-                xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
+                            can.delete(cur_can)
 
-                if 10<=xx<=w-10:
-                    if h-20-60-20+10+2+5-3+10-30<=yy<=h-20-60-20+10+2+5-3+10+1:
+                            
 
-
-                        can.delete(cur_can)
-
-                        
-
-                        cur_can=can.create_image(xx-4,yy-4,image=cursor,anchor="nw")
+                            cur_can=can.create_image(xx-4,yy-4,image=cursor,anchor="nw")
 
 
 
@@ -2953,7 +2954,7 @@ def can_b1(e):
 
 
 
-        root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
+        root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 
         main()
 
@@ -3078,7 +3079,7 @@ def can_b1(e):
             sort_val=sort_ar[0][0]
             main()
 
-            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
+            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
             
             lst=1
             current_playlist=""
@@ -3160,7 +3161,7 @@ def can_b1(e):
             main()
 
 
-            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
+            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 
             
             lst=1
@@ -3238,7 +3239,7 @@ def can_b1(e):
             main()
 
 
-            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
+            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 
             
             playlist_st=0
@@ -3333,7 +3334,7 @@ def can_b1(e):
 
 
 
-            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
+            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 
             
             current_playlist=""
@@ -3421,7 +3422,7 @@ def can_b1(e):
             main()
 
 
-            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
+            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 
             st=4
             main()
@@ -4886,7 +4887,7 @@ def main():
     global yyy
 
     global songs
-    global search,search_var
+    global search,search_var,_search
     global cancel,cancel2,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,sort,delete,favourite1_,favourite2_,delete2,playlist3
     global music_details
     global vol1,vol2,current_volume
@@ -5952,7 +5953,7 @@ def main():
 
 
 
-                            can2.create_image(5,y+12.5+2,image=_pl_,anchor="nw")
+                            can2.create_image(5,y+25-12.5,image=_pl_,anchor="nw")
 
 
 
@@ -6323,7 +6324,7 @@ def main():
 
                 if current_playlist==songs_status[1]:
 
-                    if search_var=="":
+                    if _search==0:
 
                         _songs_=songs
 
@@ -6332,7 +6333,7 @@ def main():
 
             else:
 
-                if search_var=="":
+                if _search==0:
                     _songs_=songs
 
 
@@ -6343,7 +6344,7 @@ def main():
 
     x,y=pyautogui.position()
 
-    xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
+    xx,yy=x-(wd-w)/2,y-(ht-h)/2
 
 
     can.delete(cur_can)
@@ -7970,7 +7971,7 @@ cur_can_theme_ent=0
 cur_can_sel_op=0
 cur_filter_can1=0
 cur_filter_can2=0
-
+cur_conf_del=0
 
 cur_p=[]
 
@@ -8065,6 +8066,7 @@ def draw_cur():
     global can,can2,can3,can4,can6,can_lyrics,can_sort,can_settings,can_search,can_npl,can_theme_ent,can_sel_op
     global filter_can1,cur_filter_can1
     global filter_can2,cur_filter_can2
+    global conf_del,cur_conf_del
     global cur_can,cur_can2,cur_can3,cur_can4,cur_can6,cur_can_lyrics,cur_can_sort,cur_can_settings
     global cur_can_search,cur_can_npl,cur_can_theme_ent,cur_can_sel_op
     global circle7,circle11
@@ -8126,6 +8128,7 @@ def draw_cur():
 
     filter_can1.delete(cur_filter_can1)
     filter_can2.delete(cur_filter_can2)
+    conf_del.delete(cur_conf_del)
 
     if root_st==1 and con==1:
 
@@ -8145,7 +8148,7 @@ def draw_cur():
 
             cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
 
-        root.after(10,draw_cur)
+        root.after(1,draw_cur)
         return
 
 
@@ -8156,7 +8159,7 @@ def draw_cur():
 
 
 
-        xx,yy=x-(wd-w)/2,y-(ht-get_taskbar_height()-h)/2
+        xx,yy=x-(wd-w)/2,y-(ht-h)/2
 
         can_label(xx,yy)
 
@@ -8165,54 +8168,54 @@ def draw_cur():
 
     if lst==1:
 
-        xx,yy=x-(wd-w)/2-10,y-(ht-get_taskbar_height()-h)/2-88+can2.canvasy(0)
+        xx,yy=x-(wd-w)/2-10,y-(ht-h)/2-88+can2.canvasy(0)
 
         cur_can2=can2.create_image(xx,yy,image=cursor,anchor="nw")
 
-        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
+        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
 
         cur_can4=can4.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
-        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40+can3.canvasy(0)
+        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40+can3.canvasy(0)
 
         cur_can3=can3.create_image(xx,yy,image=cursor,anchor="nw")
 
 
-        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-get_taskbar_height()-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40-int(can3["height"])
+        xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40-int(can3["height"])
 
         cur_can6=can6.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
-    xx,yy=x-(wd-w)/2-10,y-(ht-get_taskbar_height()-h)/2-50+can_lyrics.canvasy(0)
+    xx,yy=x-(wd-w)/2-10,y-(ht-h)/2-50+can_lyrics.canvasy(0)
 
     cur_can_lyrics=can_lyrics.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
-    xx,yy=x-(wd-w)/2-(10+25+15+25),y-(ht-get_taskbar_height()-h)/2-(h-20-30-15+5+10+2.5-160)
+    xx,yy=x-(wd-w)/2-(10+25+15+25),y-(ht-h)/2-(h-20-30-15+5+10+2.5-160)
 
     cur_can_sort=can_sort.create_image(xx,yy,image=cursor,anchor="nw")
 
 
-    xx,yy=x-(wd-w)/2-(10+25+5),y-(ht-get_taskbar_height()-h)/2-(25+12.5+5)
+    xx,yy=x-(wd-w)/2-(10+25+5),y-(ht-h)/2-(25+12.5+5)
 
     cur_can_settings=can_settings.create_image(xx,yy,image=cursor,anchor="nw")
 
-    xx,yy=x-(wd-w)/2-(10+15),y-(ht-get_taskbar_height()-h)/2-(50+1)
+    xx,yy=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
 
     cur_can_search=can_search.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
-    xx,yy=x-(wd-w)/2-(10+15+10),y-(ht-get_taskbar_height()-h)/2-(5+1+88)
+    xx,yy=x-(wd-w)/2-(10+15+10),y-(ht-h)/2-(5+1+88)
 
     cur_can_npl=can_npl.create_image(xx,yy,image=cursor,anchor="nw")
 
 
-    xx,yy=x-(wd-w)/2-(77-1+1+(10+25+5)),y-(ht-get_taskbar_height()-h)/2-(19+1+(25+12.5+5))
+    xx,yy=x-(wd-w)/2-(77-1+1+(10+25+5)),y-(ht-h)/2-(19+1+(25+12.5+5))
 
     cur_can_theme_ent=can_theme_ent.create_image(xx,yy,image=cursor,anchor="nw")
 
@@ -8221,23 +8224,25 @@ def draw_cur():
     xx_=10+25+5+20+get_text_length(can_settings, "Opacity (bg , select)", "FreeMono", 13)+10
     yy_=25+12.5+5+int(can_settings["height"])-65-9
 
-    xx,yy=x-(wd-w)/2-(xx_),y-(ht-get_taskbar_height()-h)/2-(yy_)
+    xx,yy=x-(wd-w)/2-(xx_),y-(ht-h)/2-(yy_)
 
     cur_can_sel_op=can_sel_op.create_image(xx,yy,image=cursor,anchor="nw")
 
 
 
-    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])),y-(ht-get_taskbar_height()-h)/2-(40+30-10-5-5+30+10)
+    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])),y-(ht-h)/2-(40+30-10-5-5+30+10)
 
     cur_filter_can1=filter_can1.create_image(xx,yy,image=cursor,anchor="nw")
 
 
-    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),y-(ht-get_taskbar_height()-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
+    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),y-(ht-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
 
     cur_filter_can2=filter_can2.create_image(xx,yy,image=cursor,anchor="nw")
 
 
+    xx,yy=x-(wd-w)/2-((w-int(conf_del["width"]))/2),y-(ht-h)/2-((h-int(conf_del["height"]))/2)
 
+    cur_conf_del=conf_del.create_image(xx,yy,image=cursor,anchor="nw")
 
 
     root.after(1,draw_cur)
@@ -8290,7 +8295,7 @@ def check_cur_pos():
 
 
 
-        y_=y-int(((ht-get_taskbar_height())-h)/2)-88
+        y_=y-int(((ht)-h)/2)-88
 
 
 
@@ -8487,7 +8492,7 @@ def check_cur_pos():
 
         if con__==1:
 
-            y_=y-int(((ht-get_taskbar_height())-h)/2)-88
+            y_=y-int(((ht)-h)/2)-88
 
 
             if lst==1:
@@ -8965,12 +8970,12 @@ root=tk.Tk()
 
 wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
 #wd,ht=1366,768
-h=int(ht-get_taskbar_height()-40)
-w=int(wd-40)
+h=int(ht)
+w=int(wd)
 
 
 
-root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht-get_taskbar_height())-h)/2)))
+root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 root.resizable(0,0)
 #root.wm_attributes("-alpha",0.9)
 root.wm_attributes("-transparentcolor","#333333")
@@ -11572,7 +11577,7 @@ def conf_del_(file,con):
             fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
-conf_del=tk.Canvas(width=600,height=150,bg="#000000",relief="flat",highlightthickness=0,border=0)
+conf_del=tk.Canvas(width=600,height=150,bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
 
 conf_del.bind("<Button-1>",conf_del_b1)
 
