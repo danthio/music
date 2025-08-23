@@ -291,7 +291,7 @@ def change_theme(pcol):
 
                 #print(col,pixels[x_,y_])
 
-            root.after(1,update)
+            root.after(2,update)
 
 
         
@@ -789,7 +789,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(1,draw_wave)
+    root.after(2,draw_wave)
 
 
 
@@ -1075,11 +1075,11 @@ def convert_folder_to_audio():
 
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-                    root.after(1,update)
+                    root.after(2,update)
 
 
                 except:
-                    root.after(1,update)
+                    root.after(2,update)
                     
 
 
@@ -1183,11 +1183,11 @@ def convert_file_to_audio():
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
-                    root.after(1,update)
+                    root.after(2,update)
                     
 
                 except:
-                    root.after(1,update)
+                    root.after(2,update)
                     
 
 
@@ -1248,7 +1248,7 @@ def check_sound_device():
         )
         volume = interface.QueryInterface(IAudioEndpointVolume)
 
-    root.after(4,check_sound_device)
+    root.after(2,check_sound_device)
 
 
 music_details={}
@@ -1462,28 +1462,12 @@ def save():
     global st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,save_,shuffle_ar,shuffle_st,songs_status
     global _theme
     global filter_val,filter_pl
+    global f1_,f2_
 
 
-    con=0
-
-    if st==songs_status[0]:
-
-        if st==2:
-
-            if current_playlist==songs_status[1]:
-
-                f1,f2=filter_val,filter_pl
-                con=1
-        else:
-            f1,f2=filter_val,filter_pl
-            con=1
-
-    if con==0:
-
-        f1,f2="None",None
 
 
-    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,f1,f2]}
+    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,f1_,f2_]}
 
 
 
@@ -1742,7 +1726,7 @@ def timer():
         except:
             pass
 
-    root.after(1,timer)
+    root.after(2,timer)
 
 
 def can3_b1(e):
@@ -2122,6 +2106,8 @@ def can2_b1(e):
 
     global can4,can3,can6
     global npl_var,can_npl
+    global f1_,f2_
+    global filter_val,filter_pl,filter_st
 
     if (int(can2["width"])-sb_sz-1)<=e.x<=(int(can2["width"])):
 
@@ -2378,6 +2364,12 @@ def can2_b1(e):
 
 
                 if _pl[1]<=can2.canvasy(e.y)<=_pl[1]+50:
+
+
+
+
+                    filter_val,filter_pl="None",None
+
                     can2["scrollregion"]=(0,0,(int(can2["width"])-sb_sz-1),int(can2["height"]))
 
                     
@@ -2386,8 +2378,6 @@ def can2_b1(e):
 
                     shuffle_st=0
                     sort_val=sort_ar[0][0]
-
-
 
 
 
@@ -2700,12 +2690,16 @@ def can2_b1(e):
                         con=1
 
 
+                    
+
+
 
 
                 if con==0:
 
                     shuffle_st=0
                     sort_val=sort_ar[0][0]
+                    f1_,f2_="None",None
 
                 loop=0
 
@@ -2715,12 +2709,15 @@ def can2_b1(e):
 
 
 
-                main()
+
 
                 if not st==2:
                     current_playlist=""
 
                 
+                filter_st=0
+                filter_can1.place_forget()
+                filter_can2.place_forget()
 
                 
 
@@ -3041,59 +3038,6 @@ def can_b1(e):
     if xv-60<=e.x<=xv+60:
         if 50/2-15<=e.y<=50/2+15:
 
-            conf_del.place_forget()
-
-            filter_st=0
-            filter_val="None"
-            filter_pl=None
-            filter_can1.place_forget()
-            filter_can2.place_forget()
-
-
-            vid_st=0
-            vid_st2=0
-
-
-            lyric_st=0
-
-            select_st=0
-
-            play_video_st=0
-            
-
-            lst=1
-            _search=0
-            _npl=0
-
-            search_var=""
-
-            
-            can_search.place_forget()
-            sort_st=0
-            can_sort.place_forget()
-            sort_st=0
-
-            shuffle_st=0
-            shuff=0
-
-            sort_val=sort_ar[0][0]
-            main()
-
-            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
-            
-            lst=1
-            current_playlist=""
-
-            add_st=0
-            frame2.place_forget()
-
-            can2.focus_set()
-            
-            can_search.place_forget()
-            
-            _npl=0
-            can_npl.place_forget()
-
 
 
             if st==4:
@@ -3110,6 +3054,62 @@ def can_b1(e):
 
 
             st=0
+
+
+            conf_del.place_forget()
+
+            filter_st=0
+            filter_val="None"
+            filter_pl=None
+            filter_can1.place_forget()
+            filter_can2.place_forget()
+
+
+            vid_st=0
+            vid_st2=0
+
+
+            lyric_st=0
+
+            select_st=0
+
+            play_video_st=0
+            
+
+            lst=1
+            _search=0
+            _npl=0
+
+            search_var=""
+
+            
+            can_search.place_forget()
+            sort_st=0
+            can_sort.place_forget()
+            sort_st=0
+
+            shuffle_st=0
+            shuff=0
+
+            sort_val=sort_ar[0][0]
+
+            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
+            
+            lst=1
+            current_playlist=""
+
+            add_st=0
+            frame2.place_forget()
+
+            can2.focus_set()
+            
+            can_search.place_forget()
+            
+            _npl=0
+            can_npl.place_forget()
+
+
+
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
             main()
@@ -3121,6 +3121,22 @@ def can_b1(e):
 
     if xv*2-60<=e.x<=xv*2+60:
         if 50/2-15<=e.y<=50/2+15:
+
+
+            if st==4:
+
+                try:
+
+                    current_playing=songs_status[-1]
+                    current_playlist=songs_status[1]
+
+                    get_audio_duration("music/"+current_playing)
+                except:
+                    pass   
+
+
+            st=1
+
             conf_del.place_forget()
 
             filter_st=0
@@ -3158,7 +3174,6 @@ def can_b1(e):
             shuff=0
 
             sort_val=sort_ar[0][0]
-            main()
 
 
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
@@ -3177,19 +3192,7 @@ def can_b1(e):
             
 
 
-            if st==4:
 
-                try:
-
-                    current_playing=songs_status[-1]
-                    current_playlist=songs_status[1]
-
-                    get_audio_duration("music/"+current_playing)
-                except:
-                    pass   
-
-
-            st=1
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
             main()
@@ -3201,6 +3204,27 @@ def can_b1(e):
 
     if xv*3-60<=e.x<=xv*3+60:
         if 50/2-15<=e.y<=50/2+15:
+
+            if st==2:
+                pl_st=1
+
+            else:
+                pl_st=0
+
+
+            if st==4:
+
+                try:
+
+                    current_playing=songs_status[-1]
+                    
+                    get_audio_duration("music/"+current_playing)
+                except:
+                    pass   
+                
+
+            st=2
+
 
             search_var=""
             conf_del.place_forget()
@@ -3222,7 +3246,6 @@ def can_b1(e):
             
 
             lst=1
-            main()
 
             _search=0
             _npl=0
@@ -3235,8 +3258,6 @@ def can_b1(e):
 
 
 
-
-            main()
 
 
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
@@ -3260,28 +3281,8 @@ def can_b1(e):
 
 
 
-            main()
 
 
-            if st==2:
-                pl_st=1
-
-            else:
-                pl_st=0
-
-
-            if st==4:
-
-                try:
-
-                    current_playing=songs_status[-1]
-                    
-                    get_audio_duration("music/"+current_playing)
-                except:
-                    pass   
-                
-
-            st=2
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
             main()
 
@@ -3290,6 +3291,20 @@ def can_b1(e):
 
     if xv*4-60<=e.x<=xv*4+60:
         if 50/2-15<=e.y<=50/2+15:
+
+
+            if st==4:
+
+                try:
+
+                    current_playing=songs_status[-1]
+                    current_playlist=songs_status[1]
+
+                    get_audio_duration("music/"+current_playing)
+                except:
+                    pass   
+
+            st=3
 
             search_var=""
             conf_del.place_forget()
@@ -3329,7 +3344,6 @@ def can_b1(e):
             shuff=0
 
             sort_val=sort_ar[0][0]
-            main()
 
 
 
@@ -3347,18 +3361,7 @@ def can_b1(e):
             _npl=0
             can_npl.place_forget()
 
-            if st==4:
 
-                try:
-
-                    current_playing=songs_status[-1]
-                    current_playlist=songs_status[1]
-
-                    get_audio_duration("music/"+current_playing)
-                except:
-                    pass   
-
-            st=3
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
             main()
@@ -3371,6 +3374,8 @@ def can_b1(e):
 
     if xv*5-60<=e.x<=xv*5+60:
         if 50/2-15<=e.y<=50/2+15:
+
+            st=4
 
             search_var=""
 
@@ -3397,9 +3402,7 @@ def can_b1(e):
                 if current_playlist!="":
                     playlist_st=1
 
-            main()
 
-            move_to_playing(1)
 
 
             select_st=0
@@ -3419,13 +3422,11 @@ def can_b1(e):
             can_sort.place_forget()
             sort_st=0
 
-            main()
 
 
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 
-            st=4
-            main()
+
             can2.focus_set()
             add_st=0
             frame2.place_forget()
@@ -4634,6 +4635,10 @@ def can_b1(e):
                 lst=1
                 lyric_st=0
 
+                filter_st=0
+                filter_can1.place_forget()
+                filter_can2.place_forget()
+
                 
 
                 main()
@@ -4951,6 +4956,7 @@ def main():
     global no_music
     global can_npl,npl_var
     global settings_st2
+    global f1_,f2_
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     can["bg"]="#333333"
@@ -4972,6 +4978,10 @@ def main():
 
 
     else:
+
+
+
+
 
         if add_st==0 and sort_st==0:
 
@@ -5236,59 +5246,44 @@ def main():
                         scon=1
 
 
+                if scon==1:
+
+                    if filter_val=="None":
+                        pass
+
+                    elif filter_val=="Favourites":
 
 
+                        if music_details[song][0]==0:
+                            scon=0
+
+                    elif filter_val=="With Video":
+
+                        ar=os.listdir("videos")
 
 
+                        try:
 
-                """
-                if scon==0:
-                    
+                            v_=ar.index(song.replace(".mp3",".mp4"))
+                        except:
+                            scon=0
+                    elif filter_val=="Playlists":
 
+                        if not filter_pl==None:
 
-                    for p in playlist:
-
-                        if not scon==1:
-
-
-
-                            if sval.find(" ")!=-1:
-
-                                ss=[]
-
-                                s_ar=sval.split(" ")
-
-                                for sv in s_ar:
-
-                                    if p.lower().find(sv)!=-1:
-                                        ss.append(1)
-                                    else:
-                                        ss.append(0)
-
-                                scon=1
-
-                                for ss_ in ss:
-
-                                    if ss_==0:
-                                        scon=0
-                                        break
-
-                            else:
+                            
 
 
-                                if p.lower().find(sval)!=-1:
-                                    scon=1
+                            try:
 
-                            if scon==1:
+                                ar=playlist[filter_pl]
 
 
-                                try:
-                                    _s=playlist[p].index(song)
-                                    scon=1
+                                p=ar.index(song)
+                            except:
+                                scon=0
 
-                                except:
-                                    scon=0
-                """
+
 
 
 
@@ -5359,6 +5354,28 @@ def main():
 
 
         else:
+
+
+
+
+            if st==songs_status[0]:
+
+                if st==2:
+
+                    if current_playlist==songs_status[1]:
+
+                        filter_val=f1_
+                        filter_pl=f2_
+
+
+                       
+
+
+                else:
+
+                    filter_val=f1_
+                    filter_pl=f2_
+
 
 
             y=0
@@ -6326,6 +6343,7 @@ def main():
 
                     if _search==0:
 
+
                         _songs_=songs
 
                    
@@ -6335,7 +6353,6 @@ def main():
 
                 if _search==0:
                     _songs_=songs
-
 
 
         draw_can()
@@ -6414,7 +6431,7 @@ def vid_timer():
 
 
 
-    root.after(1,vid_timer)
+    root.after(2,vid_timer)
 
 
 vid_st=0
@@ -6425,6 +6442,8 @@ filter_st=0
 filter_pl=None
 
 bg_f2=0
+
+
 def draw_can(con=0):
 
     global can,st,w,h
@@ -6497,6 +6516,7 @@ def draw_can(con=0):
     global filter_pl
     global f2
     global bg_f2
+    global f1_,f2_
 
 
 
@@ -7403,6 +7423,27 @@ def draw_can(con=0):
             f2=filter_can2.create_rectangle(0,filter_can2.canvasy(0), int(filter_can2["width"])-1,
                 filter_can2.canvasy(int(filter_can2["height"])-1),outline=_theme[0])
 
+
+        if st==songs_status[0]:
+
+            if st==2:
+
+                if current_playlist==songs_status[1]:
+
+
+                    f1_=filter_val
+                    f2_=filter_pl
+
+
+                   
+
+
+            else:
+                f1_=filter_val
+                f2_=filter_pl
+
+
+
     draw_round_rec(can,0,0,w-1,h-1,25,col1,"",1)
 
 
@@ -7871,7 +7912,7 @@ def check_pl():
                 can_npl.place_forget()
 
 
-    root.after(4,check_pl)
+    root.after(2,check_pl)
 
 
 
@@ -7916,7 +7957,7 @@ def sync_lyrics():
                 can_lyrics.yview_moveto(fraction)
 
 
-    root.after(1,sync_lyrics)
+    root.after(2,sync_lyrics)
 
 ang=0
 def load_():
@@ -7947,7 +7988,7 @@ def load_():
 
 
 
-    root.after(4,load_)
+    root.after(2,load_)
 
 mot_val=0
 my_cursor=0
@@ -8148,7 +8189,7 @@ def draw_cur():
 
             cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
 
-        root.after(1,draw_cur)
+        root.after(2,draw_cur)
         return
 
 
@@ -8245,7 +8286,7 @@ def draw_cur():
     cur_conf_del=conf_del.create_image(xx,yy,image=cursor,anchor="nw")
 
 
-    root.after(1,draw_cur)
+    root.after(2,draw_cur)
 
 
 def check_cur_pos():
@@ -8304,7 +8345,7 @@ def check_cur_pos():
 
             if y_<0 or y_>int(can2["height"]):
 
-                root.after(4,check_cur_pos)
+                root.after(2,check_cur_pos)
                 return
 
             if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
@@ -8470,7 +8511,7 @@ def check_cur_pos():
 
             if y_<0 or y_>int(can2["height"]):
 
-                root.after(4,check_cur_pos)
+                root.after(2,check_cur_pos)
                 return
 
 
@@ -8500,7 +8541,7 @@ def check_cur_pos():
 
                 if y_<0 or y_>int(can2["height"]):
 
-                    root.after(4,check_cur_pos)
+                    root.after(2,check_cur_pos)
                     return
 
                 if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
@@ -8722,7 +8763,7 @@ def convert_(file,output,col):
 
             pixels[x,y]=(r,g,b,255)
 
-        root.after(1,update)
+        root.after(2,update)
 
     image.save(output)
 
@@ -8958,6 +8999,9 @@ try:
 except:
 
     pass
+
+f1_,f2_=filter_val,filter_pl
+
 lst=1
 if playlist_st==0 and current_playing!="":
     playlist_st=1
@@ -9109,7 +9153,7 @@ def adjust_theme():
 
     load_im()
 
-    root.after(1,update)
+    root.after(2,update)
     adj_st=1
 
 
@@ -9166,7 +9210,7 @@ def update_bg_pos():
     move_bg()
 
 
-    root.after(4,update_bg_pos)
+    root.after(2,update_bg_pos)
 
 
 
@@ -9733,7 +9777,7 @@ def update_sb():
 
 
 
-    root.after(4,update_sb)
+    root.after(2,update_sb)
 
 
 def draw_sb():
@@ -9866,7 +9910,7 @@ def update_sb2():
 
 
 
-    root.after(4,update_sb2)
+    root.after(2,update_sb2)
 
 
 def draw_sb2():
@@ -9961,7 +10005,7 @@ def search__():
 
 
 
-    root.after(4,search__)
+    root.after(2,search__)
 
 def est_sz(con):
     global w
@@ -10004,7 +10048,7 @@ def mvar_():
     except:
         pass
 
-    root.after(4,mvar_)
+    root.after(2,mvar_)
 
 
 
@@ -10128,7 +10172,7 @@ def check_up_theme():
             ang_=0
             con_theme=0
 
-    root.after(1,check_up_theme)
+    root.after(2,check_up_theme)
 theme_attr=[0,0]
 can_sel_op_rec=0
 
@@ -10205,7 +10249,7 @@ def check_theme_attr():
 
 
 
-    root.after(1,check_theme_attr)
+    root.after(2,check_theme_attr)
 
 
 
@@ -11632,7 +11676,7 @@ def can_search_insert():
 
         cs_i_st=1
 
-    root.after(150,can_search_insert)
+    root.after(250,can_search_insert)
 
 def can_search_b1(e):
     global can_search
@@ -11734,7 +11778,7 @@ def can_npl_insert():
 
         cnpl_i_st=1
 
-    root.after(150,can_npl_insert)
+    root.after(250,can_npl_insert)
 
 def can_npl_b1(e):
     global can_npl
@@ -11868,7 +11912,7 @@ def can_theme_ent_insert():
     else:
         can_theme_ent.delete(cte_i)
 
-    root.after(150,can_theme_ent_insert)
+    root.after(250,can_theme_ent_insert)
 
 def can_theme_ent_b1(e):
     global can_theme_ent
@@ -11992,7 +12036,7 @@ def can_sel_op_insert():
         can_sel_op.delete(cop_i)
 
 
-    root.after(150,can_sel_op_insert)
+    root.after(250,can_sel_op_insert)
 
 def can_sel_op_b1(e):
     global can_sel_op
@@ -12126,4 +12170,3 @@ vid_timer()
 check_theme_attr()
 
 root.mainloop()
-
