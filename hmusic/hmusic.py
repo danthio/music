@@ -291,7 +291,7 @@ def change_theme(pcol):
 
                 #print(col,pixels[x_,y_])
 
-            root.after(2,update)
+            root.after(1,update)
 
 
         
@@ -789,7 +789,7 @@ def draw_wave():
             except:
                 pass
 
-    root.after(2,draw_wave)
+    root.after(1,draw_wave)
 
 
 
@@ -1075,11 +1075,11 @@ def convert_folder_to_audio():
 
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-                    root.after(2,update)
+                    root.after(1,update)
 
 
                 except:
-                    root.after(2,update)
+                    root.after(1,update)
                     
 
 
@@ -1183,11 +1183,11 @@ def convert_file_to_audio():
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
-                    root.after(2,update)
+                    root.after(1,update)
                     
 
                 except:
-                    root.after(2,update)
+                    root.after(1,update)
                     
 
 
@@ -1248,7 +1248,7 @@ def check_sound_device():
         )
         volume = interface.QueryInterface(IAudioEndpointVolume)
 
-    root.after(2,check_sound_device)
+    root.after(1,check_sound_device)
 
 
 music_details={}
@@ -1726,7 +1726,7 @@ def timer():
         except:
             pass
 
-    root.after(2,timer)
+    root.after(1,timer)
 
 
 def can3_b1(e):
@@ -6431,7 +6431,7 @@ def vid_timer():
 
 
 
-    root.after(2,vid_timer)
+    root.after(1,vid_timer)
 
 
 vid_st=0
@@ -7912,7 +7912,7 @@ def check_pl():
                 can_npl.place_forget()
 
 
-    root.after(2,check_pl)
+    root.after(1,check_pl)
 
 
 
@@ -7957,7 +7957,7 @@ def sync_lyrics():
                 can_lyrics.yview_moveto(fraction)
 
 
-    root.after(2,sync_lyrics)
+    root.after(1,sync_lyrics)
 
 ang=0
 def load_():
@@ -7988,7 +7988,7 @@ def load_():
 
 
 
-    root.after(2,load_)
+    root.after(1,load_)
 
 mot_val=0
 my_cursor=0
@@ -8189,7 +8189,7 @@ def draw_cur():
 
             cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
 
-        root.after(2,draw_cur)
+        root.after(1,draw_cur)
         return
 
 
@@ -8286,7 +8286,7 @@ def draw_cur():
     cur_conf_del=conf_del.create_image(xx,yy,image=cursor,anchor="nw")
 
 
-    root.after(2,draw_cur)
+    root.after(1,draw_cur)
 
 
 def check_cur_pos():
@@ -8345,7 +8345,7 @@ def check_cur_pos():
 
             if y_<0 or y_>int(can2["height"]):
 
-                root.after(2,check_cur_pos)
+                root.after(1,check_cur_pos)
                 return
 
             if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
@@ -8511,7 +8511,7 @@ def check_cur_pos():
 
             if y_<0 or y_>int(can2["height"]):
 
-                root.after(2,check_cur_pos)
+                root.after(1,check_cur_pos)
                 return
 
 
@@ -8541,7 +8541,7 @@ def check_cur_pos():
 
                 if y_<0 or y_>int(can2["height"]):
 
-                    root.after(2,check_cur_pos)
+                    root.after(1,check_cur_pos)
                     return
 
                 if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
@@ -8763,7 +8763,7 @@ def convert_(file,output,col):
 
             pixels[x,y]=(r,g,b,255)
 
-        root.after(2,update)
+        root.after(1,update)
 
     image.save(output)
 
@@ -9153,7 +9153,7 @@ def adjust_theme():
 
     load_im()
 
-    root.after(2,update)
+    root.after(1,update)
     adj_st=1
 
 
@@ -9210,7 +9210,7 @@ def update_bg_pos():
     move_bg()
 
 
-    root.after(2,update_bg_pos)
+    root.after(1,update_bg_pos)
 
 
 
@@ -9777,7 +9777,7 @@ def update_sb():
 
 
 
-    root.after(2,update_sb)
+    root.after(1,update_sb)
 
 
 def draw_sb():
@@ -9910,7 +9910,7 @@ def update_sb2():
 
 
 
-    root.after(2,update_sb2)
+    root.after(1,update_sb2)
 
 
 def draw_sb2():
@@ -10005,7 +10005,7 @@ def search__():
 
 
 
-    root.after(2,search__)
+    root.after(1,search__)
 
 def est_sz(con):
     global w
@@ -10048,7 +10048,7 @@ def mvar_():
     except:
         pass
 
-    root.after(2,mvar_)
+    root.after(1,mvar_)
 
 
 
@@ -10172,7 +10172,7 @@ def check_up_theme():
             ang_=0
             con_theme=0
 
-    root.after(2,check_up_theme)
+    root.after(1,check_up_theme)
 theme_attr=[0,0]
 can_sel_op_rec=0
 
@@ -10249,7 +10249,7 @@ def check_theme_attr():
 
 
 
-    root.after(2,check_theme_attr)
+    root.after(1,check_theme_attr)
 
 
 
@@ -11676,7 +11676,7 @@ def can_search_insert():
 
         cs_i_st=1
 
-    root.after(250,can_search_insert)
+    root.after(150,can_search_insert)
 
 def can_search_b1(e):
     global can_search
@@ -11778,7 +11778,7 @@ def can_npl_insert():
 
         cnpl_i_st=1
 
-    root.after(250,can_npl_insert)
+    root.after(150,can_npl_insert)
 
 def can_npl_b1(e):
     global can_npl
@@ -11912,7 +11912,7 @@ def can_theme_ent_insert():
     else:
         can_theme_ent.delete(cte_i)
 
-    root.after(250,can_theme_ent_insert)
+    root.after(150,can_theme_ent_insert)
 
 def can_theme_ent_b1(e):
     global can_theme_ent
@@ -12036,7 +12036,7 @@ def can_sel_op_insert():
         can_sel_op.delete(cop_i)
 
 
-    root.after(250,can_sel_op_insert)
+    root.after(150,can_sel_op_insert)
 
 def can_sel_op_b1(e):
     global can_sel_op
