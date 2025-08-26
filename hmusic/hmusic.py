@@ -300,8 +300,7 @@ def change_theme(pcol):
 
 
         if i=="icon.png":
-            pass
-
+            image_.save("data/"+i.split(".png")[0]+".ico")
         else:
             image_.save("data/"+i, "PNG", quality=10000)
 
@@ -2995,6 +2994,10 @@ def can_b1(e):
             settings_st2=1
             can_settings["width"]=int(can_settings["height"])*1.5
 
+            _search=0
+            search_var=""
+            can_search.place_forget()
+
             draw_settings()
 
 
@@ -3102,9 +3105,7 @@ def can_b1(e):
             frame2.place_forget()
 
             can2.focus_set()
-            
-            can_search.place_forget()
-            
+                        
             _npl=0
             can_npl.place_forget()
 
@@ -3185,7 +3186,6 @@ def can_b1(e):
             add_st=0
             frame2.place_forget()
             
-            can_search.place_forget()
             
             _npl=0
             can_npl.place_forget()
@@ -3268,7 +3268,6 @@ def can_b1(e):
             add_st=0
             frame2.place_forget()
             
-            can_search.place_forget()
             
             _npl=0
             can_npl.place_forget()
@@ -3356,7 +3355,6 @@ def can_b1(e):
             add_st=0
             frame2.place_forget()
             
-            can_search.place_forget()
             
             _npl=0
             can_npl.place_forget()
@@ -3375,7 +3373,7 @@ def can_b1(e):
     if xv*5-60<=e.x<=xv*5+60:
         if 50/2-15<=e.y<=50/2+15:
 
-            st=4
+            
 
             search_var=""
 
@@ -3431,13 +3429,13 @@ def can_b1(e):
             add_st=0
             frame2.place_forget()
             
-            can_search.place_forget()
             
             _npl=0
             can_npl.place_forget()
 
 
 
+            st=4
 
             main()
 
@@ -3757,6 +3755,7 @@ def can_b1(e):
                         lst=0
                         _search=0
                         _npl=0
+                        search_var=""
 
                         
                         can_search.place_forget()
@@ -4173,6 +4172,8 @@ def can_b1(e):
                         _npl=0
 
                         lyric_st=0
+
+                        search_var=""
 
                         
                         can_search.place_forget()
@@ -4972,6 +4973,8 @@ def main():
         can.create_image(10,10, image=musical_note2, anchor="nw")
 
         frame.place_forget()
+        search_var=""
+        _search=0
         can_search.place_forget()
         
         play_video_st=0
@@ -6311,6 +6314,8 @@ def main():
                     _search=0
                     _npl=0
 
+                    search_var=""
+
                     
                     can_search.place_forget()
 
@@ -6533,6 +6538,9 @@ def draw_can(con=0):
         can.create_image(10,10, image=musical_note2, anchor="nw")
 
         frame.place_forget()
+
+        search_var=""
+        _search=0
         can_search.place_forget()
 
         return
@@ -9491,7 +9499,7 @@ def play_previous(e):
 
 
 def __list(e):
-    global lst,lyric_st,can_lyrics,can2,st,playlist_st,_search,frame
+    global lst,lyric_st,can_lyrics,can2,st,playlist_st,_search,search_var,frame
     global songs_status,current_playlist
     global frame2
     global vid_st,vid_st2
@@ -9518,6 +9526,8 @@ def __list(e):
                 lst=0
                 _search=0
                 _npl=0
+
+                search_var=""
 
                 
                 can_search.place_forget()
