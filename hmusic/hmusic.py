@@ -6777,7 +6777,7 @@ def draw_can(con=0):
         c.create_polygon(ar,fill=col,outline=col)
 
 
-    #draw_round_rec2(can,0,0,w-1,h-1,25,"#333333")
+    draw_round_rec2(can,0,0,w-1,h-1,25,"#000000")
 
 
 
@@ -10503,10 +10503,12 @@ def can_settings_b1(e):
 
             settings_st=1
 
+            no_bg_st=0
+
             draw_settings(1)
 
 
-            no_bg_st=0
+            
 
         except:
             pass
