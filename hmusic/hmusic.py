@@ -1297,6 +1297,14 @@ def update_details(s="",con=-1,_lyric_=""):
         for v in ar:
             data.pop(v)
 
+            ar=os.listdir("videos")
+
+            try:
+                v_=ar.index(v.replace(".mp3",".mp4"))
+                os.remove("videos/"+v.replace(".mp3",".mp4"))
+            except:
+                pass
+
         for song in all_songs:
             
             try:
@@ -1870,8 +1878,8 @@ def add_playlist():
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
 
-    can4.create_image(-((w-550)/2),-((h-(40+250-40+10))/2),image=bg2_,anchor="nw")
-    can6.create_image(-((w-550)/2),-((h-(40+250-40+10))/2+40+250),image=bg2_,anchor="nw")
+    can4.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2),image=bg2_,anchor="nw")
+    can6.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40+250+10),image=bg2_,anchor="nw")
 
     can4.create_text(550/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
     can4.create_line(2,38,550-2,38,fill=col1)
@@ -1888,7 +1896,7 @@ def add_playlist():
 
     can3.delete("all")
 
-    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+10))/2+40)+can3.canvasy(0),image=bg2_,anchor="nw")
+    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0),image=bg2_,anchor="nw")
 
     ar=[]
 
