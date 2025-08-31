@@ -4648,6 +4648,9 @@ def can_b1(e):
                 filter_can1.place_forget()
                 filter_can2.place_forget()
 
+                vid_st=0
+                vid_st2=0
+
                 
 
                 main()
@@ -4891,6 +4894,9 @@ _bg4_=0
 
 bg2=0
 cp_im=0
+
+cp_im2=0
+cp_im3=0
 def main():
 
     global can,st,w,h,wd,ht
@@ -4954,7 +4960,7 @@ def main():
     global bg2,bg
     global sb_sz
     global images
-    global cp_im
+    global cp_im,cp_im2,cp_im3
 
     global cur_can,circle7,circle11
 
@@ -4966,6 +4972,8 @@ def main():
     global can_npl,npl_var
     global settings_st2
     global f1_,f2_
+
+
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     can["bg"]="#333333"
@@ -5175,7 +5183,174 @@ def main():
 
         cp_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can2)
 
+
+        r=10
+
+        ar=[]
+
+        a_=270
+
+        cx,cy=((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50+r*2,r
+        for a in range(90):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+            ar.append(x)
+            ar.append(y)
+
+            a_-=1
+
+
+        r=10
+        a_=180
+
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,r
+        for a in range(90):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+            ar.append(x)
+            ar.append(y)
+
+            a_-=1
+
+
+        r=10
+        a_=90
+
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,50-r
+        for a in range(90):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+            ar.append(x)
+            ar.append(y)
+
+            a_-=1
+
+
+
+        r=10
+        a_=0
+
+        cx,cy=((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50,50-r
+        for a in range(90):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+            ar.append(x)
+            ar.append(y)
+
+            a_+=1
+
+
+
+
+        cp_im2=create_polygon(*ar, fill="#000000", alpha=0.7,can=can2)
+
+
+
+
+
+        r=10
+
+        ar=[]
+
+        a_=270
+
+        cx,cy=((int(can2["width"])-sb_sz-1)-25*2-15*2-10)-10+r*2,r
+        for a in range(90):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+            ar.append(x)
+            ar.append(y)
+
+            a_-=1
+
+
+        r=10
+        a_=180
+
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,r
+        for a in range(90):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+            ar.append(x)
+            ar.append(y)
+
+            a_-=1
+
+
+        r=10
+        a_=90
+
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,50-r
+        for a in range(90):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+            ar.append(x)
+            ar.append(y)
+
+            a_-=1
+
+
+
+        r=10
+        a_=0
+
+        cx,cy=((int(can2["width"])-sb_sz-1)-25*2-15*2-10)-10,50-r
+        for a in range(90):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+            ar.append(x)
+            ar.append(y)
+
+            a_+=1
+
+
+
+
+        cp_im3=create_polygon(*ar, fill="#000000", alpha=0.7,can=can2)
+
         can2.coords(cp_im,0,-100)
+        can2.coords(cp_im2,0,-100)
+        can2.coords(cp_im3,0,-100)        
 
 
 
@@ -7008,7 +7183,7 @@ def draw_can(con=0):
 
 
             
-        draw_round_rec(can,0,0,w-1,h-1,25,col1,"",1)
+        draw_round_rec(can,0,0,w-1,h-1,25,_theme[0],"",1)
 
 
 
@@ -7118,7 +7293,7 @@ def draw_can(con=0):
 
 
 
-        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=col2,width=2)
+        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][1],width=2)
 
         
         if st==2 and playlist_st==0 and current_playing=="":
@@ -7235,7 +7410,7 @@ def draw_can(con=0):
 
 
 
-        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=col2,width=2)
+        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][1],width=2)
 
 
         can.create_image(w-10-120-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
@@ -7460,7 +7635,7 @@ def draw_can(con=0):
 
 
 
-    draw_round_rec(can,0,0,w-1,h-1,25,col1,"",1)
+    draw_round_rec(can,0,0,w-1,h-1,25,_theme[0],"",1)
 
 
 
@@ -8312,7 +8487,7 @@ def check_cur_pos():
     global cr_pos
     global ht,h
     global st,playlist_st
-    global cp_im
+    global cp_im,cp_im2,cp_im3
     global current_playlist
     global lst
     global songs2
@@ -8347,7 +8522,8 @@ def check_cur_pos():
         can2.coords(cp_im,0,-100)
         can3.coords(cp2_im,0,-100)
         can_sort.coords(csv_im,0,-100)
-
+        can2.coords(cp_im2,0,-100)
+        can2.coords(cp_im3,0,-100) 
 
 
 
@@ -8417,6 +8593,7 @@ def check_cur_pos():
                         y=p[1]
 
                         can2.coords(cp_im,0,y)
+                        can2.coords(cp_im3,0,y)
                         if current_playlist==p[0]:
 
                             attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add2,anchor="nw")
@@ -8569,6 +8746,7 @@ def check_cur_pos():
                             y=song[1]
 
                             can2.coords(cp_im,0,y)
+                            can2.coords(cp_im2,0,y)
 
                             if song[0]==current_playing:
                                 _del_=delete2_
@@ -9221,7 +9399,7 @@ def move_bg():
 
             y3=can3.canvasy(0)
 
-            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+10))/2+40)+can3.canvasy(0))
+            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0))
 
 def update_bg_pos():
 
@@ -9267,7 +9445,7 @@ def _on_mousewheel(e):
             can3.yview_scroll(int(-1*(e.delta/120)), "units")
             sb2_h=can3.canvasy(0)*int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])
 
-            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+10))/2+40)+can3.canvasy(0))
+            can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0))
             draw_sb2()
 
     if lyric_st==1:
@@ -10250,17 +10428,18 @@ def check_theme_attr():
 
             try:
 
-                try:
-
-                    bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(sel_col),anchor="nw")
-        
-                except:
-                    pass
-                bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
-
-
+                bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(sel_col),anchor="nw")
+    
             except:
                 pass
+
+
+            try:
+
+                bg_region=can_settings.create_line(bg_region_[1],fill=te_var)
+            except:
+                bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
+
 
 
 
@@ -10606,7 +10785,11 @@ def can_settings_b1(e):
 
                 settings_st=0
 
-                bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
+                try:
+
+                    bg_region=can_settings.create_line(bg_region_[1],fill=te_var)
+                except:
+                    bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
 
 
             can_settings.delete(cr)
@@ -10667,6 +10850,7 @@ def can_settings_b1(e):
                     im.save("data/bg2_.png")
 
                     _crop_=[]
+
 
 
                     draw_settings(1)
@@ -10773,14 +10957,24 @@ def draw_settings(con=0):
     if con==0:
 
         no_bg_st=_theme[-2]
+        col_=_theme[0]
+    else:
+
+
+        try:
+            can_settings.create_line(-1,-1,-1,-1,fill=te_var)
+            col_=te_var
+        except:
+            col_=_theme[0]
 
 
 
     if con_theme==1:
-        col_=sel_col
-    else:
-
-        col_=_theme[0]
+        try:
+            can_settings.create_line(-1,-1,-1,-1,fill=sel_col)
+            col_=sel_col
+        except:
+            col_=_theme[0] 
 
 
     
@@ -11115,7 +11309,11 @@ def draw_settings(con=0):
     except:
         pass
 
-    bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
+    try:
+
+        bg_region=can_settings.create_line(bg_region_[1],fill=te_var)
+    except:
+        bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
 
     settings_st2=1
 
@@ -11130,6 +11328,7 @@ def can_settings_m(e):
     global settings_st
 
     global no_bg_st
+    global te_var
 
     can_settings.delete(del_theme)
 
@@ -11160,13 +11359,19 @@ def can_settings_m(e):
 
                 if len(_crop_)==2:
 
-                    cr2=can_settings.create_rectangle(*_crop_,e.x,e.y,outline=_theme[0])
+                    try:
+
+                        cr2=can_settings.create_rectangle(*_crop_,e.x,e.y,outline=te_var)
+
+                    except:
+                        cr2=can_settings.create_rectangle(*_crop_,e.x,e.y,outline=_theme[0])
 
 bg_xy=[]
 def can_settings_drag(e):
     global can_settings
     global bg_region,bg_region_,bg_region2_
     global bg_xy
+    global te_var
 
 
 
@@ -11215,7 +11420,11 @@ def can_settings_drag(e):
                 can_settings.delete(bg_region)
                 can_settings.delete(bg_region2_)
 
-                bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
+                try:
+
+                    bg_region=can_settings.create_line(bg_region_[1],fill=te_var)
+                except:
+                    bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
 
 
 
@@ -11237,8 +11446,12 @@ def can_settings_drag(e):
                     can_settings.delete(bg_region)
                     can_settings.delete(bg_region2_)
 
-                    bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
-            
+                    try:
+
+                        bg_region=can_settings.create_line(bg_region_[1],fill=te_var)
+                    except:
+                        bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
+
 
 def on_release_s(e):
 
@@ -11264,8 +11477,11 @@ def on_release_s(e):
                 except:
                     pass
 
-                bg_region=can_settings.create_line(bg_region_[1], fill=_theme[0])
+                try:
 
+                    bg_region=can_settings.create_line(bg_region_[1],fill=te_var)
+                except:
+                    bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
 
 
 settings_st=0
