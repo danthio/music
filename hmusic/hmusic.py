@@ -1733,7 +1733,7 @@ def timer():
         except:
             pass
 
-    root.after(2,timer)
+    root.after(1,timer)
 
 
 def can3_b1(e):
@@ -5038,10 +5038,10 @@ def main():
 
 
 
-        frame["width"]=w-20
+        frame["width"]=w-12
         frame["height"]=((h-121)-80-10)
 
-        can2["width"]=w-20
+        can2["width"]=w-12
         can2["height"]=((h-121)-80-10)
 
 
