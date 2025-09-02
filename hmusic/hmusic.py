@@ -180,7 +180,7 @@ def play_vid():
             pass
 
 
-    root.after(10,play_vid)
+    root.after(8,play_vid)
 
 def configure_theme(pcol):
     global _theme
@@ -1663,11 +1663,15 @@ def timer():
 
 
 
-            prog()
+            
 
             tm=get_playback_time()+tts
 
-            if tm+0.5>=tot_tm_:
+
+
+            
+
+            if tm+0.5>=tot_tm_ or get_playback_time()<0:
 
 
                 st_=st
@@ -1732,6 +1736,8 @@ def timer():
                 move_to_playing()
         except:
             pass
+
+        prog()
 
     root.after(1,timer)
 
@@ -2346,6 +2352,8 @@ def can2_b1(e):
 
                 can_search.place_forget()
 
+                filter_val,filter_pl=None,None
+
                 main()
 
                 return
@@ -2375,7 +2383,7 @@ def can2_b1(e):
 
 
 
-                    filter_val,filter_pl="None",None
+                    filter_val,filter_pl=None,None
 
                     can2["scrollregion"]=(0,0,(int(can2["width"])-sb_sz-1),int(can2["height"]))
 
@@ -2706,7 +2714,7 @@ def can2_b1(e):
 
                     shuffle_st=0
                     sort_val=sort_ar[0][0]
-                    f1_,f2_="None",None
+                    f1_,f2_=None,None
 
                 loop=0
 
@@ -2990,6 +2998,11 @@ def can_b1(e):
                 can_npl.place_forget()
 
 
+                filter_st=0
+                filter_can1.place_forget()
+                filter_can2.place_forget()
+
+
                 main()
                 return
 
@@ -3007,6 +3020,8 @@ def can_b1(e):
             can_search.place_forget()
 
             draw_settings()
+
+            return
 
 
 
@@ -3070,7 +3085,7 @@ def can_b1(e):
             conf_del.place_forget()
 
             filter_st=0
-            filter_val="None"
+            filter_val=None
             filter_pl=None
             filter_can1.place_forget()
             filter_can2.place_forget()
@@ -3149,7 +3164,7 @@ def can_b1(e):
             conf_del.place_forget()
 
             filter_st=0
-            filter_val="None"
+            filter_val=None
             filter_pl=None
             filter_can1.place_forget()
             filter_can2.place_forget()
@@ -3238,7 +3253,7 @@ def can_b1(e):
             conf_del.place_forget()
 
             filter_st=0
-            filter_val="None"
+            filter_val=None
             filter_pl=None
             filter_can1.place_forget()
             filter_can2.place_forget()
@@ -3318,7 +3333,7 @@ def can_b1(e):
 
 
             filter_st=0
-            filter_val="None"
+            filter_val=None
             filter_pl=None
             filter_can1.place_forget()
             filter_can2.place_forget()
@@ -3389,7 +3404,7 @@ def can_b1(e):
 
 
             filter_st=0
-            filter_val="None"
+            filter_val=None
             filter_pl=None
 
             filter_can1.place_forget()
@@ -4679,7 +4694,7 @@ def can_b1(e):
                     filter_can2["scrollregion"]=(0,0,int(filter_can2["width"]),int(filter_can2["height"]))
 
                     if filter_val=="Playlists" and filter_pl==None:
-                        filter_val="None"
+                        filter_val=None
 
 
                     draw_can()
@@ -4694,7 +4709,7 @@ def can_b1(e):
 
 
         
-filter_val="None"
+filter_val=None
 
 vol1,vol2,vol3,vol4=0,0,0,0
 def check_volume():
@@ -4973,6 +4988,8 @@ def main():
     global settings_st2
     global f1_,f2_
 
+    global can_settings,frame2,can_sort,conf_del,can_npl,can_theme_ent,can_sel_op
+
 
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
@@ -4992,9 +5009,18 @@ def main():
         search_var=""
         _search=0
         can_search.place_forget()
-        
-        play_video_st=0
 
+        npl_var=""
+        _npl=0
+        can_npl.place_forget()
+        
+        can_settings.place_forget()
+        frame2.place_forget()
+        can_sort.place_forget()
+        conf_del.place_forget()
+
+        can_theme_ent.place_forget()
+        can_sel_op.place_forget()
 
     else:
 
@@ -5190,7 +5216,7 @@ def main():
 
         a_=270
 
-        cx,cy=((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50+r*2,r
+        cx,cy=(int(can2["width"])-sb_sz-2-25*4-15*3-10-30)+r*2,r+2
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5208,7 +5234,7 @@ def main():
         r=10
         a_=180
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-2,r+2
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5226,7 +5252,7 @@ def main():
         r=10
         a_=90
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,50-r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-2,50-r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5245,7 +5271,7 @@ def main():
         r=10
         a_=0
 
-        cx,cy=((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50,50-r
+        cx,cy=(int(can2["width"])-sb_sz-2-25*4-15*3-10-30),50-r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5274,7 +5300,7 @@ def main():
 
         a_=270
 
-        cx,cy=((int(can2["width"])-sb_sz-1)-25*2-15*2-10)-10+r*2,r
+        cx,cy=(int(can2["width"])-30-15-25*2-10-sb_sz-2)+r*2,r+2
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5292,7 +5318,7 @@ def main():
         r=10
         a_=180
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-2,r+2
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5310,7 +5336,7 @@ def main():
         r=10
         a_=90
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,50-r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-2,50-r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5329,7 +5355,7 @@ def main():
         r=10
         a_=0
 
-        cx,cy=((int(can2["width"])-sb_sz-1)-25*2-15*2-10)-10,50-r
+        cx,cy=(int(can2["width"])-30-15-25*2-10-sb_sz-2),50-r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5434,7 +5460,7 @@ def main():
 
                 if scon==1:
 
-                    if filter_val=="None":
+                    if filter_val==None:
                         pass
 
                     elif filter_val=="Favourites":
@@ -5486,10 +5512,10 @@ def main():
 
 
 
-                    if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-20-20-20)-50:
+                    if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-10-20-10-sb_sz-50):
 
                         l=get_text_length(can2, "...", "FreeMono", 13)
-                        txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-20-20-20)-50-l)+"..."
+                        txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-10-20-10-sb_sz-2-50)-l)+"..."
 
                     else:
                         txt=song[:-4]
@@ -5503,7 +5529,7 @@ def main():
 
 
 
-                        can2.create_image(int(can2["width"])-20-20,y+15,image=checked,anchor="nw")
+                        can2.create_image(int(can2["width"])-20-10-sb_sz-2,y+15,image=checked,anchor="nw")
 
                     except:
                         pass
@@ -5743,12 +5769,12 @@ def main():
 
 
 
-                    ["None","Favourites","Playlists","With Video"]
+                    [None,"Favourites","Playlists","With Video"]
 
 
                     if scon==1:
 
-                        if filter_val=="None":
+                        if filter_val==None:
                             pass
 
                         elif filter_val=="Favourites":
@@ -5817,10 +5843,10 @@ def main():
                             col=_theme[0]
 
 
-                        if get_text_length(can2, song[:-4], "FreeMono", 13)>((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50:
+                        if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
                             l=get_text_length(can2, "...", "FreeMono", 13)
-                            txt=_text_(can2,song[:-4],"FreeMono",13,((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50-l)+"..."
+                            txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
                         else:
                             txt=song[:-4]
@@ -5910,7 +5936,7 @@ def main():
 
                     if scon==1:
 
-                        if filter_val=="None":
+                        if filter_val==None:
                             pass
 
                         elif filter_val=="Favourites":
@@ -5968,10 +5994,10 @@ def main():
 
 
 
-                            if get_text_length(can2, song[:-4], "FreeMono", 13)>((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50:
+                            if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
                                 l=get_text_length(can2, "...", "FreeMono", 13)
-                                txt=_text_(can2,song[:-4],"FreeMono",13,((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50-l)+"..."
+                                txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
                             else:
                                 txt=song[:-4]
@@ -6160,10 +6186,10 @@ def main():
 
 
 
-                            if get_text_length(can2, pl, "FreeMono", 13)>((int(can2["width"])-sb_sz-1)-25*2-15*2-10)-50:
+                            if get_text_length(can2, pl, "FreeMono", 13)>(int(can2["width"])-50-30-15-25*2-10-sb_sz-2):
 
                                 l=get_text_length(can2, "...", "FreeMono", 13)
-                                txt=_text_(can2,pl,"FreeMono",13,((int(can2["width"])-sb_sz-1)-25*2-15*2-10)-50-l)+"..."
+                                txt=_text_(can2,pl,"FreeMono",13,(int(can2["width"])-50-30-15-25*2-10-sb_sz-2)-l)+"..."
 
                             else:
                                 txt=pl
@@ -6243,7 +6269,7 @@ def main():
 
                         if scon==1:
 
-                            if filter_val=="None":
+                            if filter_val==None:
                                 pass
 
                             elif filter_val=="Favourites":
@@ -6307,10 +6333,10 @@ def main():
 
 
 
-                                if get_text_length(can2, song[:-4], "FreeMono", 13)>((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50:
+                                if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
                                     l=get_text_length(can2, "...", "FreeMono", 13)
-                                    txt=_text_(can2,song[:-4],"FreeMono",13,((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50-l)+"..."
+                                    txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
                                 else:
                                     txt=song[:-4]
@@ -6373,7 +6399,7 @@ def main():
 
                     if scon==1:
 
-                        if filter_val=="None":
+                        if filter_val==None:
                             pass
 
                         elif filter_val=="Favourites":
@@ -6443,10 +6469,10 @@ def main():
 
 
 
-                    if get_text_length(can2, song[0][:-4], "FreeMono", 13)>((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50:
+                    if get_text_length(can2, song[0][:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
                         l=get_text_length(can2, "...", "FreeMono", 13)
-                        txt=_text_(can2,song[0][:-4],"FreeMono",13,((int(can2["width"])-sb_sz-1)-25*3-15*3-10)-50-l)+"..."
+                        txt=_text_(can2,song[0][:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
                     else:
                         txt=song[0][:-4]
@@ -6659,7 +6685,7 @@ def draw_can(con=0):
     global tm,mvar
     global loop,loop1,loop2
     global wallpaper,wallpaper2
-    global _search,_npl,npl
+    global _search,_npl,npl_var
     global circle2,circle3,circle4,circle5,circle6,circle7,circle8,circle9,circle5
 
     global expand,expand2,expand_st
@@ -6705,7 +6731,7 @@ def draw_can(con=0):
     global f2
     global bg_f2
     global f1_,f2_
-
+    global can_settings,frame2,can_sort,conf_del,can_npl,can_theme_ent,can_sel_op
 
 
     if root_st==1:
@@ -6725,6 +6751,20 @@ def draw_can(con=0):
         search_var=""
         _search=0
         can_search.place_forget()
+
+
+
+        npl_var=""
+        _npl=0
+        can_npl.place_forget()
+        
+        can_settings.place_forget()
+        frame2.place_forget()
+        can_sort.place_forget()
+        conf_del.place_forget()
+
+        can_theme_ent.place_forget()
+        can_sel_op.place_forget()
 
         return
 
@@ -7534,23 +7574,27 @@ def draw_can(con=0):
 
         filter_can2.place_forget()
 
-        ar=[(0,"None"),(favourite2,"Favourites"),(playlist2,"Playlists"),(vid1,"With Video")]
+        ar=[(0,None),(favourite2,"Favourites"),(playlist2,"Playlists"),(vid1,"With Video")]
 
         y=10
 
         for a in ar:
 
 
-            filter_can1.create_text(5+25+15,y+15,text=a[1],font=("FreeMono",13),fill=_theme[0],anchor="w")
+            if a[1]==None:
+                filter_can1.create_text(5+25+15,y+15,text="None",font=("FreeMono",13),fill=_theme[0],anchor="w")
+
+            else:
+
+                filter_can1.create_text(5+25+15,y+15,text=a[1],font=("FreeMono",13),fill=_theme[0],anchor="w")
 
             if not a[0]==0:
 
                 filter_can1.create_image(5,y+2.5,image=a[0],anchor="nw")
 
+
             if filter_val==a[1]:
-
                 filter_can1.create_image(int(filter_can1["width"])-10-20,y+5,image=checked,anchor="nw")
-
 
 
 
@@ -7584,6 +7628,7 @@ def draw_can(con=0):
             bg_f2=filter_can2.create_image(-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
                 -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0),image=bg2_,anchor="nw")
 
+            pp=0
 
             y=0
             for p in playlist:
@@ -7593,6 +7638,7 @@ def draw_can(con=0):
                 filter_can2.create_text(10,y+15,text=p,font=("FreeMono",13),fill=_theme[0],anchor="w")
 
                 if filter_pl==p:
+                    pp=y
                     filter_can2.create_image(int(filter_can2["width"])-5-20,y+5,image=checked,anchor="nw")
 
                 y+=30
@@ -7614,24 +7660,36 @@ def draw_can(con=0):
             f2=filter_can2.create_rectangle(0,filter_can2.canvasy(0), int(filter_can2["width"])-1,
                 filter_can2.canvasy(int(filter_can2["height"])-1),outline=_theme[0])
 
+            f2h=int(filter_can2["scrollregion"].split(" ")[-1])
 
-        if st==songs_status[0]:
+            if pp+int(filter_can2["height"])/2-15<f2h:
+                fraction=pp-(int(filter_can2["height"])/2-15)
+            else:
+                fraction=pp
 
-            if st==2:
-
-                if current_playlist==songs_status[1]:
+            filter_can2.yview_moveto(fraction/f2h)
 
 
+
+        if int(can2["height"])==((h-121)-80-10):
+
+            if st==songs_status[0]:
+
+                if st==2:
+
+                    if current_playlist==songs_status[1]:
+
+
+                        f1_=filter_val
+                        f2_=filter_pl
+
+
+                       
+
+
+                else:
                     f1_=filter_val
                     f2_=filter_pl
-
-
-                   
-
-
-            else:
-                f1_=filter_val
-                f2_=filter_pl
 
 
 
@@ -8845,6 +8903,7 @@ def can_label(x,y):
 
     global can,mot_val
     global root_st
+    global select_st
 
 
     col1=_theme[0]
@@ -8858,69 +8917,72 @@ def can_label(x,y):
         can.delete(mot_val)
 
 
-        #list
-
-        cx,cy=10+12.5,h-20-30-15+5+10-3+2.5+12.5
-
-        if cx-12.5<=x<=cx+12.5:
-            if cy-12.5<=y<=cy+12.5:
-
-                mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("FreeMono",10),anchor="c")
+        if not select_st==1:
 
 
+            #list
 
-        #sort
+            cx,cy=10+12.5,h-20-30-15+5+10-3+2.5+12.5
 
-        cx,cy=10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
 
-        if cx-12.5<=x<=cx+12.5:
-            if cy-12.5<=y<=cy+12.5:
-                mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
-            
+                    mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("FreeMono",10),anchor="c")
 
 
 
-        #shuffle
+            #sort
 
-        cx,cy=10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+            cx,cy=10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
 
-        if cx-12.5<=x<=cx+12.5:
-            if cy-12.5<=y<=cy+12.5:
-
-                mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
-            
-
-
-        #loop
-
-        cx,cy=10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-
-        if cx-12.5<=x<=cx+12.5:
-            if cy-12.5<=y<=cy+12.5:
-
-                mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
-            
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
+                    mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
+                
 
 
-        #play vid
 
-        cx,cy=10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+            #shuffle
 
-        if cx-12.5<=x<=cx+12.5:
-            if cy-12.5<=y<=cy+12.5:
+            cx,cy=10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
 
-                ar=os.listdir("videos")
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
 
-                try:
+                    mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
+                
 
-                    v=ar.index(current_playing.replace(".mp3",".mp4"))
 
-                    txt="play video"
-                except:
-                    txt="no video"
+            #loop
 
-                mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
-            
+            cx,cy=10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
+
+                    mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
+                
+
+
+            #play vid
+
+            cx,cy=10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
+
+                    ar=os.listdir("videos")
+
+                    try:
+
+                        v=ar.index(current_playing.replace(".mp3",".mp4"))
+
+                        txt="play video"
+                    except:
+                        txt="no video"
+
+                    mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
+                
 
 def convert_(file,output,col):
 
@@ -9138,7 +9200,7 @@ _songs_=[]
 songs_status=[st,current_playlist,shuffle_st,sort_val,shuffle_ar,loop,current_playing]
 
 
-filter_val,filter_pl="None",None
+filter_val,filter_pl=None,None
 
 
 forward=None
@@ -9361,11 +9423,15 @@ def adjust_theme():
 y1,y2,y3=0,0,0
 def move_bg():
 
+    global _theme
+
     global can2,can_lyrics,can3
     global bg2,bg3,bgp
     global sb_h,sb2_h
     global root_st
     global y1,y2,y3
+
+    global filter_can2,filter_st,f2,bg_f2
 
 
     if root_st==0:
@@ -9400,6 +9466,24 @@ def move_bg():
             y3=can3.canvasy(0)
 
             can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0))
+
+
+        if filter_st==1:
+
+            if int(filter_can2["scrollregion"].split(" ")[-1])>int(filter_can2["height"]):
+
+                filter_can2.delete(f2)
+
+
+
+                f2=filter_can2.create_rectangle(0,filter_can2.canvasy(0), int(filter_can2["width"])-1,
+                    filter_can2.canvasy(int(filter_can2["height"])-1),outline=_theme[0])
+
+
+                filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
+                    -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0))
+
+
 
 def update_bg_pos():
 
@@ -11507,7 +11591,7 @@ def filter1_b1(e):
     global current_playing
     global _songs_
 
-    ar=["None","Favourites","Playlists","With Video"]
+    ar=[None,"Favourites","Playlists","With Video"]
 
 
     y=10
@@ -11517,9 +11601,12 @@ def filter1_b1(e):
 
         if y<=e.y<=y+30:
 
+
             filter_val=a
 
-            filter_pl=None
+            if filter_val!="Playlists":
+
+                filter_pl=None
 
             draw_can()
 
@@ -11788,17 +11875,20 @@ def conf_del_(file,con):
     if con=="music":
 
 
-        if get_text_length(can3, "Delete Song : "+file.split("/")[-1], "FreeMono", 13)>int(conf_del["width"])-20:
+        if get_text_length(can3, file.split("/")[-1], "FreeMono", 13)>int(conf_del["width"])-20:
 
             l=get_text_length(can3, "...", "FreeMono", 13)
-            txt=_text_(can2,"Delete Song : "+file.split("/")[-1],"FreeMono",13,int(conf_del["width"])-20-l)+"..."
+            txt=_text_(can2,file.split("/")[-1],"FreeMono",13,int(conf_del["width"])-20-l)+"..."
 
         else:
-            txt="Delete Song : "+file.split("/")[-1]
+            txt=file.split("/")[-1]
 
-        conf_del.create_text(10,(int(conf_del["height"])-35)/2,text=txt,
+        conf_del.create_text(int(conf_del["width"])/2,15,text="Delete Song",
+            fill=_theme[0],font=("FreeMono",13),anchor="c")
+
+
+        conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
             fill=_theme[0],font=("FreeMono",13),anchor="w")
-
 
 
 
@@ -11812,16 +11902,20 @@ def conf_del_(file,con):
     if con=="video":
 
 
-        if get_text_length(can3, "Delete Video : "+file.split("/")[-1], "FreeMono", 13)>int(conf_del["width"])-20:
+        if get_text_length(can3, file.split("/")[-1], "FreeMono", 13)>int(conf_del["width"])-20:
 
             l=get_text_length(can3, "...", "FreeMono", 13)
-            txt=_text_(can2,"Delete Video : "+file.split("/")[-1],"FreeMono",13,int(conf_del["width"])-20-l)+"..."
+            txt=_text_(can2,file.split("/")[-1],"FreeMono",13,int(conf_del["width"])-20-l)+"..."
 
         else:
-            txt="Delete Video : "+file.split("/")[-1]
+            txt=file.split("/")[-1]
 
 
-        conf_del.create_text(10,(int(conf_del["height"])-35)/2,text=txt,
+
+        conf_del.create_text(int(conf_del["width"])/2,15,text="Delete Video",
+            fill=_theme[0],font=("FreeMono",13),anchor="c")
+
+        conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
             fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
@@ -11832,16 +11926,20 @@ def conf_del_(file,con):
 
 
 
-        if get_text_length(can3, "Delete Playlist : "+file, "FreeMono", 13)>int(conf_del["width"])-20:
+        if get_text_length(can3, file, "FreeMono", 13)>int(conf_del["width"])-20:
 
             l=get_text_length(can3, "...", "FreeMono", 13)
-            txt=_text_(can2,"Delete Playlist : "+file,"FreeMono",13,int(conf_del["width"])-20-l)+"..."
+            txt=_text_(can2,file,"FreeMono",13,int(conf_del["width"])-20-l)+"..."
 
         else:
-            txt="Delete Playlist : "+file
+            txt=file
 
 
-        conf_del.create_text(10,(int(conf_del["height"])-35)/2,text=txt,
+        conf_del.create_text(int(conf_del["width"])/2,15,text="Delete Playlist",
+            fill=_theme[0],font=("FreeMono",13),anchor="c")
+
+
+        conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
             fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
@@ -11853,16 +11951,20 @@ def conf_del_(file,con):
 
 
 
-        if get_text_length(can3, "Delete Lyrics : "+file, "FreeMono", 13)>int(conf_del["width"])-20:
+        if get_text_length(can3, file, "FreeMono", 13)>int(conf_del["width"])-20:
 
             l=get_text_length(can3, "...", "FreeMono", 13)
-            txt=_text_(can2,"Delete Lyrics : "+file,"FreeMono",13,int(conf_del["width"])-20-l)+"..."
+            txt=_text_(can2,file,"FreeMono",13,int(conf_del["width"])-20-l)+"..."
 
         else:
-            txt="Delete Lyrics : "+file
+            txt=file
 
 
-        conf_del.create_text(10,(int(conf_del["height"])-35)/2,text=txt,
+        conf_del.create_text(int(conf_del["width"])/2,15,text="Delete Lyrics",
+            fill=_theme[0],font=("FreeMono",13),anchor="c")
+
+
+        conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
             fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
