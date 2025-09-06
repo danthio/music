@@ -180,7 +180,7 @@ def play_vid():
             pass
 
 
-    root.after(8,play_vid)
+    root.after(10,play_vid)
 
 def configure_theme(pcol):
     global _theme
@@ -1090,7 +1090,7 @@ def convert_folder_to_audio():
             pass
 
 
-        can.create_text(w/2,499,text="Done!",fill=_theme[0],font=("FreeMono",17))
+        can.create_text(w/2,h-121-20-40,text="Done!",fill=_theme[0],font=("FreeMono",17))
 
         convert=0
         update_waves()
@@ -1194,7 +1194,7 @@ def convert_file_to_audio():
             pass
 
 
-        can.create_text(w/2,499,text="Done!",fill=_theme[0],font=("FreeMono",17))
+        can.create_text(w/2,h-121-20-40,text="Done!",fill=_theme[0],font=("FreeMono",17))
 
         convert=0
         update_waves()
@@ -1631,7 +1631,7 @@ def prog():
 
                             
 
-                            cur_can=can.create_image(xx-4,yy-4,image=cursor,anchor="nw")
+                            cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
 
@@ -1891,7 +1891,7 @@ def add_playlist():
     can4.create_line(2,38,550-2,38,fill=col1)
 
 
-    draw_round_rec(can4,1,2 ,550-2,80,15,col1,"",1)
+    draw_round_rec(can4,1,1 ,550-2,80,15,col1,"",1)
 
     draw_round_rec(can6,1,-15 ,550-2,38,15,col1,"",1)
 
@@ -3958,7 +3958,7 @@ def can_b1(e):
 
 
 
-                    draw_round_rec(can_sort,0,0, 250-2,160-1,15,col1,col1,1)
+                    draw_round_rec(can_sort,1,1, 250-2-1,160-1-1,15,col1,col1,1)
 
                     can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
 
@@ -4652,7 +4652,16 @@ def can_b1(e):
                 if con==0 or lst==0 or st!=songs_status[0]:
                     can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
+                _search=0
+                _npl=0
 
+                search_var=""
+
+                
+                can_search.place_forget()
+
+                
+                can_npl.place_forget()
 
 
 
@@ -5216,7 +5225,7 @@ def main():
 
         a_=270
 
-        cx,cy=(int(can2["width"])-sb_sz-2-25*4-15*3-10-30)+r*2,r+2
+        cx,cy=(int(can2["width"])-sb_sz-2-25*4-15*3-10-30)+r*2,r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5234,7 +5243,7 @@ def main():
         r=10
         a_=180
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-2,r+2
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5252,7 +5261,7 @@ def main():
         r=10
         a_=90
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-2,50-r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,50-r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5300,7 +5309,7 @@ def main():
 
         a_=270
 
-        cx,cy=(int(can2["width"])-30-15-25*2-10-sb_sz-2)+r*2,r+2
+        cx,cy=(int(can2["width"])-30-15-25*2-10-sb_sz-2)+r*2,r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5318,7 +5327,7 @@ def main():
         r=10
         a_=180
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-2,r+2
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5336,7 +5345,7 @@ def main():
         r=10
         a_=90
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-2,50-r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,50-r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -6580,7 +6589,7 @@ def main():
 
     can.delete(cur_can)
 
-    cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
     can_label(xx,yy)
 
@@ -7570,7 +7579,7 @@ def draw_can(con=0):
         filter_can1.create_image(-(w-10-int(filter_can1["width"])),-(40+30-10-5-5+30+10),
             image=bg2_,anchor="nw")
 
-        draw_round_rec(filter_can1,0,0,int(filter_can1["width"])-1,int(filter_can1["height"])-1,15,_theme[0],"",1)
+        draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,_theme[0],"",1)
 
         filter_can2.place_forget()
 
@@ -7657,8 +7666,8 @@ def draw_can(con=0):
             
             filter_can2.place(in_=root,x=w-10-int(filter_can1["width"])-int(filter_can2["width"])-10,y=40+30-10-5-5+30+10+10+90)
 
-            f2=filter_can2.create_rectangle(0,filter_can2.canvasy(0), int(filter_can2["width"])-1,
-                filter_can2.canvasy(int(filter_can2["height"])-1),outline=_theme[0])
+            f2=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
+                filter_can2.canvasy(int(filter_can2["height"])-2),outline=_theme[0])
 
             f2h=int(filter_can2["scrollregion"].split(" ")[-1])
 
@@ -8350,8 +8359,8 @@ def check_cur_on_s2(x,y):
 
     return 0
 
-def draw_cur():
 
+def draw_cur_():
 
     global can,can2,can3,can4,can6,can_lyrics,can_sort,can_settings,can_search,can_npl,can_theme_ent,can_sel_op
     global filter_can1,cur_filter_can1
@@ -8436,9 +8445,8 @@ def draw_cur():
         if r<=25:
 
 
-            cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
+            cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
-        root.after(2,draw_cur)
         return
 
 
@@ -8453,61 +8461,61 @@ def draw_cur():
 
         can_label(xx,yy)
 
-        cur_can=can.create_image(xx,yy,image=cursor,anchor="nw")
+        cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
     if lst==1:
 
         xx,yy=x-(wd-w)/2-10,y-(ht-h)/2-88+can2.canvasy(0)
 
-        cur_can2=can2.create_image(xx,yy,image=cursor,anchor="nw")
+        cur_can2=can2.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
         xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
 
-        cur_can4=can4.create_image(xx,yy,image=cursor,anchor="nw")
+        cur_can4=can4.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
 
         xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40+can3.canvasy(0)
 
-        cur_can3=can3.create_image(xx,yy,image=cursor,anchor="nw")
+        cur_can3=can3.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
         xx,yy=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40-int(can3["height"])
 
-        cur_can6=can6.create_image(xx,yy,image=cursor,anchor="nw")
+        cur_can6=can6.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
 
     xx,yy=x-(wd-w)/2-10,y-(ht-h)/2-50+can_lyrics.canvasy(0)
 
-    cur_can_lyrics=can_lyrics.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_can_lyrics=can_lyrics.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
 
     xx,yy=x-(wd-w)/2-(10+25+15+25),y-(ht-h)/2-(h-20-30-15+5+10+2.5-160)
 
-    cur_can_sort=can_sort.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_can_sort=can_sort.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
     xx,yy=x-(wd-w)/2-(10+25+5),y-(ht-h)/2-(25+12.5+5)
 
-    cur_can_settings=can_settings.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_can_settings=can_settings.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
     xx,yy=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
 
-    cur_can_search=can_search.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_can_search=can_search.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
 
     xx,yy=x-(wd-w)/2-(10+15+10),y-(ht-h)/2-(5+1+88)
 
-    cur_can_npl=can_npl.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_can_npl=can_npl.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
     xx,yy=x-(wd-w)/2-(77-1+1+(10+25+5)),y-(ht-h)/2-(19+1+(25+12.5+5))
 
-    cur_can_theme_ent=can_theme_ent.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_can_theme_ent=can_theme_ent.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
 
@@ -8516,23 +8524,30 @@ def draw_cur():
 
     xx,yy=x-(wd-w)/2-(xx_),y-(ht-h)/2-(yy_)
 
-    cur_can_sel_op=can_sel_op.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_can_sel_op=can_sel_op.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
 
     xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])),y-(ht-h)/2-(40+30-10-5-5+30+10)
 
-    cur_filter_can1=filter_can1.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_filter_can1=filter_can1.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
     xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),y-(ht-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
 
-    cur_filter_can2=filter_can2.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_filter_can2=filter_can2.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
     xx,yy=x-(wd-w)/2-((w-int(conf_del["width"]))/2),y-(ht-h)/2-((h-int(conf_del["height"]))/2)
 
-    cur_conf_del=conf_del.create_image(xx,yy,image=cursor,anchor="nw")
+    cur_conf_del=conf_del.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
+
+
+
+def draw_cur():
+
+    draw_cur_()
+
 
 
     root.after(2,draw_cur)
@@ -8663,6 +8678,7 @@ def check_cur_pos():
 
                         attr[1]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25,y+12.5,image=_del_,anchor="nw")
 
+                        draw_cur_()
                         break
             root.after(5,check_cur_pos)
             return
@@ -8889,6 +8905,8 @@ def check_cur_pos():
                                     _fv_=favourite2_
 
                             attr[3]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
+
+                            draw_cur_()
 
                             break
 
@@ -9476,8 +9494,8 @@ def move_bg():
 
 
 
-                f2=filter_can2.create_rectangle(0,filter_can2.canvasy(0), int(filter_can2["width"])-1,
-                    filter_can2.canvasy(int(filter_can2["height"])-1),outline=_theme[0])
+                f2=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
+                    filter_can2.canvasy(int(filter_can2["height"])-2),outline=_theme[0])
 
 
                 filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
@@ -9548,8 +9566,8 @@ def _on_mousewheel(e):
 
 
             filter_can2.yview_scroll(int(-1*(e.delta/120)), "units")
-            f2=filter_can2.create_rectangle(0,filter_can2.canvasy(0), int(filter_can2["width"])-1,
-                filter_can2.canvasy(int(filter_can2["height"])-1),outline=_theme[0])
+            f2=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
+                filter_can2.canvasy(int(filter_can2["height"])-2),outline=_theme[0])
 
 
             filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
@@ -10769,7 +10787,7 @@ def can_settings_b1(e):
 
 
 
-    cx,cy=int(can_settings["width"])-20-25-15-25+15,int(can_settings["height"])-95+5+15
+    cx,cy=int(can_settings["width"])-20-25-15-25+12.5,int(can_settings["height"])-95+5+12.5
 
     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
@@ -11069,7 +11087,7 @@ def draw_settings(con=0):
     can_settings.create_image(-(10+25+5),-(25+12.5+5),image=bg2_,anchor="nw")
 
 
-    draw_round_rec(can_settings,0,0, int(can_settings["width"])-1,int(can_settings["height"])-1,25,_theme[0],col1,1)
+    draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,_theme[0],col1,1)
 
     can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
 
@@ -11086,7 +11104,7 @@ def draw_settings(con=0):
 
     can_theme_ent.delete("all")
 
-    can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
+    #can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
 
     te_var=col_
 
@@ -11349,7 +11367,7 @@ def draw_settings(con=0):
 
     can_sel_op.delete("all")
 
-    can_sel_op.create_image(-(xx_),-(yy_),image=bg2_,anchor="nw")
+    #can_sel_op.create_image(-(xx_),-(yy_),image=bg2_,anchor="nw")
 
     op_var=str(_theme[2])+","+str(_theme[3])
 
@@ -11854,7 +11872,7 @@ def conf_del_(file,con):
     conf_del.create_image(-(w-int(conf_del["width"]))/2,-(h-int(conf_del["height"]))/2,
         image=bg2_,anchor="nw")
 
-    draw_round_rec(conf_del,0,0, int(conf_del["width"])-1,int(conf_del["height"])-1,15,_theme[0],"",1)
+    draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,_theme[0],"",1)
 
     conf_del.create_line(0,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
         fill=_theme[0])
