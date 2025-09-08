@@ -59,7 +59,7 @@ import pyautogui
 import cv2
 
 cap=None 
-
+_frame_=""
 
 def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
     global cap
@@ -80,16 +80,28 @@ def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
     cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
     
     # Read the frame
-    ret, frame = cap.read()
+    ret, _frame__ = cap.read()
     
     if not ret:
         pass
         #raise ValueError("Error: Could not read frame at {} seconds.".format(seconds))
     
     # Save the frame if output path is provided
-    cv2.imwrite(output_path, frame)
+    #cv2.imwrite(output_path, frame)
     
+
+    _frame__ = cv2.cvtColor(_frame__, cv2.COLOR_BGR2RGB)
+
+    # Convert to PIL Image
+    _frame__ = Image.fromarray(_frame__)
+
+
     cap.release()
+
+
+    #_frame_.show()
+
+    return _frame__
 
 # Example usage
 """
@@ -115,20 +127,23 @@ def play_vid():
     global sort_st,can_sort
 
     global w,h
+    global _frame_
 
 
     if play_st==1 and vid_st==1:
 
         #get_frame_at_time("videos/"+current_playing.replace(".mp3",".mp4"), 3)
 
+
+
         try:
 
-            get_frame_at("videos/"+current_playing.replace(".mp3",".mp4"), tm)
+            _frame__=get_frame_at("videos/"+current_playing.replace(".mp3",".mp4"), tm)
 
 
+            x,y=_frame__.size
 
-            im=Image.open("data/frame.jpg")
-            x,y=im.size
+
 
             x_,y_=w,h
 
@@ -142,7 +157,7 @@ def play_vid():
 
                 yy=int(xx*y/x)
 
-                im=im.resize((xx,yy))
+                _frame__=_frame__.resize((xx,yy))
 
             elif x/y<x_/y_:
 
@@ -151,19 +166,19 @@ def play_vid():
 
                 xx=int(yy*x/y)
 
-                im=im.resize((xx,yy))
+                _frame__=_frame__.resize((xx,yy))
             else:
 
-                im=im.resize((x_,y_))
-
-            im.save("data/frame.jpg")
+                _frame__=_frame__.resize((x_,y_))
 
 
-            vframe[0]=ImageTk.PhotoImage(file="data/frame.jpg")
 
 
-            im=Image.open("data/frame.jpg")
-            x,y=im.size
+            _frame_=_frame__
+            vframe[0]=ImageTk.PhotoImage(_frame_)
+
+
+            x,y=_frame_.size
 
             
 
@@ -6741,6 +6756,7 @@ def draw_can(con=0):
     global bg_f2
     global f1_,f2_
     global can_settings,frame2,can_sort,conf_del,can_npl,can_theme_ent,can_sel_op
+    global _frame_
 
 
     if root_st==1:
@@ -6823,13 +6839,12 @@ def draw_can(con=0):
 
             try:
 
-                im=Image.open("data/frame.jpg")
-                x,y=im.size
+                x,y=_frame_.size
 
                 x_,y_=(w-x)/2,(h-y)/2
 
                 if vframe[0]==0:
-                    vframe[0]=ImageTk.PhotoImage(file="data/frame.jpg")
+                    vframe[0]=ImageTk.PhotoImage(_frame_)
 
                 vframe[1]=can.create_image(x_,y_,image=vframe[0],anchor="nw")
 
