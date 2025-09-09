@@ -101,7 +101,7 @@ def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
 
     #_frame_.show()
 
-    return _frame__
+    return [_frame__,fps]
 
 # Example usage
 """
@@ -138,7 +138,11 @@ def play_vid():
 
         try:
 
-            _frame__=get_frame_at("videos/"+current_playing.replace(".mp3",".mp4"), tm)
+
+
+            _frame__,fps=get_frame_at("videos/"+current_playing.replace(".mp3",".mp4"), tm)
+
+
 
 
             x,y=_frame__.size
@@ -191,11 +195,17 @@ def play_vid():
             else:
                 can.itemconfig(vframe[1],image=vframe[0])
                 can.coords(vframe[1],(w-x)/2,(h-y)/2)
+
+
+            root.after(int(round(1000/fps,0)),play_vid)
         except:
             pass
+    else:    
+
+        root.after(1,play_vid)
 
 
-    root.after(10,play_vid)
+    
 
 def configure_theme(pcol):
     global _theme
@@ -737,71 +747,62 @@ def draw_wave():
 
 
 
-        can.delete(sig_)
+        
 
         if play_video_st==0:
 
-            try:
+
+
+
+            amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time()+tts)
 
 
 
 
 
-
-                amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time()+tts)
-
+            sig.append(-amplitude*amp*current_volume)
 
 
+            xn=int((w-20)/xv)
 
 
-                sig.append(-amplitude*amp*current_volume)
-
-
-                xn=int((w-20)/xv)
-
-
-                if len(sig)>=xn:
-                    sig.pop(0)
+            if len(sig)>=xn:
+                sig.pop(0)
 
 
 
 
-                sig2=[]
-                x=10
-                for a in sig:
+            sig2=[]
+            x=10
+            for a in sig:
 
-                    sig2.append(x)
-                    sig2.append(a+50+((h-121-30)-50)/2)
+                sig2.append(x)
+                sig2.append(a+50+((h-121-30)-50)/2)
 
-                    x+=xv
-
-
-
-
-                try:
-
-                    if lst==0 and st!=4 and lyric_st==0 and root_st==0 and vid_st==0:
+                x+=xv
 
 
 
-                        if not tts>tot_tm_:
-                            sig_=can.create_line(sig2,fill=col1)
-                except:
-                    pass
+
+            if len(sig2)>4:
+
+                if lst==0 and st!=4 and lyric_st==0 and root_st==0 and vid_st==0:
+
+
+
+                    if not tts>tot_tm_:
+
+                        can.coords(sig_,*sig2)
+            elif len(sig2)==4:
+
+
+                can.delete(sig_)
+                sig_=can.create_line(sig2,fill=col1)
 
 
 
 
 
-
-
-
-
-
-
-
-            except:
-                pass
 
     root.after(2,draw_wave)
 
@@ -4187,14 +4188,6 @@ def can_b1(e):
                     v=ar.index(current_playing.replace(".mp3",".mp4"))
                     
                     if vid_st==0:
-                        ar=os.listdir("data")
-                        try:
-                            v=ar.index("frame.jpg")
-                            os.remove("data/frame.jpg")
-
-                        except:
-                            pass
-
                         vid_st=1
                     elif vid_st==1:
                         vid_st=0
@@ -6664,6 +6657,7 @@ def vid_timer():
     if vid_st2!=vid_st2_:
         draw_can()
         vid_st2_=vid_st2
+
 
 
 
