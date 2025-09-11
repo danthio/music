@@ -216,8 +216,10 @@ def configure_theme(pcol):
 
     col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
     col3=(int(col1[0]*32/mxc),int(col1[1]*32/mxc),int(col1[2]*32/mxc))
+    col4=(int(col1[0]*10/mxc),int(col1[1]*10/mxc),int(col1[2]*10/mxc))
 
-    ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3]
+
+    ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3,"#%02x%02x%02x" % col4]
 
 
     _theme[1]=ar
@@ -240,7 +242,6 @@ def configure_theme(pcol):
     else:
         _theme[4]=ar
 
-    print(_theme[4])
 
 
 
@@ -6676,6 +6677,9 @@ filter_pl=None
 bg_f2=0
 
 
+b_g1=0
+b_g2=0
+
 def draw_can(con=0):
 
     global can,st,w,h
@@ -6751,6 +6755,8 @@ def draw_can(con=0):
     global f1_,f2_
     global can_settings,frame2,can_sort,conf_del,can_npl,can_theme_ent,can_sel_op
     global _frame_
+
+    global b_g1,b_g2
 
 
     if root_st==1:
@@ -6847,95 +6853,58 @@ def draw_can(con=0):
             except:
                 pass
 
-    if vid_st2==1:
+    def dark_bg(w_,h_,col,con):
 
-        ar=[]
+        im=Image.new("RGBA",(int(w_),int(h_)),(0,0,0,0))
 
-        r=20
+        pixels=im.load()
 
-        cx,cy=r,50+r
-        a_=270
-        for a in range(90):
-            x=r*math.sin(math.radians(a_))+cx
-            y=r*math.cos(math.radians(a_))+cy
-            
-            x=int(round(x,0))
-            y=int(round(y,0))
-            
-            ar.append(x)
-            ar.append(y)
-            a_-=1
+        if con==0:
+
+            o=255
+            o_=int(255/h_)
 
 
+            for y in range(int(h_)):
 
-        cx,cy=w-r,50+r
-        a_=180
-        for a in range(90):
-            x=r*math.sin(math.radians(a_))+cx
-            y=r*math.cos(math.radians(a_))+cy
-            
-            x=int(round(x,0))
-            y=int(round(y,0))
-            
-            ar.append(x)
-            ar.append(y)
-            a_-=1
+                for x in range(int(w_)):
+
+                    pixels[x,y]=(*hex_to_rgb(col),o)
+
+                o-=int(round(o_,0))
+
+        elif con==1:
 
 
 
-        ar.append(w)
-        ar.append(0)
-
-        ar.append(0)
-        ar.append(0)
+            o=0
+            o_=int(255/h_)
 
 
-        create_polygon(*ar, fill="#000000", alpha=0.7,can=can)
+            for y in range(int(h_)):
+
+                for x in range(int(w_)):
+
+                    pixels[x,y]=(*hex_to_rgb(col),o)
+
+                o+=int(round(o_,0))
 
 
-
-        ar=[]
-
-
-
-        cx,cy=r,90+int(can2["height"])-r
-        a_=270
-        for a in range(90):
-            x=r*math.sin(math.radians(a_))+cx
-            y=r*math.cos(math.radians(a_))+cy
-            
-            x=int(round(x,0))
-            y=int(round(y,0))
-            
-            ar.append(x)
-            ar.append(y)
-            a_+=1
+        return im
 
 
 
-        cx,cy=w-r,90+int(can2["height"])-r
-        a_=0
-        for a in range(90):
-            x=r*math.sin(math.radians(a_))+cx
-            y=r*math.cos(math.radians(a_))+cy
-            
-            x=int(round(x,0))
-            y=int(round(y,0))
-            
-            ar.append(x)
-            ar.append(y)
-            a_+=1
-
-        ar.append(w)
-        ar.append(h)
-
-        ar.append(0)
-        ar.append(h)
-
-        
 
 
-        create_polygon(*ar, fill="#000000", alpha=0.7,can=can)
+    #if vid_st2==1:
+
+
+    b_g1=ImageTk.PhotoImage(dark_bg(w,50,_theme[1][1],0))
+
+    b_g2=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),_theme[1][1],1))
+
+    can.create_image(0,0,image=b_g1,anchor="nw")
+    can.create_image(0,(90+int(can2["height"])),image=b_g2,anchor="nw")
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
