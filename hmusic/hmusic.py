@@ -339,7 +339,7 @@ def change_theme(pcol):
 #change_theme(_theme[0])
 
 
-def darken_image(image_path, output_path,col, alpha):
+def darken_image(im,col, alpha):
     """
     Darkens an image by overlaying a semi-transparent black layer.
     
@@ -349,7 +349,7 @@ def darken_image(image_path, output_path,col, alpha):
         opacity (float): Opacity of the dark layer (0.0 to 1.0).
     """
     # Open the original image
-    img = Image.open(image_path).convert("RGBA")
+    img = im.convert("RGBA")
     
     # Create a black overlay with the same size as the image
     black_overlay = Image.new("RGBA", img.size, (*col, int(255 * alpha)))
@@ -358,7 +358,8 @@ def darken_image(image_path, output_path,col, alpha):
     darkened_img = Image.alpha_composite(img, black_overlay)
     
     # Save the result
-    darkened_img.save(output_path)
+
+    return darkened_img
 
 
 # Example usage
@@ -730,80 +731,81 @@ def draw_wave():
 
     global vid_st
 
+    try:
 
-
-    col1=_theme[0]
-    col2=_theme[1][0]
-
-
-
-
-
-
-
-    xv=5
-    amp=(((h-121-30)-50)-40)/2
-
-    if play_st==1:
-
-
-
-        
-
-        if play_video_st==0:
-
-
-
-
-            amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time()+tts)
+        col1=_theme[0]
+        col2=_theme[1][0]
 
 
 
 
 
-            sig.append(-amplitude*amp*current_volume)
 
 
-            xn=int((w-20)/xv)
+        xv=5
+        amp=(((h-121-30)-50)-40)/2
 
-
-            if len(sig)>=xn:
-                sig.pop(0)
-
+        if play_st==1:
 
 
 
-            sig2=[]
-            x=10
-            for a in sig:
+            
 
-                sig2.append(x)
-                sig2.append(a+50+((h-121-30)-50)/2)
-
-                x+=xv
+            if play_video_st==0:
 
 
 
 
-            if len(sig2)>4:
-
-                if lst==0 and st!=4 and lyric_st==0 and root_st==0 and vid_st==0:
-
-
-
-                    if not tts>tot_tm_:
-
-                        can.coords(sig_,*sig2)
-            elif len(sig2)==4:
-
-
-                can.delete(sig_)
-                sig_=can.create_line(sig2,fill=col1)
+                amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time()+tts)
 
 
 
 
 
+                sig.append(-amplitude*amp*current_volume)
+
+
+                xn=int((w-20)/xv)
+
+
+                if len(sig)>=xn:
+                    sig.pop(0)
+
+
+
+
+                sig2=[]
+                x=10
+                for a in sig:
+
+                    sig2.append(x)
+                    sig2.append(a+50+((h-121-30)-50)/2)
+
+                    x+=xv
+
+
+
+
+                if len(sig2)>4:
+
+                    if lst==0 and st!=4 and lyric_st==0 and root_st==0 and vid_st==0:
+
+
+
+                        if not tts>tot_tm_:
+
+                            can.coords(sig_,*sig2)
+                elif len(sig2)==4:
+
+
+                    can.delete(sig_)
+                    sig_=can.create_line(sig2,fill=col1)
+
+
+
+
+    except:
+        pass
 
     root.after(2,draw_wave)
 
@@ -4196,6 +4198,13 @@ def can_b1(e):
 
                     if vid_st==1:
 
+                        st=songs_status[0]
+
+                        if st==2:
+
+                            current_playlist=songs_status[1]
+
+
                         
 
                         vid_tm=time.time()
@@ -4229,6 +4238,8 @@ def can_b1(e):
                     vid_st=0
                     vid_st2=0
                 main()
+
+                return
 
         #lyrics
 
@@ -6853,55 +6864,11 @@ def draw_can(con=0):
             except:
                 pass
 
-    def dark_bg(w_,h_,col,con):
-
-        im=Image.new("RGBA",(int(w_),int(h_)),(0,0,0,0))
-
-        pixels=im.load()
-
-        if con==0:
-
-            o=255
-            o_=int(255/h_)
-
-
-            for y in range(int(h_)):
-
-                for x in range(int(w_)):
-
-                    pixels[x,y]=(*hex_to_rgb(col),o)
-
-                o-=int(round(o_,0))
-
-        elif con==1:
-
-
-
-            o=0
-            o_=int(255/h_)
-
-
-            for y in range(int(h_)):
-
-                for x in range(int(w_)):
-
-                    pixels[x,y]=(*hex_to_rgb(col),o)
-
-                o+=int(round(o_,0))
-
-
-        return im
-
-
 
 
 
     #if vid_st2==1:
 
-
-    b_g1=ImageTk.PhotoImage(dark_bg(w,50,_theme[1][1],0))
-
-    b_g2=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),_theme[1][1],1))
 
     can.create_image(0,0,image=b_g1,anchor="nw")
     can.create_image(0,(90+int(can2["height"])),image=b_g2,anchor="nw")
@@ -8061,6 +8028,8 @@ def load_im():
     global vid1,vid2,vid3
     global filter_
     global no_music
+    global b_g1,b_g2
+    global _theme
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -8132,6 +8101,51 @@ def load_im():
     no_music=ImageTk.PhotoImage(file="data/no-music.png") 
 
 
+    def dark_bg(w_,h_,col,con):
+
+        im=Image.new("RGBA",(int(w_),int(h_)),(0,0,0,0))
+
+        pixels=im.load()
+
+        if con==0:
+
+            o=255
+            o_=int(255/h_)
+
+
+            for y in range(int(h_)):
+
+                for x in range(int(w_)):
+
+                    pixels[x,y]=(*hex_to_rgb(col),o)
+
+                o-=int(round(o_,0))
+
+        elif con==1:
+
+
+
+            o=0
+            o_=int(255/h_)
+
+
+            for y in range(int(h_)):
+
+                for x in range(int(w_)):
+
+                    pixels[x,y]=(*hex_to_rgb(col),o)
+
+                o+=int(round(o_,0))
+
+
+        return im
+
+
+
+
+    b_g1=ImageTk.PhotoImage(dark_bg(w,50,_theme[1][1],0))
+
+    b_g2=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),_theme[1][1],1))
 
 
 def check_pl():
@@ -8980,10 +8994,9 @@ def can_label(x,y):
                     mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
                 
 
-def convert_(file,output,col):
+def convert_(im,col):
 
 
-    im=Image.open(file)
     w,h=im.size
 
     rgb=hex_to_rgb(col)
@@ -9017,7 +9030,7 @@ def convert_(file,output,col):
 
         root.after(2,update)
 
-    image.save(output)
+    return image
 
 
 circle=0
@@ -9208,13 +9221,46 @@ note_=None
 _theme=["#ffffff",[],0.5,0.15,[],1,[]]
 
 
+
+
+root=tk.Tk()
+
+wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
+#wd,ht=1366,768
+h=int(ht)
+w=int(wd)
+
+
+
+root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
+root.resizable(0,0)
+#root.wm_attributes("-alpha",0.9)
+root.wm_attributes("-transparentcolor","#333333")
+root.wm_attributes("-topmost",True)
+root.iconbitmap("data/icon.ico")
+root.title("HMUSIC")
+
+root.overrideredirect(True)
+
+
+can=tk.Canvas(width=w,height=h,bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
+can.place(in_=root,x=0,y=0)
+
+
+
+
+
+
 try:
 
     with open("data/save.json", "r") as file:
         data = json.load(file)
 
 
-    if not len(data["save"][-3][0])==7:
+    try:
+        can.create_line(-1,-1,-1,-1,fill=data["save"][-3][0])
+
+    except:
 
 
         data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl]}
@@ -9262,24 +9308,6 @@ if playlist_st==0 and current_playing!="":
 
 def update():
     pass
-root=tk.Tk()
-
-wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
-#wd,ht=1366,768
-h=int(ht)
-w=int(wd)
-
-
-
-root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
-root.resizable(0,0)
-#root.wm_attributes("-alpha",0.9)
-root.wm_attributes("-transparentcolor","#333333")
-root.wm_attributes("-topmost",True)
-root.iconbitmap("data/icon.ico")
-root.title("HMUSIC")
-
-root.overrideredirect(True)
 
 
 configure_theme(_theme[0])
@@ -9309,7 +9337,6 @@ def adjust_theme():
 
         im=Image.new("RGBA",(w,h),(0,0,0,255))
         im.save("data/bg_.png")
-        im.save("data/bg.png")
         im.save("data/bg2.png")
 
         _theme[-1]=[0,0,0,0]
@@ -9382,30 +9409,28 @@ def adjust_theme():
                     _theme[-1]=[0,0,0,0]
 
 
-        im.save("data/bg.png")
-
-        im=Image.open("data/bg.png")
 
         im=im.resize((w,h))
-        im.save("data/bg.png")
+        
 
 
 
 
-        convert_("data/bg.png","data/bg.png",col)
+        im=convert_(im,col)
 
 
 
 
 
         
-        darken_image("data/bg.png", "data/bg.png",(0,0,0), _theme[2])
-        darken_image("data/bg.png", "data/bg2.png",(0,0,0), 0.5)
+        im1=darken_image(im,(0,0,0), _theme[2])
+        im2=darken_image(im1,(0,0,0), 0.5)
+
+        im1.save("data/bg.png")
+        im2.save("data/bg2.png")
 
 
 
-
-    load_im()
 
     root.after(2,update)
     adj_st=1
@@ -9904,9 +9929,6 @@ def drag_can(e):
 
 
 
-can=tk.Canvas(width=w,height=h,bg="#000000",relief="flat",highlightthickness=0,border=0,cursor="none")
-can.place(in_=root,x=0,y=0)
-
 can.bind("<Button-1>",can_b1)
 can.bind("<Button-3>",can_b3)
 can.bind_all("<MouseWheel>",_on_mousewheel)
@@ -9916,7 +9938,6 @@ can.bind("<Left>",play_previous)
 can.bind("<KeyPress>",__list)
 can.bind("<B1-Motion>",drag_can)
 can.bind("<ButtonRelease-1>",on_release_can)
-
 
 
 
@@ -10438,6 +10459,9 @@ def check_up_theme():
 
             configure_theme(_theme[0])
 
+
+            load_im()
+
             
             main()
             draw_settings()
@@ -10535,6 +10559,7 @@ def check_theme_attr():
 up_theme=None
 sel_col=""
 settings_st2=0
+sett_m=0
 def can_settings_b1(e):
 
     global can_settings,theme_ent,sel_op_ent
@@ -10555,6 +10580,27 @@ def can_settings_b1(e):
     global con_theme
     global te_var,op_var
     global cte_txt
+    global tbg_,tbg2_,tbg3
+
+    global sett_m
+
+
+
+
+    can_settings.delete(sett_m)
+
+
+    if not up_theme==None:
+
+        if up_theme.is_alive():
+
+            sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
+                    text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+
+            return
+
 
     bg_xy=[e.x,e.y]
 
@@ -10574,24 +10620,91 @@ def can_settings_b1(e):
 
     #save
 
+
+    con_save=0
+
     cx,cy=int(can_settings["width"])/2-45+15,int(can_settings["height"])-10-15
 
     r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
 
     if r<=15:
+        con_save=1
+
+
+    cx,cy=int(can_settings["width"])/2+45-15,int(can_settings["height"])-10-15
+
+    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
+
+    if r<=15:
+        con_save=1
+
+    if int(can_settings["width"])/2-45+15<=e.x<=int(can_settings["width"])/2+45-15:
+        if int(can_settings["height"])-10-30<=e.y<=int(can_settings["height"])-10:
+
+            con_save=1
+
+
+    if con_save==1:
+
+
+        try:
+
+            can_settings.create_line(-1,-1,-1,-1,fill=te_var)
+        except:
+
+
+            can_settings.delete(sett_m)
 
 
 
-        ar=os.listdir("data")
+            sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
+                text="Incorrect Theme Attributes!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
-        for i in ar:
+            return
 
-            if i.split(".")[0]=="bg_":
+        _op=str(op_var).replace(" ","").split(",")
 
-                os.remove("data/"+i)
+        if len(_op)==2:
 
-        im=Image.open("data/bg2_.png")
-        im.save("data/bg_.png")
+            con_op=0
+
+            try:
+
+                v1=float(_op[0])
+                v2=float(_op[1])
+            except:
+                con_op=1
+
+
+            if v1>1 or v2>1:
+                con_op=1
+
+            if con_op==1:
+                can_settings.delete(sett_m)
+
+
+
+                sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
+                    text="Incorrect Theme Attributes!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+                return
+
+        else:
+
+            can_settings.delete(sett_m)
+
+
+
+            sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
+                text="Incorrect Theme Attributes!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+            return
+
+
+
+
+        tbg2_.save("data/bg_.png")
 
 
         
@@ -10605,11 +10718,9 @@ def can_settings_b1(e):
         _theme[3]=float(op2)
 
 
-        im=Image.open("data/bg3.png")
-        x,y=im.size
+        x,y=tbg3.size
 
-        im2=Image.open("data/bg2_.png")
-        x_,y_=im2.size
+        x_,y_=tbg2_.size
 
         ar=[]
 
@@ -10640,126 +10751,6 @@ def can_settings_b1(e):
 
         return
 
-
-    cx,cy=int(can_settings["width"])/2+45-15,int(can_settings["height"])-10-15
-
-    r=math.sqrt((e.x-cx)**2+(e.y-cy)**2)
-
-    if r<=15:
-
-
-        ar=os.listdir("data")
-
-        for i in ar:
-
-            if i.split(".")[0]=="bg_":
-
-                os.remove("data/"+i)
-
-
-        im=Image.open("data/bg2_.png")
-        im.save("data/bg_.png")
-
-
-        op1,op2=str(op_var).replace(" ","").split(",")
-
-        sel_col=str(te_var)
-
-        con_theme=1
-
-        _theme[2]=float(op1)
-        _theme[3]=float(op2)
-
-
-        im=Image.open("data/bg3.png")
-        x,y=im.size
-
-        im2=Image.open("data/bg2_.png")
-        x_,y_=im2.size
-
-        ar=[]
-
-        bg_st=0
-        for p in range(len(bg_region_[1])):
-
-            if bg_st==0:
-                ar.append(int(round((bg_region_[1][p]-bg_region_[0][0])*x_/x,0)))
-                bg_st=1
-            elif bg_st==1:
-                ar.append(int(round((bg_region_[1][p]-bg_region_[0][1])*y_/y,0)))
-                bg_st=0
-
-        _theme[-1]=[ar[0],ar[1],ar[4],ar[5]]
-
-        _theme[-2]=no_bg_st
-
-        save()
-        #adjust_theme()
-
-        draw_settings()
-
-        up_theme=threading.Thread(target=adjust_theme,daemon=True)
-        up_theme.start()
-        return
-
-    if int(can_settings["width"])/2-45+15<=e.x<=int(can_settings["width"])/2+45-15:
-        if int(can_settings["height"])-10-30<=e.y<=int(can_settings["height"])-10:
-
-
-            ar=os.listdir("data")
-
-            for i in ar:
-
-                if i.split(".")[0]=="bg_":
-
-                    os.remove("data/"+i)
-
-
-            im=Image.open("data/bg2_.png")
-            im.save("data/bg_.png")
-
-            op1,op2=str(op_var).replace(" ","").split(",")
-
-            sel_col=str(te_var)
-
-            con_theme=1
-
-            _theme[2]=float(op1)
-            _theme[3]=float(op2)
-
-            im=Image.open("data/bg3.png")
-            x,y=im.size
-
-            im2=Image.open("data/bg2_.png")
-            x_,y_=im2.size
-
-            ar=[]
-
-            bg_st=0
-            for p in range(len(bg_region_[1])):
-
-                if bg_st==0:
-                    ar.append(int(round((bg_region_[1][p]-bg_region_[0][0])*x_/x,0)))
-                    bg_st=1
-                elif bg_st==1:
-                    ar.append(int(round((bg_region_[1][p]-bg_region_[0][1])*y_/y,0)))
-                    bg_st=0
-
-            _theme[-1]=[ar[0],ar[1],ar[4],ar[5]]
-
-            _theme[-2]=no_bg_st 
-
-            save()
-
-
-
-            #adjust_theme()
-
-            draw_settings()
-
-            up_theme=threading.Thread(target=adjust_theme,daemon=True)
-            up_theme.start()
-            return    
 
     # add bg 
 
@@ -10775,8 +10766,7 @@ def can_settings_b1(e):
 
             file=filedialog.askopenfilename()
 
-            im=Image.open(file)
-            im.save("data/bg2_.png")
+            tbg2_=Image.open(file)
 
             settings_st=1
 
@@ -10892,8 +10882,7 @@ def can_settings_b1(e):
     if settings_st==2:
 
 
-        im=Image.open("data/bg3.png")
-        x,y=im.size
+        x,y=tbg3.size
 
         if bg_region_[0][0]<=e.x<=bg_region_[0][0]+x:
             if bg_region_[0][1]<=e.y<=bg_region_[0][1]+y:
@@ -10906,11 +10895,9 @@ def can_settings_b1(e):
 
 
 
-                    im=Image.open("data/bg2_.png")
-                    x,y=im.size
+                    x,y=tbg2_.size
 
-                    im2=Image.open("data/bg3.png")
-                    x_,y_=im2.size
+                    x_,y_=tbg3.size
 
 
                     xx=[_crop_[0],_crop_[2]]
@@ -10924,10 +10911,9 @@ def can_settings_b1(e):
 
 
 
-                    im=im.crop((x1,y1,x2,y2))
+                    tbg2_=tbg2_.crop((x1,y1,x2,y2))
 
 
-                    im.save("data/bg2_.png")
 
                     _crop_=[]
 
@@ -10944,9 +10930,8 @@ def can_settings_b1(e):
         if int(can_settings["height"])-95+5<=e.y<=int(can_settings["height"])-95+5+25:
 
 
-                im=Image.new("RGBA", (w,h), (0,0,0,255))
+                tbg2_=Image.new("RGBA", (w,h), (0,0,0,255))
 
-                im.save("data/bg2_.png")
 
                 no_bg_st=1
 
@@ -10958,7 +10943,6 @@ def can_settings_b1(e):
 
 
 no_bg_st=0
-    #print(e.x,e.y)
 
 
 
@@ -10972,10 +10956,12 @@ cr=0
 _crop_=[]
 cr2=0
 bg_region2=0
+
+tbg3_=0
 def conf_bg(col):
     global _theme
     global bg_region_,bg_region2
-    global op_var 
+    global op_var,tbg3,tbg3_
 
     x1=int(round(bg_region_[1][0]-bg_region_[0][0],0))
     x2=int(round(bg_region_[1][4]-bg_region_[0][0],0))
@@ -10983,14 +10969,13 @@ def conf_bg(col):
     y1=int(round(bg_region_[1][1]-bg_region_[0][1],0))
     y2=int(round(bg_region_[1][5]-bg_region_[0][1],0))
 
-    im=Image.open("data/bg3.png")
+    im=tbg3
     im=im.crop((x1,y1,x2,y2))
-    im.save("data/bg3_.png")
 
-    convert_("data/bg3_.png","data/bg3_.png",col)
-    darken_image("data/bg3_.png", "data/bg3_.png",(0,0,0), float(str(op_var).replace(" ","").split(",")[0]))
+    tbg3_=convert_(im,col)
+    tbg3_=darken_image(tbg3_,(0,0,0), float(str(op_var).replace(" ","").split(",")[0]))
 
-    bg_region2=ImageTk.PhotoImage(file="data/bg3_.png")
+    bg_region2=ImageTk.PhotoImage(tbg3_)
 
     return bg_region2
 
@@ -11000,6 +10985,8 @@ bg_region_=0
 bg_se=0
 
 focus__=0
+
+tbg_,tbg2_,tbg3=0,0,0
 def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
@@ -11028,6 +11015,8 @@ def draw_settings(con=0):
     global can_sel_op,op_var
     global can_sel_op_rec,cop_txt
     global focus__
+
+    global tbg_,tbg2_,tbg3
 
 
 
@@ -11131,12 +11120,13 @@ def draw_settings(con=0):
             ext=i.split(".")[1]
 
     im=Image.open("data/bg_."+ext)
+    tbg_=im
 
     if con==0:
 
-        im.save("data/bg2_.png")
+        tbg2_=im
 
-    im=Image.open("data/bg2_.png")
+    im=tbg2_
 
 
     x,y=im.size
@@ -11152,7 +11142,8 @@ def draw_settings(con=0):
 
         im=im.resize((x2,y2))
 
-        im.save("data/bg3.png")
+
+        tbg3=im
 
     elif xx/yy>x/y:
 
@@ -11162,7 +11153,7 @@ def draw_settings(con=0):
 
         im=im.resize((x2,y2))
 
-        im.save("data/bg3.png")
+        tbg3=im
 
     else:
 
@@ -11171,27 +11162,18 @@ def draw_settings(con=0):
 
         im=im.resize((x2,y2))
 
-        im.save("data/bg3.png")
+        tbg3=im
 
 
-    im=Image.open("data/bg3.png")
+    im=tbg3
     x,y=im.size
 
     x_=(xx-x)/2
     y_=(yy-y)/2
 
 
-    ar=os.listdir("data")
 
-    for i in ar:
-
-        if i.split(".")[0]=="bg_":
-            ext=i.split(".")[1]
-
-    
-
-    im=Image.open("data/bg_."+ext)
-    _x,_y=im.size
+    _x,_y=tbg_.size
 
 
 
@@ -11244,8 +11226,7 @@ def draw_settings(con=0):
             xy=_theme[-1][:2]
 
     else:
-        im=Image.open("data/bg2_.png")
-        _x,_y=im.size
+        _x,_y=tbg2_.size
 
 
         if w/h>_x/_y:
@@ -11277,7 +11258,7 @@ def draw_settings(con=0):
 
 
 
-    im_bg=ImageTk.PhotoImage(file="data/bg3.png")
+    im_bg=ImageTk.PhotoImage(tbg3)
 
     can_settings.create_image(20+30+x_,60+30+y_,image=im_bg,anchor="nw")
 
@@ -11409,6 +11390,7 @@ def can_settings_m(e):
 
     global no_bg_st
     global te_var
+    global tbg3
 
     can_settings.delete(del_theme)
 
@@ -11425,8 +11407,7 @@ def can_settings_m(e):
             return
 
 
-    im=Image.open("data/bg3.png")
-    x,y=im.size
+    x,y=tbg3.size
 
     if bg_region_[0][0]<=e.x<=bg_region_[0][0]+x:
         if bg_region_[0][1]<=e.y<=bg_region_[0][1]+y:
@@ -11452,14 +11433,27 @@ def can_settings_drag(e):
     global bg_region,bg_region_,bg_region2_
     global bg_xy
     global te_var
+    global tbg3
+    global sett_m
+
+    can_settings.delete(sett_m)
 
 
+    if not up_theme==None:
+
+        if up_theme.is_alive():
+
+            sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
+                    text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+
+            return
 
     if bg_region_[1][0]<=e.x<=bg_region_[1][4]:
         if bg_region_[1][1]<=e.y<=bg_region_[1][5]:
 
-            im=Image.open("data/bg3.png")
-            xx,yy=im.size
+            xx,yy=tbg3.size
 
             ar=[]
 
@@ -11542,6 +11536,24 @@ def on_release_s(e):
     global sel_col
     global theme_ent
     global te_var
+    global sett_m
+
+
+
+    can_settings.delete(sett_m)
+
+
+    if not up_theme==None:
+
+        if up_theme.is_alive():
+
+            sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
+                    text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+
+            return
+
 
 
     if bg_region_[1][0]<=e.x<=bg_region_[1][4]:
@@ -12235,7 +12247,7 @@ def can_theme_ent_insert():
 
                 try:
                     cte_i=can_theme_ent.create_line(int(can_theme_ent["width"])-1,2, int(can_theme_ent["width"])-1,26,
-                        fill=sel_col)
+                        fill=te_var)
                 except:
                     cte_i=can_theme_ent.create_line(int(can_theme_ent["width"])-1,2, int(can_theme_ent["width"])-1,26,
                         fill=_theme[0])
@@ -12430,7 +12442,7 @@ can_sel_op_insert()
 
 
 adjust_theme()
-
+load_im()
 
 
 
