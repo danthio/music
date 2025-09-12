@@ -1718,7 +1718,7 @@ def timer():
                     mvar+=1
                 add_st=0
                 frame2.place_forget()
-                can2.focus_set()
+                
 
 
                 if mvar+1>len(_songs_):
@@ -1867,7 +1867,7 @@ def can3_b1(e):
 
 
             add_playlist()
-            can2.focus_set()
+            
 
             main()
             return
@@ -3146,7 +3146,7 @@ def can_b1(e):
             add_st=0
             frame2.place_forget()
 
-            can2.focus_set()
+            
                         
             _npl=0
             can_npl.place_forget()
@@ -3224,7 +3224,7 @@ def can_b1(e):
             
             lst=1
             current_playlist=""
-            can2.focus_set()
+            
             add_st=0
             frame2.place_forget()
             
@@ -3306,7 +3306,7 @@ def can_b1(e):
 
             
             playlist_st=0
-            can2.focus_set()
+            
             add_st=0
             frame2.place_forget()
             
@@ -3393,7 +3393,7 @@ def can_b1(e):
 
             
             current_playlist=""
-            can2.focus_set()
+            
             add_st=0
             frame2.place_forget()
             
@@ -3467,7 +3467,7 @@ def can_b1(e):
             root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 
 
-            can2.focus_set()
+            
             add_st=0
             frame2.place_forget()
             
@@ -5245,7 +5245,7 @@ def main():
 
         a_=270
 
-        cx,cy=(int(can2["width"])-sb_sz-2-25*4-15*3-10-30)+r*2,r
+        cx,cy=(int(can2["width"])-sb_sz-2-25*4-15*3-10-30)+r*2,r+1
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5263,7 +5263,7 @@ def main():
         r=10
         a_=180
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-1,r+1
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5281,7 +5281,7 @@ def main():
         r=10
         a_=90
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,50-r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-1,50-r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5329,7 +5329,7 @@ def main():
 
         a_=270
 
-        cx,cy=(int(can2["width"])-30-15-25*2-10-sb_sz-2)+r*2,r
+        cx,cy=(int(can2["width"])-30-15-25*2-10-sb_sz-2)+r*2,r+1
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5347,7 +5347,7 @@ def main():
         r=10
         a_=180
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-1,r+1
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -5365,7 +5365,7 @@ def main():
         r=10
         a_=90
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r,50-r
+        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-1,50-r
         for a in range(90):
 
             x=r*math.sin(math.radians(a_))+cx
@@ -6678,6 +6678,8 @@ def vid_timer():
     root.after(2,vid_timer)
 
 
+
+
 vid_st=0
 vid_st2=0
 vid_st2_=0
@@ -6690,6 +6692,9 @@ bg_f2=0
 
 b_g1=0
 b_g2=0
+
+dc_v1=0
+dc_v2=0
 
 def draw_can(con=0):
 
@@ -6768,6 +6773,7 @@ def draw_can(con=0):
     global _frame_
 
     global b_g1,b_g2
+    global dc_v1,dc_v2
 
 
     if root_st==1:
@@ -7287,8 +7293,7 @@ def draw_can(con=0):
 
 
 
-        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][1],width=2)
-
+        dc_v1=can.create_line(0,0,0,0,fill=_theme[1][0],width=2)
         
         if st==2 and playlist_st==0 and current_playing=="":
             pass
@@ -7404,8 +7409,9 @@ def draw_can(con=0):
 
 
 
-        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][1],width=2)
+        
 
+        dc_v2=can.create_line(0,0,0,0,fill=_theme[1][0],width=2)
 
         can.create_image(w-10-120-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
 
@@ -8367,6 +8373,8 @@ def draw_cur_():
     global lst
     global cursor
     global vid_tm
+    global dc_v1,dc_v2
+    global play_st2,v_st
     
 
 
@@ -8375,6 +8383,22 @@ def draw_cur_():
 
     
 
+    if h-20-60-20+10+2+5-3+10-5<=y<=h-20-60-20+10+2+5-3+10+5 or play_st2==1:
+
+        if not v_st==1:
+
+            can.coords(dc_v1,10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10)
+            can.coords(dc_v2,0,0,0,0)
+    elif h-20-30+5+10-3-5<=y<=h-20-30+5+10-3+5 or v_st==1:
+
+        if w-10-120-10<=x<=w:
+            if not play_st2==1:
+
+                can.coords(dc_v2,w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3)
+                can.coords(dc_v1,0,0,0,0)
+    else:
+        can.coords(dc_v1,0,0,0,0)
+        can.coords(dc_v2,0,0,0,0)
 
 
 
@@ -9872,6 +9896,7 @@ def drag_can(e):
         if 10<=e.x<=w-10:
 
 
+
             x=e.x-10
 
             tm=x*tot_tm_/(w-20)
@@ -9901,6 +9926,7 @@ def drag_can(e):
 
 
 
+
             x=e.x-(w-10-120)
 
             r=120
@@ -9923,6 +9949,7 @@ def drag_can(e):
 
             vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
             vol4=can.create_image(w-10-120+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
+
 
 
 
@@ -11590,7 +11617,7 @@ theme_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],relie
 sel_op_ent=tk.Entry(width=20,font=("FreeMono",13),bg="#000000",fg=_theme[0],relief="flat",highlightthickness=0,
     border=0,insertbackground=_theme[0],selectbackground=_theme[0],selectforeground="#000000")
 
-can2.focus_set()
+
 
 
 def filter1_b1(e):
@@ -12232,6 +12259,7 @@ def can_theme_ent_insert():
     global can_theme_ent
     global sel_col
     global focus__
+
 
     if focus__==1:
 
