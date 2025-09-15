@@ -216,7 +216,7 @@ def configure_theme(pcol):
 
     col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
     col3=(int(col1[0]*32/mxc),int(col1[1]*32/mxc),int(col1[2]*32/mxc))
-    col4=(int(col1[0]*10/mxc),int(col1[1]*10/mxc),int(col1[2]*10/mxc))
+    col4=(int(col1[0]*50/mxc),int(col1[1]*50/mxc),int(col1[2]*50/mxc))
 
 
     ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3,"#%02x%02x%02x" % col4]
@@ -317,7 +317,7 @@ def change_theme(pcol):
 
                 #print(col,pixels[x_,y_])
 
-            root.after(2,update)
+            root.after(0,update)
 
 
         
@@ -1093,11 +1093,11 @@ def convert_folder_to_audio():
 
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-                    root.after(2,update)
+                    root.after(0,update)
 
 
                 except:
-                    root.after(2,update)
+                    root.after(0,update)
                     
 
 
@@ -1107,6 +1107,9 @@ def convert_folder_to_audio():
 
         except:
             pass
+
+
+        draw_outline_text(can,"Done!",w/2,h-121-20-40,"c",("FreeMono",17))
 
 
         can.create_text(w/2,h-121-20-40,text="Done!",fill=_theme[0],font=("FreeMono",17))
@@ -1201,16 +1204,20 @@ def convert_file_to_audio():
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
-                    root.after(2,update)
+                    root.after(0,update)
                     
 
                 except:
-                    root.after(2,update)
+                    root.after(0,update)
                     
 
 
         except:
             pass
+
+
+
+        draw_outline_text(can,"Done!",w/2,h-121-20-40,"c",("FreeMono",17))
 
 
         can.create_text(w/2,h-121-20-40,text="Done!",fill=_theme[0],font=("FreeMono",17))
@@ -1534,11 +1541,17 @@ print(f"Amplitude at {target_time} seconds: {amplitude}")
 
 
 
+
+
 prog3=0
+ctime2=0
+
+can_outline_st=0
+
 def prog():
 
     global play_st,tm,start_time,can
-    global ctime,tot_tm_
+    global ctime,ctime2,tot_tm_
     global prog1,prog2,prog3
     global tvar
     global w,h
@@ -1554,6 +1567,13 @@ def prog():
     global cursor
     global vid_st2
     global root_st
+
+    global can_outline_st
+
+
+    global v1__,v2__,v3__,v4__
+
+
 
 
 
@@ -1613,6 +1633,7 @@ def prog():
 
 
                 can.delete(ctime)
+                can.delete(ctime2)
                 can.delete(prog1)
                 can.delete(prog2)
                 can.delete(prog3)
@@ -1622,8 +1643,18 @@ def prog():
 
 
 
+                can.delete(v1__)
+                can.delete(v2__)
+                can.delete(v3__)
+                can.delete(v4__)
 
 
+                can_outline_st=1
+
+
+
+
+                ctime2=draw_outline_text(can,tt,10,h-20-60-20+20+10+5-3+5-2+2,"w",("FreeMono",11))
 
                 ctime=can.create_text(10,h-20-60-20+20+10+5-3+5-2+2,text=tt,font=("FreeMono",11),fill=col1,anchor="w")
 
@@ -1906,6 +1937,9 @@ def add_playlist():
     can4.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2),image=bg2_,anchor="nw")
     can6.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40+250+10),image=bg2_,anchor="nw")
 
+
+    draw_outline_text(can4,"Playlists",550/2,20,"c",("FreeMono",13))
+
     can4.create_text(550/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
     can4.create_line(2,38,550-2,38,fill=col1)
 
@@ -2012,8 +2046,14 @@ def add_playlist():
 
         if get_text_length(can3, p, "FreeMono", 13)>int(can3["width"])-(10+30+10)-(sb2_sz+2+10+20)-10:
             l=get_text_length(can3, "...", "FreeMono", 13)
-            can3.create_text(10+30+10,y+25,text=_text_(can2,p,"FreeMono",13,int(can3["width"])-(10+30+10)-(sb2_sz+2+10+20)-10-l)+"...",font=("FreeMono",13),anchor="w",fill=col1)
+
+            txt=_text_(can2,p,"FreeMono",13,int(can3["width"])-(10+30+10)-(sb2_sz+2+10+20)-10-l)+"..."
+
+            draw_outline_text(can3,txt,10+30+10,y+25,"w",("FreeMono",13))
+            can3.create_text(10+30+10,y+25,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
         else:
+
+            draw_outline_text(can3,p,10+30+10,y+25,"w",("FreeMono",13))
             can3.create_text(10+30+10,y+25,text=p,font=("FreeMono",13),anchor="w",fill=col1)
 
 
@@ -2053,6 +2093,8 @@ def add_playlist():
 
 
     if len(playlist)==0:
+
+        draw_outline_text(can3,"No record",10+30+10,(250-40)/2,"w",("FreeMono",13))
         can3.create_text(10+30+10,(250-40)/2,text="No record",font=("FreeMono",13),anchor="w")
 
 
@@ -2094,7 +2136,7 @@ def add_playlist():
                 p-=1
 
 
-
+    draw_outline_text(can6,label_sel_song(song_add_pl),int(can6["width"])/2,20,"c",("FreeMono",12))
     can6.create_text(int(can6["width"])/2,20,text=label_sel_song(song_add_pl),font=("FreeMono",12),fill=_theme[0])
 
 
@@ -3979,12 +4021,16 @@ def can_b1(e):
 
                     draw_round_rec(can_sort,1,1, 250-2-1,160-1-1,15,col1,col1,1)
 
+                    draw_outline_text(can_sort,"Sort",125,15,"c",("FreeMono",13))
+
                     can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
 
 
                     can_sort.create_line(3,30, 250-2,30,fill=col1 )
                     y=30
                     for _ in sa:
+
+                        draw_outline_text(can_sort,_,10,y+15,"w",("FreeMono",13))
 
                         can_sort.create_text(10,y+15,text=_,font=("FreeMono",13),fill=col1,anchor="w")
 
@@ -4769,6 +4815,8 @@ def check_volume():
 
         vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
 
+        draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
+
         vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
 
         vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
@@ -5550,6 +5598,10 @@ def main():
                         txt=song[:-4]
 
 
+
+                    draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+
+
                     can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
                     
                     try:
@@ -5846,6 +5898,14 @@ def main():
 
                     if scon==1:
 
+                        if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
+
+                            l=get_text_length(can2, "...", "FreeMono", 13)
+                            txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
+
+                        else:
+                            txt=song[:-4]
+
 
 
                         if song==current_playing:
@@ -5866,19 +5926,18 @@ def main():
 
                         else:
 
+                            draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+
 
 
                             can2.create_image(0,y+10,image=musical_note2,anchor="nw")
                             col=_theme[0]
 
 
-                        if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
-                            l=get_text_length(can2, "...", "FreeMono", 13)
-                            txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
-                        else:
-                            txt=song[:-4]
+
+                        
 
 
                         can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
@@ -6007,6 +6066,18 @@ def main():
 
                         if music_details[song][0]==1:
 
+
+                            if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
+
+                                l=get_text_length(can2, "...", "FreeMono", 13)
+                                txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
+
+                            else:
+                                txt=song[:-4]
+
+
+
+
                             if song==current_playing:
 
                                 #can2.create_rectangle(2,y, (int(can2["width"])-sb_sz-1),y+50-1,fill=col1,outline=col1)
@@ -6018,18 +6089,16 @@ def main():
                                 can2.create_image(0,y+10,image=musical_note1,anchor="nw")
 
                             else:
+                                draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
                                 col=col1
                                 can2.create_image(0,y+10,image=musical_note2,anchor="nw")
 
 
 
-                            if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
-                                l=get_text_length(can2, "...", "FreeMono", 13)
-                                txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
-                            else:
-                                txt=song[:-4]
+
+                            
 
 
                             can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
@@ -6114,7 +6183,7 @@ def main():
                     draw_round_rec(can2,10,y,(int(can2["width"])-sb_sz-1)-10,y+30,15,col1,"",1)
 
 
-
+                    draw_outline_text(can2,"New Playlist",30,y+15,"w",("FreeMono",13))
                     can2.create_text(30,y+15,text="New Playlist",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
                     can2.create_image((int(can2["width"])-sb_sz-1)-10-5-20,y+5,image=cancel,anchor="nw")
@@ -6190,8 +6259,18 @@ def main():
 
 
 
+                            if get_text_length(can2, pl, "FreeMono", 13)>(int(can2["width"])-50-30-15-25*2-10-sb_sz-2):
+
+                                l=get_text_length(can2, "...", "FreeMono", 13)
+                                txt=_text_(can2,pl,"FreeMono",13,(int(can2["width"])-50-30-15-25*2-10-sb_sz-2)-l)+"..."
+
+                            else:
+                                txt=pl
+
 
                             if current_playlist==pl:
+
+                                
 
                                 #can2.create_rectangle(2,y, (int(can2["width"])-sb_sz-1),y+50-1,fill=col1,outline=col1)
                                 #draw_round_rec(can2,2,y, (int(can2["width"])-sb_sz-1),y+50,10,col1,col1,0)
@@ -6204,6 +6283,8 @@ def main():
 
                             else:
 
+                                draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+
                                 col=col1
 
                                 _pl_=playlist2
@@ -6215,13 +6296,8 @@ def main():
 
 
 
-                            if get_text_length(can2, pl, "FreeMono", 13)>(int(can2["width"])-50-30-15-25*2-10-sb_sz-2):
 
-                                l=get_text_length(can2, "...", "FreeMono", 13)
-                                txt=_text_(can2,pl,"FreeMono",13,(int(can2["width"])-50-30-15-25*2-10-sb_sz-2)-l)+"..."
-
-                            else:
-                                txt=pl
+                            
 
 
                             can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
@@ -6340,6 +6416,17 @@ def main():
                             try:
                                 v=ar.index(song)
 
+
+
+                                if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
+
+                                    l=get_text_length(can2, "...", "FreeMono", 13)
+                                    txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
+
+                                else:
+                                    txt=song[:-4]
+
+
                             
                                 if song==current_playing:
 
@@ -6354,6 +6441,8 @@ def main():
 
                                 else:
 
+                                    draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+
 
 
                                     can2.create_image(0,y+10,image=musical_note2,anchor="nw")
@@ -6362,13 +6451,8 @@ def main():
 
 
 
-                                if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
-                                    l=get_text_length(can2, "...", "FreeMono", 13)
-                                    txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
-
-                                else:
-                                    txt=song[:-4]
+                                
 
 
                                 can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
@@ -6478,6 +6562,16 @@ def main():
 
 
 
+                    if get_text_length(can2, song[0][:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
+
+                        l=get_text_length(can2, "...", "FreeMono", 13)
+                        txt=_text_(can2,song[0][:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
+
+                    else:
+                        txt=song[0][:-4]
+
+
+
                     if song[0]==current_playing:
 
                         #can2.create_rectangle(2,y, (int(can2["width"])-sb_sz-1),y+50-1,fill=col1,outline=col1)
@@ -6492,19 +6586,16 @@ def main():
 
                     else:
 
+                        draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+
 
                         can2.create_image(0,y+10,image=musical_note2,anchor="nw")
                         col=col1
 
 
 
-                    if get_text_length(can2, song[0][:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
-                        l=get_text_length(can2, "...", "FreeMono", 13)
-                        txt=_text_(can2,song[0][:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
-
-                    else:
-                        txt=song[0][:-4]
+                    
 
 
                     can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
@@ -6693,8 +6784,120 @@ bg_f2=0
 b_g1=0
 b_g2=0
 
-dc_v1=0
-dc_v2=0
+v1__,v2__,v3__,v4__=0,0,0,0
+_v1__,_v2__,_v3__,_v4__=0,0,0,0
+_v11__,_v12__,_v13__,_v14__=0,0,0,0
+_v21__,_v22__,_v23__,_v24__=0,0,0,0
+_v31__,_v32__,_v33__,_v34__=0,0,0,0
+_v41__,_v42__,_v43__,_v44__=0,0,0,0
+
+
+
+
+def draw_outline_text(c,text,x,y,anchor,font,col="#000000"):
+
+    global can_outline_st
+    global v1__,v2__,v3__,v4__
+    global _v1__,_v2__,_v3__,_v4__
+    global _v11__,_v12__,_v13__,_v14__
+    global _v21__,_v22__,_v23__,_v24__
+    global _v31__,_v32__,_v33__,_v34__
+    global _v41__,_v42__,_v43__,_v44__
+
+
+    if can_outline_st==1:
+
+        v1__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        v2__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        v3__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        v4__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+    elif can_outline_st==2:
+
+
+
+        _v1__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v2__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v3__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v4__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+
+    elif can_outline_st==3:
+
+        c.delete(_v11__)
+        c.delete(_v12__)
+        c.delete(_v13__)
+        c.delete(_v14__)
+
+
+
+
+
+
+        _v11__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v12__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v13__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v14__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+
+    elif can_outline_st==4:
+
+
+        c.delete(_v21__)
+        c.delete(_v22__)
+        c.delete(_v23__)
+        c.delete(_v24__)
+
+        _v21__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v22__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v23__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v24__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+    elif can_outline_st==5:
+
+
+        c.delete(_v31__)
+        c.delete(_v32__)
+        c.delete(_v33__)
+        c.delete(_v34__)
+
+        _v31__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v32__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v33__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v34__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+
+    elif can_outline_st==6:
+
+
+        c.delete(_v41__)
+        c.delete(_v42__)
+        c.delete(_v43__)
+        c.delete(_v44__)
+
+        _v41__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v42__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v43__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v44__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+    else:
+
+
+
+
+
+        c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
+        c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+    can_outline_st=0
+
 
 def draw_can(con=0):
 
@@ -6772,8 +6975,7 @@ def draw_can(con=0):
     global can_settings,frame2,can_sort,conf_del,can_npl,can_theme_ent,can_sel_op
     global _frame_
 
-    global b_g1,b_g2
-    global dc_v1,dc_v2
+    global b_g1,b_g2, b_g1_,b_g2_
 
 
     if root_st==1:
@@ -6873,11 +7075,16 @@ def draw_can(con=0):
 
 
 
-    #if vid_st2==1:
+    if vid_st2==1 or vid_st==0:
 
 
-    can.create_image(0,0,image=b_g1,anchor="nw")
-    can.create_image(0,(90+int(can2["height"])),image=b_g2,anchor="nw")
+
+        can.create_image(0,0,image=b_g1_,anchor="nw")
+        can.create_image(0,(90+int(can2["height"])),image=b_g2_,anchor="nw")
+
+
+        can.create_image(0,0,image=b_g1,anchor="nw")
+        can.create_image(0,(90+int(can2["height"])),image=b_g2,anchor="nw")
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
@@ -7088,20 +7295,22 @@ def draw_can(con=0):
 
 
 
-
-
-            can.create_text(10+15+20+10,40+15+30-10-5-5,text="Search",font=("FreeMono",13),fill=_theme[0],anchor="w")
-
-
-
-            can.create_image(10+15,45+30-10-5-5-2.5,image=search_im,anchor="nw")
-            
             if _search==1:
 
                 pass
             else:
 
                 create_polygon(*ar, fill=_theme[0], alpha=0.35,can=can)
+            
+
+
+
+            draw_outline_text(can,"Search",10+15+20+10,40+15+30-10-5-5,"w",("FreeMono",13))
+            can.create_text(10+15+20+10,40+15+30-10-5-5,text="Search",font=("FreeMono",13),fill=_theme[0],anchor="w")
+
+
+
+            can.create_image(10+15,45+30-10-5-5-2.5,image=search_im,anchor="nw")
             
 
             draw_round_rec(can,10,40+30-10-5-5,w-10-25-10,40+30-10-5-5+30,15,col1,"",1)
@@ -7228,6 +7437,11 @@ def draw_can(con=0):
 
 
 
+        if not col=="#000000":
+
+            draw_outline_text(can,label[l],x,50/2,"c",("FreeMono",13))
+
+
 
 
         can.create_text(x,50/2,text=label[l],fill=col,font=("FreeMono",13),anchor="c")
@@ -7276,30 +7490,46 @@ def draw_can(con=0):
                         can.create_image(10+15,h-20-60-20-27-15+3+10+5+3+2+2-3+2+10, image=playlist4,anchor="nw")
 
                         can.create_text(10+15+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=current_playlist_,font=("FreeMono",13,),anchor="w",fill="#000000")
-                              
-                        can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10+15+length_in_pixels+15+10+30)),font=("FreeMono",13),anchor="w",fill=col1)
+                        
+                        txt=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10+15+length_in_pixels+15+10+30))
+
+                        draw_outline_text(can,txt,10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,"w",("FreeMono",13))
+                        can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
 
                 else:
 
                     if songs_status[0]==1:
 
                         can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10-12.5,image=favourite2,anchor="nw")
-                        can.create_text(10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10+25+10)),font=("FreeMono",13),anchor="w",fill=col1)
+                        
+                        txt=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10+25+10))
+
+                        draw_outline_text(can,txt,10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,"w",("FreeMono",13))
+                        can.create_text(10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
+                    
                     else:
-                        can.create_text(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10)),font=("FreeMono",13),anchor="w",fill=col1)
+
+                        txt=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10))
+
+                        draw_outline_text(can,txt,10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,"w",("FreeMono",13))
+                        can.create_text(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
             
             except:
                 pass
 
 
 
-        dc_v1=can.create_line(0,0,0,0,fill=_theme[1][0],width=2)
+
+
+        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][0],width=2)
         
         if st==2 and playlist_st==0 and current_playing=="":
             pass
         else:
 
             if not current_playing=="":
+
+                draw_outline_text(can,tot_tm,w-10,h-20-60-20+20+10+5-3+5-2+2,"e",("FreeMono",11))
                 can.create_text(w-10,h-20-60-20+20+10+5-3+5-2+2,text=tot_tm,font=("FreeMono",11),anchor="e",fill=col1)
 
 
@@ -7411,7 +7641,7 @@ def draw_can(con=0):
 
         
 
-        dc_v2=can.create_line(0,0,0,0,fill=_theme[1][0],width=2)
+        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][0],width=2)
 
         can.create_image(w-10-120-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
 
@@ -7426,6 +7656,9 @@ def draw_can(con=0):
 
 
         vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
+
+
+        draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
         vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
         vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
@@ -7516,6 +7749,9 @@ def draw_can(con=0):
 
         can.create_image(x,(h-121+75)+((h-1)-(h-121+75))/2-11,image=playlist2,anchor="nw")
 
+
+        draw_outline_text(can,playlist_select,x+30+5,(h-121+75)+((h-1)-(h-121+75))/2,"w",("FreeMono",13))
+
         can.create_text(x+30+5,(h-121+75)+((h-1)-(h-121+75))/2,text=playlist_select,font=("FreeMono",13),fill=col1,anchor="w")
 
         can.create_image(w-10-25,(h-121+75)+((h-1)-(h-121+75)-25)/2,image=quit,anchor="nw")
@@ -7542,9 +7778,13 @@ def draw_can(con=0):
 
 
             if a[1]==None:
+
+                draw_outline_text(filter_can1,"None",5+25+15,y+15,"w",("FreeMono",13))
                 filter_can1.create_text(5+25+15,y+15,text="None",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
             else:
+
+                draw_outline_text(filter_can1,a[1],5+25+15,y+15,"w",("FreeMono",13))
 
                 filter_can1.create_text(5+25+15,y+15,text=a[1],font=("FreeMono",13),fill=_theme[0],anchor="w")
 
@@ -7594,7 +7834,7 @@ def draw_can(con=0):
             for p in playlist:
 
 
-
+                draw_outline_text(filter_can2,p,10,y+15,"w",("FreeMono",13))
                 filter_can2.create_text(10,y+15,text=p,font=("FreeMono",13),fill=_theme[0],anchor="w")
 
                 if filter_pl==p:
@@ -7812,6 +8052,8 @@ def show_lyrics():
 
                     for l in tt:
 
+                        draw_outline_text(can_lyrics,l,10+(w-20)/2,y,"c",("FreeMono",13))
+
                         can_lyrics.create_text(10+(w-20)/2,y, text=l, font=("FreeMono",13),anchor="c",fill=col1)
 
                         y+=13
@@ -8006,6 +8248,8 @@ filter_=0
 
 no_music=0
 circle6=0
+
+b_g1_,b_g2_=0,0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -8034,7 +8278,7 @@ def load_im():
     global vid1,vid2,vid3
     global filter_
     global no_music
-    global b_g1,b_g2
+    global b_g1,b_g2, b_g1_,b_g2_
     global _theme
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
@@ -8149,9 +8393,15 @@ def load_im():
 
 
 
-    b_g1=ImageTk.PhotoImage(dark_bg(w,50,_theme[1][1],0))
+    b_g1=ImageTk.PhotoImage(dark_bg(w,50,_theme[1][-1],0))
 
-    b_g2=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),_theme[1][1],1))
+    b_g2=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),_theme[1][-1],1))
+
+
+    b_g1_=ImageTk.PhotoImage(dark_bg(w,50,"#000000",0))
+
+    b_g2_=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),"#000000",1))
+
 
 
 def check_pl():
@@ -8373,7 +8623,6 @@ def draw_cur_():
     global lst
     global cursor
     global vid_tm
-    global dc_v1,dc_v2
     global play_st2,v_st
     
 
@@ -8382,24 +8631,6 @@ def draw_cur_():
 
 
     
-
-    if h-20-60-20+10+2+5-3+10-5<=y<=h-20-60-20+10+2+5-3+10+5 or play_st2==1:
-
-        if not v_st==1:
-
-            can.coords(dc_v1,10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10)
-            can.coords(dc_v2,0,0,0,0)
-    elif h-20-30+5+10-3-5<=y<=h-20-30+5+10-3+5 or v_st==1:
-
-        if w-10-120-10<=x<=w:
-            if not play_st2==1:
-
-                can.coords(dc_v2,w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3)
-                can.coords(dc_v1,0,0,0,0)
-    else:
-        can.coords(dc_v1,0,0,0,0)
-        can.coords(dc_v2,0,0,0,0)
-
 
 
 
@@ -8938,6 +9169,15 @@ def can_label(x,y):
     global can,mot_val
     global root_st
     global select_st
+    global can_outline_st
+
+    global _v1__,_v2__,_v3__,_v4__
+
+
+    can.delete(_v1__)
+    can.delete(_v2__)
+    can.delete(_v3__)
+    can.delete(_v4__)
 
 
     col1=_theme[0]
@@ -8951,6 +9191,9 @@ def can_label(x,y):
         can.delete(mot_val)
 
 
+
+
+
         if not select_st==1:
 
 
@@ -8960,6 +9203,11 @@ def can_label(x,y):
 
             if cx-12.5<=x<=cx+12.5:
                 if cy-12.5<=y<=cy+12.5:
+
+                    can_outline_st=2
+
+
+                    draw_outline_text(can,"list",10+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
                     mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("FreeMono",10),anchor="c")
 
@@ -8971,6 +9219,13 @@ def can_label(x,y):
 
             if cx-12.5<=x<=cx+12.5:
                 if cy-12.5<=y<=cy+12.5:
+
+                    can_outline_st=2
+
+
+
+
+                    draw_outline_text(can,"sort",10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
                     mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
                 
 
@@ -8983,6 +9238,13 @@ def can_label(x,y):
             if cx-12.5<=x<=cx+12.5:
                 if cy-12.5<=y<=cy+12.5:
 
+
+                    can_outline_st=2
+
+                    draw_outline_text(can,"shuffle",10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
+
+
+
                     mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
                 
 
@@ -8993,6 +9255,11 @@ def can_label(x,y):
 
             if cx-12.5<=x<=cx+12.5:
                 if cy-12.5<=y<=cy+12.5:
+
+                    can_outline_st=2
+
+
+                    draw_outline_text(can,"loop",10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
                     mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
                 
@@ -9014,6 +9281,13 @@ def can_label(x,y):
                         txt="play video"
                     except:
                         txt="no video"
+
+                    can_outline_st=2
+
+
+
+
+                    draw_outline_text(can,txt,10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
                     mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
                 
@@ -9052,7 +9326,7 @@ def convert_(im,col):
 
             pixels[x,y]=(r,g,b,255)
 
-        root.after(2,update)
+        root.after(0,update)
 
     return image
 
@@ -9456,7 +9730,7 @@ def adjust_theme():
 
 
 
-    root.after(2,update)
+    root.after(0,update)
     adj_st=1
 
 
@@ -9944,6 +10218,8 @@ def drag_can(e):
 
 
             vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=_theme[0],width=2)
+
+            draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
             vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
 
@@ -10494,6 +10770,10 @@ def check_up_theme():
             draw_settings()
             up_theme=None
 
+
+            draw_outline_text(can_settings,"Theme Updated!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
+
+
             can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
                 text="Theme Updated!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
@@ -10614,22 +10894,6 @@ def can_settings_b1(e):
 
 
 
-    can_settings.delete(sett_m)
-
-
-    if not up_theme==None:
-
-        if up_theme.is_alive():
-
-            sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
-                    text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
-
-
-
-            return
-
-
-    bg_xy=[e.x,e.y]
 
     #quit
 
@@ -10643,6 +10907,28 @@ def can_settings_b1(e):
             settings_st2=0
 
             return
+
+    can_settings.delete(sett_m)
+
+
+    if not up_theme==None:
+
+        if up_theme.is_alive():
+
+            draw_outline_text(can_settings,"Theme is Updating!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
+
+
+            sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
+                    text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+
+            return
+
+
+    bg_xy=[e.x,e.y]
+
+
 
 
     #save
@@ -10684,6 +10970,11 @@ def can_settings_b1(e):
 
 
 
+            draw_outline_text(can_settings,"Incorrect Theme Attributes!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
+
+
+
+
             sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
                 text="Incorrect Theme Attributes!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
@@ -10711,6 +11002,10 @@ def can_settings_b1(e):
 
 
 
+                draw_outline_text(can_settings,"Incorrect Theme Attributes!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
+
+
+
                 sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
                     text="Incorrect Theme Attributes!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
@@ -10719,6 +11014,8 @@ def can_settings_b1(e):
         else:
 
             can_settings.delete(sett_m)
+
+            draw_outline_text(can_settings,"Incorrect Theme Attributes!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
 
 
 
@@ -10842,18 +11139,23 @@ def can_settings_b1(e):
             if get_text_length(can_theme_ent, te_var, "FreeMono", 13)>int(can_theme_ent["width"])-2:
 
                 try:
+
+                    draw_outline_text(can_theme_ent,te_var,int(can_theme_ent["width"])-2,10,"e",("FreeMono",13))
                     cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=te_var,
                         font=("FreeMono",13),anchor="e")
                 except:
+                    draw_outline_text(can_theme_ent,te_var,int(can_theme_ent["width"])-2,10,"e",("FreeMono",13))
                     cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=_theme[0],
                         font=("FreeMono",13),anchor="e")
             else:
 
                 try:
+                    draw_outline_text(can_theme_ent,te_var,0,10,"e",("FreeMono",13))
                     cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=te_var,
                         font=("FreeMono",13),anchor="w")
 
                 except:
+                    draw_outline_text(can_theme_ent,te_var,0,10,"e",("FreeMono",13))
                     cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=_theme[0],
                         font=("FreeMono",13),anchor="w")
 
@@ -11086,6 +11388,9 @@ def draw_settings(con=0):
     can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
 
 
+    draw_outline_text(can_settings,"Theme",20,30,"w",("FreeMono",13))
+
+
     can_settings.create_text(20,30,text="Theme",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
     x_=10+25+5+20+get_text_length(can_settings, "Theme", "FreeMono", 13)+10
@@ -11098,9 +11403,12 @@ def draw_settings(con=0):
 
     can_theme_ent.delete("all")
 
-    #can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
+    can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
 
     te_var=col_
+
+
+    draw_outline_text(can_theme_ent,te_var,0,10,"w",("FreeMono",13))
 
     cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=col_,
         font=("FreeMono",13),anchor="w")
@@ -11133,6 +11441,8 @@ def draw_settings(con=0):
         int(can_settings["width"])-20,int(can_settings["height"])-95,
         int(can_settings["width"])-20,60,20+10+5+get_text_length(can_settings, "Background", "FreeMono", 13)+5,60,
         fill=_theme[0])
+
+    draw_outline_text(can_settings,"Background",20+10+5,60,"w",("FreeMono",13))
 
     can_settings.create_text(20+10+5,60,text="Background",font=("FreeMono",13),fill=_theme[0],
         anchor="w")
@@ -11337,7 +11647,7 @@ def draw_settings(con=0):
 
 
 
-
+    draw_outline_text(can_settings,"Opacity (bg , select)",20,int(can_settings["height"])-65,"w",("FreeMono",13))
     can_settings.create_text(20,int(can_settings["height"])-65,text="Opacity (bg , select)",
         fill=_theme[0],font=("FreeMono",13),anchor="w")
 
@@ -11353,9 +11663,11 @@ def draw_settings(con=0):
 
     can_sel_op.delete("all")
 
-    #can_sel_op.create_image(-(xx_),-(yy_),image=bg2_,anchor="nw")
+    can_sel_op.create_image(-(xx_),-(yy_),image=bg2_,anchor="nw")
 
     op_var=str(_theme[2])+","+str(_theme[3])
+
+    draw_outline_text(can_sel_op,op_var,0,10,"w",("FreeMono",13))
 
     cop_txt=can_sel_op.create_text(0,10,text=op_var,fill=_theme[0],
         font=("FreeMono",13),anchor="w")
@@ -11470,6 +11782,8 @@ def can_settings_drag(e):
 
         if up_theme.is_alive():
 
+            draw_outline_text(can_settings,"Theme is Updating!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
+
             sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
                     text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
@@ -11573,6 +11887,8 @@ def on_release_s(e):
     if not up_theme==None:
 
         if up_theme.is_alive():
+
+            draw_outline_text(can_settings,"Theme is Updating!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
 
             sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
                     text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
@@ -11898,7 +12214,11 @@ def conf_del_(file,con):
         int(conf_del["width"])/2,int(conf_del["height"]),fill=_theme[0])
 
     xx=int(conf_del["width"])/4
+
+    draw_outline_text(conf_del,"Confirm",xx,int(conf_del["height"])-35/2,"c",("FreeMono",13))
     conf_del.create_text(xx,int(conf_del["height"])-35/2,text="Confirm",font=("FreeMono",13),fill=_theme[0])
+
+    draw_outline_text(conf_del,"Cancel",int(conf_del["width"])-xx,int(conf_del["height"])-35/2,"c",("FreeMono",13))
     conf_del.create_text(int(conf_del["width"])-xx,int(conf_del["height"])-35/2,text="Cancel",font=("FreeMono",13),fill=_theme[0])
 
     conf_del.place(in_=root,x=(w-int(conf_del["width"]))/2,y=(h-int(conf_del["height"]))/2)
@@ -11918,8 +12238,16 @@ def conf_del_(file,con):
         else:
             txt=file.split("/")[-1]
 
-        conf_del.create_text(int(conf_del["width"])/2,15,text="Delete Song",
+
+
+        draw_outline_text(conf_del,"Delete Song",int(conf_del["width"])/2,15+5,"c",("FreeMono",13))
+
+        conf_del.create_text(int(conf_del["width"])/2,15+5,text="Delete Song",
             fill=_theme[0],font=("FreeMono",13),anchor="c")
+
+
+
+        draw_outline_text(conf_del,txt,10,30+(int(conf_del["height"])-35-30)/2,"w",("FreeMono",13))
 
 
         conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
@@ -11947,8 +12275,17 @@ def conf_del_(file,con):
 
 
 
-        conf_del.create_text(int(conf_del["width"])/2,15,text="Delete Video",
+
+        draw_outline_text(conf_del,"Delete Video",int(conf_del["width"])/2,15+5,"c",("FreeMono",13))
+
+
+
+        conf_del.create_text(int(conf_del["width"])/2,15+5,text="Delete Video",
             fill=_theme[0],font=("FreeMono",13),anchor="c")
+
+
+        draw_outline_text(conf_del,txt,10,30+(int(conf_del["height"])-35-30)/2,"w",("FreeMono",13))
+
 
         conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
             fill=_theme[0],font=("FreeMono",13),anchor="w")
@@ -11970,8 +12307,16 @@ def conf_del_(file,con):
             txt=file
 
 
-        conf_del.create_text(int(conf_del["width"])/2,15,text="Delete Playlist",
+        draw_outline_text(conf_del,"Delete Playlist",int(conf_del["width"])/2,15+5,"c",("FreeMono",13))
+
+
+        conf_del.create_text(int(conf_del["width"])/2,15+5,text="Delete Playlist",
             fill=_theme[0],font=("FreeMono",13),anchor="c")
+
+
+
+        draw_outline_text(conf_del,txt,10,30+(int(conf_del["height"])-35-30)/2,"w",("FreeMono",13))
+
 
 
         conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
@@ -11995,8 +12340,16 @@ def conf_del_(file,con):
             txt=file
 
 
-        conf_del.create_text(int(conf_del["width"])/2,15,text="Delete Lyrics",
+
+        draw_outline_text(conf_del,"Delete Lyrics",int(conf_del["width"])/2,15,"c",("FreeMono",13))
+
+
+        conf_del.create_text(int(conf_del["width"])/2,15+5,text="Delete Lyrics",
             fill=_theme[0],font=("FreeMono",13),anchor="c")
+
+
+        draw_outline_text(conf_del,txt,10,30+(int(conf_del["height"])-35-30)/2,"w",("FreeMono",13))
+
 
 
         conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
@@ -12012,6 +12365,10 @@ def can_search_kp(e):
     global search_var
     global can_search
     global cs_txt
+    global can_outline_st
+
+    can_outline_st=3
+
 
     search_var+=e.char
 
@@ -12020,10 +12377,16 @@ def can_search_kp(e):
 
     if get_text_length(can_search, search_var, "FreeMono", 13)>int(can_search["width"])-2:
 
+
+        draw_outline_text(can_search,search_var,int(can_search["width"])-2,14,"e",("FreeMono",13))
+
         
         cs_txt=can_search.create_text(int(can_search["width"])-2,14,text=search_var,fill=_theme[0],
             font=("FreeMono",13),anchor="e")
     else:
+
+
+        draw_outline_text(can_search,search_var,0,14,"w",("FreeMono",13))
         cs_txt=can_search.create_text(0,14,text=search_var,fill=_theme[0],
             font=("FreeMono",13),anchor="w")
 
@@ -12069,6 +12432,10 @@ def can_search_bs(e):
     global search_var
     global can_search
     global cs_txt
+    global can_outline_st
+
+
+    can_outline_st=3
 
 
 
@@ -12079,10 +12446,15 @@ def can_search_bs(e):
 
     if get_text_length(can_search, search_var, "FreeMono", 13)>int(can_search["width"])-2:
 
+
+        draw_outline_text(can_search,search_var,int(can_search["width"])-2,14,"e",("FreeMono",13))
+
         
         cs_txt=can_search.create_text(int(can_search["width"])-2,14,text=search_var,fill=_theme[0],
             font=("FreeMono",13),anchor="e")
     else:
+
+        draw_outline_text(can_search,search_var,0,14,"w",("FreeMono",13))
         cs_txt=can_search.create_text(0,14,text=search_var,fill=_theme[0],
             font=("FreeMono",13),anchor="w")
 
@@ -12112,7 +12484,10 @@ def can_npl_kp(e):
     global npl_var
     global can_npl
     global cnpl_txt
+    global can_outline_st
 
+
+    can_outline_st=4
 
 
     npl_var+=e.char
@@ -12122,14 +12497,19 @@ def can_npl_kp(e):
 
     if get_text_length(can_npl, npl_var, "FreeMono", 13)>int(can_npl["width"])-2:
 
+
+
+        draw_outline_text(can_npl,npl_var,int(can_npl["width"])-2,14,"e",("FreeMono",13))
+
+
         
         cnpl_txt=can_npl.create_text(int(can_npl["width"])-2,14,text=npl_var,fill=_theme[0],
             font=("FreeMono",13),anchor="e")
     else:
+
+        draw_outline_text(can_npl,npl_var,0,14,"w",("FreeMono",13))
         cnpl_txt=can_npl.create_text(0,14,text=npl_var,fill=_theme[0],
             font=("FreeMono",13),anchor="w")
-
-    main()
 
 
 cnpl_i=0
@@ -12171,7 +12551,10 @@ def can_npl_bs(e):
     global npl_var
     global can_npl
     global cnpl_txt
+    global can_outline_st
 
+
+    can_outline_st=4
 
 
     npl_var=npl_var[:-1]
@@ -12181,14 +12564,17 @@ def can_npl_bs(e):
 
     if get_text_length(can_npl, npl_var, "FreeMono", 13)>int(can_npl["width"])-2:
 
+        draw_outline_text(can_npl,npl_var,int(can_npl["width"])-2,14,"e",("FreeMono",13))
+
         
         cnpl_txt=can_npl.create_text(int(can_npl["width"])-2,14,text=npl_var,fill=_theme[0],
             font=("FreeMono",13),anchor="e")
     else:
+
+        draw_outline_text(can_npl,npl_var,0,14,"w",("FreeMono",13))
         cnpl_txt=can_npl.create_text(0,14,text=npl_var,fill=_theme[0],
             font=("FreeMono",13),anchor="w")
 
-    main()
 def can_npl_r(e):
     pass
 
@@ -12223,7 +12609,10 @@ def can_theme_ent_kp(e):
     global te_var
     global can_theme_ent
     global cte_txt
+    global can_outline_st
 
+
+    can_outline_st=5
 
 
     te_var+=e.char
@@ -12233,6 +12622,11 @@ def can_theme_ent_kp(e):
 
     if get_text_length(can_theme_ent, te_var, "FreeMono", 13)>int(can_theme_ent["width"])-2:
 
+
+        draw_outline_text(can_theme_ent,te_var,int(can_theme_ent["width"])-2,10,"e",("FreeMono",13))
+
+
+
         try:
             cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=te_var,
                 font=("FreeMono",13),anchor="e")
@@ -12240,6 +12634,8 @@ def can_theme_ent_kp(e):
             cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=_theme[0],
                 font=("FreeMono",13),anchor="e")
     else:
+
+        draw_outline_text(can_theme_ent,te_var,0,10,"w",("FreeMono",13))
 
         try:
             cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=te_var,
@@ -12311,7 +12707,16 @@ def can_theme_ent_bs(e):
     global can_theme_ent
     global cte_txt
 
+    global can_outline_st
 
+
+    can_outline_st=5
+
+
+
+
+        
+         
 
     te_var=te_var[:-1]
 
@@ -12320,12 +12725,27 @@ def can_theme_ent_bs(e):
 
     if get_text_length(can_theme_ent, te_var, "FreeMono", 13)>int(can_theme_ent["width"])-2:
 
+        draw_outline_text(can_theme_ent,te_var,int(can_theme_ent["width"])-2,10,"e",("FreeMono",13))
+
         
-        cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=_theme[0],
-            font=("FreeMono",13),anchor="e")
+        try:
+            cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=te_var,
+                font=("FreeMono",13),anchor="e")
+        except:
+            cte_txt=can_theme_ent.create_text(int(can_theme_ent["width"])-2,10,text=te_var,fill=_theme[0],
+                font=("FreeMono",13),anchor="e")
     else:
-        cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=_theme[0],
-            font=("FreeMono",13),anchor="w")
+
+        draw_outline_text(can_theme_ent,te_var,0,10,"w",("FreeMono",13))
+
+        try:
+            cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=te_var,
+                font=("FreeMono",13),anchor="w")
+
+        except:
+            cte_txt=can_theme_ent.create_text(0,10,text=te_var,fill=_theme[0],
+                font=("FreeMono",13),anchor="w")
+
 
 
 def can_theme_ent_r(e):
@@ -12364,7 +12784,10 @@ def can_sel_op_kp(e):
     global op_var
     global can_sel_op
     global cop_txt
+    global can_outline_st
 
+
+    can_outline_st=6
 
 
     op_var+=e.char
@@ -12374,9 +12797,13 @@ def can_sel_op_kp(e):
 
     if get_text_length(can_sel_op, op_var, "FreeMono", 13)>int(can_sel_op["width"])-2:
 
+        draw_outline_text(can_sel_op,op_var,int(can_sel_op["width"])-2,10,"e",("FreeMono",13))
+
         cop_txt=can_sel_op.create_text(int(can_sel_op["width"])-2,10,text=op_var,fill=_theme[0],
                 font=("FreeMono",13),anchor="e")
     else:
+
+        draw_outline_text(can_sel_op,op_var,0,10,"w",("FreeMono",13))
 
         cop_txt=can_sel_op.create_text(0,10,text=op_var,fill=_theme[0],
                 font=("FreeMono",13),anchor="w")
@@ -12435,6 +12862,11 @@ def can_sel_op_bs(e):
     global cop_txt
 
 
+    global can_outline_st
+
+
+    can_outline_st=6
+
 
     op_var=op_var[:-1]
 
@@ -12443,10 +12875,14 @@ def can_sel_op_bs(e):
 
     if get_text_length(can_sel_op, op_var, "FreeMono", 13)>int(can_sel_op["width"])-2:
 
+        draw_outline_text(can_sel_op,op_var,int(can_sel_op["width"])-2,10,"e",("FreeMono",13))
+
         
         cop_txt=can_sel_op.create_text(int(can_sel_op["width"])-2,10,text=op_var,fill=_theme[0],
             font=("FreeMono",13),anchor="e")
     else:
+
+        draw_outline_text(can_sel_op,op_var,0,10,"w",("FreeMono",13))
         cop_txt=can_sel_op.create_text(0,10,text=op_var,fill=_theme[0],
             font=("FreeMono",13),anchor="w")
 
