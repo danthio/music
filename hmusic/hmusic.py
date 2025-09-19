@@ -1617,6 +1617,23 @@ print(f"Amplitude at {target_time} seconds: {amplitude}")
 
 
 
+def draw_cur_can():
+    global can,cur_can
+    global w,h,wd,ht
+    global cursor
+
+    x,y=pyautogui.position()
+
+
+    xx,yy=x-(wd-w)/2,y-(ht-h)/2
+
+
+
+    can.delete(cur_can)
+
+    
+
+    cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
 prog2_=0
@@ -1748,23 +1765,23 @@ def prog():
                 prog3=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3+10,image=circle8,anchor="nw")
 
                 if not root_st==1:
-
                     x,y=pyautogui.position()
 
 
                     xx,yy=x-(wd-w)/2,y-(ht-h)/2
 
-                    if 10<=xx<=w-10:
+                    if 10-30<=xx<=w-10:
                         if h-20-60-20+10+2+5-3+10-30<=yy<=h-20-60-20+10+2+5-3+10+1:
 
+                            draw_cur_can()
 
-                            can.delete(cur_can)
+                            return
 
-                            
+                    l=get_text_length(can, tt, "FreeMono", 11)
 
-                            cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
-
-
+                    if 10-30<=xx<=10+l:
+                        if h-20-60-20+20+10+5-3+5-2+2-15<=yy<=h-20-60-20+20+10+5-3+5-2+2+15:
+                            draw_cur_can()
 
 
 
@@ -5309,8 +5326,8 @@ def main():
 
 
         bg2=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg,anchor="nw")
-        bg_styl1=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=b_g1_,anchor="nw")
-        bg_styl2=can2.create_image(int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)),image=b_g2_,anchor="ne")
+        #bg_styl1=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=b_g1_,anchor="nw")
+        #bg_styl2=can2.create_image(int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)),image=b_g2_,anchor="ne")
 
         ar=[]
 
@@ -7220,6 +7237,8 @@ def draw_can(con=0):
 
 
     if vid_st==0:
+        pass
+        """
 
 
 
@@ -7229,6 +7248,7 @@ def draw_can(con=0):
 
         can.create_image(0,0,image=b_g1,anchor="nw")
         can.create_image(0,h-20,image=b_g2,anchor="nw")
+        """
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
@@ -9076,9 +9096,10 @@ def draw_cur_():
 
         xx,yy=x-(wd-w)/2,y-(ht-h)/2
 
-        can_label(xx,yy)
+        
 
         cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
+        can_label(xx,yy)
 
 
     if lst==1:
@@ -9542,13 +9563,16 @@ def can_label(x,y):
     global can_outline_st
 
     global _v1__,_v2__,_v3__,_v4__
-    global vid_st2
+    global vid_st2,vid_st
+
+
 
 
     can.delete(_v1__)
     can.delete(_v2__)
     can.delete(_v3__)
     can.delete(_v4__)
+
 
 
     col1=_theme[0]
@@ -9567,7 +9591,7 @@ def can_label(x,y):
 
         if not select_st==1:
 
-            if vid_st2==0:
+            if vid_st2==0 and vid_st==1:
                 return
 
 
@@ -9585,6 +9609,9 @@ def can_label(x,y):
 
                     mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("FreeMono",10),anchor="c")
 
+                    draw_cur_can()
+
+                    return
 
 
             #sort
@@ -9602,7 +9629,9 @@ def can_label(x,y):
                     draw_outline_text(can,"sort",10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
                     mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
                 
+                    draw_cur_can()
 
+                    return
 
 
             #shuffle
@@ -9620,7 +9649,10 @@ def can_label(x,y):
 
 
                     mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
-                
+                    
+                    draw_cur_can()
+
+                    return
 
 
             #loop
@@ -9636,7 +9668,10 @@ def can_label(x,y):
                     draw_outline_text(can,"loop",10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
                     mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
-                
+                    
+                    draw_cur_can()
+
+                    return
 
 
             #play vid
@@ -9664,7 +9699,7 @@ def can_label(x,y):
                     draw_outline_text(can,txt,10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
                     mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
-                
+                    draw_cur_can()
 
 def convert_(im,col):
 
@@ -10140,8 +10175,8 @@ def move_bg():
 
 
             can2.coords(bg2,-10,-(90-2)+int(can2.canvasy(0)))
-            can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
-            can2.coords(bg_styl2,int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)))
+            #can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
+            #can2.coords(bg_styl2,int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)))
 
             sb_h=can2.canvasy(0)*int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])
             draw_sb()
@@ -10218,8 +10253,8 @@ def _on_mousewheel(e):
             can2.yview_scroll(int(-1*(e.delta/120)), "units")
 
             can2.coords(bg2,-10,-(90-2)+int(can2.canvasy(0)))
-            can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
-            can2.coords(bg_styl2,int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)))
+            #can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
+            #can2.coords(bg_styl2,int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)))
 
             
 
@@ -12683,13 +12718,25 @@ def conf_del_(file,con):
     conf_del.create_image(-(w-int(conf_del["width"]))/2,-(h-int(conf_del["height"]))/2,
         image=bg2_,anchor="nw")
 
-    draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,_theme[0],"",1)
 
-    conf_del.create_line(0,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
-        fill=_theme[0])
+
+    conf_del.create_line(int(conf_del["width"])/2,int(conf_del["height"])-35,
+        int(conf_del["width"])/2,int(conf_del["height"]),fill="#000000",width=3)
 
     conf_del.create_line(int(conf_del["width"])/2,int(conf_del["height"])-35,
         int(conf_del["width"])/2,int(conf_del["height"]),fill=_theme[0])
+
+
+    conf_del.create_line(0,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
+        fill="#000000",width=3)
+    conf_del.create_line(0,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
+        fill=_theme[0])
+
+    draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,"#000000","",1,3)
+
+    draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,_theme[0],"",1)
+
+
 
     xx=int(conf_del["width"])/4
 
