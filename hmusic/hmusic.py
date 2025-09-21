@@ -141,7 +141,7 @@ def play_vid():
 
 
             _frame__,fps=get_frame_at("videos/"+current_playing.replace(".mp3",".mp4"), tm)
-
+            _frame__=_frame__.convert("RGB")
 
 
 
@@ -5077,6 +5077,10 @@ def draw_active(c,x,y,x2,sz,col):
     #draw_round_rec(can2,x,y, int(can2["width"])-1,y+50,10,col1,col1,1)
     #draw_round_rec(can2,x+2,y+2, int(can2["width"])-1-2,y+50-2,10,col1,col1,1)
     #return
+
+    x+=1
+
+    draw_round_rec(can2,x-1,y-1, x2,y+50+1,10,"#000000",col1,1)
     
 
 
@@ -5190,7 +5194,7 @@ def main():
 
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
-    can["bg"]="#333333"
+    can["bg"]="#011010"
 
     if root_st==1:
 
@@ -6423,11 +6427,13 @@ def main():
                                 col=col1
 
                                 _pl_=playlist2
+
+                                can2.create_image(5-1,y+25-12.5-1,image=playlist2dark1,anchor="nw")
                                 
 
 
 
-                            can2.create_image(5-1,y+25-12.5-1,image=playlist2dark1,anchor="nw")
+                            
                             can2.create_image(5,y+25-12.5,image=_pl_,anchor="nw")
 
 
@@ -7141,7 +7147,7 @@ def draw_can(con=0):
 
     if root_st==1:
 
-        can["bg"]="#333333"
+        can["bg"]="#011010"
 
         root.geometry(str(50)+"x"+str(50)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
 
@@ -7540,10 +7546,10 @@ def draw_can(con=0):
             can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
 
             can.create_line(10-1,90-5,w-10+1,90-5,fill="#000000",width=3)
-            can.create_line(10,90-5,w-10,90-5,fill=col1,width=1)
+            can.create_line(10,90-5,w-10,90-5,fill=_theme[1][0],width=1)
 
             can.create_line(10-1,90+int(can2["height"]),w-10+1,90+int(can2["height"]),fill="#000000",width=3)
-            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=col1,width=1)
+            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[1][0],width=1)
 
             frame.place(in_=root,x=10,y=90-1-1)
 
@@ -7772,7 +7778,7 @@ def draw_can(con=0):
 
                     if st!=4:
                         if vid_st==0:
-                            sig_2=can.create_line(sig2,fill=_theme[1][1],width=3)
+                            sig_2=can.create_line(sig2,fill="#000000",width=3)
                             sig_=can.create_line(sig2,fill=col1)
 
                 except:
@@ -9703,8 +9709,11 @@ def can_label(x,y):
 
 def convert_(im,col):
 
+    im = im.convert('RGB')
+
 
     w,h=im.size
+
 
     rgb=hex_to_rgb(col)
 
@@ -9724,7 +9733,9 @@ def convert_(im,col):
 
             mx=max(rgb)
 
-            c_=color[1]#max(color)#color[rgb.index(mx)]
+            #print(color)
+
+            c_=max(color)#color[rgb.index(mx)]
 
 
 
@@ -9942,7 +9953,7 @@ w=int(wd)
 root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 root.resizable(0,0)
 #root.wm_attributes("-alpha",0.9)
-root.wm_attributes("-transparentcolor","#333333")
+root.wm_attributes("-transparentcolor","#011010")
 root.wm_attributes("-topmost",True)
 root.iconbitmap("data/icon.ico")
 root.title("HMUSIC")
@@ -10024,7 +10035,7 @@ adj_st=0
 def adjust_theme():
     global _theme,theme_ent
     global adj_st
-    global sel_col
+    global te_var
 
 
     if adj_st==0:
@@ -10032,7 +10043,7 @@ def adjust_theme():
         configure_theme(_theme[0])
 
     else:
-        col=sel_col
+        col=te_var
 
 
 
@@ -10044,13 +10055,12 @@ def adjust_theme():
 
         im=Image.new("RGBA",(w,h),(0,0,0,255))
         im.save("data/bg_.png")
+        im.save("data/bg.png")
         im.save("data/bg2.png")
 
         _theme[-1]=[0,0,0,0]
 
     else:
-
-
         try:
 
 
@@ -10118,29 +10128,42 @@ def adjust_theme():
                     else:
                         _theme[-1]=[0,0,0,0]
 
+
+
+
+
+
+
+
+            im=im.resize((w,h))
+
+            
+
+
+
+
+            im=convert_(im,col)
+
+
+
+
+
+            
+            im1=darken_image(im,(0,0,0), _theme[2])
+            im2=darken_image(im1,(0,0,0), 0.5)
+
+            im1.save("data/bg.png")
+            im2.save("data/bg2.png")
+
+
+
+
         except:
             _theme=["#ffffff",[],0,0.15,[],1,[]]
             adjust_theme()
             return
 
-    im=im.resize((w,h))
-    
 
-
-
-
-    im=convert_(im,col)
-
-
-
-
-
-    
-    im1=darken_image(im,(0,0,0), _theme[2])
-    im2=darken_image(im1,(0,0,0), 0.5)
-
-    im1.save("data/bg.png")
-    im2.save("data/bg2.png")
 
 
 
@@ -10231,9 +10254,8 @@ def update_bg_pos():
     root.after(2,update_bg_pos)
 
 
+def scroll(val):
 
-
-def _on_mousewheel(e):
     global can2,can3,yyy,h,add_st
     global ylyric,lyric_st,lst
     global music_details,current_playing,can_lyrics
@@ -10250,7 +10272,7 @@ def _on_mousewheel(e):
 
         if int(can2["scrollregion"].split(" ")[-1])>((h-121)-80-10):
 
-            can2.yview_scroll(int(-1*(e.delta/120)), "units")
+            can2.yview_scroll(int(-1*(val/120)), "units")
 
             can2.coords(bg2,-10,-(90-2)+int(can2.canvasy(0)))
             #can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
@@ -10269,7 +10291,7 @@ def _on_mousewheel(e):
     elif add_st==1:
 
         if int(can3["scrollregion"].split(" ")[-1])>210:
-            can3.yview_scroll(int(-1*(e.delta/120)), "units")
+            can3.yview_scroll(int(-1*(val/120)), "units")
             sb2_h=can3.canvasy(0)*int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])
 
             can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0))
@@ -10277,7 +10299,7 @@ def _on_mousewheel(e):
 
     if lyric_st==1:
         if not music_details[current_playing][2]=="":
-            can_lyrics.yview_scroll(int(-1*(e.delta/120)), "units")
+            can_lyrics.yview_scroll(int(-1*(val/120)), "units")
 
             can_lyrics.coords(bg3,-10,-(50)+int(can_lyrics.canvasy(0)))
 
@@ -10292,7 +10314,7 @@ def _on_mousewheel(e):
 
 
 
-            filter_can2.yview_scroll(int(-1*(e.delta/120)), "units")
+            filter_can2.yview_scroll(int(-1*(val/120)), "units")
 
             f2[1]=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
                 filter_can2.canvasy(int(filter_can2["height"])-2),outline="#000000",width=3)
@@ -10304,6 +10326,17 @@ def _on_mousewheel(e):
 
             filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
                 -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0))
+
+
+def _on_mousewheel(e):
+    scroll(int(e.delta))
+
+def scroll_up(e):
+
+    scroll(120)
+
+def scroll_down(e):
+    scroll(-120)
 
 def update_song_status():
     global songs,_songs_,songs_status
@@ -10680,6 +10713,8 @@ can.bind("<Left>",play_previous)
 can.bind("<KeyPress>",__list)
 can.bind("<B1-Motion>",drag_can)
 can.bind("<ButtonRelease-1>",on_release_can)
+can.bind("<Up>",scroll_up)
+can.bind("<Down>",scroll_down)
 
 
 
