@@ -6951,19 +6951,19 @@ def draw_outline_text(c,text,x,y,anchor,font):
 
     if can_outline_st==1:
 
-        v1__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        v2__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
-        v3__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        v4__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        v1__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        v2__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        v3__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        v4__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
     elif can_outline_st==2:
 
 
 
-        _v1__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v2__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
-        _v3__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v4__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v1__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v2__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v3__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v4__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
 
 
@@ -6979,10 +6979,10 @@ def draw_outline_text(c,text,x,y,anchor,font):
 
 
 
-        _v11__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v12__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
-        _v13__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v14__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v11__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v12__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v13__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v14__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
 
 
@@ -6994,10 +6994,10 @@ def draw_outline_text(c,text,x,y,anchor,font):
         c.delete(_v23__)
         c.delete(_v24__)
 
-        _v21__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v22__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
-        _v23__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v24__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v21__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v22__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v23__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v24__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
 
     elif can_outline_st==5:
@@ -7008,10 +7008,10 @@ def draw_outline_text(c,text,x,y,anchor,font):
         c.delete(_v33__)
         c.delete(_v34__)
 
-        _v31__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v32__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
-        _v33__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v34__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v31__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v32__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v33__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v34__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
 
 
@@ -7023,10 +7023,10 @@ def draw_outline_text(c,text,x,y,anchor,font):
         c.delete(_v43__)
         c.delete(_v44__)
 
-        _v41__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v42__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
-        _v43__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v44__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v41__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v42__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v43__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v44__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
 
     elif can_outline_st==6:
@@ -7037,10 +7037,10 @@ def draw_outline_text(c,text,x,y,anchor,font):
         c.delete(_v53__)
         c.delete(_v54__)
 
-        _v51__=c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v52__=c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
-        _v53__=c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        _v54__=c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        _v51__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v52__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v53__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v54__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
 
 
@@ -7050,10 +7050,10 @@ def draw_outline_text(c,text,x,y,anchor,font):
 
 
 
-        c.create_text(x-1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        c.create_text(x+1,y+1,text=text,font=font,fill=col,anchor=anchor)
-        c.create_text(x+1,y-1,text=text,font=font,fill=col,anchor=anchor)
-        c.create_text(x-1,y+1,text=text,font=font,fill=col,anchor=anchor)
+        c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
     can_outline_st=0
 
@@ -7546,10 +7546,10 @@ def draw_can(con=0):
             can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
 
             can.create_line(10-1,90-5,w-10+1,90-5,fill="#000000",width=3)
-            can.create_line(10,90-5,w-10,90-5,fill=_theme[1][0],width=1)
+            can.create_line(10,90-5,w-10,90-5,fill=_theme[0],width=1)
 
             can.create_line(10-1,90+int(can2["height"]),w-10+1,90+int(can2["height"]),fill="#000000",width=3)
-            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[1][0],width=1)
+            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[0],width=1)
 
             frame.place(in_=root,x=10,y=90-1-1)
 
@@ -9733,9 +9733,8 @@ def convert_(im,col):
 
             mx=max(rgb)
 
-            #print(color)
 
-            c_=max(color)#color[rgb.index(mx)]
+            c_=color[rgb.index(mx)]
 
 
 
