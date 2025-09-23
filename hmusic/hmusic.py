@@ -5233,6 +5233,8 @@ def main():
 
     else:
 
+        root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
+
 
 
 
