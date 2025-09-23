@@ -58,6 +58,9 @@ import pyautogui
 
 import cv2
 
+
+
+
 cap=None 
 _frame_=""
 
@@ -246,7 +249,7 @@ def configure_theme(pcol):
 def create_dark_im():
 
     ar=[
-    ["circle.png",[62,32,10,6]],
+    ["circle.png",[62,32,10,6,9]],
     ["quit.png",[27,22]],
     ["search.png",[27]],
     ["settings.png",[27]],
@@ -317,7 +320,7 @@ def create_dark_im():
             if len(i[1])>1:
                 c+=1
                     
-                
+
 
 
 
@@ -403,10 +406,7 @@ def change_theme(pcol):
 
 
 
-        if i=="icon.png":
-            image_.save("data/"+i.split(".png")[0]+".ico")
-        else:
-            image_.save("data/"+i, "PNG", quality=10000)
+        image_.save("data/"+i, "PNG", quality=10000)
 
 
 
@@ -5198,6 +5198,9 @@ def main():
     global b_g1_,b_g2_
 
 
+    root.wm_attributes("-topmost",True)
+
+
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     can["bg"]="#011010"
@@ -5494,7 +5497,7 @@ def main():
 
 
 
-        cp_im2=create_polygon(*ar, fill="#000000", alpha=0.5,can=can2)
+        cp_im2=create_polygon(*ar, fill="#000000", alpha=0.7,can=can2)
 
 
 
@@ -5578,7 +5581,7 @@ def main():
 
 
 
-        cp_im3=create_polygon(*ar, fill="#000000", alpha=0.5,can=can2)
+        cp_im3=create_polygon(*ar, fill="#000000", alpha=0.7,can=can2)
 
         can2.coords(cp_im,0,-100)
         can2.coords(cp_im2,0,-100)
@@ -8540,7 +8543,7 @@ adddark=0
 backwarddark=0
 checkeddark=0
 
-circledark1,circledark2,circledark3,circledark4=0,0,0,0
+circledark1,circledark2,circledark3,circledark4,circledark5=0,0,0,0,0
 cropdark=0
 filterdark=0
 forwarddark=0
@@ -8593,7 +8596,7 @@ def load_im():
     global no_music
     global b_g1,b_g2, b_g1_,b_g2_
     global _theme
-    global adddark,backwarddark,checkeddark,circledark1,circledark2,circledark3,circledark4
+    global adddark,backwarddark,checkeddark,circledark1,circledark2,circledark3,circledark4,circledark5
     global cropdark,filterdark,forwarddark,list2dark,loop2dark,minimizedark
     global musical_note2dark,nextdark,no_musicdark,playlist2dark,previousdark,quitdark1,quitdark2
     global searchdark,settingsdark,shuffle2dark,sortdark,speakerdark,vid1dark,deletedark
@@ -8678,7 +8681,7 @@ def load_im():
     circledark2=ImageTk.PhotoImage(file="data/circledark2.png") 
     circledark3=ImageTk.PhotoImage(file="data/circledark3.png") 
     circledark4=ImageTk.PhotoImage(file="data/circledark4.png") 
-
+    circledark5=ImageTk.PhotoImage(file="data/circledark5.png") 
 
     cropdark=ImageTk.PhotoImage(file="data/cropdark.png")
 
@@ -10161,7 +10164,8 @@ def adjust_theme():
 
 
 
-
+    #command=["--icon", "data/icon.ico"]
+    #subprocess.run(command, check=True, capture_output=True, text=True)
 
 
     root.after(0,update)
@@ -10856,11 +10860,14 @@ def draw_sb():
     global can2
     global sb,sb_sz,sb_region,sb_h,sb_col,circle10
     global _theme
+    global circledark5
 
     can2.delete(sb[0])
     can2.delete(sb[1])
     can2.delete(sb[2])
-
+    can2.delete(sb[3])
+    can2.delete(sb[4])
+    can2.delete(sb[5])
     sb_col=_theme[0]
 
     h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
@@ -10868,7 +10875,9 @@ def draw_sb():
     #if not int(h)==int(can2["scrollregion"].split(" ")[-1]):
 
 
-
+    sb[3]=can2.create_image(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h)-1,image=circledark5,anchor="nw")
+    sb[4]=can2.create_rectangle(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+sb_sz/2)-1,int(can2["width"])-1+1,can2.canvasy(sb_h+h-sb_sz/2-1)+1,fill="#000000",outline="#000000")
+    sb[5]=can2.create_image(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+h-sb_sz-1)-1,image=circledark5,anchor="nw")
 
     sb[0]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
     sb[1]=can2.create_rectangle(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+sb_sz/2),int(can2["width"])-1,can2.canvasy(sb_h+h-sb_sz/2-1),fill=sb_col,outline=sb_col)
@@ -10887,7 +10896,7 @@ def sb_move(v1,v2):
     move_bg()
 
 
-sb=[0,0,0]
+sb=[0,0,0,0,0,0]
 sb_sz=6
 
 sb_col=_theme[0]
@@ -10987,7 +10996,7 @@ def update_sb2():
 
 def draw_sb2():
     global can3
-    global sb2,sb2_sz,sb2_region,sb2_h,sb2_col,circle10
+    global sb2,sb2_sz,sb2_region,sb2_h,sb2_col,circle10,circledark5
     global _theme
 
     sb2_col=_theme[0]
@@ -10996,7 +11005,16 @@ def draw_sb2():
     can3.delete(sb2[1])
     can3.delete(sb2[2])
 
+    can3.delete(sb2[3])
+    can3.delete(sb2[4])
+    can3.delete(sb2[5])
+
     h=int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])*int(can3["height"])
+
+
+    sb2[3]=can3.create_image(int(can3["width"])-sb2_sz-4-1,can3.canvasy(sb2_h)-1,image=circledark5,anchor="nw")
+    sb2[4]=can3.create_rectangle(int(can3["width"])-sb2_sz-4-1,can3.canvasy(sb2_h+sb2_sz/2)-1,int(can3["width"])-4+1,can3.canvasy(sb2_h+h-sb2_sz/2-1)+1,fill="#000000",outline="#000000")
+    sb2[5]=can3.create_image(int(can3["width"])-sb2_sz-4-1,can3.canvasy(sb2_h+h-sb2_sz-1)-1,image=circledark5,anchor="nw")
 
 
     sb2[0]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h),image=circle10,anchor="nw")
@@ -11017,7 +11035,7 @@ def sb2_move(v1,v2):
     move_bg()
 
 
-sb2=[0,0,0]
+sb2=[0,0,0,0,0,0]
 sb2_sz=6
 sb2_col=_theme[0]
 sb2_region=()
