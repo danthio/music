@@ -2047,6 +2047,8 @@ def add_playlist():
     draw_outline_text(can4,"Playlists",550/2,20,"c",("FreeMono",13))
 
     can4.create_text(550/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
+
+    can4.create_line(2,38,550-2,38,fill="#000000",width=3)
     can4.create_line(2,38,550-2,38,fill=col1)
 
     draw_round_rec(can4,1,1 ,550-2,80,15,"#000000","",1,3)
@@ -2191,10 +2193,16 @@ def add_playlist():
 
     if y<250-40+50:
 
+        can3.create_line(1,0, 1,250-40+50,fill="#000000",width=3)
+        can3.create_line(550-2,0, 550-2,250-40+50,fill="#000000",width=3)
 
         can3.create_line(1,0, 1,250-40+50,fill=col1)
         can3.create_line(550-2,0, 550-2,250-40+50,fill=col1)
     else:
+
+        can3.create_line(1,0, 1,y,fill="#000000",width=3)
+        can3.create_line(550-2,0, 550-2,y,fill="#000000",width=3)
+
 
         can3.create_line(1,0, 1,y,fill=col1)
         can3.create_line(550-2,0, 550-2,y,fill=col1)
@@ -3942,10 +3950,8 @@ def can_b1(e):
                     can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
                 elif lst==1:
-
-                    if st==2 and playlist_st==0:
-                        pass
-                    else:
+                        st=songs_status[0]
+                        current_playlist=songs_status[1]
                         lst=0
                         _search=0
                         _npl=0
@@ -4137,6 +4143,7 @@ def can_b1(e):
                     can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
 
 
+                    can_sort.create_line(3,30, 250-2,30,fill="#000000",width=3 )
                     can_sort.create_line(3,30, 250-2,30,fill=col1 )
                     y=30
                     for _ in sa:
@@ -4873,6 +4880,14 @@ def can_b1(e):
             if lst==1:
 
                 if filter_st==0:
+
+                    
+                    if st==4:
+                        return
+                    if st==2 and playlist_st==0:
+                        return
+
+
 
                     filter_st=1
 
