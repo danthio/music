@@ -332,7 +332,56 @@ def hex_to_rgb(hex_color: str) -> tuple:
     # Convert to RGB
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
+
+im_dict={
+"no-music":[("no-music",300)],
+"filter":[("filter",25)],
+"vid1":[("vid1",25)],
+"vid2":[("vid2",25)],
+"vid3":[("vid3",25)],
+"delete":[("delete",25)],
+"delete2_":[("delete2_",25)],
+"crop":[("crop",25)],
+"crop2":[("crop2",25)],
+"settings":[("settings",25)],
+"cursor":[("cursor",30)],
+"circlex":[("circlex",50)],
+"musical_note1":[("musical_note1",30)],
+"musical_note2":[("musical_note2",30)],
+"search":[("search",25)],
+"circle8":[("circle8",6)],
+"circle":[("circle",60),("circle2",50),("circle3",30),("circle4",20),("circle7",8),("circle5",7),("circle9",3),("circle6",4)],
+"quit":[("quit",25),("bin",25),("cancel",20)],
+"minimize":[("minimize",25)],
+"favourite2":[("favourite2",25)],
+"favourite2_":[("favourite2_",25)],
+"favourite1":[("favourite1",25)],
+"favourite1_":[("favourite1_",25)],
+"playlist2":[("playlist2",25)],
+"playlist3":[("playlist3",25),("playlist4",20)],
+"list2":[("list2",25)],
+"list1":[("list1",25)],
+"sort":[("sort",25)],
+"sort2":[("sort2",25)],
+"shuffle2":[("shuffle2",25)],
+"shuffle1":[("shuffle1",25)],
+"loop2":[("loop2",25)],
+"loop1":[("loop1",25)],
+"forward":[("forward",25),("backward",25,180)],
+"previous":[("previous",25),("next",25,-180)],
+"play":[("play",30)],
+"pause":[("pause",30)],
+"speaker":[("speaker",30)],
+"add":[("add",25)],
+"add2":[("add2",25)],
+"checked":[("checked",20)],
+"bin2":[("bin2",25),("bin3",20)]
+}
+
+
 def change_theme(pcol):
+    global im_dict
+
 
     col1=hex_to_rgb(pcol)
 
@@ -403,14 +452,25 @@ def change_theme(pcol):
 
         
 
+        
+        for i_ in im_dict[i.replace(".png","")]:
+
+            im3=image_.resize((i_[1],i_[1]))
+
+
+            if len(i_)==3:
+                im3=im3.rotate(i_[2])
 
 
 
-        image_.save("data/"+i, "PNG", quality=10000)
+            im3.save("data/"+i_[0]+".png")
+
+
+            root.after(0,update)
 
 
 
-        #print("ok")
+
 
     create_dark_im()
 
@@ -495,251 +555,6 @@ def get_taskbar_height():
 
 
 
-
-
-def resize_im():
-
-    im=Image.open("data/no-music.png")
-    im=im.resize((300,300))
-    im.save("data/no-music.png")
-
-
-
-    im=Image.open("data/filter.png")
-    im=im.resize((25,25))
-    im.save("data/filter.png")
-
-
-
-    im=Image.open("data/vid1.png")
-    im=im.resize((25,25))
-    im.save("data/vid1.png")
-
-
-    im=Image.open("data/vid2.png")
-    im=im.resize((25,25))
-    im.save("data/vid2.png")
-
-
-    im=Image.open("data/vid3.png")
-    im=im.resize((25,25))
-    im.save("data/vid3.png")
-
-
-
-
-    im=Image.open("data/delete.png")
-    im=im.resize((25,25))
-    im.save("data/delete.png")
-
-
-    im=Image.open("data/delete2_.png")
-    im=im.resize((25,25))
-    im.save("data/delete2_.png")
-
-    im=Image.open("data/crop.png")
-    im=im.resize((25,25))
-    im.save("data/crop.png")
-
-    im=Image.open("data/crop2.png")
-    im=im.resize((25,25))
-    im.save("data/crop2.png")
-
-
-    im=Image.open("data/settings.png")
-    im=im.resize((25,25))
-    im.save("data/settings.png")
-
-    im=Image.open("data/cursor.png")
-    im=im.resize((30,30))
-    im.save("data/cursor.png")
-
-    im=Image.open("data/circlex.png")
-    im=im.resize((50,50))
-    im.save("data/circlex.png")
-
-    im=Image.open("data/musical_note1.png")
-    im=im.resize((30,30))
-    im.save("data/musical_note1.png")
-
-
-
-    im=Image.open("data/musical_note2.png")
-    im=im.resize((30,30))
-    im.save("data/musical_note2.png")
-
-
-    im=Image.open("data/search.png")
-    im=im.resize((25,25))
-    im.save("data/search.png")
-
-
-    im=Image.open("data/circle8.png")
-    im=im.resize((6,6))
-    im.save("data/circle8.png")
-
-
-    im=Image.open("data/circle.png")
-    im=im.resize((60,60))
-    im2=im.resize((50,50))
-    im3=im.resize((30,30))
-    im4=im.resize((20,20))
-    im5=im.resize((8,8))
-    im6=im.resize((7,7))
-    im7=im.resize((3,3))
-    im8=im.resize((4,4))    
-    im.save("data/circle.png")
-    im2.save("data/circle2.png")
-    im3.save("data/circle3.png")
-    im4.save("data/circle4.png")
-    im8.save("data/circle6.png")
-    im5.save("data/circle7.png")
-    im6.save("data/circle5.png")
-    im6.save("data/circle10.png")
-    im7.save("data/circle9.png")
-
-
-    im=Image.open("data/quit.png")
-    im=im.resize((25,25))
-    im2=im.resize((20,20))
-    im.save("data/quit.png")
-    im.save("data/bin.png")
-    im2.save("data/cancel.png")
-
-
-
-    im=Image.open("data/minimize.png")
-    im=im.resize((25,25))
-    im.save("data/minimize.png")
-
-
-
-    im=Image.open("data/favourite2.png")
-    im=im.resize((25,25))
-    im.save("data/favourite2.png")
-
-
-    im=Image.open("data/favourite2_.png")
-    im=im.resize((25,25))
-    im.save("data/favourite2_.png")
-
-
-    im=Image.open("data/favourite1.png")
-    im=im.resize((25,25))
-    im.save("data/favourite1.png")
-
-
-    im=Image.open("data/favourite1_.png")
-    im=im.resize((25,25))
-    im.save("data/favourite1_.png")
-
-
-    im=Image.open("data/playlist2.png")
-    im=im.resize((25,25))
-    im.save("data/playlist2.png")
-
-    im=Image.open("data/playlist3.png")
-    im=im.resize((25,25))
-    im2=im.resize((20,20))
-    im.save("data/playlist3.png")
-    im2.save("data/playlist4.png")
-
-
-    im=Image.open("data/list2.png")
-    im=im.resize((25,25))
-    im.save("data/list2.png")
-
-
-    im=Image.open("data/list1.png")
-    im=im.resize((25,25))
-    im.save("data/list1.png")
-
-
-
-    im=Image.open("data/sort.png")
-    im=im.resize((25,25))
-    im.save("data/sort.png")
-
-
-    im=Image.open("data/sort2.png")
-    im=im.resize((25,25))
-    im.save("data/sort2.png")
-
-    im=Image.open("data/shuffle2.png")
-    im=im.resize((25,25))
-    im.save("data/shuffle2.png")
-
-
-    im=Image.open("data/shuffle1.png")
-    im=im.resize((25,25))
-    im.save("data/shuffle1.png")
-
-
-    im=Image.open("data/loop2.png")
-    im=im.resize((25,25))
-    im.save("data/loop2.png")
-
-
-    im=Image.open("data/loop1.png")
-    im=im.resize((25,25))
-    im.save("data/loop1.png")
-
-
-
-    im=Image.open("data/forward.png")
-    im=im.resize((25,25))
-    im.save("data/forward.png")
-
-    im=im.rotate(180)
-    im.save("data/backward.png")
-
-
-
-    im=Image.open("data/previous.png")
-    im=im.resize((25,25))
-    im.save("data/previous.png")
-
-    im=im.rotate(-180)
-    im.save("data/next.png")
-
-
-    im=Image.open("data/play.png")
-    im=im.resize((30,30))
-    im.save("data/play.png")
-
-
-    im=Image.open("data/pause.png")
-    im=im.resize((30,30))
-    im.save("data/pause.png")
-
-
-    im=Image.open("data/speaker.png")
-    im=im.resize((30,30))
-    im.save("data/speaker.png")
-
-
-
-    im=Image.open("data/add.png")
-    im=im.resize((25,25))
-    im.save("data/add.png")
-
-
-    im=Image.open("data/add2.png")
-    im=im.resize((25,25))
-    im.save("data/add2.png")
-
-
-    im=Image.open("data/checked.png")
-    im=im.resize((20,20))
-    im.save("data/checked.png")
-
-
-
-    im=Image.open("data/bin2.png")
-    im=im.resize((25,25))
-    im2=im.resize((20,20))
-    im.save("data/bin2.png")
-    im2.save("data/bin3.png")
 
 
 
@@ -8313,6 +8128,8 @@ def show_lyrics():
 
                         lvar=1
 
+                    print(txt)
+
 
 
 
@@ -8345,7 +8162,7 @@ def show_lyrics():
 
                     
 
-                    #can_lyrics.create_text((790-111)/2,0, text=txt,anchor="c",fill=col1,font=("FreeMono",13))
+                    print(txt)
 
 
                     tt=txt.split("\n")
@@ -10065,7 +9882,6 @@ def adjust_theme():
 
     
     change_theme(col)
-    resize_im()
 
     if _theme[-2]==1:
 
