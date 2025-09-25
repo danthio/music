@@ -13098,7 +13098,7 @@ def can_search_insert():
 
         cs_i_st=1
 
-    root.after(250,can_search_insert)
+    root.after(150,can_search_insert)
 
 def can_search_b1(e):
     global can_search
@@ -13267,6 +13267,7 @@ can_search.bind("<KeyPress>",can_search_kp)
 can_search_insert()
 
 cnpl_txt,cnpl_txt1,cnpl_txt2=0,"",""
+npl_var=""
 def can_npl_kp(e):
     global npl_var
     global can_npl
@@ -13344,7 +13345,7 @@ def can_npl_insert():
 
         cnpl_i_st=1
 
-    root.after(250,can_npl_insert)
+    root.after(150,can_npl_insert)
 
 def can_npl_b1(e):
     global can_npl
@@ -13637,7 +13638,7 @@ def can_theme_ent_insert():
     else:
         can_theme_ent.delete(cte_i)
 
-    root.after(250,can_theme_ent_insert)
+    root.after(150,can_theme_ent_insert)
 
 def can_theme_ent_b1(e):
     global can_theme_ent
