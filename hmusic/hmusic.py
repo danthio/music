@@ -8132,7 +8132,6 @@ def show_lyrics():
 
                         lvar=1
 
-                    print(txt)
 
 
 
@@ -8166,7 +8165,6 @@ def show_lyrics():
 
                     
 
-                    print(txt)
 
 
                     tt=txt.split("\n")
