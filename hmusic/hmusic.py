@@ -350,7 +350,7 @@ im_dict={
 "musical_note2":[("musical_note2",30)],
 "search":[("search",25)],
 "circle8":[("circle8",6)],
-"circle":[("circle",60),("circle2",50),("circle3",30),("circle4",20),("circle7",8),("circle5",7),("circle9",3),("circle6",4)],
+"circle":[("circle",60),("circle2",50),("circle3",30),("circle4",20),("circle7",8),("circle5",7),("circle9",3),("circle6",4),("circle10",7)],
 "quit":[("quit",25),("bin",25),("cancel",20)],
 "minimize":[("minimize",25)],
 "favourite2":[("favourite2",25)],
@@ -1623,6 +1623,7 @@ def timer():
     global _songs_,songs_status
     global tts
     global playlist_st,st,current_playlist
+    global can4,can3,can6
 
     if play_st==1:
 
@@ -1667,6 +1668,10 @@ def timer():
                 if loop==0:
                     mvar+=1
                 add_st=0
+                can4.delete("all")
+                can3.delete("all")
+                can6.delete("all")
+
                 frame2.place_forget()
                 
 
@@ -2222,16 +2227,21 @@ def can2_b1(e):
     _npl=0
 
 
-
+    can_npl.delete("all")
     can_npl.place_forget()
 
     main()   
 
 
 
+    can_sort.delete("all")
     can_sort.place_forget()
     sort_st=0
-    
+
+
+    can4.delete("all")
+    can3.delete("all")
+    can6.delete("all")    
     frame2.place_forget()
     can3["scrollregion"]=(0,0,int(can3["width"]),int(can3["height"]))
 
@@ -2249,7 +2259,7 @@ def can2_b1(e):
 
             
                 _npl=0
-                
+                can_npl.delete("all")
                 can_npl.place_forget()
 
                 main()
@@ -2292,6 +2302,8 @@ def can2_b1(e):
 
             if not npl_var=="":
                 create_playlist(npl_var,0)
+
+                can_npl.delete("all")
                 
                 can_npl.place_forget()
                 _npl=0
@@ -2308,6 +2320,7 @@ def can2_b1(e):
                 create_playlist(npl_var,0)
                 
                 _npl=0
+                can_npl.delete("all")
                 can_npl.place_forget()
                 main()
 
@@ -2320,7 +2333,7 @@ def can2_b1(e):
                 if not npl_var=="":
                     create_playlist(npl_var,0)
                     _npl=0
-                    
+                    can_npl.delete("all")
                     can_npl.place_forget()
                     main()
                 return
@@ -2342,7 +2355,7 @@ def can2_b1(e):
                 _search=0
                 search_var=""
 
-                
+                can_search.delete("all")
 
                 can_search.place_forget()
 
@@ -2673,6 +2686,10 @@ def can2_b1(e):
 
 
                 add_st=0
+                can4.delete("all")
+                can3.delete("all")
+                can6.delete("all")
+
                 frame2.place_forget()
 
                 tm=0
@@ -2725,6 +2742,8 @@ def can2_b1(e):
 
                 
                 filter_st=0
+                filter_can1.delete("all")
+                filter_can2.delete("all")
                 filter_can1.place_forget()
                 filter_can2.place_forget()
 
@@ -2943,6 +2962,7 @@ def can_b1(e):
     global can_search
     global checkeddark
     global cs_txt1,cs_txt2
+    global can3,can4,can6
 
 
 
@@ -2987,14 +3007,18 @@ def can_b1(e):
 
                 search_var=""
 
-                
+
+                can_search.delete("all")
                 can_search.place_forget()
 
-                
+                can_npl.delete("all")
                 can_npl.place_forget()
 
 
                 filter_st=0
+                filter_can1.delete("all")
+                filter_can2.delete("all")
+
                 filter_can1.place_forget()
                 filter_can2.place_forget()
 
@@ -3013,6 +3037,7 @@ def can_b1(e):
 
             _search=0
             search_var=""
+            can_search.delete("all")
             can_search.place_forget()
 
             draw_settings()
@@ -3024,6 +3049,8 @@ def can_b1(e):
 
 
     _npl=0
+
+    can_npl.delete("all")
 
     can_npl.place_forget()
 
@@ -3047,6 +3074,11 @@ def can_b1(e):
 
 
     add_st=0
+
+    can4.delete("all")
+    can3.delete("all")
+    can6.delete("all")
+
     frame2.place_forget()
     can3["scrollregion"]=(0,0,int(can3["width"]),int(can3["height"]))
 
@@ -3077,12 +3109,17 @@ def can_b1(e):
 
             st=0
 
-
+            conf_del.delete("all")
             conf_del.place_forget()
 
             filter_st=0
             filter_val=None
             filter_pl=None
+
+
+            filter_can1.delete("all")
+            filter_can2.delete("all")
+
             filter_can1.place_forget()
             filter_can2.place_forget()
 
@@ -3104,9 +3141,10 @@ def can_b1(e):
 
             search_var=""
 
-            
+            can_search.delete("all")
             can_search.place_forget()
             sort_st=0
+            can_sort.delete("all")
             can_sort.place_forget()
             sort_st=0
 
@@ -3121,11 +3159,17 @@ def can_b1(e):
             current_playlist=""
 
             add_st=0
+
+            can4.delete("all")
+            can3.delete("all")
+            can6.delete("all")
+
             frame2.place_forget()
 
             
                         
             _npl=0
+            can_npl.delete("all")
             can_npl.place_forget()
 
 
@@ -3157,11 +3201,15 @@ def can_b1(e):
 
             st=1
 
+            conf_del.delete("all")
             conf_del.place_forget()
 
             filter_st=0
             filter_val=None
             filter_pl=None
+
+            filter_can1.delete("all")
+            filter_can2.delete("all")
             filter_can1.place_forget()
             filter_can2.place_forget()
 
@@ -3183,9 +3231,12 @@ def can_b1(e):
             search_var=""
             _npl=0
 
-            
+
+            can_search.delete("all")
             can_search.place_forget()
             sort_st=0
+
+            can_sort.delete("all")
             can_sort.place_forget()
             sort_st=0
 
@@ -3203,10 +3254,16 @@ def can_b1(e):
             current_playlist=""
             
             add_st=0
+
+            can4.delete("all")
+            can3.delete("all")
+            can6.delete("all")
+
             frame2.place_forget()
             
             
             _npl=0
+            can_npl.delete("all")
             can_npl.place_forget()
             
 
@@ -3246,11 +3303,14 @@ def can_b1(e):
 
 
             search_var=""
+            conf_del.delete("all")
             conf_del.place_forget()
 
             filter_st=0
             filter_val=None
             filter_pl=None
+            filter_can1.delete("all")
+            filter_can2.delete("all")
             filter_can1.place_forget()
             filter_can2.place_forget()
 
@@ -3269,9 +3329,11 @@ def can_b1(e):
             _search=0
             _npl=0
 
-            
+
+            can_search.delete("all")            
             can_search.place_forget()
             sort_st=0
+            can_sort.delete("all")
             can_sort.place_forget()
             sort_st=0
 
@@ -3285,10 +3347,16 @@ def can_b1(e):
             playlist_st=0
             
             add_st=0
+
+            can4.delete("all")
+            can3.delete("all")
+            can6.delete("all")
+
             frame2.place_forget()
             
             
             _npl=0
+            can_npl.delete("all")
             can_npl.place_forget()
 
 
@@ -3325,12 +3393,15 @@ def can_b1(e):
             st=3
 
             search_var=""
+            conf_del.delete("all")
             conf_del.place_forget()
 
 
             filter_st=0
             filter_val=None
             filter_pl=None
+            filter_can1.delete("all")
+            filter_can2.delete("all")
             filter_can1.place_forget()
             filter_can2.place_forget()
 
@@ -3351,9 +3422,10 @@ def can_b1(e):
             _search=0
             _npl=0
 
-            
+            can_search.delete("all")
             can_search.place_forget()
             sort_st=0
+            can_sort.delete("all")
             can_sort.place_forget()
             sort_st=0
 
@@ -3372,10 +3444,17 @@ def can_b1(e):
             current_playlist=""
             
             add_st=0
+
+
+            can4.delete("all")
+            can3.delete("all")
+            can6.delete("all")
+
             frame2.place_forget()
             
             
             _npl=0
+            can_npl.delete("all")
             can_npl.place_forget()
 
 
@@ -3396,12 +3475,17 @@ def can_b1(e):
 
             search_var=""
 
+
+            conf_del.delete("all")
             conf_del.place_forget()
 
 
             filter_st=0
             filter_val=None
             filter_pl=None
+
+            filter_can1.delete("all")
+            filter_can2.delete("all")
 
             filter_can1.place_forget()
             filter_can2.place_forget()
@@ -3434,8 +3518,10 @@ def can_b1(e):
             _search=0
             _npl=0
 
-            
+            can_search.delete("all")
             can_search.place_forget()
+
+            can_sort.delete("all")
             can_sort.place_forget()
             sort_st=0
 
@@ -3446,10 +3532,17 @@ def can_b1(e):
 
             
             add_st=0
+
+
+            can4.delete("all")
+            can3.delete("all")
+            can6.delete("all")
+
             frame2.place_forget()
             
             
             _npl=0
+            can_npl.delete("all")
             can_npl.place_forget()
 
 
@@ -3761,6 +3854,7 @@ def can_b1(e):
                     vid_st2=0
 
 
+                    can_lyrics.delete("all")
                     can_lyrics.place_forget()
 
                     
@@ -3775,13 +3869,18 @@ def can_b1(e):
                         _npl=0
                         search_var=""
 
-                        
+                        can_search.delete("all")
                         can_search.place_forget()
+
+                        can2.delete("all")
                         frame.place_forget()
 
+                        conf_del.delete("all")
                         conf_del.place_forget()
 
                         filter_st=0
+                        filter_can1.delete("all")
+                        filter_can2.delete("all")
                         filter_can1.place_forget()
                         filter_can2.place_forget()
 
@@ -4019,6 +4118,7 @@ def can_b1(e):
 
 
                 else:
+                    can_sort.delete("all")
                     can_sort.place_forget()
                     sort_st=0
 
@@ -4199,16 +4299,23 @@ def can_b1(e):
 
                         search_var=""
 
-                        
+                        can_search.delete("all")
                         can_search.place_forget()
+                        can2.delete("all")
                         frame.place_forget()
 
+
+                        can_lyrics.delete("all")
                         can_lyrics.place_forget()
 
                         filter_st=0
+                        filter_can1.delete("all")
+                        filter_can2.delete("all")
                         filter_can1.place_forget()
                         filter_can2.place_forget()
 
+
+                        conf_del.delete("all")
                         conf_del.place_forget()
 
 
@@ -4244,6 +4351,7 @@ def can_b1(e):
                         lyric_st=1
                     elif lyric_st==1:
                         lyric_st=0
+                        can_lyrics.delete("all")
                         can_lyrics.place_forget()
 
                     lvar=0
@@ -4264,6 +4372,7 @@ def can_b1(e):
                         lyric_st=1
                     elif lyric_st==1:
                         lyric_st=0
+                        can_lyrics.delete("all")
                         can_lyrics.place_forget()
 
                     lvar=0
@@ -4281,6 +4390,7 @@ def can_b1(e):
                             lyric_st=1
                         elif lyric_st==1:
                             lyric_st=0
+                            can_lyrics.delete("all")
                             can_lyrics.place_forget()
 
                         lvar=0
@@ -4381,7 +4491,7 @@ def can_b1(e):
 
 
 
-            
+            can_search.delete("all")
             can_search.place_forget()
             can.focus_set()
             _search=0
@@ -4661,10 +4771,10 @@ def can_b1(e):
 
                 search_var=""
 
-                
+                can_search.delete("all")
                 can_search.place_forget()
 
-                
+                can_npl.delete("all")
                 can_npl.place_forget()
 
 
@@ -4673,6 +4783,9 @@ def can_b1(e):
                 lyric_st=0
 
                 filter_st=0
+
+                filter_can1.delete("all")
+                filter_can2.delete("all")
                 filter_can1.place_forget()
                 filter_can2.place_forget()
 
@@ -4722,6 +4835,9 @@ def can_b1(e):
 
                 elif filter_st==1:
                     filter_st=0
+
+                    filter_can1.delete("all")
+                    filter_can2.delete("all")
 
                     filter_can1.place_forget()
                     filter_can2.place_forget()
@@ -5030,6 +5146,7 @@ def main():
 
     global bg_styl1,bg_styl2
     global b_g1_,b_g2_
+    global can3,can4,can6
 
 
     root.wm_attributes("-topmost",True)
@@ -5048,21 +5165,36 @@ def main():
         can.create_image(0,0, image=circlex, anchor="nw")
 
         can.create_image(10,10, image=musical_note2, anchor="nw")
-
+        can2.delete("all")
         frame.place_forget()
         search_var=""
         _search=0
+
+        can_search.delete("all")
         can_search.place_forget()
 
         npl_var=""
         _npl=0
+        can_npl.delete("all")
         can_npl.place_forget()
-        
+
+
+        can_settings.delete("all")
         can_settings.place_forget()
+
+        can4.delete("all")
+        can3.delete("all")
+        can6.delete("all")
+
         frame2.place_forget()
+
+        can_sort.delete("all")
         can_sort.place_forget()
+
+        conf_del.delete("all")
         conf_del.place_forget()
 
+        can_theme_ent.delete("all")
         can_theme_ent.place_forget()
 
     else:
@@ -6637,16 +6769,18 @@ def main():
 
                     search_var=""
 
-                    
+                    can_search.delete("all")
                     can_search.place_forget()
 
 
 
                     _npl=0
+                    can_npl.delete("all")
                     can_npl.place_forget()
 
             
             if lyric_st==0:
+                can_lyrics.delete("all")
                 can_lyrics.place_forget()
 
             if _search==0 and _npl==0 and settings_st2==0:
@@ -7005,6 +7139,7 @@ def draw_can(con=0):
     global speakerdark,vid1dark,deletedark
 
     global cur_can
+    global can3,can4,can6
 
     if root_st==1:
 
@@ -7017,24 +7152,35 @@ def draw_can(con=0):
         can.create_image(0,0, image=circlex, anchor="nw")
 
         can.create_image(10,10, image=musical_note2, anchor="nw")
-
+        can2.delete("all")
         frame.place_forget()
 
         search_var=""
         _search=0
+        can_search.delete("all")
         can_search.place_forget()
 
 
 
         npl_var=""
         _npl=0
+        can_npl.delete("all")
         can_npl.place_forget()
-        
+        can_settings.delete("all")
         can_settings.place_forget()
+
+
+        can4.delete("all")
+        can3.delete("all")
+        can6.delete("all")
+
         frame2.place_forget()
+        can_sort.delete("all")
         can_sort.place_forget()
+        conf_del.delete("all")
         conf_del.place_forget()
 
+        can_theme_ent.delete("all")
         can_theme_ent.place_forget()
 
         return
@@ -7783,7 +7929,7 @@ def draw_can(con=0):
 
     if st==4:
 
-
+        can2.delete("all")
         frame.place_forget()
         
         yv=50+(((h-121)-50)-90)/2
@@ -7857,7 +8003,7 @@ def draw_can(con=0):
 
         draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,"#000000","",1,3)
         draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,_theme[0],"",1)
-
+        filter_can2.delete("all")
         filter_can2.place_forget()
 
         ar=[(0,None),(favourite2,"Favourites"),(playlist2,"Playlists"),(vid1,"With Video")]
@@ -8208,17 +8354,19 @@ def show_lyrics():
 
                     can.create_image(w/2-150-1,50+(((h-121)-50)-420)/2+210-150-1,image=no_musicdark,anchor="nw")
                     can.create_image(w/2-150,50+(((h-121)-50)-420)/2+210-150,image=no_music,anchor="nw")
-
+                    can_lyrics.delete("all")
                     can_lyrics.place_forget()
 
             else:
                 can.create_image(w/2-150-1,50+(((h-121)-50)-420)/2+210-150-1,image=no_musicdark,anchor="nw")
                 can.create_image(w/2-150,50+(((h-121)-50)-420)/2+210-150,image=no_music,anchor="nw")
+                can_lyrics.delete("all")
                 can_lyrics.place_forget()
 
 
 
         else:
+            can_lyrics.delete("all")
             can_lyrics.place_forget()
     except:
         pass
@@ -8657,6 +8805,7 @@ def check_pl():
 
             if not can2.canvasy(0)==0:
                 _npl=0
+                can_npl.delete("all")
                 can_npl.place_forget()
 
 
@@ -10393,6 +10542,7 @@ def __list(e):
     global frame2
     global vid_st,vid_st2
     global conf_del
+    global can3,can4,can6
 
     if e.char.lower()=="l":
 
@@ -10402,6 +10552,7 @@ def __list(e):
             vid_st2=0
             lyric_st=0
             lst=1
+            can_lyrics.delete("all")
             can_lyrics.place_forget()
 
 
@@ -10418,13 +10569,23 @@ def __list(e):
 
                 search_var=""
 
-                
+                can_search.delete("all")
                 can_search.place_forget()
+                can2.delete("all")
                 frame.place_forget()
+
+
+                can4.delete("all")
+                can3.delete("all")
+                can6.delete("all")
+
                 frame2.place_forget()
                 filter_st=0
+                filter_can1.delete("all")
+                filter_can2.delete("all")
                 filter_can1.place_forget()
                 filter_can2.place_forget()
+                conf_del.delete("all")
                 conf_del.place_forget()
 
 
@@ -11021,6 +11182,7 @@ def can_sort_b1(e):
 
 
             sort_st=0
+            can_sort.delete("all")
             can_sort.place_forget()
 
 
@@ -11234,7 +11396,9 @@ def can_settings_b1(e):
     if int(can_settings["width"])-10-25<=e.x<=int(can_settings["width"])-10:
         if 10<=e.y<=10+25:
             settings_st=0
+            can_settings.delete("all")
             can_settings.place_forget()
+            can_theme_ent.delete("all")
             can_theme_ent.place_forget()
 
             settings_st2=0
@@ -12834,6 +12998,7 @@ def conf_del_b1(e):
 
                 update_details(del_info[0],2,"")
                 main()
+        conf_del.delete("all")
         conf_del.place_forget()
 
 
@@ -13062,7 +13227,7 @@ def can_search_kp(e):
     root.after(0,update)
 
 
-cs_i=0
+cs_i=[0,0]
 cs_i_st=0
 def can_search_insert():
     global cs_i,cs_i_st
@@ -13072,8 +13237,8 @@ def can_search_insert():
 
     if cs_i_st==1:
 
-        can_search.delete(cs_i)
-
+        can_search.delete(cs_i[0])
+        can_search.delete(cs_i[1])
         cs_i_st=0
 
     elif cs_i_st==0:
@@ -13085,13 +13250,17 @@ def can_search_insert():
 
             l=get_text_length(can_search, cs_txt2, "FreeMono", 13)
 
-            
-            cs_i=can_search.create_line(int(can_search["width"])-1-l,2, int(can_search["width"])-1-l,26,
+            cs_i[0]=can_search.create_line(int(can_search["width"])-1-l,2, int(can_search["width"])-1-l,26,
+                fill="#000000",width=3)            
+            cs_i[1]=can_search.create_line(int(can_search["width"])-1-l,2, int(can_search["width"])-1-l,26,
                 fill=_theme[0])
         else:
             l=get_text_length(can_search, cs_txt1, "FreeMono", 13)
 
-            cs_i=can_search.create_line(l+1,2, l+1,26,
+            cs_i[0]=can_search.create_line(l+1,2, l+1,26,
+                fill="#000000",width=3)
+
+            cs_i[1]=can_search.create_line(l+1,2, l+1,26,
                 fill=_theme[0])
 
         cs_i_st=1
@@ -13309,7 +13478,7 @@ def can_npl_kp(e):
     root.after(0,update)
 
 
-cnpl_i=0
+cnpl_i=[0,0]
 cnpl_i_st=0
 def can_npl_insert():
     global cnpl_i,cnpl_i_st
@@ -13319,8 +13488,8 @@ def can_npl_insert():
 
     if cnpl_i_st==1:
 
-        can_npl.delete(cnpl_i)
-
+        can_npl.delete(cnpl_i[0])
+        can_npl.delete(cnpl_i[1])
         cnpl_i_st=0
 
     elif cnpl_i_st==0:
@@ -13332,13 +13501,17 @@ def can_npl_insert():
 
             l=get_text_length(can_npl, cnpl_txt2, "FreeMono", 13)
 
-            
-            cnpl_i=can_npl.create_line(int(can_npl["width"])-1-l,2, int(can_npl["width"])-1-l,26,
+            cnpl_i[0]=can_npl.create_line(int(can_npl["width"])-1-l,2, int(can_npl["width"])-1-l,26,
+                fill="#000000",width=3)            
+            cnpl_i[1]=can_npl.create_line(int(can_npl["width"])-1-l,2, int(can_npl["width"])-1-l,26,
                 fill=_theme[0])
         else:
             l=get_text_length(can_npl, cnpl_txt1, "FreeMono", 13)
 
-            cnpl_i=can_npl.create_line(l+1,2, l+1,26,
+
+            cnpl_i[0]=can_npl.create_line(l+1,2, l+1,26,
+                fill="#000000",width=3)
+            cnpl_i[1]=can_npl.create_line(l+1,2, l+1,26,
                 fill=_theme[0])
 
         cnpl_i_st=1
@@ -13590,7 +13763,7 @@ def can_theme_ent_kp(e):
 
 
 
-cte_i=0
+cte_i=[0,0]
 cte_i_st=0
 def can_theme_ent_insert():
     global cte_i,cte_i_st
@@ -13605,8 +13778,8 @@ def can_theme_ent_insert():
 
         if cte_i_st==1:
 
-            can_theme_ent.delete(cte_i)
-
+            can_theme_ent.delete(cte_i[0])
+            can_theme_ent.delete(cte_i[1])
             cte_i_st=0
 
         elif cte_i_st==0:
@@ -13614,22 +13787,32 @@ def can_theme_ent_insert():
             if get_text_length(can_theme_ent, te_var, "FreeMono", 13)>int(can_theme_ent["width"])-4:
 
                 l=get_text_length(can_theme_ent, cte_txt2, "FreeMono", 13)
+
+
+                cte_i[0]=can_theme_ent.create_line(int(can_theme_ent["width"])-3-l,2, int(can_theme_ent["width"])-3-l,26,
+                    fill="#000000",width=3)
+
                 try:
-                    cte_i=can_theme_ent.create_line(int(can_theme_ent["width"])-3-l,2, int(can_theme_ent["width"])-3-l,26,
+
+                    cte_i[1]=can_theme_ent.create_line(int(can_theme_ent["width"])-3-l,2, int(can_theme_ent["width"])-3-l,26,
                         fill=te_var)
                 except:
-                    cte_i=can_theme_ent.create_line(int(can_theme_ent["width"])-3-l,2, int(can_theme_ent["width"])-3-l,26,
+                    cte_i[1]=can_theme_ent.create_line(int(can_theme_ent["width"])-3-l,2, int(can_theme_ent["width"])-3-l,26,
                         fill=_theme[0])
             else:
                 l=get_text_length(can_theme_ent, cte_txt1, "FreeMono", 13)
 
+
+                cte_i[0]=can_theme_ent.create_line(l+1+3,2, l+1+3,26,
+                    fill="#000000",width=3)
+
                 try:
 
-                    cte_i=can_theme_ent.create_line(l+1+3,2, l+1+3,26,
+                    cte_i[1]=can_theme_ent.create_line(l+1+3,2, l+1+3,26,
                         fill=sel_col)
 
                 except:
-                    cte_i=can_theme_ent.create_line(l+1+3,2, l+1+3,26,
+                    cte_i[1]=can_theme_ent.create_line(l+1+3,2, l+1+3,26,
                         fill=_theme[0])
 
             cte_i_st=1
