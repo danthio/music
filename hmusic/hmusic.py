@@ -219,10 +219,9 @@ def configure_theme(pcol):
 
     col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
     col3=(int(col1[0]*32/mxc),int(col1[1]*32/mxc),int(col1[2]*32/mxc))
-    col4=(int(col1[0]*80/mxc),int(col1[1]*80/mxc),int(col1[2]*80/mxc))
 
 
-    ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3,"#%02x%02x%02x" % col4]
+    ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3]
 
 
     _theme[1]=ar
@@ -1840,7 +1839,6 @@ def add_playlist():
     global cp2_im
     global sb2_sz
     global cur_can3,cur_can4,cur_can6
-    global bg2_
     global bg
     global checkeddark
     global _theme
@@ -1860,8 +1858,8 @@ def add_playlist():
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
 
-    can4.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2),image=bg2_,anchor="nw")
-    can6.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40+250+10),image=bg2_,anchor="nw")
+    can4.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2),image=bg,anchor="nw")
+    can6.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40+250+10),image=bg,anchor="nw")
 
 
     draw_outline_text(can4,"Playlists",550/2,20,"c",("FreeMono",13))
@@ -1884,7 +1882,7 @@ def add_playlist():
 
     can3.delete("all")
 
-    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0),image=bg2_,anchor="nw")
+    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0),image=bg,anchor="nw")
 
     ar=[]
 
@@ -2946,7 +2944,6 @@ def can_b1(e):
     global im_bg
     global circle3
     global sel_op_ent
-    global bg2_
     global quit
     global _theme
     global vid_st,vid_st2
@@ -3967,7 +3964,7 @@ def can_b1(e):
 
                     can_sort.delete("all")
 
-                    bg_so=can_sort.create_image(-(10+25+15+25),-(h-20-30-15+5+10+2.5-160),image=bg2_,anchor="nw")
+                    bg_so=can_sort.create_image(-(10+25+15+25),-(h-20-30-15+5+10+2.5-160),image=bg,anchor="nw")
 
 
 
@@ -5009,7 +5006,6 @@ expand_st=0
 songs2=[]
 playlist_select=""
 
-_bg2_=None
 
 
 def _text_(c,text,font,size,l):
@@ -5116,7 +5112,6 @@ def main():
     global songs2,playlist_select
     global nomusic
     global _songs_,songs_status
-    global _bg2_
 
     global transparent_im,transparent_im2
     global note
@@ -5147,6 +5142,7 @@ def main():
     global bg_styl1,bg_styl2
     global b_g1_,b_g2_
     global can3,can4,can6
+    global highl1
 
 
     root.wm_attributes("-topmost",True)
@@ -5907,6 +5903,7 @@ def main():
                 
                 pass
                 #can.create_line(10,80-30+40+5+int(can2["height"]),w-10,80-30+40+5+int(can2["height"]),fill=col2)
+
 
             
 
@@ -7104,7 +7101,7 @@ def draw_can(con=0):
 
     global note
     global circle6
-    global bg,bg2_
+    global bg
     global favourite2
     global can_cur,cur
     global delete
@@ -7999,7 +7996,7 @@ def draw_can(con=0):
         filter_can1.delete("all")
 
         filter_can1.create_image(-(w-10-int(filter_can1["width"])),-(40+30-10-5-5+30+10),
-            image=bg2_,anchor="nw")
+            image=bg,anchor="nw")
 
         draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,"#000000","",1,3)
         draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,_theme[0],"",1)
@@ -8071,7 +8068,7 @@ def draw_can(con=0):
             filter_can2.delete("all")
 
             bg_f2=filter_can2.create_image(-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
-                -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0),image=bg2_,anchor="nw")
+                -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0),image=bg,anchor="nw")
 
             pp=0
 
@@ -8504,7 +8501,6 @@ circle9=0
 circle11=0
 cursor=0
 
-bg2_=0
 settings=0
 
 delete3=0
@@ -8550,6 +8546,8 @@ sortdark=0
 speakerdark=0
 vid1dark=0
 deletedark=0
+
+highl1=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -8564,7 +8562,7 @@ def load_im():
     global note_
     global note
     global circle6,circle7,circle8
-    global bg,bg2_
+    global bg
     global note2
     global cur
     global copy
@@ -8585,6 +8583,7 @@ def load_im():
     global musical_note2dark,nextdark,no_musicdark,playlist2dark,previousdark,quitdark1,quitdark2
     global searchdark,settingsdark,shuffle2dark,sortdark,speakerdark,vid1dark,deletedark
     global w,h,can2
+    global w,highl1
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -8637,7 +8636,6 @@ def load_im():
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
     bg=ImageTk.PhotoImage(file="data/bg.png")
-    bg2_=ImageTk.PhotoImage(file="data/bg2.png")
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
     settings=ImageTk.PhotoImage(file="data/settings.png")
@@ -8783,14 +8781,21 @@ def load_im():
 
 
 
-    b_g1=ImageTk.PhotoImage(dark_bg(w,50,"#000000",0))
+    b_g1=ImageTk.PhotoImage(dark_bg(w,50,_theme[1][-1],0))
 
-    b_g2=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),"#000000",1))
+    b_g2=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),_theme[1][-1],1))
 
 
     #b_g1_=ImageTk.PhotoImage(dark_bg(20,h,_theme[1][-1],2))
 
     #b_g2_=ImageTk.PhotoImage(dark_bg(20,h,_theme[1][-1],3))
+
+
+    #r,g,b=hex_to_rgb(_theme[0])
+
+    #im=Image.new("RGBA",(w-12,50),(r,g,b,int(255*_theme[3])))
+
+    #highl1=ImageTk.PhotoImage(im)
 
 
 
@@ -10039,7 +10044,6 @@ def adjust_theme():
         im=Image.new("RGBA",(w,h),(0,0,0,255))
         im.save("data/bg_.png")
         im.save("data/bg.png")
-        im.save("data/bg2.png")
 
         _theme[-1]=[0,0,0,0]
 
@@ -10136,7 +10140,6 @@ def adjust_theme():
             im2=darken_image(im1,(0,0,0), 0.5)
 
             im1.save("data/bg.png")
-            im2.save("data/bg2.png")
 
 
 
@@ -11925,7 +11928,6 @@ def draw_settings(con=0):
     global delete_,add
     global cr
     global no_bg_st
-    global bg2_
     global bg_region2,bg_region2_
     global sel_col
     global con_theme
@@ -11949,6 +11951,7 @@ def draw_settings(con=0):
     global circledark3,circle7,circle8
     global op_ar
     global cte_txt1,cte_txt2
+    global bg
 
 
 
@@ -11990,7 +11993,7 @@ def draw_settings(con=0):
     can_settings.delete("all")
     can_settings.place(in_=root,x=10+25+5,y=25+12.5+5)
 
-    can_settings.create_image(-(10+25+5),-(25+12.5+5),image=bg2_,anchor="nw")
+    can_settings.create_image(-(10+25+5),-(25+12.5+5),image=bg,anchor="nw")
 
     draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,"#000000",col1,1,3)
     draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,_theme[0],col1,1)
@@ -12014,7 +12017,7 @@ def draw_settings(con=0):
 
     can_theme_ent.delete("all")
 
-    can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
+    can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg,anchor="nw")
 
     te_var=col_
 
@@ -13005,7 +13008,7 @@ def conf_del_b1(e):
 def conf_del_(file,con):
     global conf_del
     global del_info
-    global bg2_
+    global bg
     global _theme
     global w,h
 
@@ -13013,7 +13016,7 @@ def conf_del_(file,con):
     conf_del.delete("all")
 
     conf_del.create_image(-(w-int(conf_del["width"]))/2,-(h-int(conf_del["height"]))/2,
-        image=bg2_,anchor="nw")
+        image=bg,anchor="nw")
 
 
 
