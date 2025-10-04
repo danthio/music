@@ -1827,6 +1827,15 @@ def can3_b1(e):
             return
 
 
+def can4_b1(e):
+
+    cx,cy=int(can4["width"])-10-20-1+10,10-1+10
+
+    r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
+
+    if r<=11:
+        pu_forget()
+
 song_add_pl=0
 bgp=0
 cp2_im=0
@@ -1845,6 +1854,9 @@ def add_playlist():
     global checkeddark
     global _theme
     global add_bg,add_bg_
+    global cancel,quitdark2
+
+
 
 
 
@@ -1867,6 +1879,10 @@ def add_playlist():
 
     can4.create_image(-15,-15,image=add_bg_,anchor="nw")
     can4.create_image(0,0,image=add_bg,anchor="nw")
+
+
+    can4.create_image(int(can4["width"])-10-20-1,10-1,image=quitdark2,anchor="nw")
+    can4.create_image(int(can4["width"])-10-20,10,image=cancel,anchor="nw")
 
 
     can6.create_image(-15,-(40+250-40+50)-15,image=add_bg_,anchor="nw")
@@ -2103,11 +2119,11 @@ def can2_b1(e):
     global can2
     global st,npl,playlist_st,_playlist,current_playlist,playlist
     global search,_search,search_var,frame
-    global add_st,frame2,can3,can4,can5,can6
+    global frame2,can3,can4,can5,can6
     global sel_playlist
     global _npl,npl
     global can_sort
-    global shuffle_st,shuff,sort_val,sort_ar,sort_st
+    global shuffle_st,shuff,sort_val,sort_ar
 
     global playlist_select,select_st
     global songs2
@@ -2125,8 +2141,15 @@ def can2_b1(e):
     global can4,can3,can6
     global npl_var,can_npl
     global f1_,f2_
-    global filter_val,filter_pl,filter_st
+    global filter_val,filter_pl
     global cnpl_txt1,cnpl_txt2
+    global settings_st2,filter_st,sort_st,add_st,del_st
+
+
+    if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
+
+        return
+
 
     if (int(can2["width"])-sb_sz-1)<=e.x<=(int(can2["width"])):
 
@@ -2530,6 +2553,8 @@ def can2_b1(e):
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
+
+
                 if add_st==0:
                     add_st=1
                 elif add_st==1:
@@ -2537,6 +2562,8 @@ def can2_b1(e):
 
 
                 if add_st==1:
+                    pu_forget()
+                    add_st=1
 
 
 
@@ -2658,16 +2685,16 @@ def can2_b1(e):
             if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
 
-                try:
+                #try:
 
-                    conf_del_("music/"+s[0],"music")
+                conf_del_("music/"+s[0],"music")
 
 
 
                 
 
-                except:
-                    pass
+                #except:
+                #    pass
 
                 main()
                 return
@@ -2884,6 +2911,62 @@ def can_b3(e):
     move_to_playing()
 
 
+
+def pu_forget():
+    global can_search,_search,search_var
+    global can_npl,_npl,npl_var
+    global can_settings,settings_st2,can_theme_ent
+    global frame2,add_st,can3,can4,can6
+    global can_sort,sort_st
+    global conf_del,del_st
+    global filter_st,filter_can1,filter_can2
+    global can_lyrics,lyric_st
+
+    _search=0
+    can_search.delete("all")
+    can_search.place_forget()
+
+    _npl=0
+    can_npl.delete("all")
+    can_npl.place_forget()
+
+
+    settings_st2=0
+    can_theme_ent.delete("all")
+    can_theme_ent.place_forget()
+    can_settings.delete("all")
+    can_settings.place_forget()
+
+
+    add_st=0
+    can3.delete("all")
+    can4.delete("all")
+    can6.delete("all")        
+    frame2.place_forget()
+
+
+    sort_st=0
+    can_sort.delete("all")
+    can_sort.place_forget()
+
+    del_st=0
+    conf_del.delete("all")
+    conf_del.place_forget()
+
+    filter_st=0
+    filter_can1.delete("all")
+    filter_can1.place_forget()
+    filter_can2.delete("all")
+    filter_can2.place_forget()
+
+
+    lyric_st=0
+    can_lyrics.delete("all")
+    can_lyrics.place_forget()
+
+    draw_can()
+
+
 convert=0
 input_file=""
 input_folder=""
@@ -2969,13 +3052,33 @@ def can_b1(e):
     global can3,can4,can6
     global pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s
     global bg_sort,bg_sort_
+    global del_st
+    global cancel,quitdark2
+
+    #minimize
+
+    cx,cy=w-10-25-10-25+12.5,(50-25)/2+12.5
+
+    if cx-12.5<=e.x<=cx+12.5:
+        if cy-12.5<=e.y<=cy+12.5:
+            root_st=1
+
+            main()
+
+            return
 
 
+    #quit
 
-    col1=_theme[0]
-    col2=_theme[1][0]
+    cx,cy=w-10-25+12.5,(50-25)/2+12.5
+
+    if cx-12.5<=e.x<=cx+12.5:
+        if cy-12.5<=e.y<=cy+12.5:
 
 
+            root.destroy()
+
+            return
 
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
@@ -2984,6 +3087,7 @@ def can_b1(e):
 
 
         root_st=0
+        pu_forget()
 
 
 
@@ -2995,6 +3099,69 @@ def can_b1(e):
         move_to_playing()
 
         return
+
+
+
+
+    if w-10-25<=e.x<=w-10:
+        if 40+30-10-5-5+2.5<=e.y<=40+30-10-5-5+2.5+25:
+
+            if lst==1:
+
+
+                can.delete(pu_bg1_)
+                can2.delete(pu_bg2_)
+
+                can.delete(pu_bg1_s)
+                can2.delete(pu_bg2_s)
+
+                if filter_st==0:
+
+                    
+                    if st==4:
+                        return
+                    if st==2 and playlist_st==0:
+                        return
+
+
+
+                    filter_st=1
+
+
+
+                    filter_can2["scrollregion"]=(0,0,int(filter_can2["width"]),int(filter_can2["height"]))
+
+                    if filter_val=="Playlists" and filter_pl==None:
+                        filter_val=None
+
+
+                    draw_can()
+
+                elif filter_st==1:
+                    filter_st=0
+
+                    filter_can1.delete("all")
+                    filter_can2.delete("all")
+
+                    filter_can1.place_forget()
+                    filter_can2.place_forget()
+
+                    draw_can()
+
+
+
+    if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
+
+        return
+
+
+
+    col1=_theme[0]
+    col2=_theme[1][0]
+
+
+
+
 
 
 
@@ -3122,6 +3289,7 @@ def can_b1(e):
 
 
             st=0
+            del_st=0
 
             conf_del.delete("all")
             conf_del.place_forget()
@@ -3214,6 +3382,7 @@ def can_b1(e):
 
 
             st=1
+            del_st=0
 
             conf_del.delete("all")
             conf_del.place_forget()
@@ -3315,6 +3484,8 @@ def can_b1(e):
 
             st=2
 
+            del_st=0
+
 
             search_var=""
             conf_del.delete("all")
@@ -3407,6 +3578,7 @@ def can_b1(e):
             st=3
 
             search_var=""
+            del_st=0
             conf_del.delete("all")
             conf_del.place_forget()
 
@@ -3488,6 +3660,9 @@ def can_b1(e):
             
 
             search_var=""
+
+
+            del_st=0
 
 
             conf_del.delete("all")
@@ -3889,6 +4064,8 @@ def can_b1(e):
                         can2.delete("all")
                         frame.place_forget()
 
+                        del_st=0
+
                         conf_del.delete("all")
                         conf_del.place_forget()
 
@@ -3972,6 +4149,9 @@ def can_b1(e):
 
 
                 if sort_st==1:
+
+                    pu_forget()
+                    sort_st=1
 
                     if sort_val=="":
                         sort_val=sort_ar[0][0]
@@ -4079,8 +4259,8 @@ def can_b1(e):
 
 
 
-                    draw_round_rec(can_sort,1,1, 250-2-1,160-1-1,15,"#000000",col1,1,3)
-                    draw_round_rec(can_sort,1,1, 250-2-1,160-1-1,15,col1,col1,1)
+                    draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,"#000000",col1,1,3)
+                    draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,col1,col1,1)
 
                     draw_outline_text(can_sort,"Sort",125,15,"c",("FreeMono",13))
 
@@ -4110,6 +4290,10 @@ def can_b1(e):
                             _sort=[0,0]
                             _sort[0]=can_sort.create_image(250-5-20-1,s[1]+5-1,image=checkeddark,anchor="nw")
                             _sort[1]=can_sort.create_image(250-5-20,s[1]+5,image=checked,anchor="nw")
+
+
+                    can_sort.create_image(int(can_sort["width"])-5-20-1,5-1,image=quitdark2,anchor="nw")
+                    can_sort.create_image(int(can_sort["width"])-5-20,5,image=cancel,anchor="nw")
 
 
                     can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-160)
@@ -4340,6 +4524,9 @@ def can_b1(e):
                         filter_can2.delete("all")
                         filter_can1.place_forget()
                         filter_can2.place_forget()
+
+
+                        del_st=0
 
 
                         conf_del.delete("all")
@@ -4702,32 +4889,7 @@ def can_b1(e):
 
 
 
-    #minimize
 
-    cx,cy=w-10-25-10-25+12.5,(50-25)/2+12.5
-
-    if cx-12.5<=e.x<=cx+12.5:
-        if cy-12.5<=e.y<=cy+12.5:
-            root_st=1
-
-            main()
-
-            return
-
-
-    #quit
-
-    cx,cy=w-10-25+12.5,(50-25)/2+12.5
-
-    if cx-12.5<=e.x<=cx+12.5:
-        if cy-12.5<=e.y<=cy+12.5:
-
-
-            root.destroy()
-
-            return
-
-        
 
 
 
@@ -4833,50 +4995,6 @@ def can_b1(e):
                 pass
 
 
-    if w-10-25<=e.x<=w-10:
-        if 40+30-10-5-5+2.5<=e.y<=40+30-10-5-5+2.5+25:
-
-            if lst==1:
-
-
-                can.delete(pu_bg1_)
-                can2.delete(pu_bg2_)
-
-                can.delete(pu_bg1_s)
-                can2.delete(pu_bg2_s)
-
-                if filter_st==0:
-
-                    
-                    if st==4:
-                        return
-                    if st==2 and playlist_st==0:
-                        return
-
-
-
-                    filter_st=1
-
-
-
-                    filter_can2["scrollregion"]=(0,0,int(filter_can2["width"]),int(filter_can2["height"]))
-
-                    if filter_val=="Playlists" and filter_pl==None:
-                        filter_val=None
-
-
-                    draw_can()
-
-                elif filter_st==1:
-                    filter_st=0
-
-                    filter_can1.delete("all")
-                    filter_can2.delete("all")
-
-                    filter_can1.place_forget()
-                    filter_can2.place_forget()
-
-                    draw_can()
 
 
         
@@ -5181,6 +5299,7 @@ def main():
     global b_g1_,b_g2_
     global can3,can4,can6
     global highl1
+    global del_st
 
 
     root.wm_attributes("-topmost",True)
@@ -5224,6 +5343,8 @@ def main():
 
         can_sort.delete("all")
         can_sort.place_forget()
+
+        del_st=0
 
         conf_del.delete("all")
         conf_del.place_forget()
@@ -7098,6 +7219,7 @@ def rounded_im(im,x,y,w_,h_,r):
     global _theme
 
 
+
     im=im.crop((x,y,x+w_,y+h_))
     im2=Image.new("RGBA",(w_,h_),(0,0,0,0))
 
@@ -7168,7 +7290,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
 
-    red,green,blue=hex_to_rgb(_theme[1][0])
+    red,green,blue=hex_to_rgb(_theme[0])
 
     w_,h_=w_+r*2,h_+r*2
 
@@ -7181,15 +7303,15 @@ def rounded_im(im,x,y,w_,h_,r):
 
         x_=r
 
-        op=255
+        s=1
 
         for x in range(r):
 
-            pixels[x_,y_]=(red,green,blue,int(round(op,0)))
+            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
 
 
             x_-=1
-            op-=255/r
+            s-=1/r
 
 
         y_+=1
@@ -7200,15 +7322,15 @@ def rounded_im(im,x,y,w_,h_,r):
 
         x_=w_-r
 
-        op=255
+        s=1
 
         for x in range(r):
 
-            pixels[x_,y_]=(red,green,blue,int(round(op,0)))
+            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
 
 
             x_+=1
-            op-=255/r
+            s-=1/r
 
 
         y_+=1
@@ -7220,17 +7342,17 @@ def rounded_im(im,x,y,w_,h_,r):
     for x in range(w_-r*4+1):
 
 
-        op=255
+        s=1
 
         y_=r
 
         for y in range(r):
 
-            pixels[x_,y_]=(red,green,blue,int(round(op,0)))
+            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
 
 
             
-            op-=255/r
+            s-=1/r
 
 
             y_-=1
@@ -7242,17 +7364,17 @@ def rounded_im(im,x,y,w_,h_,r):
     for x in range(w_-r*4+1):
 
 
-        op=255
+        s=1
 
         y_=h_-r
 
         for y in range(r):
 
-            pixels[x_,y_]=(red,green,blue,int(round(op,0)))
+            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
 
 
             
-            op-=255/r
+            s-=1/r
 
 
             y_+=1
@@ -7266,7 +7388,7 @@ def rounded_im(im,x,y,w_,h_,r):
     cx,cy=r*2,r*2
 
 
-    op=255
+    s=1
 
     for r__ in range(r):
 
@@ -7278,18 +7400,18 @@ def rounded_im(im,x,y,w_,h_,r):
 
             if x>0 and y>0:
 
-                pixels[x,y]=(red,green,blue,int(round(op,0)))
+                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
 
             a_+=1
 
-        op-=255/r
+        s-=1/r
 
 
 
     cx,cy=w_-r*2,r*2
 
 
-    op=255
+    s=1
 
     for r__ in range(r):
 
@@ -7302,18 +7424,18 @@ def rounded_im(im,x,y,w_,h_,r):
 
             if x>0 and y>0:
 
-                pixels[x,y]=(red,green,blue,int(round(op,0)))
+                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
 
             a_+=1
 
-        op-=255/r
+        s-=1/r
 
 
 
     cx,cy=w_-r*2,h_-r*2
 
 
-    op=255
+    s=1
 
     for r__ in range(r):
 
@@ -7326,17 +7448,17 @@ def rounded_im(im,x,y,w_,h_,r):
 
             if x>0 and y>0:
 
-                pixels[x,y]=(red,green,blue,int(round(op,0)))
+                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
 
             a_+=1
 
-        op-=255/r
+        s-=1/r
 
 
     cx,cy=r*2,h_-r*2
 
 
-    op=255
+    s=1
 
     for r__ in range(r):
 
@@ -7349,12 +7471,11 @@ def rounded_im(im,x,y,w_,h_,r):
 
             if x>0 and y>0:
 
-                pixels[x,y]=(red,green,blue,int(round(op,0)))
+                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
 
             a_+=1
 
-        op-=255/r
-
+        s-=1/r
 
 
 
@@ -7454,7 +7575,8 @@ def draw_can(con=0):
     global pu_bg1,pu_bg2,pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s
     global sort_st,settings_st2,add_st
     global bg_filt,bg_filt_
-    global bg_sett_,bg_sort_,add_bg_
+    global bg_sett_,bg_sort_,add_bg_,bg_del_
+    global del_st
 
     if root_st==1:
 
@@ -7492,6 +7614,8 @@ def draw_can(con=0):
         frame2.place_forget()
         can_sort.delete("all")
         can_sort.place_forget()
+
+        del_st=0
         conf_del.delete("all")
         conf_del.place_forget()
 
@@ -7860,9 +7984,11 @@ def draw_can(con=0):
                     a_-=1
 
 
+            if filter_st!=1:
 
-            can.create_image(w-10-25-1,40+30-10-5-5+2.5-1,image=filterdark,anchor="nw")
-            can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
+
+                can.create_image(w-10-25-1,40+30-10-5-5+2.5-1,image=filterdark,anchor="nw")
+                can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
 
             can.create_line(10-1,90-5,w-10+1,90-5,fill="#000000",width=3)
             can.create_line(10,90-5,w-10,90-5,fill=_theme[0],width=1)
@@ -8103,17 +8229,20 @@ def draw_can(con=0):
             can.delete(sig_2)
 
 
-        can.create_image(10+25+15-1,h-20-30-15+5+10-3+2.5-1,image=sortdark,anchor="nw")
-        if songs_status[0]==3:
+        if sort_st!=1:
 
-            can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
-        else:
 
-            if sort_val!="":
-                can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort,anchor="nw")
+            can.create_image(10+25+15-1,h-20-30-15+5+10-3+2.5-1,image=sortdark,anchor="nw")
+            if songs_status[0]==3:
 
-            else:
                 can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
+            else:
+
+                if sort_val!="":
+                    can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort,anchor="nw")
+
+                else:
+                    can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
 
 
         can.create_image(10+25+15+25+15-1,h-20-30-15+5+10-3+2.5-1,image=shuffle2dark,anchor="nw")
@@ -8308,6 +8437,12 @@ def draw_can(con=0):
 
 
     if filter_st==1:
+
+        pu_forget()
+        filter_st=1
+
+
+
         filter_can1["height"]=20+30*4
         filter_can1["width"]=250
 
@@ -8466,19 +8601,13 @@ def draw_can(con=0):
 
 
 
-    draw_round_rec(can,0,0,w-1,h-1,25,_theme[0],"",1)
-    draw_round_rec(can,1,1,w-2,h-2,25,"#000000","",1)
 
 
 
-    can.create_image(10-1,(50-25)/2-1,image=settingsdark,anchor="nw")
-    can.create_image(10,(50-25)/2,image=settings,anchor="nw")
-    
-    can.create_image(w-10-25-1,(50-25)/2-1,image=quitdark1,anchor="nw")
-    can.create_image(w-10-25,(50-25)/2,image=quit,anchor="nw")
-    
-    can.create_image(w-10-25-10-25-1,(50-25)/2-1,image=minimizedark,anchor="nw")
-    can.create_image(w-10-25-10-25,(50-25)/2,image=minimize,anchor="nw")
+    if settings_st2!=1:
+        can.create_image(10-1,(50-25)/2-1,image=settingsdark,anchor="nw")
+        can.create_image(10,(50-25)/2,image=settings,anchor="nw")
+        
 
 
 
@@ -8503,13 +8632,13 @@ def draw_can(con=0):
     can2.delete(pu_bg2_)
     can2.delete(pu_bg2_s)
 
-    if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1:
+    if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
         
 
 
-        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,128)))
+        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,140)))
 
-        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,128)))
+        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,140)))
 
 
 
@@ -8541,8 +8670,50 @@ def draw_can(con=0):
             pu_bg2_s=can2.create_image(((w-550)/2)-15-10,((h-(40+250-40+50+40))/2)+can2.canvasy(0)-88-15,image=add_bg_,anchor="nw")
 
 
+        elif del_st==1:
 
-    #((w-550)/2),((h-(40+250-40+50+40))/2)
+            pu_bg1_s=can.create_image((w-int(conf_del["width"]))/2-15,(h-int(conf_del["height"]))/2-15,image=bg_del_,anchor="nw")
+            pu_bg2_s=can2.create_image((w-int(conf_del["width"]))/2-15-10,(h-int(conf_del["height"]))/2+can2.canvasy(0)-88-15,image=bg_del_,anchor="nw")
+
+
+
+    if sort_st==1:
+
+
+        can.create_image(10+25+15-1,h-20-30-15+5+10-3+2.5-1,image=sortdark,anchor="nw")
+        if songs_status[0]==3:
+
+            can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
+        else:
+
+            if sort_val!="":
+                can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort,anchor="nw")
+
+            else:
+                can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
+
+
+    if settings_st2==1:
+        can.create_image(10-1,(50-25)/2-1,image=settingsdark,anchor="nw")
+        can.create_image(10,(50-25)/2,image=settings,anchor="nw")
+        
+    if filter_st==1:
+
+
+        can.create_image(w-10-25-1,40+30-10-5-5+2.5-1,image=filterdark,anchor="nw")
+        can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
+
+
+    can.create_image(w-10-25-1,(50-25)/2-1,image=quitdark1,anchor="nw")
+    can.create_image(w-10-25,(50-25)/2,image=quit,anchor="nw")
+    
+    can.create_image(w-10-25-10-25-1,(50-25)/2-1,image=minimizedark,anchor="nw")
+    can.create_image(w-10-25-10-25,(50-25)/2,image=minimize,anchor="nw")
+
+
+    draw_round_rec(can,0,0,w-1,h-1,25,_theme[0],"",1)
+    draw_round_rec(can,1,1,w-2,h-2,25,"#000000","",1)
+
     draw_cur_can()
 
 
@@ -9576,14 +9747,14 @@ def check_cur_pos():
     global lst
     global songs2
     global cp2_im
-    global add_st
-    global sort_st,sort_ar,csv_im
+    global sort_ar,csv_im
     global search_var
     global root_st
     global lst
     global can4,can3,can6
     global vid1,vid2,vid3
     global delete_,delete2_
+    global settings_st2,filter_st,sort_st,add_st,del_st
 
 
 
@@ -9608,6 +9779,10 @@ def check_cur_pos():
         can_sort.coords(csv_im,0,-100)
         can2.coords(cp_im2,0,-100)
         can2.coords(cp_im3,0,-100) 
+
+        if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
+            root.after(2,check_cur_pos)
+            return
 
 
 
@@ -10556,9 +10731,11 @@ def move_bg():
 
     global filter_can2,filter_st,f2,bg_f2
     global bg_styl1,bg_styl2
+    global settings_st2,sort_st,add_st,del_st
 
 
     if root_st==0:
+
 
         if y1!=can2.canvasy(0):
 
@@ -10633,8 +10810,13 @@ def scroll(val):
     global filter_st,filter_val,filter_can2,f2
     global _theme
     global bg_styl1,bg_styl2
+    global settings_st2,sort_st,del_st
 
-    if add_st==0 and lst==1 and filter_st==0:
+
+
+
+    if settings_st2==0 and filter_st==0 and sort_st==0 and add_st==0 and del_st==0:
+
 
         if int(can2["scrollregion"].split(" ")[-1])>((h-121)-80-10):
 
@@ -10967,6 +11149,8 @@ def __list(e):
                 filter_can2.delete("all")
                 filter_can1.place_forget()
                 filter_can2.place_forget()
+
+                del_st=0
                 conf_del.delete("all")
                 conf_del.place_forget()
 
@@ -11305,6 +11489,7 @@ frame2=tk.Frame(bg=_theme[1][1],width=350+100+100,height=250)
 
 can4=tk.Canvas(frame2,bg=_theme[1][1],width=350+100+100,height=40,relief="flat",highlightthickness=0,border=0,
     scrollregion=(0,0,300-7,250),cursor="none")
+can4.bind("<Button-1>",can4_b1)
 can4.pack(side=tk.TOP)
 
 
@@ -11530,6 +11715,18 @@ def can_sort_b1(e):
     global st,current_playlist
     global songs_status
 
+    cx,cy=int(can_sort["width"])-5-20-1+10,5-1+10
+
+    r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
+
+    if r<=11:
+
+        pu_forget()
+
+        return
+
+
+
 
 
     for s in sort_ar:
@@ -11566,6 +11763,8 @@ def can_sort_b1(e):
             sort_st=0
             can_sort.delete("all")
             can_sort.place_forget()
+
+
 
 
 
@@ -12341,6 +12540,9 @@ def draw_settings(con=0):
     global cte_txt1,cte_txt2
     global bg2_
     global bg_sett,bg_sett_,pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s
+
+
+    pu_forget()
 
 
 
@@ -13193,6 +13395,8 @@ def filter1_b1(e):
             main()
             move_to_playing()
 
+            draw_can()
+
             
 
             return
@@ -13230,6 +13434,8 @@ def filter2_b1(e):
             main()
             move_to_playing()
 
+            draw_can()
+
             return
 
         y+=30
@@ -13250,6 +13456,7 @@ def conf_del_b1(e):
     global conf_del
     global songs_status,play_st,current_playing,st,_songs_,mvar
     global can2,current_playlist,tm
+    global del_st
 
     #song
 
@@ -13398,22 +13605,42 @@ def conf_del_b1(e):
 
                 update_details(del_info[0],2,"")
                 main()
+
+        del_st=0
         conf_del.delete("all")
         conf_del.place_forget()
+        draw_can()
 
 
+
+bg_del,bg_del_=0,0
+
+del_st=0
 def conf_del_(file,con):
     global conf_del
     global del_info
-    global bg
+    global bg2_
     global _theme
     global w,h
+    global bg_del,bg_del_
+    global del_st
+
+    pu_forget()
+
+    im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
+
+    bg_del=ImageTk.PhotoImage(im1)
+    bg_del_=ImageTk.PhotoImage(im2)
 
 
     conf_del.delete("all")
 
-    conf_del.create_image(-(w-int(conf_del["width"]))/2,-(h-int(conf_del["height"]))/2,
-        image=bg,anchor="nw")
+
+    conf_del.create_image(-15,-15,
+        image=bg_del_,anchor="nw")
+
+    conf_del.create_image(0,0,
+        image=bg_del,anchor="nw")
 
 
 
@@ -13576,6 +13803,10 @@ def conf_del_(file,con):
 
         conf_del.create_text(10,30+(int(conf_del["height"])-35-30)/2,text=txt,
             fill=_theme[0],font=("FreeMono",13),anchor="w")
+
+    del_st=1
+    draw_can()
+
 
 
 conf_del=tk.Canvas(width=600,height=150,bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
