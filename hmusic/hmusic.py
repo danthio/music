@@ -3101,52 +3101,52 @@ def can_b1(e):
         return
 
 
+    if settings_st2==0 and sort_st==0 and add_st==0 and del_st==0:
+
+        if w-10-25<=e.x<=w-10:
+            if 40+30-10-5-5+2.5<=e.y<=40+30-10-5-5+2.5+25:
+
+                if lst==1:
 
 
-    if w-10-25<=e.x<=w-10:
-        if 40+30-10-5-5+2.5<=e.y<=40+30-10-5-5+2.5+25:
+                    can.delete(pu_bg1_)
+                    can2.delete(pu_bg2_)
 
-            if lst==1:
+                    can.delete(pu_bg1_s)
+                    can2.delete(pu_bg2_s)
 
+                    if filter_st==0:
 
-                can.delete(pu_bg1_)
-                can2.delete(pu_bg2_)
-
-                can.delete(pu_bg1_s)
-                can2.delete(pu_bg2_s)
-
-                if filter_st==0:
-
-                    
-                    if st==4:
-                        return
-                    if st==2 and playlist_st==0:
-                        return
-
-
-
-                    filter_st=1
+                        
+                        if st==4:
+                            return
+                        if st==2 and playlist_st==0:
+                            return
 
 
 
-                    filter_can2["scrollregion"]=(0,0,int(filter_can2["width"]),int(filter_can2["height"]))
-
-                    if filter_val=="Playlists" and filter_pl==None:
-                        filter_val=None
+                        filter_st=1
 
 
-                    draw_can()
 
-                elif filter_st==1:
-                    filter_st=0
+                        filter_can2["scrollregion"]=(0,0,int(filter_can2["width"]),int(filter_can2["height"]))
 
-                    filter_can1.delete("all")
-                    filter_can2.delete("all")
+                        if filter_val=="Playlists" and filter_pl==None:
+                            filter_val=None
 
-                    filter_can1.place_forget()
-                    filter_can2.place_forget()
 
-                    draw_can()
+                        draw_can()
+
+                    elif filter_st==1:
+                        filter_st=0
+
+                        filter_can1.delete("all")
+                        filter_can2.delete("all")
+
+                        filter_can1.place_forget()
+                        filter_can2.place_forget()
+
+                        draw_can()
 
 
 
