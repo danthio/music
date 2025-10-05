@@ -696,7 +696,7 @@ def draw_wave():
                     can.delete(sig_)
                     can.delete(sig_2)
                     #sig_2=can.create_line(sig2,fill=_theme[1][1],width=5)
-                    sig_=can.create_line(sig2,fill=_theme[0],width=2)
+                    sig_=can.create_line(sig2,fill=_theme[0],width=1)
 
 
 
@@ -7219,7 +7219,6 @@ def rounded_im(im,x,y,w_,h_,r):
     global _theme
 
 
-
     im=im.crop((x,y,x+w_,y+h_))
     im2=Image.new("RGBA",(w_,h_),(0,0,0,0))
 
@@ -7298,20 +7297,28 @@ def rounded_im(im,x,y,w_,h_,r):
     im3=Image.new("RGBA",(w_,h_),(0,0,0,0))
     pixels=im3.load()
 
+
+    r2=r*math.sin(math.radians(180+45))+r
+
     y_=r*2
     for y in range(h_-r*4+1):
 
         x_=r
 
         s=1
+        op=255
 
         for x in range(r):
 
-            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
+            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
 
             x_-=1
             s-=1/r
+
+            if x>r2:
+
+                op-=255/(r-r2)
 
 
         y_+=1
@@ -7323,14 +7330,18 @@ def rounded_im(im,x,y,w_,h_,r):
         x_=w_-r
 
         s=1
+        op=255
 
         for x in range(r):
 
-            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
+            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
 
             x_+=1
             s-=1/r
+
+            if x>r2:
+                op-=255/(r-r2)
 
 
         y_+=1
@@ -7343,16 +7354,20 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
         s=1
+        op=255
 
         y_=r
 
         for y in range(r):
 
-            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
+            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
 
             
             s-=1/r
+
+            if y>r2:
+                op-=255/(r-r2)
 
 
             y_-=1
@@ -7365,16 +7380,20 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
         s=1
+        op=255
 
         y_=h_-r
 
         for y in range(r):
 
-            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
+            pixels[x_,y_]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
 
             
             s-=1/r
+
+            if y>r2:
+                op-=255/(r-r2)
 
 
             y_+=1
@@ -7389,6 +7408,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
     s=1
+    op=255
 
     for r__ in range(r):
 
@@ -7400,11 +7420,14 @@ def rounded_im(im,x,y,w_,h_,r):
 
             if x>0 and y>0:
 
-                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
+                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
             a_+=1
 
         s-=1/r
+
+        if r__>r2:
+            op-=255/(r-r2)
 
 
 
@@ -7412,6 +7435,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
     s=1
+    op=255
 
     for r__ in range(r):
 
@@ -7424,11 +7448,15 @@ def rounded_im(im,x,y,w_,h_,r):
 
             if x>0 and y>0:
 
-                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
+                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
             a_+=1
 
         s-=1/r
+
+        if r__>r2:
+            op-=255/(r-r2)
+
 
 
 
@@ -7436,6 +7464,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
     s=1
+    op=255
 
     for r__ in range(r):
 
@@ -7448,17 +7477,21 @@ def rounded_im(im,x,y,w_,h_,r):
 
             if x>0 and y>0:
 
-                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
+                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
             a_+=1
 
         s-=1/r
+
+        if r__>r2:
+            op-=255/(r-r2)
 
 
     cx,cy=r*2,h_-r*2
 
 
     s=1
+    op=255
 
     for r__ in range(r):
 
@@ -7471,11 +7504,14 @@ def rounded_im(im,x,y,w_,h_,r):
 
             if x>0 and y>0:
 
-                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),255)
+                pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
             a_+=1
 
         s-=1/r
+
+        if r__>r2:
+            op-=255/(r-r2)
 
 
 
@@ -8214,7 +8250,7 @@ def draw_can(con=0):
                     if st!=4:
                         if vid_st==0:
                             #sig_2=can.create_line(sig2,fill=_theme[1][1],width=5)
-                            sig_=can.create_line(sig2,fill=_theme[0],width=2)
+                            sig_=can.create_line(sig2,fill=_theme[0],width=1)
 
                 except:
                     pass
