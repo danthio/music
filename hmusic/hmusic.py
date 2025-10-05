@@ -266,9 +266,10 @@ def create_dark_im():
     ["add.png",[27]],
     ["checked.png",[22]],
     ["crop.png",[27]],
-    ["no-music.png",[302]],
+    ["no-music.png",[302,27]],
     ["playlist2.png",[27]],
-    ["delete.png",[27]]   
+    ["delete.png",[27]],
+    ["most_played.png",[27]]   
 
     ]
 
@@ -333,7 +334,7 @@ def hex_to_rgb(hex_color: str) -> tuple:
 
 
 im_dict={
-"no-music":[("no-music",300)],
+"no-music":[("no-music",300),("no-music2",25)],
 "filter":[("filter",25)],
 "vid1":[("vid1",25)],
 "vid2":[("vid2",25)],
@@ -374,7 +375,8 @@ im_dict={
 "add":[("add",25)],
 "add2":[("add2",25)],
 "checked":[("checked",20)],
-"bin2":[("bin2",25),("bin3",20)]
+"bin2":[("bin2",25),("bin3",20)],
+"most_played":[("most_played",25)]
 }
 
 
@@ -1556,42 +1558,55 @@ def prog(conp):
 
 
 
-                can.delete(v1__)
-                can.delete(v2__)
-                can.delete(v3__)
-                can.delete(v4__)
 
-
-                can_outline_st=1
+                
 
 
                 x_=tm*(w-20)/tot_tm_
 
 
 
-                can.delete(ctime2)
-                can.delete(ctime)
 
-                ctime2=draw_outline_text(can,tt,10,h-20-60-20+20+10+5-3+5-2+2,"w",("FreeMono",11))
-
-                ctime=can.create_text(10,h-20-60-20+20+10+5-3+5-2+2,text=tt,font=("FreeMono",11),fill=col1,anchor="w")
 
 
                 if conp==1:
 
                     
+                    can.itemconfig(v1__,text=tt)
+                    can.itemconfig(v2__,text=tt)
+                    can.itemconfig(v3__,text=tt)
+                    can.itemconfig(v4__,text=tt)
+
                     can.itemconfig(ctime,text=tt)
-                    can.coords(prog2_,x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1)
+
                     can.coords(prog2,x_+10-4,h-20-60-20+10+2+5-3-4+10)
+                    can.coords(prog2_,x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1)
                     can.coords(prog3,x_+10-3,h-20-60-20+10+2+5-3-3+10)
                     can.coords(prog1,10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10)
                 else:
+
+                    can.delete(v1__)
+                    can.delete(v2__)
+                    can.delete(v3__)
+                    can.delete(v4__)
+
+
+                    can.delete(ctime)
 
                     can.delete(prog1)
                     can.delete(prog2)
                     can.delete(prog2_)
                     can.delete(prog3)
 
+
+
+
+
+                    can_outline_st=1
+
+                    ctime2=draw_outline_text(can,tt,10,h-20-60-20+20+10+5-3+5-2+2,"w",("FreeMono",11))
+
+                    ctime=can.create_text(10,h-20-60-20+20+10+5-3+5-2+2,text=tt,font=("FreeMono",11),fill=col1,anchor="w")
 
                     prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
                     prog2_=can.create_image(x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1,image=circledark3,anchor="nw")
@@ -1721,11 +1736,12 @@ def timer():
 
                 cap=None
 
+                prog(0)
                 main()
 
                 move_to_playing()
 
-                prog(0)
+                
             prog(1)
         except:
             pass
@@ -3885,11 +3901,13 @@ def can_b1(e):
 
                         pygame.mixer.quit()
 
+                        prog(0)
+
                         main()
 
 
 
-                        prog(0)
+                        
 
             return
 
@@ -4175,7 +4193,7 @@ def can_b1(e):
                 can.delete(pu_bg1_s)
                 can2.delete(pu_bg2_s)
 
-                if songs_status[0]==3 or st==3:
+                if songs_status[0]==3 or st==3 or filter_val=="Most Played":
                     return
 
 
@@ -4190,6 +4208,8 @@ def can_b1(e):
 
 
                 if sort_st==1:
+
+
 
                     pu_forget()
                     sort_st=1
@@ -4388,7 +4408,7 @@ def can_b1(e):
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=e.y<=cy+12.5:
 
-                if songs_status[0]==3:
+                if songs_status[0]==3 or filter_val=="Most Played":
                     return
 
                 if st==songs_status[0]:
@@ -4405,6 +4425,8 @@ def can_b1(e):
                     loop=0
 
                     if shuffle_st==0:
+
+
                         can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
                         mvar=0
                         shuffle_st=1
@@ -4611,8 +4633,9 @@ def can_b1(e):
 
                     lvar=0
 
-                    main()
                     prog(0)
+                    main()
+                    
                     return
 
 
@@ -4632,8 +4655,8 @@ def can_b1(e):
 
                     lvar=0
 
-                    main()
                     prog(0)
+                    main()
                     return
 
 
@@ -4650,8 +4673,8 @@ def can_b1(e):
 
                         lvar=0
 
-                        main()
                         prog(0)
+                        main()
                         return
 
 
@@ -4674,8 +4697,9 @@ def can_b1(e):
 
                             lvar=0
 
-                            main()
+
                             prog(0)
+                            main()
 
 
 
@@ -5325,7 +5349,7 @@ def main():
     global settings
     global _theme
     global filter_val,filter_pl
-    global no_music,no_musicdark
+    global no_music,no_musicdark1
     global can_npl,npl_var
     global settings_st2
     global f1_,f2_
@@ -5426,9 +5450,6 @@ def main():
 
 
 
-
-        if shuff==1 or shuff==2:
-            sort_val=""
 
 
 
@@ -5928,7 +5949,7 @@ def main():
                     y+=50
 
             if len(songs2)==0:
-                can2.create_image((w-7)/2-150-1,((h-121)-80-10)/2-150-1,image=no_musicdark,anchor="nw")
+                can2.create_image((w-7)/2-150-1,((h-121)-80-10)/2-150-1,image=no_musicdark1,anchor="nw")
                 can2.create_image((w-7)/2-150,((h-121)-80-10)/2-150,image=no_music,anchor="nw")
 
 
@@ -5972,11 +5993,6 @@ def main():
 
             if shuffle_st==1 or shuffle_st==2:
                 shuff=1
-            else:
-                shuff=0
-
-                if sort_val=="":
-                    sort_val=sort_ar[0][0]
 
 
 
@@ -6065,6 +6081,7 @@ def main():
 
 
 
+
             #hex(can,-30,-30,w+60,h+60,30,"#390200",_theme[1][1])
 
             """
@@ -6105,13 +6122,12 @@ def main():
                 #can.create_line(10,80-30+40+5+int(can2["height"]),w-10,80-30+40+5+int(can2["height"]),fill=col2)
 
 
-            
+            def clean_songs():
 
 
-            if st==0:
-                y=1
+                __songs__=[]
 
-                songs=[]
+                mp_st=0
                 
 
                 for song in all_songs:
@@ -6148,7 +6164,6 @@ def main():
 
 
 
-                    [None,"Favourites","Playlists","With Video"]
 
 
                     if scon==1:
@@ -6187,14 +6202,53 @@ def main():
                                     p=ar.index(song)
                                 except:
                                     scon=0
+                        elif filter_val=="Most Played":
 
-
-
-
-
-
+                            mp_st=1
 
                     if scon==1:
+
+                        __songs__.append([song,music_details[song][1]])
+
+
+                if mp_st==1 or st==3:
+
+                    __songs__=sorted(__songs__, key=lambda x: x[1],reverse=True)
+
+                songsx=[]
+
+                for s in __songs__:
+                    songsx.append(s[0])
+
+                return songsx
+
+
+
+
+
+            if st==0:
+
+                y=1
+
+
+
+
+                songs=[]
+
+                songsx=clean_songs()
+
+
+                for song in songsx:
+                    
+
+
+
+
+
+
+
+
+                
 
                         if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
@@ -6278,7 +6332,7 @@ def main():
                     
 
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark,anchor="nw")
+                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
 
@@ -6288,144 +6342,76 @@ def main():
             elif st==1:
                 y=1
                 songs=[]
+                songsx=clean_songs()
 
 
-                for song in all_songs:
+                for song in songsx:
 
 
-                    scon=0
 
+                    if music_details[song][0]==1:
 
-                    sval=search_var.lower()
 
-                    if sval.find(" ")!=-1:
-                        ss=[]
+                        if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
-                        s_ar=sval.split(" ")
+                            l=get_text_length(can2, "...", "FreeMono", 13)
+                            txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
-                        for sv in s_ar:
+                        else:
+                            txt=song[:-4]
 
-                            if song.lower().find(sv)!=-1:
-                                ss.append(1)
-                            else:
-                                ss.append(0)
 
-                        scon=1
 
-                        for ss_ in ss:
 
-                            if ss_==0:
-                                scon=0
-                                break
-                    else:
-                        if song.lower().find(sval)!=-1:
-                            scon=1
+                        if song==current_playing:
 
-                    if scon==1:
+                            #can2.create_rectangle(2,y, (int(can2["width"])-sb_sz-1),y+50-1,fill=col1,outline=col1)
+                            #draw_round_rec(can2,2,y, (int(can2["width"])-sb_sz-1),y+50,10,col1,col1,0)
 
-                        if filter_val==None:
-                            pass
+                            draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
+                            col=_theme[1][1]
 
-                        elif filter_val=="Favourites":
+                            can2.create_image(0,y+10,image=musical_note1,anchor="nw")
 
+                        else:
+                            draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+                            col=col1
+                            can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
+                            can2.create_image(0,y+10,image=musical_note2,anchor="nw")
 
-                            if music_details[song][0]==0:
-                                scon=0
 
-                        elif filter_val=="With Video":
 
-                            ar=os.listdir("videos")
 
 
-                            try:
 
-                                v_=ar.index(song.replace(".mp3",".mp4"))
-                            except:
-                                scon=0
-                        elif filter_val=="Playlists":
+                        
 
-                            if not filter_pl==None:
 
-                                
+                        can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                        
 
 
-                                try:
+ 
+                        #if not song==current_playing:
 
-                                    ar=playlist[filter_pl]
+                        #    can2.create_line(0,y+50,(int(can2["width"])-sb_sz-1),y+50,fill=col3)
 
 
-                                    p=ar.index(song)
-                                except:
-                                    scon=0
 
 
 
+                        ar=[song,y]
 
-                    if scon==1:
+                        songs.append(ar)
 
-                        if music_details[song][0]==1:
-
-
-                            if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
-
-                                l=get_text_length(can2, "...", "FreeMono", 13)
-                                txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
-
-                            else:
-                                txt=song[:-4]
-
-
-
-
-                            if song==current_playing:
-
-                                #can2.create_rectangle(2,y, (int(can2["width"])-sb_sz-1),y+50-1,fill=col1,outline=col1)
-                                #draw_round_rec(can2,2,y, (int(can2["width"])-sb_sz-1),y+50,10,col1,col1,0)
-
-                                draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
-                                col=_theme[1][1]
-
-                                can2.create_image(0,y+10,image=musical_note1,anchor="nw")
-
-                            else:
-                                draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
-                                col=col1
-                                can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
-                                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
-
-
-
-
-
-
-                            
-
-
-                            can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
-                            
-
-
-     
-                            #if not song==current_playing:
-
-                            #    can2.create_line(0,y+50,(int(can2["width"])-sb_sz-1),y+50,fill=col3)
-
-
-
-
-
-                            ar=[song,y]
-
-                            songs.append(ar)
-
-                            y+=50
+                        y+=50
 
 
 
                 if len(songs)==0:
 
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark,anchor="nw")
+                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
 
@@ -6634,7 +6620,7 @@ def main():
                     if len(_playlist)==0:
 
                         
-                        can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark,anchor="nw")
+                        can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                         can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
                         
@@ -6652,140 +6638,72 @@ def main():
                     ar=playlist[current_playlist]
 
 
-
-
-                    for song in all_songs:
-
-
-
-                        scon=0
-
-
-                        sval=search_var.lower()
-
-                        if sval.find(" ")!=-1:
-
-                            ss=[]
-
-                            s_ar=sval.split(" ")
-
-                            for sv in s_ar:
-
-                                if song.lower().find(sv)!=-1:
-                                    ss.append(1)
-                                else:
-                                    ss.append(0)
-
-                            scon=1
-
-                            for ss_ in ss:
-
-                                if ss_==0:
-                                    scon=0
-                                    break
-                        else:
-                            if song.lower().find(sval)!=-1:
-                                scon=1
-
-
-                        if scon==1:
-
-                            if filter_val==None:
-                                pass
-
-                            elif filter_val=="Favourites":
-
-
-                                if music_details[song][0]==0:
-                                    scon=0
-
-                            elif filter_val=="With Video":
-
-                                ar_=os.listdir("videos")
-
-
-                                try:
-
-                                    v_=ar_.index(song.replace(".mp3",".mp4"))
-                                except:
-                                    scon=0
-                            elif filter_val=="Playlists":
-
-                                if not filter_pl==None:
-
-                                    
-
-
-                                    try:
-
-                                        ar_=playlist[filter_pl]
-
-
-                                        p=ar_.index(song)
-                                    except:
-                                        scon=0
+                    songx=clean_songs()
 
 
 
-                        if scon==1:
 
-                            try:
-                                v=ar.index(song)
+                    for song in songx:
 
 
 
-                                if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
+                        try:
+                            v=ar.index(song)
 
-                                    l=get_text_length(can2, "...", "FreeMono", 13)
-                                    txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
-                                else:
-                                    txt=song[:-4]
+
+                            if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
+
+                                l=get_text_length(can2, "...", "FreeMono", 13)
+                                txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
+
+                            else:
+                                txt=song[:-4]
+
+
+                        
+                            if song==current_playing:
+
+                                #can2.create_rectangle(2,y, (int(can2["width"])-sb_sz-1),y+50-1,fill=col1,outline=col1)
+                                #draw_round_rec(can2,2,y, (int(can2["width"])-sb_sz-1),y+50,10,col1,col1,0)
+
+                                draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
+
+
+                                can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                                col=_theme[1][1]
+
+                            else:
+
+                                draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+
+                                can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
+
+                                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                                col=col1
+
+
+
 
 
                             
-                                if song==current_playing:
-
-                                    #can2.create_rectangle(2,y, (int(can2["width"])-sb_sz-1),y+50-1,fill=col1,outline=col1)
-                                    #draw_round_rec(can2,2,y, (int(can2["width"])-sb_sz-1),y+50,10,col1,col1,0)
-
-                                    draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
 
 
-                                    can2.create_image(0,y+10,image=musical_note1,anchor="nw")
-                                    col=_theme[1][1]
-
-                                else:
-
-                                    draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
-
-                                    can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
-
-                                    can2.create_image(0,y+10,image=musical_note2,anchor="nw")
-                                    col=col1
+                            can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                            
 
 
 
 
+                            songs.append([song,y])
 
-                                
-
-
-                                can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
-                                
-
-
-
-
-                                songs.append([song,y])
-
-                                y+=50
-                            except:
-                                pass
+                            y+=50
+                        except:
+                            pass
                     if len(songs)==0:
 
 
-                        can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark,anchor="nw")
+                        can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                         can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
 
@@ -6795,101 +6713,26 @@ def main():
                 y=1
                 songs=[]
 
-                ar_=[]
-                for song in all_songs:
 
-                    scon=0
-
-
-                    sval=search_var.lower()
-
-                    if sval.find(" ")!=-1:
-
-                        ss=[]
-
-                        s_ar=sval.split(" ")
-
-                        for sv in s_ar:
-
-                            if song.lower().find(sv)!=-1:
-                                ss.append(1)
-                            else:
-                                ss.append(0)
-
-                        scon=1
-
-                        for ss_ in ss:
-
-                            if ss_==0:
-                                scon=0
-                                break
-                    else:
-                        if song.lower().find(sval)!=-1:
-                            scon=1
-
-                    if scon==1:
-
-                        if filter_val==None:
-                            pass
-
-                        elif filter_val=="Favourites":
-
-
-                            if music_details[song][0]==0:
-                                scon=0
-
-                        elif filter_val=="With Video":
-
-                            ar=os.listdir("videos")
-
-
-                            try:
-
-                                v_=ar.index(song.replace(".mp3",".mp4"))
-                            except:
-                                scon=0
-                        elif filter_val=="Playlists":
-
-                            if not filter_pl==None:
-
-                                
-
-
-                                try:
-
-                                    ar=playlist[filter_pl]
-
-
-                                    p=ar.index(song)
-                                except:
-                                    scon=0
-
-
-                    if scon==1:
-                        ar_.append([song,music_details[song][1]])
-
-                #print(len(ar_))
-
-
-                ar_=sorted(ar_, key=lambda row: row[1], reverse=True)
+                songsx=clean_songs()
 
 
 
-                for song in ar_:
+                for song in songsx:
 
 
 
-                    if get_text_length(can2, song[0][:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
+                    if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30):
 
                         l=get_text_length(can2, "...", "FreeMono", 13)
-                        txt=_text_(can2,song[0][:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
+                        txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-sb_sz-2-25*4-15*3-10-50-30)-l)+"..."
 
                     else:
-                        txt=song[0][:-4]
+                        txt=song[:-4]
 
 
 
-                    if song[0]==current_playing:
+                    if song==current_playing:
 
                         #can2.create_rectangle(2,y, (int(can2["width"])-sb_sz-1),y+50-1,fill=col1,outline=col1)
 
@@ -6930,7 +6773,7 @@ def main():
 
 
 
-                    ar=[song[0],y]
+                    ar=[song,y]
 
                     songs.append(ar)
 
@@ -6942,7 +6785,7 @@ def main():
 
 
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark,anchor="nw")
+                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
             """
@@ -7654,6 +7497,8 @@ def draw_can(con=0):
     global bg_filt,bg_filt_
     global bg_sett_,bg_sort_,add_bg_,bg_del_
     global del_st
+    global none_l,none_l1
+    global most_played,most_played_
 
     if root_st==1:
 
@@ -8310,7 +8155,7 @@ def draw_can(con=0):
 
 
             can.create_image(10+25+15-1,h-20-30-15+5+10-3+2.5-1,image=sortdark,anchor="nw")
-            if songs_status[0]==3:
+            if songs_status[0]==3 or filter_val=="Most Played":
 
                 can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
             else:
@@ -8323,7 +8168,7 @@ def draw_can(con=0):
 
 
         can.create_image(10+25+15+25+15-1,h-20-30-15+5+10-3+2.5-1,image=shuffle2dark,anchor="nw")
-        if songs_status[0]==3:
+        if songs_status[0]==3 or filter_val=="Most Played":
             can.create_image(10+25+15+25+15,h-20-30-15+5+10-3+2.5,image=shuffle1,anchor="nw")
 
 
@@ -8513,6 +8358,8 @@ def draw_can(con=0):
         can.create_image(w-10-25,(h-121+75)+((h-1)-(h-121+75)-25)/2,image=quit,anchor="nw")
 
 
+
+
     if filter_st==1:
 
         pu_forget()
@@ -8520,12 +8367,12 @@ def draw_can(con=0):
 
 
 
-        filter_can1["height"]=20+30*4
+        filter_can1["height"]=20+30*5
         filter_can1["width"]=250
 
         filter_can1.delete("all")
 
-        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,20+30*4,15)
+        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,20+30*5,15)
 
         bg_filt=ImageTk.PhotoImage(im1)
         bg_filt_=ImageTk.PhotoImage(im2)
@@ -8540,7 +8387,7 @@ def draw_can(con=0):
         filter_can2.delete("all")
         filter_can2.place_forget()
 
-        ar=[(0,None),(favourite2,"Favourites"),(playlist2,"Playlists"),(vid1,"With Video")]
+        ar=[(none_l,None),(favourite2,"Favourites"),(playlist2,"Playlists"),(vid1,"With Video"),(most_played,"Most Played")]
 
         y=10
 
@@ -8556,19 +8403,32 @@ def draw_can(con=0):
 
                 
 
-
                 draw_outline_text(filter_can1,a[1],5+25+15,y+15,"w",("FreeMono",13))
 
-                filter_can1.create_text(5+25+15,y+15,text=a[1],font=("FreeMono",13),fill=_theme[0],anchor="w")
+                col=_theme[0]
 
-            if not a[0]==0:
+                if a[1]=="Favourites" and st==1:
+                    col=_theme[1][0]
 
-                if a[1]=="Playlists":
-                    filter_can1.create_image(5-1,y+2.5-1,image=playlist2dark,anchor="nw")
-                elif a[1]=="With Video":
-                    filter_can1.create_image(5-1,y+2.5-1,image=vid1dark,anchor="nw")
+                elif a[1]=="Most Played" and st==3:
+                    col=_theme[1][0]
 
-                filter_can1.create_image(5,y+2.5,image=a[0],anchor="nw")
+                filter_can1.create_text(5+25+15,y+15,text=a[1],font=("FreeMono",13),fill=col,anchor="w")
+
+
+            if a[1]==None:
+                filter_can1.create_image(5-1,y+2.5-1,image=none_l1,anchor="nw")
+            elif a[1]=="Playlists":
+                filter_can1.create_image(5-1,y+2.5-1,image=playlist2dark,anchor="nw")
+            
+            elif a[1]=="With Video":
+                filter_can1.create_image(5-1,y+2.5-1,image=vid1dark,anchor="nw")
+
+            elif a[1]=="Most Played":
+                filter_can1.create_image(5-1,y+2.5-1,image=most_played_,anchor="nw")
+
+
+            filter_can1.create_image(5,y+2.5,image=a[0],anchor="nw")
 
 
             if filter_val==a[1]:
@@ -8713,9 +8573,9 @@ def draw_can(con=0):
         
 
 
-        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,140)))
+        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,180)))
 
-        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,140)))
+        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,180)))
 
 
 
@@ -8856,7 +8716,7 @@ def show_lyrics():
     global _bg5_,note2
     global bg3
     global cur_can_lyrics
-    global no_music,no_musicdark
+    global no_music,no_musicdark1
 
 
 
@@ -8972,13 +8832,13 @@ def show_lyrics():
 
                 else:
 
-                    can.create_image(w/2-150-1,50+(((h-121)-50)-420)/2+210-150-1,image=no_musicdark,anchor="nw")
+                    can.create_image(w/2-150-1,50+(((h-121)-50)-420)/2+210-150-1,image=no_musicdark1,anchor="nw")
                     can.create_image(w/2-150,50+(((h-121)-50)-420)/2+210-150,image=no_music,anchor="nw")
                     can_lyrics.delete("all")
                     can_lyrics.place_forget()
 
             else:
-                can.create_image(w/2-150-1,50+(((h-121)-50)-420)/2+210-150-1,image=no_musicdark,anchor="nw")
+                can.create_image(w/2-150-1,50+(((h-121)-50)-420)/2+210-150-1,image=no_musicdark1,anchor="nw")
                 can.create_image(w/2-150,50+(((h-121)-50)-420)/2+210-150,image=no_music,anchor="nw")
                 can_lyrics.delete("all")
                 can_lyrics.place_forget()
@@ -9155,7 +9015,7 @@ loop2dark=0
 minimizedark=0
 musical_note2dark=0
 nextdark=0
-no_musicdark=0
+no_musicdark1=0
 
 playlist2dark=0
 previousdark=0
@@ -9172,6 +9032,9 @@ deletedark=0
 
 highl1=0
 bg2_=0
+
+none_l,none_l1=0,0
+most_played,most_played_=0,0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -9204,10 +9067,12 @@ def load_im():
     global _theme
     global adddark,backwarddark,checkeddark,circledark1,circledark2,circledark3,circledark4,circledark5
     global cropdark,filterdark,forwarddark,list2dark,loop2dark,minimizedark
-    global musical_note2dark,nextdark,no_musicdark,playlist2dark,previousdark,quitdark1,quitdark2
+    global musical_note2dark,nextdark,no_musicdark1,playlist2dark,previousdark,quitdark1,quitdark2
     global searchdark,settingsdark,shuffle2dark,sortdark,speakerdark,vid1dark,deletedark
     global w,h,can2
     global w,highl1
+    global none_l,none_l1
+    global most_played,most_played_
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -9277,6 +9142,7 @@ def load_im():
 
     filter_=ImageTk.PhotoImage(file="data/filter.png") 
     no_music=ImageTk.PhotoImage(file="data/no-music.png") 
+    none_l=ImageTk.PhotoImage(file="data/no-music2.png") 
 
 
     adddark=ImageTk.PhotoImage(file="data/adddark.png")
@@ -9302,7 +9168,8 @@ def load_im():
     musical_note2dark=ImageTk.PhotoImage(file="data/musical_note2dark.png")
     nextdark=ImageTk.PhotoImage(file="data/nextdark.png")
 
-    no_musicdark=ImageTk.PhotoImage(file="data/no-musicdark.png")
+    no_musicdark1=ImageTk.PhotoImage(file="data/no-musicdark1.png")
+    none_l1=ImageTk.PhotoImage(file="data/no-musicdark2.png")
 
     playlist2dark=ImageTk.PhotoImage(file="data/playlist2dark.png")
 
@@ -9324,6 +9191,9 @@ def load_im():
     vid1dark=ImageTk.PhotoImage(file="data/vid1dark.png")
 
     deletedark=ImageTk.PhotoImage(file="data/deletedark.png")
+
+    most_played=ImageTk.PhotoImage(file="data/most_played.png")
+    most_played_=ImageTk.PhotoImage(file="data/most_playeddark.png")
 
 
 
@@ -11018,13 +10888,15 @@ def play_pause(e):
 
                 pygame.mixer.quit()
 
+                prog(0)
+
                 main()
 
                 paused=True
 
 
 
-                prog(0)
+                
 
 
 def play_next(e):
@@ -11299,7 +11171,7 @@ def drag_can(e):
             
 
             prog(0)
-            #main()
+            draw_can()
 
     if v_st==1:
 
@@ -13429,8 +13301,10 @@ def filter1_b1(e):
     global filter_val,filter_pl
     global current_playing
     global _songs_
+    global st
+    global sort_ar,sort_val,shuffle_st
 
-    ar=[None,"Favourites","Playlists","With Video"]
+    ar=[None,"Favourites","Playlists","With Video","Most Played"]
 
 
     y=10
@@ -13439,6 +13313,18 @@ def filter1_b1(e):
 
 
         if y<=e.y<=y+30:
+
+            if a=="Favourites" and st==1:
+                return
+
+            if a=="Most Played" and st==3:
+                return
+
+            if not a=="Most Played":
+
+                sort_val=sort_ar[0][0]
+                shuffle_st=0
+
 
 
             filter_val=a
@@ -14822,8 +14708,9 @@ try:
 
         
         pygame.mixer.quit()
-        main()
+        
         prog(0)
+        main()
 except:
     pass
 
