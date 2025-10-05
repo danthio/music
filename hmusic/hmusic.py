@@ -1462,7 +1462,7 @@ ctime2=0
 
 can_outline_st=0
 
-def prog():
+def prog(conp):
 
     global play_st,tm,start_time,can
     global ctime,ctime2,tot_tm_
@@ -1548,12 +1548,8 @@ def prog():
 
 
 
-                can.delete(ctime)
+
                 can.delete(ctime2)
-                can.delete(prog1)
-                can.delete(prog2)
-                can.delete(prog2_)
-                can.delete(prog3)
 
                 if vid_st2==0 and vid_st==1:
                     return
@@ -1569,20 +1565,41 @@ def prog():
                 can_outline_st=1
 
 
+                x_=tm*(w-20)/tot_tm_
 
+
+
+                can.delete(ctime2)
+                can.delete(ctime)
 
                 ctime2=draw_outline_text(can,tt,10,h-20-60-20+20+10+5-3+5-2+2,"w",("FreeMono",11))
 
                 ctime=can.create_text(10,h-20-60-20+20+10+5-3+5-2+2,text=tt,font=("FreeMono",11),fill=col1,anchor="w")
 
 
-                x_=tm*(w-20)/tot_tm_
+                if conp==1:
 
-                prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
+                    
+                    can.itemconfig(ctime,text=tt)
+                    can.coords(prog2_,x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1)
+                    can.coords(prog2,x_+10-4,h-20-60-20+10+2+5-3-4+10)
+                    can.coords(prog3,x_+10-3,h-20-60-20+10+2+5-3-3+10)
+                    can.coords(prog1,10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10)
+                else:
 
-                prog2_=can.create_image(x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1,image=circledark3,anchor="nw")
-                prog2=can.create_image(x_+10-4,h-20-60-20+10+2+5-3-4+10,image=circle7,anchor="nw")
-                prog3=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3+10,image=circle8,anchor="nw")
+                    can.delete(prog1)
+                    can.delete(prog2)
+                    can.delete(prog2_)
+                    can.delete(prog3)
+
+
+                    prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
+                    prog2_=can.create_image(x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1,image=circledark3,anchor="nw")
+                    prog2=can.create_image(x_+10-4,h-20-60-20+10+2+5-3-4+10,image=circle7,anchor="nw")
+                    prog3=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3+10,image=circle8,anchor="nw")
+
+
+
 
                 if not root_st==1:
                     x,y=pyautogui.position()
@@ -1707,10 +1724,12 @@ def timer():
                 main()
 
                 move_to_playing()
+
+                prog(0)
+            prog(1)
         except:
             pass
-
-        prog()
+            
 
     root.after(1,timer)
 
@@ -1895,11 +1914,11 @@ def add_playlist():
     can4.create_line(2,38,550-2,38,fill="#000000",width=3)
     can4.create_line(2,38,550-2,38,fill=col1)
 
-    draw_round_rec(can4,1,1 ,550-2,80,15,"#000000","",1,3)
-    draw_round_rec(can4,1,1 ,550-2,80,15,col1,"",1)
+    #draw_round_rec(can4,1,1 ,550-2,80,15,"#000000","",1,3)
+    #draw_round_rec(can4,1,1 ,550-2,80,15,col1,"",1)
 
-    draw_round_rec(can6,1,-15 ,550-2,38,15,"#000000","",1,3)
-    draw_round_rec(can6,1,-15 ,550-2,38,15,col1,"",1)
+    #draw_round_rec(can6,1,-15 ,550-2,38,15,"#000000","",1,3)
+    #draw_round_rec(can6,1,-15 ,550-2,38,15,col1,"",1)
 
 
 
@@ -2034,7 +2053,7 @@ def add_playlist():
         y+=50
 
 
-
+    """
     if y<250-40+50:
 
         can3.create_line(1,0, 1,250-40+50,fill="#000000",width=3)
@@ -2050,6 +2069,8 @@ def add_playlist():
 
         can3.create_line(1,0, 1,y,fill=col1)
         can3.create_line(550-2,0, 550-2,y,fill=col1)
+
+    """
 
 
     if len(playlist)==0:
@@ -2527,6 +2548,24 @@ def can2_b1(e):
                         move_to_playing()
 
 
+
+
+                con=0
+
+
+                for s in _songs_:
+
+                    if s[0]==current_playing:
+                        con=1
+                        break
+
+
+                if con==0:
+
+                    pygame.mixer.quit()
+                    current_playing=""
+
+
                 if st==songs_status[0]:
 
                     if st==2:
@@ -2538,6 +2577,8 @@ def can2_b1(e):
                     else:
                         update_song_status()
 
+
+                main()
                 return
 
     #playlist
@@ -3786,7 +3827,7 @@ def can_b1(e):
 
             
 
-        prog()
+        prog(0)
         main()
 
         return
@@ -3848,7 +3889,7 @@ def can_b1(e):
 
 
 
-                        prog()
+                        prog(0)
 
             return
 
@@ -4259,8 +4300,8 @@ def can_b1(e):
 
 
 
-                    draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,"#000000",col1,1,3)
-                    draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,col1,col1,1)
+                    #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,"#000000",col1,1,3)
+                    #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,col1,col1,1)
 
                     draw_outline_text(can_sort,"Sort",125,15,"c",("FreeMono",13))
 
@@ -4571,7 +4612,7 @@ def can_b1(e):
                     lvar=0
 
                     main()
-                    prog()
+                    prog(0)
                     return
 
 
@@ -4592,7 +4633,7 @@ def can_b1(e):
                     lvar=0
 
                     main()
-                    prog()
+                    prog(0)
                     return
 
 
@@ -4610,7 +4651,7 @@ def can_b1(e):
                         lvar=0
 
                         main()
-                        prog()
+                        prog(0)
                         return
 
 
@@ -4634,7 +4675,7 @@ def can_b1(e):
                             lvar=0
 
                             main()
-                            prog()
+                            prog(0)
 
 
 
@@ -8384,7 +8425,7 @@ def draw_can(con=0):
 
 
     if not current_playing=="":
-        prog()
+        prog(0)
 
     
     if st==2 and playlist_st==0:
@@ -8450,7 +8491,7 @@ def draw_can(con=0):
 
         can.create_text(w/2,yv+15+60,text="Add Audio File",fill=_theme[1][1],font=("FreeMono",13))
 
-        prog()
+        prog(0)
 
 
 
@@ -8494,8 +8535,8 @@ def draw_can(con=0):
         filter_can1.create_image(0,0,image=bg_filt,anchor="nw")
 
 
-        draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,"#000000","",1,3)
-        draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,_theme[0],"",1)
+        #draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,"#000000","",1,3)
+        #draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,_theme[0],"",1)
         filter_can2.delete("all")
         filter_can2.place_forget()
 
@@ -10983,7 +11024,7 @@ def play_pause(e):
 
 
 
-                prog()
+                prog(0)
 
 
 def play_next(e):
@@ -11257,7 +11298,7 @@ def drag_can(e):
 
             
 
-            prog()
+            prog(0)
             #main()
 
     if v_st==1:
@@ -12629,8 +12670,8 @@ def draw_settings(con=0):
     can_settings.create_image(-25,-25,image=bg_sett_,anchor="nw")
     can_settings.create_image(0,0,image=bg_sett,anchor="nw")
 
-    draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,"#000000",col1,1,3)
-    draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,_theme[0],col1,1)
+    #draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,"#000000",col1,1,3)
+    #draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,_theme[0],col1,1)
 
     can_settings.create_image(int(can_settings["width"])-10-25-1,10-1,image=quitdark1,anchor="nw")
     can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
@@ -13419,13 +13460,12 @@ def filter1_b1(e):
 
                     if s[0]==current_playing:
                         con=1
+                        break
 
 
                 if con==0:
 
-                    if play_st==1:
-
-                        pygame.mixer.quit()
+                    pygame.mixer.quit()
                     current_playing=""
 
             main()
@@ -13692,9 +13732,9 @@ def conf_del_(file,con):
     conf_del.create_line(0,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
         fill=_theme[0])
 
-    draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,"#000000","",1,3)
+    #draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,"#000000","",1,3)
 
-    draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,_theme[0],"",1)
+    #draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,_theme[0],"",1)
 
 
 
@@ -14783,7 +14823,7 @@ try:
         
         pygame.mixer.quit()
         main()
-        prog()
+        prog(0)
 except:
     pass
 
