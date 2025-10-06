@@ -3218,7 +3218,7 @@ def can_b1(e):
                         
                         if st==4:
                             return
-                        if st==2 and playlist_st==0:
+                        if st==2 and playlist_st==0 and select_st==0:
                             return
 
 
@@ -8040,10 +8040,11 @@ def draw_can(con=0):
 
             if filter_st!=1:
 
-                if st==2 and playlist_st==0:
+                if st==2 and playlist_st==0 and select_st==0:
 
                     can.create_image(w-10-25-1,40+30-10-5-5+2.5-1,image=filter2dark,anchor="nw")
                     can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter2,anchor="nw")
+
                 else:
 
                     can.create_image(w-10-25-1,40+30-10-5-5+2.5-1,image=filterdark,anchor="nw")
