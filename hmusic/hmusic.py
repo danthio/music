@@ -382,6 +382,121 @@ im_dict={
 }
 
 
+def darken_border(im,border=15):
+    w,h=im.size
+
+    im_=Image.new("RGBA",(w+border*2,h+border*2),(0,0,0,0))
+
+
+    w,h=w+border*2,h+border*2
+    im_.paste(im,(border,border))
+
+    pixels=im_.load()
+
+
+    con=0
+
+    for y in range(h):
+
+        for x in range(w):
+
+            col=im_.getpixel((x,y))
+
+            if col[-1]!=0:
+
+
+                if con==0:
+
+                    for b in range(border):
+
+                        pixels[x-(b+1),y]=(0,0,0,255)
+
+                    con=1
+            else:
+
+                con=0
+
+
+    con=0
+
+    for y in range(h):
+
+        x_=w-1
+
+        for x in range(w):
+
+            col=im_.getpixel((x_,y))
+
+            if col[-1]!=0:
+
+
+                if con==0:
+
+                    for b in range(border):
+
+                        pixels[x_+(b+1),y]=(0,0,0,255)
+
+                    con=1
+            else:
+
+                con=0
+
+            x_-=1
+
+
+
+
+    con=0
+
+    for x in range(w):
+
+        for y in range(h):
+
+            col=im_.getpixel((x,y))
+
+            if col[-1]!=0:
+
+
+                if con==0:
+
+                    for b in range(border):
+
+                        pixels[x,y-(b+1)]=(0,0,0,255)
+
+                    con=1
+            else:
+
+                con=0
+
+
+    con=0
+
+    for x in range(w):
+
+        y_=h-1
+
+        for y in range(h):
+
+            col=im_.getpixel((x,y_))
+
+            if col[-1]!=0:
+
+
+                if con==0:
+
+                    for b in range(border):
+
+                        pixels[x,y_+(b+1)]=(0,0,0,255)
+
+                    con=1
+            else:
+
+                con=0
+
+            y_-=1
+
+    return im_
+
 def change_theme(pcol):
     global im_dict
 
@@ -407,8 +522,13 @@ def change_theme(pcol):
             images_.append(i)
 
 
+    
+
+
 
     for i in images_:
+
+        con=0
 
         im=Image.open("data/im_ref/"+i)
 
@@ -439,6 +559,8 @@ def change_theme(pcol):
 
 
                 elif 32-10<=mxc<=32+10:
+
+                    con=1
                     pixels[x_,y_]=(*col3, 255)
 
                 else:
@@ -454,8 +576,10 @@ def change_theme(pcol):
 
 
         
+        if i!="cursor.png" and con==0:
 
-        
+            image_=darken_border(image_)
+
         for i_ in im_dict[i.replace(".png","")]:
 
             im3=image_.resize((i_[1],i_[1]))
@@ -475,7 +599,7 @@ def change_theme(pcol):
 
 
 
-    create_dark_im()
+    #create_dark_im()
 
 #change_theme(_theme[0])
 
@@ -1491,7 +1615,6 @@ def prog(conp):
 
     global v1__,v2__,v3__,v4__
 
-    global circledark3
 
 
 
@@ -1612,9 +1735,6 @@ def prog(conp):
                     ctime=can.create_text(10,h-20-60-20+20+10+5-3+5-2+2,text=tt,font=("FreeMono",11),fill=col1,anchor="w")
 
                     prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
-                    prog2_=can.create_image(x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1,image=circledark3,anchor="nw")
-                    prog2=can.create_image(x_+10-4,h-20-60-20+10+2+5-3-4+10,image=circle7,anchor="nw")
-                    prog3=can.create_image(x_+10-3,h-20-60-20+10+2+5-3-3+10,image=circle8,anchor="nw")
 
 
                 if current_playing=="":
@@ -1751,6 +1871,8 @@ def timer():
 
                 move_to_playing()
 
+
+
                 
             prog(1)
         except:
@@ -1769,7 +1891,7 @@ def can3_b1(e):
 
     global sb2_sz,sb2_col,sb2_h,sb2_st
 
-    if int(can3["width"])-sb2_sz-4<=e.x<=int(can3["width"]):
+    if int(can3["width"])-sb2_sz-2<=e.x<=int(can3["width"]):
 
         sb2_st=1
 
@@ -1888,7 +2010,7 @@ cp2_im=0
 add_bg,add_bg_=0,0
 def add_playlist():
     global can4,can3,can5,can6
-    global sel_playlist,playlist,playlist2,playlist2dark,checked
+    global sel_playlist,playlist,playlist2,checked
     global songs
     global song_add_pl
     global bgp
@@ -1896,10 +2018,9 @@ def add_playlist():
     global sb2_sz
     global cur_can3,cur_can4,cur_can6
     global bg2_
-    global checkeddark
     global _theme
     global add_bg,add_bg_
-    global cancel,quitdark2
+    global cancel
 
 
 
@@ -1926,7 +2047,6 @@ def add_playlist():
     can4.create_image(0,0,image=add_bg,anchor="nw")
 
 
-    can4.create_image(int(can4["width"])-10-20-1,10-1,image=quitdark2,anchor="nw")
     can4.create_image(int(can4["width"])-10-20,10,image=cancel,anchor="nw")
 
 
@@ -2040,7 +2160,6 @@ def add_playlist():
 
         ar=playlist[p]
 
-        can3.create_image(10-1,y+10+4-1,image=playlist2dark,anchor="nw")
         can3.create_image(10,y+10+4,image=playlist2,anchor="nw")
 
         if get_text_length(can3, p, "FreeMono", 13)>int(can3["width"])-(10+30+10)-(sb2_sz+2+10+20)-10:
@@ -2062,7 +2181,6 @@ def add_playlist():
             v=ar.index(song_add_pl)
 
 
-            can3.create_image(int(can3["width"])-1-sb2_sz-1-10-20-1,y+15-1, image=checkeddark,anchor="nw")
             can3.create_image(int(can3["width"])-1-sb2_sz-1-10-20,y+15, image=checked,anchor="nw")
             
         except:
@@ -2191,6 +2309,7 @@ def can2_b1(e):
     global filter_val,filter_pl
     global cnpl_txt1,cnpl_txt2
     global settings_st2,filter_st,sort_st,add_st,del_st
+    global loop_song
 
 
     if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
@@ -2198,7 +2317,7 @@ def can2_b1(e):
         return
 
 
-    if (int(can2["width"])-sb_sz-1)<=e.x<=(int(can2["width"])):
+    if (int(can2["width"])-sb_sz-1-1)<=e.x<=(int(can2["width"])):
 
         sb_st=1
 
@@ -2832,7 +2951,6 @@ def can2_b1(e):
                 get_audio_duration("music/"+current_playing)
 
 
-
                 con=0
                 if st==songs_status[0]:
 
@@ -2852,9 +2970,13 @@ def can2_b1(e):
 
                     shuffle_st=0
                     sort_val=sort_ar[0][0]
-                    f1_,f2_=None,None
+                    f1_,f2_=filter_val,filter_pl
 
-                loop=0
+
+
+                if not loop_song==current_playing:
+
+                    loop=0
 
                 songs_status[-2]=0
 
@@ -2864,8 +2986,6 @@ def can2_b1(e):
 
 
 
-                if not st==2:
-                    current_playlist=""
 
                 
                 filter_st=0
@@ -2877,6 +2997,7 @@ def can2_b1(e):
                 
 
                 update_song_status()
+                draw_can()
 
                 main()
 
@@ -2953,6 +3074,7 @@ def move_to_playing(con_=0):
                         move_bg()
                         sb_h=can2.canvasy(0)*int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])
                         draw_sb()
+                        draw_can()
 
                         return
     except:
@@ -3078,6 +3200,7 @@ im_bg=0
 bg_so=0
 
 bg_sort,bg_sort_=0,0
+loop_song=""
 def can_b1(e):
     global st,w,h,tm,current_playing
     global pp,play_st
@@ -3145,13 +3268,13 @@ def can_b1(e):
     global bg_so
     global conf_del
     global can_search
-    global checkeddark
     global cs_txt1,cs_txt2
     global can3,can4,can6
     global pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s
     global bg_sort,bg_sort_
     global del_st
-    global cancel,quitdark2
+    global cancel
+    global loop_song
 
     #minimize
 
@@ -4153,6 +4276,13 @@ def can_b1(e):
                 elif lst==1:
                         st=songs_status[0]
                         current_playlist=songs_status[1]
+                        current_playing=songs_status[-1]
+
+                        if current_playlist!="":
+                            playlist_st=1
+                        else:
+                            playlist_st=0
+
                         lst=0
                         _search=0
                         _npl=0
@@ -4228,213 +4358,214 @@ def can_b1(e):
             if cy-12.5<=e.y<=cy+12.5:
 
 
-                can.delete(pu_bg1_)
-                can2.delete(pu_bg2_)
+                con=0
 
-                can.delete(pu_bg1_s)
-                can2.delete(pu_bg2_s)
 
-                if songs_status[0]==3 or st==3 or filter_val=="Most Played":
+                if st==songs_status[0]:
+
+                    if st==2:
+                        if current_playlist==songs_status[1]:
+
+                            con=1
+                    else:
+                        con=1
+
+
+                if con==1:
+
+
+                    if songs_status[0]==3 or filter_val=="Most Played":
+                        return
+
+
+                    if sort_st==0:
+                        sort_st=1
+                    elif sort_st==1:
+                        sort_st=0
+
+
+
+
+
+
+                    if sort_st==1:
+
+
+
+                        pu_forget()
+                        sort_st=1
+
+                        if sort_val=="":
+                            sort_val=sort_ar[0][0]
+
+
+
+                        col1=_theme[0]
+                        col2=_theme[1][0]
+
+
+
+
+
+
+                        can_sort.delete("all")
+
+                        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-160),int(can_sort["width"]),int(can_sort["height"]),15)
+
+                        bg_sort=ImageTk.PhotoImage(im1)
+                        bg_sort_=ImageTk.PhotoImage(im2)
+
+                        can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
+                        can_sort.create_image(0,0,image=bg_sort,anchor="nw")
+
+
+
+
+                        ar=[]
+
+                        cx,cy=5,5
+
+                        a_=180
+
+                        for a in range(90):
+
+                            x=5*math.sin(math.radians(a_))+cx
+                            y=5*math.cos(math.radians(a_))+cy
+
+                            x=int(round(x,0))
+                            y=int(round(y,0))
+
+                            ar.append(x)
+                            ar.append(y)
+
+                            a_+=1
+
+
+                        cx,cy=5,25
+
+                        a_=270
+
+                        for a in range(90):
+
+                            x=5*math.sin(math.radians(a_))+cx
+                            y=5*math.cos(math.radians(a_))+cy
+
+                            x=int(round(x,0))
+                            y=int(round(y,0))
+
+                            ar.append(x)
+                            ar.append(y)
+
+                            a_+=1
+
+
+                        cx,cy=int(can_sort["width"])-5,25
+
+                        a_=0
+
+                        for a in range(90):
+
+                            x=5*math.sin(math.radians(a_))+cx
+                            y=5*math.cos(math.radians(a_))+cy
+
+                            x=int(round(x,0))
+                            y=int(round(y,0))
+
+                            ar.append(x)
+                            ar.append(y)
+
+                            a_+=1
+
+                        cx,cy=int(can_sort["width"])-5,5
+
+                        a_=90
+
+                        for a in range(90):
+
+                            x=5*math.sin(math.radians(a_))+cx
+                            y=5*math.cos(math.radians(a_))+cy
+
+                            x=int(round(x,0))
+                            y=int(round(y,0))
+
+                            ar.append(x)
+                            ar.append(y)
+
+                            a_+=1
+
+
+
+                        csv_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can_sort)
+
+
+
+
+
+                        #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,"#000000",col1,1,3)
+                        #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,col1,col1,1)
+
+                        draw_outline_text(can_sort,"Sort",125,15,"c",("FreeMono",13))
+
+                        can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
+
+
+                        can_sort.create_line(3,30, 250-2,30,fill="#000000",width=3 )
+                        can_sort.create_line(3,30, 250-2,30,fill=col1 )
+                        y=30
+                        for _ in sa:
+
+                            draw_outline_text(can_sort,_,10,y+15,"w",("FreeMono",13))
+
+                            can_sort.create_text(10,y+15,text=_,font=("FreeMono",13),fill=col1,anchor="w")
+
+                            #can_sort.create_line(0,y+30,250,y+30,fill=_theme[1][1])
+
+                            sort_ar.append([_,y])
+
+                            y+=30
+
+
+
+                        for s in sort_ar:
+
+                            if s[0]==sort_val:
+                                _sort=[0,0]
+                                _sort[1]=can_sort.create_image(250-5-20,s[1]+5,image=checked,anchor="nw")
+
+
+                        can_sort.create_image(int(can_sort["width"])-5-20,5,image=cancel,anchor="nw")
+
+
+                        can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-160)
+
+                        shuff=0
+                        shuffle_st=0
+
+
+
+
+
+
+
+
+                        main()
+
+
+                        update_song_status()
+
+                        move_to_playing(0)
+
+
+
+
+
+
+                    else:
+                        can_sort.delete("all")
+                        can_sort.place_forget()
+                        sort_st=0
+
                     return
-
-
-                if sort_st==0:
-                    sort_st=1
-                elif sort_st==1:
-                    sort_st=0
-
-
-
-
-
-
-                if sort_st==1:
-
-
-
-                    pu_forget()
-                    sort_st=1
-
-                    if sort_val=="":
-                        sort_val=sort_ar[0][0]
-
-
-
-                    col1=_theme[0]
-                    col2=_theme[1][0]
-
-
-
-
-
-
-                    can_sort.delete("all")
-
-                    im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-160),int(can_sort["width"]),int(can_sort["height"]),15)
-
-                    bg_sort=ImageTk.PhotoImage(im1)
-                    bg_sort_=ImageTk.PhotoImage(im2)
-
-                    can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
-                    can_sort.create_image(0,0,image=bg_sort,anchor="nw")
-
-
-
-
-                    ar=[]
-
-                    cx,cy=5,5
-
-                    a_=180
-
-                    for a in range(90):
-
-                        x=5*math.sin(math.radians(a_))+cx
-                        y=5*math.cos(math.radians(a_))+cy
-
-                        x=int(round(x,0))
-                        y=int(round(y,0))
-
-                        ar.append(x)
-                        ar.append(y)
-
-                        a_+=1
-
-
-                    cx,cy=5,25
-
-                    a_=270
-
-                    for a in range(90):
-
-                        x=5*math.sin(math.radians(a_))+cx
-                        y=5*math.cos(math.radians(a_))+cy
-
-                        x=int(round(x,0))
-                        y=int(round(y,0))
-
-                        ar.append(x)
-                        ar.append(y)
-
-                        a_+=1
-
-
-                    cx,cy=int(can_sort["width"])-5,25
-
-                    a_=0
-
-                    for a in range(90):
-
-                        x=5*math.sin(math.radians(a_))+cx
-                        y=5*math.cos(math.radians(a_))+cy
-
-                        x=int(round(x,0))
-                        y=int(round(y,0))
-
-                        ar.append(x)
-                        ar.append(y)
-
-                        a_+=1
-
-                    cx,cy=int(can_sort["width"])-5,5
-
-                    a_=90
-
-                    for a in range(90):
-
-                        x=5*math.sin(math.radians(a_))+cx
-                        y=5*math.cos(math.radians(a_))+cy
-
-                        x=int(round(x,0))
-                        y=int(round(y,0))
-
-                        ar.append(x)
-                        ar.append(y)
-
-                        a_+=1
-
-
-
-                    csv_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can_sort)
-
-
-
-
-
-                    #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,"#000000",col1,1,3)
-                    #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,col1,col1,1)
-
-                    draw_outline_text(can_sort,"Sort",125,15,"c",("FreeMono",13))
-
-                    can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
-
-
-                    can_sort.create_line(3,30, 250-2,30,fill="#000000",width=3 )
-                    can_sort.create_line(3,30, 250-2,30,fill=col1 )
-                    y=30
-                    for _ in sa:
-
-                        draw_outline_text(can_sort,_,10,y+15,"w",("FreeMono",13))
-
-                        can_sort.create_text(10,y+15,text=_,font=("FreeMono",13),fill=col1,anchor="w")
-
-                        #can_sort.create_line(0,y+30,250,y+30,fill=_theme[1][1])
-
-                        sort_ar.append([_,y])
-
-                        y+=30
-
-
-
-                    for s in sort_ar:
-
-                        if s[0]==sort_val:
-                            _sort=[0,0]
-                            _sort[0]=can_sort.create_image(250-5-20-1,s[1]+5-1,image=checkeddark,anchor="nw")
-                            _sort[1]=can_sort.create_image(250-5-20,s[1]+5,image=checked,anchor="nw")
-
-
-                    can_sort.create_image(int(can_sort["width"])-5-20-1,5-1,image=quitdark2,anchor="nw")
-                    can_sort.create_image(int(can_sort["width"])-5-20,5,image=cancel,anchor="nw")
-
-
-                    can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-160)
-
-                    shuff=0
-                    shuffle_st=0
-
-
-
-
-
-
-
-
-                    main()
-
-
-                    if st==songs_status[0]:
-
-                        if st==2:
-
-                            if current_playlist==songs_status[1]:
-
-                                update_song_status()
-                                move_to_playing(0)
-
-                        else:
-                            update_song_status()
-
-                            move_to_playing(0)
-
-
-
-                else:
-                    can_sort.delete("all")
-                    can_sort.place_forget()
-                    sort_st=0
-
-                return
 
 
 
@@ -4449,8 +4580,10 @@ def can_b1(e):
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=e.y<=cy+12.5:
 
-                if songs_status[0]==3 or filter_val=="Most Played":
-                    return
+
+                con=0
+
+
 
                 if st==songs_status[0]:
 
@@ -4462,6 +4595,9 @@ def can_b1(e):
                         con=1
 
                 if con==1:
+
+                    if songs_status[0]==3 or filter_val=="Most Played":
+                        return
 
                     loop=0
 
@@ -4477,22 +4613,6 @@ def can_b1(e):
                         sort_st=0
                         can_sort.place_forget()
 
-                        main()
-
-                        if st==songs_status[0]:
-
-                            if st==2:
-
-                                if current_playlist==songs_status[1]:
-
-                                    update_song_status()
-                                    move_to_playing(1)
-
-                            else:
-                                update_song_status()
-                                move_to_playing(1)
-
-                            main()
 
 
                     elif shuffle_st==1:
@@ -4501,45 +4621,22 @@ def can_b1(e):
                         shuff=0
 
                         sort_val=sort_ar[0][0]
-                        main()
 
-                        if st==songs_status[0]:
-
-                            if st==2:
-
-                                if current_playlist==songs_status[1]:
-
-                                    update_song_status()
-                                    move_to_playing(1)
-
-                            else:
-                                update_song_status()
-                                move_to_playing(1)
-                        main()
 
                     elif shuffle_st==2:
                         can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
                         shuffle_st=0
                         shuff=0
                         sort_val=sort_ar[0][0]            
-                        main()
-                    
-                        if st==songs_status[0]:
-
-                            if st==2:
-
-                                if current_playlist==songs_status[1]:
-
-                                    update_song_status()
-                                    move_to_playing(1)
-
-                            else:
-                                update_song_status()
-                                move_to_playing(1)
-
-                        main()
 
 
+
+                    main()
+
+                    update_song_status()
+                    move_to_playing(1)
+
+                    return
 
         #loop
 
@@ -4554,6 +4651,8 @@ def can_b1(e):
 
                 if loop==0:
                     if current_playing!="":
+
+                        loop_song=current_playing
                         loop=1
                 elif loop==1:
                     loop=0
@@ -5150,7 +5249,6 @@ def check_volume():
     global circle7,circle8
     global volume
 
-    global circledark3
 
 
 
@@ -5177,10 +5275,7 @@ def check_volume():
         draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
         vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
-        vol3_=can.create_image(w-10-120+current_volume*r-4-1,h-20-30+5+10-3-4-1,image=circledark3,anchor="nw")
-        vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
-        vol4=can.create_image(w-10-120+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
-  
+
 
     root.after(500,check_volume)
 
@@ -5367,7 +5462,7 @@ def main():
 
     global songs
     global search,search_var,_search
-    global cancel,cancel2,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,playlist2dark,sort,delete,favourite1_,favourite2_,delete2,playlist3
+    global cancel,cancel2,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,sort,delete,favourite1_,favourite2_,delete2,playlist3
     global music_details
     global vol1,vol2,current_volume
     global playlist,playlist_st
@@ -5426,16 +5521,13 @@ def main():
     global settings
     global _theme
     global filter_val,filter_pl
-    global no_music,no_musicdark1
+    global no_music
     global can_npl,npl_var
     global settings_st2
     global f1_,f2_
 
     global can_settings,frame2,can_sort,conf_del,can_npl,can_theme_ent
-    global checkeddark
-    global musical_note2dark
-    global quitdark2
-    global circledark2
+
 
     global bg_styl1,bg_styl2
     global b_g1_,b_g2_
@@ -5851,7 +5943,105 @@ def main():
 
 
 
+        def clean_songs(all_s):
 
+
+            __songs__=[]
+
+            mp_st=0
+            
+
+            for song in all_s:
+
+
+                scon=0
+
+
+                sval=search_var.lower()
+
+                if sval.find(" ")!=-1:
+
+                    ss=[]
+
+                    s_ar=sval.split(" ")
+
+                    for sv in s_ar:
+
+                        if song.lower().find(sv)!=-1:
+                            ss.append(1)
+                        else:
+                            ss.append(0)
+
+                    scon=1
+
+                    for ss_ in ss:
+
+                        if ss_==0:
+                            scon=0
+                            break
+                else:
+                    if song.lower().find(sval)!=-1:
+                        scon=1
+
+
+
+
+
+                if scon==1:
+
+                    if filter_val==None:
+                        pass
+
+                    elif filter_val=="Favourites":
+
+
+                        if music_details[song][0]==0:
+                            scon=0
+
+                    elif filter_val=="With Video":
+
+                        ar=os.listdir("videos")
+
+
+                        try:
+
+                            v_=ar.index(song.replace(".mp3",".mp4"))
+                        except:
+                            scon=0
+                    elif filter_val=="Playlists":
+
+                        if not filter_pl==None:
+
+                            
+
+
+                            try:
+
+                                ar=playlist[filter_pl]
+
+
+                                p=ar.index(song)
+                            except:
+                                scon=0
+                    elif filter_val=="Most Played":
+
+                        mp_st=1
+
+                if scon==1:
+
+                    __songs__.append([song,music_details[song][1]])
+
+
+            if mp_st==1 or st==3:
+
+                __songs__=sorted(__songs__, key=lambda x: x[1],reverse=True)
+
+            songsx=[]
+
+            for s in __songs__:
+                songsx.append(s[0])
+
+            return songsx
 
 
 
@@ -5894,77 +6084,43 @@ def main():
 
 
             songs2=[]
+
+            songx=clean_songs(all_songs)
             
 
-            for song in all_songs:
-
-                scon=0
+            for song in songx:
 
 
-                sval=search_var.lower()
 
-                if sval.find(" ")!=-1:
+                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                col=col1
 
-                    ss=[]
 
-                    s_ar=sval.split(" ")
 
-                    for sv in s_ar:
+                if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-10-20-10-sb_sz-50):
 
-                        if song.lower().find(sv)!=-1:
-                            ss.append(1)
-                        else:
-                            ss.append(0)
-
-                    scon=1
-
-                    for ss_ in ss:
-
-                        if ss_==0:
-                            scon=0
-                            break
+                    l=get_text_length(can2, "...", "FreeMono", 13)
+                    txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-10-20-10-sb_sz-2-50)-l)+"..."
 
                 else:
-                    if song.lower().find(sval)!=-1:
-                        scon=1
+                    txt=song[:-4]
 
 
-                if scon==1:
 
-                    if filter_val==None:
-                        pass
-
-                    elif filter_val=="Favourites":
+                draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
 
 
-                        if music_details[song][0]==0:
-                            scon=0
+                can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                
+                try:
 
-                    elif filter_val=="With Video":
-
-                        ar=os.listdir("videos")
-
-
-                        try:
-
-                            v_=ar.index(song.replace(".mp3",".mp4"))
-                        except:
-                            scon=0
-                    elif filter_val=="Playlists":
-
-                        if not filter_pl==None:
-
-                            
+                    v=playlist[playlist_select].index(song)
 
 
-                            try:
+                    can2.create_image(int(can2["width"])-20-10-sb_sz-2,y+15,image=checked,anchor="nw")
 
-                                ar=playlist[filter_pl]
-
-
-                                p=ar.index(song)
-                            except:
-                                scon=0
+                except:
+                    pass
 
 
 
@@ -5973,60 +6129,15 @@ def main():
 
 
 
+                #can2.create_line(0,y+50,int(can2["width"]),y+50,fill=col3)
 
+                ar=[song,y]
 
+                songs2.append(ar)
 
-                if scon==1:
-
-                    can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
-                    can2.create_image(0,y+10,image=musical_note2,anchor="nw")
-                    col=col1
-
-
-
-                    if get_text_length(can2, song[:-4], "FreeMono", 13)>(int(can2["width"])-10-20-10-sb_sz-50):
-
-                        l=get_text_length(can2, "...", "FreeMono", 13)
-                        txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-10-20-10-sb_sz-2-50)-l)+"..."
-
-                    else:
-                        txt=song[:-4]
-
-
-
-                    draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
-
-
-                    can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
-                    
-                    try:
-
-                        v=playlist[playlist_select].index(song)
-
-
-                        can2.create_image(int(can2["width"])-20-10-sb_sz-2-1,y+15-1,image=checkeddark,anchor="nw")
-                        can2.create_image(int(can2["width"])-20-10-sb_sz-2,y+15,image=checked,anchor="nw")
-
-                    except:
-                        pass
-
-
-
-
-
-
-
-
-                    #can2.create_line(0,y+50,int(can2["width"]),y+50,fill=col3)
-
-                    ar=[song,y]
-
-                    songs2.append(ar)
-
-                    y+=50
+                y+=50
 
             if len(songs2)==0:
-                can2.create_image((w-7)/2-150-1,((h-121)-80-10)/2-150-1,image=no_musicdark1,anchor="nw")
                 can2.create_image((w-7)/2-150,((h-121)-80-10)/2-150,image=no_music,anchor="nw")
 
 
@@ -6199,105 +6310,7 @@ def main():
                 #can.create_line(10,80-30+40+5+int(can2["height"]),w-10,80-30+40+5+int(can2["height"]),fill=col2)
 
 
-            def clean_songs():
 
-
-                __songs__=[]
-
-                mp_st=0
-                
-
-                for song in all_songs:
-
-
-                    scon=0
-
-
-                    sval=search_var.lower()
-
-                    if sval.find(" ")!=-1:
-
-                        ss=[]
-
-                        s_ar=sval.split(" ")
-
-                        for sv in s_ar:
-
-                            if song.lower().find(sv)!=-1:
-                                ss.append(1)
-                            else:
-                                ss.append(0)
-
-                        scon=1
-
-                        for ss_ in ss:
-
-                            if ss_==0:
-                                scon=0
-                                break
-                    else:
-                        if song.lower().find(sval)!=-1:
-                            scon=1
-
-
-
-
-
-                    if scon==1:
-
-                        if filter_val==None:
-                            pass
-
-                        elif filter_val=="Favourites":
-
-
-                            if music_details[song][0]==0:
-                                scon=0
-
-                        elif filter_val=="With Video":
-
-                            ar=os.listdir("videos")
-
-
-                            try:
-
-                                v_=ar.index(song.replace(".mp3",".mp4"))
-                            except:
-                                scon=0
-                        elif filter_val=="Playlists":
-
-                            if not filter_pl==None:
-
-                                
-
-
-                                try:
-
-                                    ar=playlist[filter_pl]
-
-
-                                    p=ar.index(song)
-                                except:
-                                    scon=0
-                        elif filter_val=="Most Played":
-
-                            mp_st=1
-
-                    if scon==1:
-
-                        __songs__.append([song,music_details[song][1]])
-
-
-                if mp_st==1 or st==3:
-
-                    __songs__=sorted(__songs__, key=lambda x: x[1],reverse=True)
-
-                songsx=[]
-
-                for s in __songs__:
-                    songsx.append(s[0])
-
-                return songsx
 
 
 
@@ -6312,7 +6325,7 @@ def main():
 
                 songs=[]
 
-                songsx=clean_songs()
+                songsx=clean_songs(all_songs)
 
 
                 for song in songsx:
@@ -6358,7 +6371,6 @@ def main():
                             draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
 
 
-                            can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
                             can2.create_image(0,y+10,image=musical_note2,anchor="nw")
                             col=_theme[0]
 
@@ -6409,7 +6421,6 @@ def main():
                     
 
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
 
@@ -6419,7 +6430,7 @@ def main():
             elif st==1:
                 y=1
                 songs=[]
-                songsx=clean_songs()
+                songsx=clean_songs(all_songs)
 
 
                 for song in songsx:
@@ -6453,7 +6464,6 @@ def main():
                         else:
                             draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
                             col=col1
-                            can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
                             can2.create_image(0,y+10,image=musical_note2,anchor="nw")
 
 
@@ -6488,7 +6498,6 @@ def main():
                 if len(songs)==0:
 
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
 
@@ -6551,7 +6560,6 @@ def main():
                     draw_outline_text(can2,"New Playlist",30,y+15,"w",("FreeMono",13))
                     can2.create_text(30,y+15,text="New Playlist",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)-10-5-20-1,y+5-1,image=quitdark2,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)-10-5-20,y+5,image=cancel,anchor="nw")
 
 
@@ -6565,10 +6573,8 @@ def main():
                     #can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y, (int(can2["width"])-sb_sz-1)/2+100,y+30, outline=col1)
 
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2-100-15-1,y-1,image=circledark2,anchor="nw")
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2+100-15-1,y-1,image=circledark2,anchor="nw")
 
-                    can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y-1, (int(can2["width"])-sb_sz-1)/2+100,y+30-1+1,fill="#000000",outline="#000000")
+                    can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y, (int(can2["width"])-sb_sz-1)/2+100,y+30-1,fill="#000000",outline="#000000")
 
 
 
@@ -6576,7 +6582,7 @@ def main():
                     can2.create_image((int(can2["width"])-sb_sz-1)/2-100-15,y,image=circle3,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)/2+100-15,y,image=circle3,anchor="nw")
 
-                    can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y, (int(can2["width"])-sb_sz-1)/2+100,y+30-1,fill=col1,outline=col1)
+                    can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y+1, (int(can2["width"])-sb_sz-1)/2+100,y+30-1-1,fill=col1,outline=col1)
 
 
                     can2.create_text((int(can2["width"])-sb_sz-1)/2,y+15,text="Create New Playlist",font=("FreeMono",13),fill=_theme[1][1])
@@ -6664,7 +6670,6 @@ def main():
 
                                 _pl_=playlist2
 
-                                can2.create_image(5-1,y+25-12.5-1,image=playlist2dark,anchor="nw")
                                 
 
 
@@ -6697,7 +6702,6 @@ def main():
                     if len(_playlist)==0:
 
                         
-                        can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                         can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
                         
@@ -6715,7 +6719,7 @@ def main():
                     ar=playlist[current_playlist]
 
 
-                    songx=clean_songs()
+                    songx=clean_songs(all_songs)
 
 
 
@@ -6754,7 +6758,6 @@ def main():
 
                                 draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
 
-                                can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
 
                                 can2.create_image(0,y+10,image=musical_note2,anchor="nw")
                                 col=col1
@@ -6780,7 +6783,6 @@ def main():
                     if len(songs)==0:
 
 
-                        can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                         can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
 
@@ -6791,7 +6793,7 @@ def main():
                 songs=[]
 
 
-                songsx=clean_songs()
+                songsx=clean_songs(all_songs)
 
 
 
@@ -6826,7 +6828,6 @@ def main():
                         draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
 
 
-                        can2.create_image(0-1,y+10-1,image=musical_note2dark,anchor="nw")
 
 
                         can2.create_image(0,y+10,image=musical_note2,anchor="nw")
@@ -6862,7 +6863,6 @@ def main():
 
 
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2-150-1,int(can2["height"])/2-150-1,image=no_musicdark1,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)/2-150,int(can2["height"])/2-150,image=no_music,anchor="nw")
                     
             """
@@ -7538,7 +7538,7 @@ def draw_can(con=0):
 
     global songs
     global search,search_var
-    global cancel,cancel2,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,playlist2dark,sort,delete,favourite1_,favourite2_,delete2,playlist3
+    global cancel,cancel2,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,sort,delete,favourite1_,favourite2_,delete2,playlist3
     global music_details
     global vol1,vol2,vol3,vol3_,vol4,current_volume
     global playlist,playlist_st
@@ -7570,7 +7570,7 @@ def draw_can(con=0):
 
     global select_st
     global songs_status
-    global quit,quitdark1,minimize
+    global quit,minimize
     global forward,backward
     global _bg_
 
@@ -7607,10 +7607,7 @@ def draw_can(con=0):
 
     global sig_,sig_2,sig2
 
-    global adddark,backwarddark,checkeddark,circledark1,circledark2,circledark3,circledark4
-    global filterdark,forwarddark,list2dark,loop2dark,minimizedark,nextdark,previousdark
-    global quitdark2,searchdark,settingsdark,shuffle2dark,sortdark
-    global speakerdark,vid1dark,deletedark
+
 
     global cur_can
     global can3,can4,can6
@@ -7624,7 +7621,7 @@ def draw_can(con=0):
     global sel_filt1,sel_filt2
 
 
-    update_song_status()
+    #update_song_status()
 
     save()
 
@@ -7877,16 +7874,14 @@ def draw_can(con=0):
 
                     if lyric_st==0:
 
-                        can.create_image(x-40-1,y-1,image=circledark2,anchor="nw")
-                        can.create_image(x+40-30-1,y-1,image=circledark2,anchor="nw")
 
-                        can.create_rectangle(x-40+15,y-1, x+40-15,y+30-1+1, fill="#000000",outline="#000000")
+                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill="#000000",outline="#000000")
 
                         can.create_image(x-40,y,image=circle3,anchor="nw")
                         can.create_image(x+40-30,y,image=circle3,anchor="nw")
 
 
-                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col1,outline=col1)
+                        can.create_rectangle(x-40+15,y+1, x+40-15,y+30-1-1, fill=col1,outline=col1)
 
                         """
 
@@ -7906,7 +7901,6 @@ def draw_can(con=0):
 
                             if not music_details[current_playing][2]=="":
 
-                                can.create_image(x+40+5-1,y+15-4-1, image=circledark3,anchor="nw")
                                 can.create_image(x+40+5,y+15-4, image=circle7,anchor="nw")
                         except:
                             pass
@@ -7914,25 +7908,21 @@ def draw_can(con=0):
                     elif lyric_st==1:
 
 
-                        can.create_image(x-40-1,y-1,image=circledark2,anchor="nw")
-                        can.create_image(x+40-30-1,y-1,image=circledark2,anchor="nw")
 
-                        can.create_rectangle(x-40+15,y-1, x+40-15,y+30-1+1, fill="#000000",outline="#000000")
+                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill="#000000",outline="#000000")
 
 
                         can.create_image(x-40,y,image=circle3,anchor="nw")
                         can.create_image(x+40-30,y,image=circle3,anchor="nw")
 
 
-                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col1,outline=col1)
+                        can.create_rectangle(x-40+15,y+1, x+40-15,y+30-1-1, fill=col1,outline=col1)
 
                         can.create_text(x,y+15,text="Lyrics",font=("FreeMono",13),fill=_theme[1][1])
 
-                        can.create_image(x+40+10-1,y+2.5-1,image=adddark,anchor="nw")
                         can.create_image(x+40+10,y+2.5,image=add,anchor="nw")
 
                         if music_details[current_playing][2]!="":
-                            can.create_image(x+40+10+25+10-1,y+2.5-1,image=deletedark,anchor="nw")
                             can.create_image(x+40+10+25+10,y+2.5,image=delete_,anchor="nw")
 
 
@@ -7990,14 +7980,12 @@ def draw_can(con=0):
 
 
 
-            can.create_image(10+15-1+2,45+30-10-5-5-2.5-1,image=searchdark,anchor="nw")
             can.create_image(10+15+2,45+30-10-5-5-2.5,image=search_im,anchor="nw")
             
             draw_round_rec(can,10-1,40+30-10-5-5-1,w-10-25-10+1,40+30-10-5-5+30+1,15,"#000000","",1)
             draw_round_rec(can,10,40+30-10-5-5,w-10-25-10,40+30-10-5-5+30,15,col1,"",1)
             draw_round_rec(can,10+1,40+30-10-5-5+1,w-10-25-10-1,40+30-10-5-5+30-1,15,"#000000","",1)
 
-            can.create_image(w-10-5-20-25-10-1,40+5+30-10-5-5-1,image=quitdark2,anchor="nw")
             can.create_image(w-10-5-20-25-10,40+5+30-10-5-5,image=cancel,anchor="nw")
 
 
@@ -8042,12 +8030,10 @@ def draw_can(con=0):
 
                 if st==2 and playlist_st==0 and select_st==0:
 
-                    can.create_image(w-10-25-1,40+30-10-5-5+2.5-1,image=filter2dark,anchor="nw")
                     can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter2,anchor="nw")
 
                 else:
 
-                    can.create_image(w-10-25-1,40+30-10-5-5+2.5-1,image=filterdark,anchor="nw")
                     can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
 
             can.create_line(10-1,90-5,w-10+1,90-5,fill="#000000",width=3)
@@ -8118,16 +8104,13 @@ def draw_can(con=0):
             col=_theme[1][1]
 
 
-
-            can.create_image(x-60-1,50/2-15-1,image=circledark2,anchor="nw")
-            can.create_image(x+60-30-1,50/2-15-1,image=circledark2,anchor="nw")
-            can.create_rectangle(x-60+15,50/2-15-1, x+60-15,50/2+15-1+1, fill="#000000",outline="#000000")
+            can.create_rectangle(x-60+15,50/2-15, x+60-15,50/2+15-1, fill="#000000",outline="#000000")
 
             can.create_image(x-60,50/2-15,image=circle3,anchor="nw")
             can.create_image(x+60-30,50/2-15,image=circle3,anchor="nw")
 
 
-            can.create_rectangle(x-60+15,50/2-15, x+60-15,50/2+15-1, fill=col1,outline=col1)
+            can.create_rectangle(x-60+15,50/2-15+1, x+60-15,50/2+15-1-1, fill=col1,outline=col1)
 
 
 
@@ -8180,17 +8163,15 @@ def draw_can(con=0):
                         length_in_pixels = get_text_length(can, current_playlist_, "FreeMono", 12) 
 
 
-                        can.create_image(10-1,h-20-60-20-27-15+3+10+3+2+2-3+1+10-1,image=circledark2,anchor="nw")
-                        can.create_image(10+15+length_in_pixels+30-15-1,h-20-60-20-27-15+3+10+3+2+2-3+1+10-1,image=circledark2,anchor="nw")
 
 
-                        can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2-3+1+10-1, 10+15+length_in_pixels+30,h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10+1,
+                        can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2-3+1+10, 10+15+length_in_pixels+30,h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10,
                             fill="#000000",outline="#000000")
 
                         can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
                         can.create_image(10+15+length_in_pixels+30-15,h-20-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
 
-                        can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2-3+1+10, 10+15+length_in_pixels+30,h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10,
+                        can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2-3+1+10+1, 10+15+length_in_pixels+30,h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10-1,
                             fill=col1,outline=col1)
 
 
@@ -8228,7 +8209,7 @@ def draw_can(con=0):
 
 
         can.create_rectangle(10-1,h-20-60-20+10+2+5-3+10-2,w-10,h-20-60-20+10+2+5-3+10+1,outline="#000000")
-        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][0],width=2)
+        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][1],width=2)
         
         if st==2 and playlist_st==0 and current_playing=="":
             pass
@@ -8240,7 +8221,6 @@ def draw_can(con=0):
                 can.create_text(w-10,h-20-60-20+20+10+5-3+5-2+2,text=tot_tm,font=("FreeMono",11),anchor="e",fill=col1)
 
 
-        can.create_image(w/2-30-1,h-20-30-30+5+10-3-1, image=circledark1,anchor="nw")
         can.create_image(w/2-30,h-20-30-30+5+10-3, image=circle,anchor="nw")
 
         if play_st==0:
@@ -8253,7 +8233,6 @@ def draw_can(con=0):
 
 
 
-        can.create_image(10-1,h-20-30-15+5+10-3+2.5-1,image=list2dark,anchor="nw")
         if st==4:
             can.create_image(10,h-20-30-15+5+10-3+2.5,image=list1,anchor="nw")
         elif st==2 and playlist_st==0:
@@ -8288,11 +8267,23 @@ def draw_can(con=0):
             can.delete(sig_2)
 
 
+        con_st=0
+
+
+        if st==songs_status[0]:
+
+            if st==2:
+                if current_playlist==songs_status[1]:
+
+                    con_st=1
+            else:
+                con_st=1
+
+
         if sort_st!=1:
 
 
-            can.create_image(10+25+15-1,h-20-30-15+5+10-3+2.5-1,image=sortdark,anchor="nw")
-            if songs_status[0]==3 or filter_val=="Most Played":
+            if songs_status[0]==3 or filter_val=="Most Played" or con_st==0:
 
                 can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
             else:
@@ -8304,8 +8295,10 @@ def draw_can(con=0):
                     can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
 
 
-        can.create_image(10+25+15+25+15-1,h-20-30-15+5+10-3+2.5-1,image=shuffle2dark,anchor="nw")
-        if songs_status[0]==3 or filter_val=="Most Played":
+
+
+
+        if songs_status[0]==3 or filter_val=="Most Played" or con_st==0:
             can.create_image(10+25+15+25+15,h-20-30-15+5+10-3+2.5,image=shuffle1,anchor="nw")
 
 
@@ -8321,7 +8314,6 @@ def draw_can(con=0):
 
 
 
-        can.create_image(10+25+15+25+15+25+15-1,h-20-30-15+5+10-3+2.5-1,image=loop2dark,anchor="nw")
         if loop==0:
             can.create_image(10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=loop1,anchor="nw")
 
@@ -8330,7 +8322,6 @@ def draw_can(con=0):
             can.create_image(10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=loop2,anchor="nw")
 
 
-        can.create_image(10+25+15+25+15+25+15+25+15-1,h-20-30-15+5+10-3+2.5-1,image=vid1dark,anchor="nw")
         if vid_st==0:
 
             can.create_image(10+25+15+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=vid2,anchor="nw")
@@ -8346,7 +8337,6 @@ def draw_can(con=0):
 
         try:
             v=ar.index(current_playing.replace(".mp3",".mp4"))
-            can.create_image(10+25+15+25+15+25+15+25+15+25+3-1,h-20-30-15+5+10-3+2.5+12.5-2-1,image=circledark4,anchor="nw")
             can.create_image(10+25+15+25+15+25+15+25+15+25+3,h-20-30-15+5+10-3+2.5+12.5-2,image=circle6,anchor="nw")
 
         except:
@@ -8356,9 +8346,8 @@ def draw_can(con=0):
 
         
         can.create_rectangle(w-10-120-1,h-20-30+5+10-3-2, w-10,h-20-30+5+10-3+1,outline="#000000")
-        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][0],width=2)
+        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][1],width=2)
 
-        can.create_image(w-10-120-10-30+5-1,h-20-30-15+5+10-3+1-1,image=speakerdark,anchor="nw")
         can.create_image(w-10-120-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
 
 
@@ -8378,23 +8367,16 @@ def draw_can(con=0):
         draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
         vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
-        vol3_=can.create_image(w-10-120+current_volume*r-4-1,h-20-30+5+10-3-4-1,image=circledark3,anchor="nw")
-        vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
-        vol4=can.create_image(w-10-120+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
 
 
 
-        can.create_image(w/2-30-30-25-1,h-20-30-15+5+10-3+2.5-1,image=previousdark,anchor="nw")
         can.create_image(w/2-30-30-25,h-20-30-15+5+10-3+2.5,image=previous,anchor="nw")
         
 
-        can.create_image(w/2+30+30-1,h-20-30-15+5+10-3+2.5-1,image=nextdark,anchor="nw")
         can.create_image(w/2+30+30,h-20-30-15+5+10-3+2.5,image=next_,anchor="nw")
 
-        can.create_image(w/2-30-30-25-15-25-10-1,h-20-30-15+5+10-3+2.5-1,image=backwarddark,anchor="nw")
         can.create_image(w/2-30-30-25-15-25-10,h-20-30-15+5+10-3+2.5,image=backward,anchor="nw")
 
-        can.create_image(w/2+30+30+25+15+10-1,h-20-30-15+5+10-3+2.5-1,image=forwarddark,anchor="nw")
         can.create_image(w/2+30+30+25+15+10,h-20-30-15+5+10-3+2.5,image=forward,anchor="nw")
 
 
@@ -8425,10 +8407,9 @@ def draw_can(con=0):
         yv=50+(((h-121)-50)-90)/2
 
 
-        can.create_image(w/2-80-15-1,yv-1, image=circledark2,anchor="nw")
-        can.create_image(w/2+80-15-1,yv-1, image=circledark2,anchor="nw")
 
-        can.create_rectangle(w/2-80,yv-1, w/2+80,yv+30-1+1,fill="#000000",outline="#000000")
+
+        can.create_rectangle(w/2-80,yv, w/2+80,yv+30-1,fill="#000000",outline="#000000")
 
 
 
@@ -8436,7 +8417,7 @@ def draw_can(con=0):
         can.create_image(w/2-80-15,yv, image=circle3,anchor="nw")
         can.create_image(w/2+80-15,yv, image=circle3,anchor="nw")
 
-        can.create_rectangle(w/2-80,yv, w/2+80,yv+30-1,fill=col1,outline=col1)
+        can.create_rectangle(w/2-80,yv+1, w/2+80,yv+30-1-1,fill=col1,outline=col1)
 
 
 
@@ -8445,17 +8426,15 @@ def draw_can(con=0):
 
 
 
-        can.create_image(w/2-80-15-1,yv+60-1, image=circledark2,anchor="nw")
-        can.create_image(w/2+80-15-1,yv+60-1, image=circledark2,anchor="nw")
 
-        can.create_rectangle(w/2-80,yv+60-1, w/2+80,yv+30-1+60+1,fill="#000000",outline="#000000")
+        can.create_rectangle(w/2-80,yv+60, w/2+80,yv+30-1+60,fill="#000000",outline="#000000")
 
 
 
         can.create_image(w/2-80-15,yv+60, image=circle3,anchor="nw")
         can.create_image(w/2+80-15,yv+60, image=circle3,anchor="nw")
 
-        can.create_rectangle(w/2-80,yv+60, w/2+80,yv+30-1+60,fill=col1,outline=col1)
+        can.create_rectangle(w/2-80,yv+60+1, w/2+80,yv+30-1+60-1,fill=col1,outline=col1)
 
 
         can.create_text(w/2,yv+15+60,text="Add Audio File",fill=_theme[1][1],font=("FreeMono",13))
@@ -8470,7 +8449,6 @@ def draw_can(con=0):
 
         x=(w-(30+5+length_in_pixels))/2
 
-        can.create_image(x-1,(h-121+75)+((h-1)-(h-121+75))/2-11-1,image=playlist2dark,anchor="nw")
         can.create_image(x,(h-121+75)+((h-1)-(h-121+75))/2-11,image=playlist2,anchor="nw")
 
 
@@ -8478,7 +8456,6 @@ def draw_can(con=0):
 
         can.create_text(x+30+5,(h-121+75)+((h-1)-(h-121+75))/2,text=playlist_select,font=("FreeMono",13),fill=col1,anchor="w")
 
-        can.create_image(w-10-25-1,(h-121+75)+((h-1)-(h-121+75)-25)/2-1,image=quitdark1,anchor="nw")
         can.create_image(w-10-25,(h-121+75)+((h-1)-(h-121+75)-25)/2,image=quit,anchor="nw")
 
 
@@ -8633,23 +8610,12 @@ def draw_can(con=0):
                 filter_can1.create_text(5+25+15,y+15,text=a[1],font=("FreeMono",13),fill=col,anchor="w")
 
 
-            if a[1]==None:
-                filter_can1.create_image(5-1,y+2.5-1,image=none_l1,anchor="nw")
-            elif a[1]=="Playlists":
-                filter_can1.create_image(5-1,y+2.5-1,image=playlist2dark,anchor="nw")
-            
-            elif a[1]=="With Video":
-                filter_can1.create_image(5-1,y+2.5-1,image=vid1dark,anchor="nw")
-
-            elif a[1]=="Most Played":
-                filter_can1.create_image(5-1,y+2.5-1,image=most_played_,anchor="nw")
 
 
             filter_can1.create_image(5,y+2.5,image=a[0],anchor="nw")
 
 
             if filter_val==a[1]:
-                filter_can1.create_image(int(filter_can1["width"])-10-20-1,y+5-1,image=checkeddark,anchor="nw")
                 filter_can1.create_image(int(filter_can1["width"])-10-20,y+5,image=checked,anchor="nw")
 
 
@@ -8780,7 +8746,6 @@ def draw_can(con=0):
 
                 if filter_pl==p:
                     pp=y
-                    filter_can2.create_image(int(filter_can2["width"])-5-20-1,y+5-1,image=checkeddark,anchor="nw")
                     filter_can2.create_image(int(filter_can2["width"])-5-20,y+5,image=checked,anchor="nw")
 
                 y+=30
@@ -8844,7 +8809,6 @@ def draw_can(con=0):
 
 
     if settings_st2!=1:
-        can.create_image(10-1,(50-25)/2-1,image=settingsdark,anchor="nw")
         can.create_image(10,(50-25)/2,image=settings,anchor="nw")
         
 
@@ -8873,9 +8837,9 @@ def draw_can(con=0):
         
 
 
-        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,128)))
+        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,150)))
 
-        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,128)))
+        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,150)))
 
 
 
@@ -8917,7 +8881,6 @@ def draw_can(con=0):
     if sort_st==1:
 
 
-        can.create_image(10+25+15-1,h-20-30-15+5+10-3+2.5-1,image=sortdark,anchor="nw")
         if songs_status[0]==3:
 
             can.create_image(10+25+15,h-20-30-15+5+10-3+2.5,image=sort2,anchor="nw")
@@ -8931,20 +8894,16 @@ def draw_can(con=0):
 
 
     if settings_st2==1:
-        can.create_image(10-1,(50-25)/2-1,image=settingsdark,anchor="nw")
         can.create_image(10,(50-25)/2,image=settings,anchor="nw")
         
     if filter_st==1:
 
 
-        can.create_image(w-10-25-1,40+30-10-5-5+2.5-1,image=filterdark,anchor="nw")
         can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
 
 
-    can.create_image(w-10-25-1,(50-25)/2-1,image=quitdark1,anchor="nw")
     can.create_image(w-10-25,(50-25)/2,image=quit,anchor="nw")
     
-    can.create_image(w-10-25-10-25-1,(50-25)/2-1,image=minimizedark,anchor="nw")
     can.create_image(w-10-25-10-25,(50-25)/2,image=minimize,anchor="nw")
 
 
@@ -9016,7 +8975,7 @@ def show_lyrics():
     global _bg5_,note2
     global bg3
     global cur_can_lyrics
-    global no_music,no_musicdark1
+    global no_music
 
 
 
@@ -9132,13 +9091,11 @@ def show_lyrics():
 
                 else:
 
-                    can.create_image(w/2-150-1,50+(((h-121)-50)-420)/2+210-150-1,image=no_musicdark1,anchor="nw")
                     can.create_image(w/2-150,50+(((h-121)-50)-420)/2+210-150,image=no_music,anchor="nw")
                     can_lyrics.delete("all")
                     can_lyrics.place_forget()
 
             else:
-                can.create_image(w/2-150-1,50+(((h-121)-50)-420)/2+210-150-1,image=no_musicdark1,anchor="nw")
                 can.create_image(w/2-150,50+(((h-121)-50)-420)/2+210-150,image=no_music,anchor="nw")
                 can_lyrics.delete("all")
                 can_lyrics.place_forget()
@@ -9302,41 +9259,14 @@ circle6=0
 b_g1_,b_g2_=0,0
 
 
-adddark=0
-backwarddark=0
-checkeddark=0
 
-circledark1,circledark2,circledark3,circledark4,circledark5=0,0,0,0,0
-cropdark=0
-filterdark=0
-
-forwarddark=0
-list2dark=0
-loop2dark=0
-minimizedark=0
-musical_note2dark=0
-nextdark=0
-no_musicdark1=0
-
-playlist2dark=0
-previousdark=0
-
-quitdark1,quitdark2=0,0
-searchdark=0
-settingsdark=0
-
-shuffle2dark=0
-sortdark=0
-speakerdark=0
-vid1dark=0
-deletedark=0
 
 highl1=0
 bg2_=0
 
 none_l,none_l1=0,0
 most_played,most_played_=0,0
-filter2,filter2dark=0,0
+filter2=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -9367,15 +9297,12 @@ def load_im():
     global no_music
     global b_g1,b_g2, b_g1_,b_g2_
     global _theme
-    global adddark,backwarddark,checkeddark,circledark1,circledark2,circledark3,circledark4,circledark5
-    global cropdark,filterdark,forwarddark,list2dark,loop2dark,minimizedark
-    global musical_note2dark,nextdark,no_musicdark1,playlist2dark,previousdark,quitdark1,quitdark2
-    global searchdark,settingsdark,shuffle2dark,sortdark,speakerdark,vid1dark,deletedark
+
     global w,h,can2
     global w,highl1
     global none_l,none_l1
     global most_played,most_played_
-    global filter2,filter2dark
+    global filter2
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -9448,58 +9375,12 @@ def load_im():
     none_l=ImageTk.PhotoImage(file="data/no-music2.png") 
 
 
-    adddark=ImageTk.PhotoImage(file="data/adddark.png")
-    backwarddark=ImageTk.PhotoImage(file="data/backwarddark.png") 
-    checkeddark=ImageTk.PhotoImage(file="data/checkeddark.png") 
 
 
-    circledark1=ImageTk.PhotoImage(file="data/circledark1.png") 
-    circledark2=ImageTk.PhotoImage(file="data/circledark2.png") 
-    circledark3=ImageTk.PhotoImage(file="data/circledark3.png") 
-    circledark4=ImageTk.PhotoImage(file="data/circledark4.png") 
-    circledark5=ImageTk.PhotoImage(file="data/circledark5.png") 
-
-    cropdark=ImageTk.PhotoImage(file="data/cropdark.png")
-
-    filterdark=ImageTk.PhotoImage(file="data/filterdark.png")
-    forwarddark=ImageTk.PhotoImage(file="data/forwarddark.png")
-    list2dark=ImageTk.PhotoImage(file="data/list2dark.png")
-    loop2dark=ImageTk.PhotoImage(file="data/loop2dark.png")
-
-    minimizedark=ImageTk.PhotoImage(file="data/minimizedark.png")
-
-    musical_note2dark=ImageTk.PhotoImage(file="data/musical_note2dark.png")
-    nextdark=ImageTk.PhotoImage(file="data/nextdark.png")
-
-    no_musicdark1=ImageTk.PhotoImage(file="data/no-musicdark1.png")
-    none_l1=ImageTk.PhotoImage(file="data/no-musicdark2.png")
-
-    playlist2dark=ImageTk.PhotoImage(file="data/playlist2dark.png")
-
-    previousdark=ImageTk.PhotoImage(file="data/previousdark.png")
-
-    quitdark1=ImageTk.PhotoImage(file="data/quitdark1.png")
-    quitdark2=ImageTk.PhotoImage(file="data/quitdark2.png")
-
-    searchdark=ImageTk.PhotoImage(file="data/searchdark.png")
-
-    settingsdark=ImageTk.PhotoImage(file="data/settingsdark.png")
-
-    shuffle2dark=ImageTk.PhotoImage(file="data/shuffle2dark.png")
-
-    sortdark=ImageTk.PhotoImage(file="data/sortdark.png")
-
-    speakerdark=ImageTk.PhotoImage(file="data/speakerdark.png")
-
-    vid1dark=ImageTk.PhotoImage(file="data/vid1dark.png")
-
-    deletedark=ImageTk.PhotoImage(file="data/deletedark.png")
 
     most_played=ImageTk.PhotoImage(file="data/most_played.png")
-    most_played_=ImageTk.PhotoImage(file="data/most_playeddark.png")
 
     filter2=ImageTk.PhotoImage(file="data/filter2.png")
-    filter2dark=ImageTk.PhotoImage(file="data/filter2dark.png")
 
 
 
@@ -10000,7 +9881,7 @@ def draw_cur():
 
 def check_cur_pos():
     global can2,attr,current_playing,playlist,songs
-    global _pl_,playlist2,playlist2dark,playlist3,_fv_,music_details,favourite1,favourite1_,favourite2_,favourite2
+    global _pl_,playlist2,playlist3,_fv_,music_details,favourite1,favourite1_,favourite2_,favourite2
     global sb_sz,_del_,delete,delete2,music_details
     global cr_pos
     global ht,h
@@ -11058,6 +10939,8 @@ def move_bg():
 
             y1=can2.canvasy(0)
 
+            draw_can()
+
 
         if y2!=can_lyrics.canvasy(0):
 
@@ -11422,7 +11305,7 @@ def play_previous(e):
 
 def __list(e):
     global lst,lyric_st,can_lyrics,can2,st,playlist_st,_search,search_var,frame
-    global songs_status,current_playlist
+    global songs_status,current_playlist,current_playing
     global frame2
     global vid_st,vid_st2
     global conf_del
@@ -11444,47 +11327,46 @@ def __list(e):
 
         elif lst==1:
 
-            if st==2 and playlist_st==0:
-                pass
+            st=songs_status[0]
+            current_playing=songs_status[-1]
+            current_playlist=songs_status[1]
+
+            if current_playlist!="":
+                playlist_st=1
             else:
-                lst=0
-                _search=0
-                _npl=0
+                playlist_st=0
 
-                search_var=""
+            lst=0
+            _search=0
+            _npl=0
 
-                can_search.delete("all")
-                can_search.place_forget()
-                can2.delete("all")
-                frame.place_forget()
+            search_var=""
+
+            can_search.delete("all")
+            can_search.place_forget()
+            can2.delete("all")
+            frame.place_forget()
 
 
-                can4.delete("all")
-                can3.delete("all")
-                can6.delete("all")
+            can4.delete("all")
+            can3.delete("all")
+            can6.delete("all")
 
-                frame2.place_forget()
-                filter_st=0
-                filter_can1.delete("all")
-                filter_can2.delete("all")
-                filter_can1.place_forget()
-                filter_can2.place_forget()
+            frame2.place_forget()
+            filter_st=0
+            filter_can1.delete("all")
+            filter_can2.delete("all")
+            filter_can1.place_forget()
+            filter_can2.place_forget()
 
-                del_st=0
-                conf_del.delete("all")
-                conf_del.place_forget()
+            del_st=0
+            conf_del.delete("all")
+            conf_del.place_forget()
 
 
         main()
 
-        if st==songs_status[0]:
-
-            if st==2:
-                if current_playlist==songs_status[1]:
-                    move_to_playing(1)
-
-            else:
-                move_to_playing(1)
+        move_to_playing(1)
 
 
 def on_release_can(e):
@@ -11510,7 +11392,7 @@ def drag_can(e):
     global vol1,vol2,vol3,vol3_,vol4
     global circle7,circle8
     global current_playing,tts,sig
-    global circledark3
+
     global can_outline_st
 
 
@@ -11576,9 +11458,6 @@ def drag_can(e):
             draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
             vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
-            vol3_=can.create_image(w-10-120+current_volume*r-4-1,h-20-30+5+10-3-4-1,image=circledark3,anchor="nw")
-            vol3=can.create_image(w-10-120+current_volume*r-4,h-20-30+5+10-3-4,image=circle7,anchor="nw")
-            vol4=can.create_image(w-10-120+current_volume*r-3,h-20-30+5+10-3-3,image=circle8,anchor="nw")
 
 
 
@@ -11743,14 +11622,11 @@ def draw_sb():
     global can2
     global sb,sb_sz,sb_region,sb_h,sb_col,circle10
     global _theme
-    global circledark5
+
 
     can2.delete(sb[0])
     can2.delete(sb[1])
     can2.delete(sb[2])
-    can2.delete(sb[3])
-    can2.delete(sb[4])
-    can2.delete(sb[5])
     sb_col=_theme[0]
 
     h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
@@ -11758,13 +11634,11 @@ def draw_sb():
     #if not int(h)==int(can2["scrollregion"].split(" ")[-1]):
 
 
-    sb[3]=can2.create_image(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h)-1,image=circledark5,anchor="nw")
-    sb[4]=can2.create_rectangle(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+sb_sz/2)-1,int(can2["width"])-1+1,can2.canvasy(sb_h+h-sb_sz/2-1)+1,fill="#000000",outline="#000000")
-    sb[5]=can2.create_image(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+h-sb_sz-1)-1,image=circledark5,anchor="nw")
 
     sb[0]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
-    sb[1]=can2.create_rectangle(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+sb_sz/2),int(can2["width"])-1,can2.canvasy(sb_h+h-sb_sz/2-1),fill=sb_col,outline=sb_col)
-    sb[2]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+h-sb_sz-1),image=circle10,anchor="nw")
+    sb[1]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+h-sb_sz-1),image=circle10,anchor="nw")
+    sb[2]=can2.create_rectangle(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+sb_sz/2),int(can2["width"])-1,can2.canvasy(sb_h+h-sb_sz/2-1),fill=sb_col,outline=sb_col)
+
 
 
 
@@ -11781,7 +11655,7 @@ def sb_move(v1,v2):
     move_bg()
 
 
-sb=[0,0,0,0,0,0]
+sb=[0,0,0]
 sb_sz=6
 
 sb_col=_theme[0]
@@ -11882,7 +11756,7 @@ def update_sb2():
 
 def draw_sb2():
     global can3
-    global sb2,sb2_sz,sb2_region,sb2_h,sb2_col,circle10,circledark5
+    global sb2,sb2_sz,sb2_region,sb2_h,sb2_col,circle10
     global _theme
 
     sb2_col=_theme[0]
@@ -11891,21 +11765,16 @@ def draw_sb2():
     can3.delete(sb2[1])
     can3.delete(sb2[2])
 
-    can3.delete(sb2[3])
-    can3.delete(sb2[4])
-    can3.delete(sb2[5])
 
     h=int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])*int(can3["height"])
 
 
-    sb2[3]=can3.create_image(int(can3["width"])-sb2_sz-4-1,can3.canvasy(sb2_h)-1,image=circledark5,anchor="nw")
-    sb2[4]=can3.create_rectangle(int(can3["width"])-sb2_sz-4-1,can3.canvasy(sb2_h+sb2_sz/2)-1,int(can3["width"])-4+1,can3.canvasy(sb2_h+h-sb2_sz/2-1)+1,fill="#000000",outline="#000000")
-    sb2[5]=can3.create_image(int(can3["width"])-sb2_sz-4-1,can3.canvasy(sb2_h+h-sb2_sz-1)-1,image=circledark5,anchor="nw")
 
 
-    sb2[0]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h),image=circle10,anchor="nw")
-    sb2[1]=can3.create_rectangle(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+sb2_sz/2),int(can3["width"])-4,can3.canvasy(sb2_h+h-sb2_sz/2-1),fill=sb2_col,outline=sb2_col)
-    sb2[2]=can3.create_image(int(can3["width"])-sb2_sz-4,can3.canvasy(sb2_h+h-sb2_sz-1),image=circle10,anchor="nw")
+    sb2[0]=can3.create_image(int(can3["width"])-sb2_sz-1-1,can3.canvasy(sb2_h),image=circle10,anchor="nw")
+    sb2[1]=can3.create_image(int(can3["width"])-sb2_sz-1-1,can3.canvasy(sb2_h+h-sb2_sz-1),image=circle10,anchor="nw")
+    sb2[2]=can3.create_rectangle(int(can3["width"])-sb2_sz-1-1,can3.canvasy(sb2_h+sb2_sz/2),int(can3["width"])-1-1,can3.canvasy(sb2_h+h-sb2_sz/2-1),fill=sb2_col,outline=sb2_col)
+
 
 
 def sb2_move(v1,v2):
@@ -11921,7 +11790,7 @@ def sb2_move(v1,v2):
     move_bg()
 
 
-sb2=[0,0,0,0,0,0]
+sb2=[0,0,0]
 sb2_sz=6
 sb2_col=_theme[0]
 sb2_region=()
@@ -12066,18 +11935,9 @@ def can_sort_b1(e):
             main()
 
 
-            if st==songs_status[0]:
 
-                if st==2:
-
-                    if current_playlist==songs_status[1]:
-
-                        update_song_status()
-                        move_to_playing(1)
-
-                else:
-                    update_song_status()
-                    move_to_playing(1)
+            update_song_status()
+            move_to_playing(1)
 
 
 
@@ -12858,14 +12718,11 @@ def draw_settings(con=0):
     global focus__
 
     global tbg_,tbg2_,tbg3
-    global cropdark
-    global quitdark1
-    global deletedark
-    global adddark
+
 
     global can_outline_st
 
-    global circledark3,circle7,circle8
+    global circle7,circle8
     global op_ar
     global cte_txt1,cte_txt2
     global bg2_
@@ -12926,7 +12783,7 @@ def draw_settings(con=0):
     #draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,"#000000",col1,1,3)
     #draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,_theme[0],col1,1)
 
-    can_settings.create_image(int(can_settings["width"])-10-25-1,10-1,image=quitdark1,anchor="nw")
+
     can_settings.create_image(int(can_settings["width"])-10-25,10,image=quit,anchor="nw")
 
 
@@ -13190,20 +13047,14 @@ def draw_settings(con=0):
 
     sz=90
 
-    can_settings.create_image(int(can_settings["width"])-20-25-1,int(can_settings["height"])-95+5-1-30,
-        image=deletedark,anchor="nw")
     can_settings.create_image(int(can_settings["width"])-20-25,int(can_settings["height"])-95+5-30,
         image=delete_,anchor="nw")
 
 
-    can_settings.create_image(int(can_settings["width"])-20-25-15-25-1,int(can_settings["height"])-95+5-1-30,
-        image=adddark,anchor="nw")
     can_settings.create_image(int(can_settings["width"])-20-25-15-25,int(can_settings["height"])-95+5-30,
         image=add,anchor="nw")
 
 
-    can_settings.create_image(int(can_settings["width"])-20-25-15-25-15-25-1,int(can_settings["height"])-95+5-1-30,
-        image=cropdark,anchor="nw")
 
     if settings_st==2:
 
@@ -13238,7 +13089,7 @@ def draw_settings(con=0):
     can_settings.create_rectangle(20+l1+10-1,int(can_settings["height"])-65-2-15, 20+l1+10+100,int(can_settings["height"])-65+1-15,
         outline="#000000")
     can_settings.create_line(20+l1+10,int(can_settings["height"])-65-15, 20+l1+10+100,int(can_settings["height"])-65-15,
-        fill=_theme[1][0],width=2)
+        fill=_theme[1][1],width=2)
 
 
 
@@ -13260,7 +13111,7 @@ def draw_settings(con=0):
     can_settings.create_rectangle(20+l1+10+100+30+l2+10-1,int(can_settings["height"])-65-2-15, 20+l1+10+100+30+l2+10+100,int(can_settings["height"])-65+1-15,
         outline="#000000")
     can_settings.create_line(20+l1+10+100+30+l2+10,int(can_settings["height"])-65-15, 20+l1+10+100+30+l2+10+100,int(can_settings["height"])-65-15,
-        fill=_theme[1][0],width=2)
+        fill=_theme[1][1],width=2)
 
 
 
@@ -13272,10 +13123,6 @@ def draw_settings(con=0):
 
 
 
-    can_settings.create_image(int(can_settings["width"])/2-sz/2-1,int(can_settings["height"])-40-1,
-        image=circledark2,anchor="nw")
-    can_settings.create_image(int(can_settings["width"])/2+sz/2-30-1,int(can_settings["height"])-40-1,
-        image=circledark2,anchor="nw")
 
     can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40-1,
         int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1+1,
@@ -13369,7 +13216,7 @@ op2_v1,op2_v2,op2_v3,op2_v4,op2_v5=0,0,0,0,0
 def draw_op(x,y,xv,con):
 
     global can_settings,_theme
-    global circledark3,circle7,circle8
+    global circle7,circle8
 
     global op1_v1,op1_v2,op1_v3,op1_v4,op1_v5
     global op2_v1,op2_v2,op2_v3,op2_v4,op2_v5
@@ -13391,10 +13238,6 @@ def draw_op(x,y,xv,con):
         op1_v1=can_settings.create_line(x,y, x+a1,y,
             fill=_theme[0],width=2)
 
-
-        op1_v2=can_settings.create_image(x+a1-4-1,y-4-1,image=circledark3,anchor="nw")
-        op1_v3=can_settings.create_image(x+a1-4,y-4,image=circle7,anchor="nw")
-        op1_v4=can_settings.create_image(x+a1-3,y-3,image=circle8,anchor="nw")
 
 
         can_outline_st=6
@@ -13419,9 +13262,6 @@ def draw_op(x,y,xv,con):
             fill=_theme[0],width=2)
 
 
-        op2_v2=can_settings.create_image(x+a1-4-1,y-4-1,image=circledark3,anchor="nw")
-        op2_v3=can_settings.create_image(x+a1-4,y-4,image=circle7,anchor="nw")
-        op2_v4=can_settings.create_image(x+a1-3,y-3,image=circle8,anchor="nw")
 
         can_outline_st=8
 
