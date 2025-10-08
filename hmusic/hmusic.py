@@ -2113,7 +2113,7 @@ def add_playlist():
         a_+=1
 
 
-    cx,cy=int(can3["width"])-sb2_sz-6-10,40
+    cx,cy=int(can3["width"])-sb2_sz-6-10+2,40
 
     a_=0
 
@@ -2130,7 +2130,7 @@ def add_playlist():
 
         a_+=1
 
-    cx,cy=int(can3["width"])-sb2_sz-6-10,10
+    cx,cy=int(can3["width"])-sb2_sz-6-10+2,10
 
     a_=90
 
@@ -3193,7 +3193,7 @@ input_folder=""
 
 v_st=0
 play_st2=0
-csv_im=0
+cso_im=0
 
 im_bg=0
 
@@ -3249,7 +3249,7 @@ def can_b1(e):
     global can3
     global bg__
     global v_st,play_st2
-    global csv_im
+    global cso_im
     global cur_can_sort
     global can_settings,theme_ent
     global im_bg
@@ -4399,161 +4399,10 @@ def can_b1(e):
                             sort_val=sort_ar[0][0]
 
 
+                        draw_can_sort()
 
-                        col1=_theme[0]
-                        col2=_theme[1][0]
 
 
-
-
-
-
-                        can_sort.delete("all")
-
-                        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-160),int(can_sort["width"]),int(can_sort["height"]),15)
-
-                        bg_sort=ImageTk.PhotoImage(im1)
-                        bg_sort_=ImageTk.PhotoImage(im2)
-
-                        can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
-                        can_sort.create_image(0,0,image=bg_sort,anchor="nw")
-
-
-
-
-                        ar=[]
-
-                        cx,cy=5,5
-
-                        a_=180
-
-                        for a in range(90):
-
-                            x=5*math.sin(math.radians(a_))+cx
-                            y=5*math.cos(math.radians(a_))+cy
-
-                            x=int(round(x,0))
-                            y=int(round(y,0))
-
-                            ar.append(x)
-                            ar.append(y)
-
-                            a_+=1
-
-
-                        cx,cy=5,25
-
-                        a_=270
-
-                        for a in range(90):
-
-                            x=5*math.sin(math.radians(a_))+cx
-                            y=5*math.cos(math.radians(a_))+cy
-
-                            x=int(round(x,0))
-                            y=int(round(y,0))
-
-                            ar.append(x)
-                            ar.append(y)
-
-                            a_+=1
-
-
-                        cx,cy=int(can_sort["width"])-5,25
-
-                        a_=0
-
-                        for a in range(90):
-
-                            x=5*math.sin(math.radians(a_))+cx
-                            y=5*math.cos(math.radians(a_))+cy
-
-                            x=int(round(x,0))
-                            y=int(round(y,0))
-
-                            ar.append(x)
-                            ar.append(y)
-
-                            a_+=1
-
-                        cx,cy=int(can_sort["width"])-5,5
-
-                        a_=90
-
-                        for a in range(90):
-
-                            x=5*math.sin(math.radians(a_))+cx
-                            y=5*math.cos(math.radians(a_))+cy
-
-                            x=int(round(x,0))
-                            y=int(round(y,0))
-
-                            ar.append(x)
-                            ar.append(y)
-
-                            a_+=1
-
-
-
-                        csv_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can_sort)
-
-
-
-
-
-                        #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,"#000000",col1,1,3)
-                        #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,col1,col1,1)
-
-                        draw_outline_text(can_sort,"Sort",125,15,"c",("FreeMono",13))
-
-                        can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
-
-
-                        can_sort.create_line(3,30, 250-2,30,fill="#000000",width=3 )
-                        can_sort.create_line(3,30, 250-2,30,fill=col1 )
-                        y=30
-                        for _ in sa:
-
-                            draw_outline_text(can_sort,_,10,y+15,"w",("FreeMono",13))
-
-                            can_sort.create_text(10,y+15,text=_,font=("FreeMono",13),fill=col1,anchor="w")
-
-                            #can_sort.create_line(0,y+30,250,y+30,fill=_theme[1][1])
-
-                            sort_ar.append([_,y])
-
-                            y+=30
-
-
-
-                        for s in sort_ar:
-
-                            if s[0]==sort_val:
-                                _sort=[0,0]
-                                _sort[1]=can_sort.create_image(250-5-20,s[1]+5,image=checked,anchor="nw")
-
-
-                        can_sort.create_image(int(can_sort["width"])-5-20,5,image=cancel,anchor="nw")
-
-
-                        can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-160)
-
-                        shuff=0
-                        shuffle_st=0
-
-
-
-
-
-
-
-
-                        main()
-
-
-                        update_song_status()
-
-                        move_to_playing(0)
 
 
 
@@ -8837,9 +8686,9 @@ def draw_can(con=0):
         
 
 
-        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,150)))
+        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,160)))
 
-        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,150)))
+        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,160)))
 
 
 
@@ -9891,7 +9740,7 @@ def check_cur_pos():
     global lst
     global songs2
     global cp2_im
-    global sort_ar,csv_im
+    global sort_ar,cso_im
     global search_var
     global root_st
     global lst
@@ -9920,7 +9769,7 @@ def check_cur_pos():
         can2.delete(attr[3])
         can2.coords(cp_im,0,-100)
         can3.coords(cp2_im,0,-100)
-        can_sort.coords(csv_im,0,-100)
+        can_sort.coords(cso_im,0,-100)
         can2.coords(cp_im2,0,-100)
         can2.coords(cp_im3,0,-100) 
         filter_can1.coords(sel_filt1,0,-100)
@@ -10031,7 +9880,7 @@ def check_cur_pos():
 
                         if y<=can_sort.canvasy(y_-(h-20-30-15+5+10+2.5-160)+88)<=y+30:
 
-                            can_sort.coords(csv_im,0,y)
+                            can_sort.coords(cso_im,0,y)
 
                     y+=30
             root.after(5,check_cur_pos)
@@ -11895,17 +11744,182 @@ def mvar_():
 
     root.after(2,mvar_)
 
+def draw_can_sort():
 
+    global _theme
+    global can_sort
+    global bg_sort,bg_sort_
+
+    global shuff,shuffle_st
+    global checked,cancel
+    global sort_ar,sa
+    global sort_val
+    global cso_im
+
+
+    col1=_theme[0]
+    col2=_theme[1][0]
+
+
+
+
+
+
+    can_sort.delete("all")
+
+    im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-160),int(can_sort["width"]),int(can_sort["height"]),15)
+
+    bg_sort=ImageTk.PhotoImage(im1)
+    bg_sort_=ImageTk.PhotoImage(im2)
+
+    can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
+    can_sort.create_image(0,0,image=bg_sort,anchor="nw")
+
+
+
+
+    ar=[]
+
+    cx,cy=5,5
+
+    a_=180
+
+    for a in range(90):
+
+        x=5*math.sin(math.radians(a_))+cx
+        y=5*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append(x)
+        ar.append(y)
+
+        a_+=1
+
+
+    cx,cy=5,25
+
+    a_=270
+
+    for a in range(90):
+
+        x=5*math.sin(math.radians(a_))+cx
+        y=5*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append(x)
+        ar.append(y)
+
+        a_+=1
+
+
+    cx,cy=int(can_sort["width"])-5,25
+
+    a_=0
+
+    for a in range(90):
+
+        x=5*math.sin(math.radians(a_))+cx
+        y=5*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append(x)
+        ar.append(y)
+
+        a_+=1
+
+    cx,cy=int(can_sort["width"])-5,5
+
+    a_=90
+
+    for a in range(90):
+
+        x=5*math.sin(math.radians(a_))+cx
+        y=5*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append(x)
+        ar.append(y)
+
+        a_+=1
+
+
+
+    cso_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can_sort)
+
+
+
+
+
+    #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,"#000000",col1,1,3)
+    #draw_round_rec(can_sort,1,1, 250-2,160-1-1,15,col1,col1,1)
+
+    draw_outline_text(can_sort,"Sort",125,15,"c",("FreeMono",13))
+
+    can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
+
+
+    can_sort.create_line(3,30, 250-2,30,fill="#000000",width=3 )
+    can_sort.create_line(3,30, 250-2,30,fill=col1 )
+    y=30
+    for _ in sa:
+
+        draw_outline_text(can_sort,_,10,y+15,"w",("FreeMono",13))
+
+        can_sort.create_text(10,y+15,text=_,font=("FreeMono",13),fill=col1,anchor="w")
+
+        #can_sort.create_line(0,y+30,250,y+30,fill=_theme[1][1])
+
+        
+        #sort_ar.append([_,y])
+
+        y+=30
+
+
+
+    for s in sort_ar:
+
+        if s[0]==sort_val:
+            can_sort.create_image(250-5-20,s[1]+5,image=checked,anchor="nw")
+
+
+    can_sort.create_image(int(can_sort["width"])-5-20,5,image=cancel,anchor="nw")
+
+
+    can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-160)
+
+    shuff=0
+    shuffle_st=0
+
+
+
+
+
+
+
+
+    main()
+
+
+    update_song_status()
+
+    move_to_playing(0)
 
 def can_sort_b1(e):
 
     global sort_ar,sort_val
     global sort_st,can_sort
-    global can2
-    global loop
 
     global st,current_playlist
     global songs_status
+    global _sort,checked
 
     cx,cy=int(can_sort["width"])-5-20-1+10,5-1+10
 
@@ -11920,32 +11934,27 @@ def can_sort_b1(e):
 
 
 
-
     for s in sort_ar:
 
         if s[1]<=e.y<=s[1]+30:
 
             can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
-            loop=0
 
 
             sort_val=s[0]
 
-            main()
+
+            draw_can_sort()
+
+            return
 
 
 
-            update_song_status()
-            move_to_playing(1)
 
 
 
 
-
-            sort_st=0
-            can_sort.delete("all")
-            can_sort.place_forget()
 
 
 
