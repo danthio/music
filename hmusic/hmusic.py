@@ -409,7 +409,9 @@ def darken_border(im,border=15):
 
                     for b in range(border):
 
-                        pixels[x-(b+1),y]=(0,0,0,255)
+                        if im_.getpixel((x-(b+1),y))[-1]==0:
+
+                            pixels[x-(b+1),y]=(0,0,0,255)
 
                     con=1
             else:
@@ -434,7 +436,9 @@ def darken_border(im,border=15):
 
                     for b in range(border):
 
-                        pixels[x_+(b+1),y]=(0,0,0,255)
+                        if im_.getpixel((x_+(b+1),y))[-1]==0:
+
+                            pixels[x_+(b+1),y]=(0,0,0,255)
 
                     con=1
             else:
@@ -461,7 +465,9 @@ def darken_border(im,border=15):
 
                     for b in range(border):
 
-                        pixels[x,y-(b+1)]=(0,0,0,255)
+                        if im_.getpixel((x,y-(b+1)))[-1]==0:
+
+                            pixels[x,y-(b+1)]=(0,0,0,255)
 
                     con=1
             else:
@@ -486,7 +492,9 @@ def darken_border(im,border=15):
 
                     for b in range(border):
 
-                        pixels[x,y_+(b+1)]=(0,0,0,255)
+                        if im_.getpixel((x,y_+(b+1)))[-1]==0:
+
+                            pixels[x,y_+(b+1)]=(0,0,0,255)
 
                     con=1
             else:
