@@ -205,7 +205,7 @@ def play_vid():
             pass
     else:    
 
-        root.after(1,play_vid)
+        root.after(2,play_vid)
 
 
     
@@ -352,7 +352,7 @@ im_dict={
 "musical_note2":[("musical_note2",30)],
 "search":[("search",25)],
 "circle8":[("circle8",6)],
-"circle":[("circle",60),("circle2",50),("circle3",30),("circle4",20),("circle7",8),("circle5",7),("circle9",3),("circle6",4),("circle10",7)],
+"circle":[("circle",60),("circle2",50),("circle3",30),("circle4",20),("circle7",8),("circle5",7),("circle10",7),("circle6",4),("circle9",3)],
 "quit":[("quit",25),("bin",25),("cancel",20)],
 "minimize":[("minimize",25)],
 "favourite2":[("favourite2",25)],
@@ -382,7 +382,7 @@ im_dict={
 }
 
 
-def darken_border(im,border=15):
+def darken_border(im,border=14):
     w,h=im.size
 
     im_=Image.new("RGBA",(w+border*2,h+border*2),(0,0,0,0))
@@ -449,6 +449,11 @@ def darken_border(im,border=15):
 
 
 
+    root.after(2,update)
+
+
+
+
 
     con=0
 
@@ -502,6 +507,8 @@ def darken_border(im,border=15):
                 con=0
 
             y_-=1
+
+    root.after(2,update)
 
     return im_
 
@@ -580,7 +587,7 @@ def change_theme(pcol):
 
                 #print(col,pixels[x_,y_])
 
-            root.after(0,update)
+            root.after(1,update)
 
 
         
@@ -588,9 +595,11 @@ def change_theme(pcol):
 
             image_=darken_border(image_)
 
+        im3=image_
+
         for i_ in im_dict[i.replace(".png","")]:
 
-            im3=image_.resize((i_[1],i_[1]))
+            im3=im3.resize((i_[1],i_[1]))
 
 
             if len(i_)==3:
@@ -601,7 +610,7 @@ def change_theme(pcol):
             im3.save("data/"+i_[0]+".png")
 
 
-            root.after(0,update)
+            root.after(1,update)
 
 
 
@@ -840,7 +849,7 @@ def draw_wave():
     except:
         pass
 
-    root.after(1,draw_wave)
+    root.after(2,draw_wave)
 
 
 
@@ -1126,11 +1135,11 @@ def convert_folder_to_audio():
 
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-                    root.after(0,update)
+                    root.after(1,update)
 
 
                 except:
-                    root.after(0,update)
+                    root.after(1,update)
                     
 
 
@@ -1237,11 +1246,11 @@ def convert_file_to_audio():
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
-                    root.after(0,update)
+                    root.after(1,update)
                     
 
                 except:
-                    root.after(0,update)
+                    root.after(1,update)
                     
 
 
@@ -1887,7 +1896,7 @@ def timer():
             pass
             
 
-    root.after(1,timer)
+    root.after(2,timer)
 
 
 def can3_b1(e):
@@ -2604,7 +2613,7 @@ def can2_b1(e):
             if cx-12.5<=e.x<=cx+12.5:
                 if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
-
+                    pu_forget()
                     conf_del_(_pl[0],"playlist")
 
 
@@ -2868,7 +2877,7 @@ def can2_b1(e):
 
                     v=ar.index(s[0].replace(".mp3",".mp4"))
 
-
+                    pu_forget()
                     conf_del_("videos/"+s[0].replace(".mp3",".mp4"),"video")
 
 
@@ -2909,6 +2918,8 @@ def can2_b1(e):
 
 
                 #try:
+
+                pu_forget()
 
                 conf_del_("music/"+s[0],"music")
 
@@ -5281,9 +5292,6 @@ def draw_active(c,x,y,x2,sz,col):
 
     x+=1
 
-    draw_round_rec(can2,x-1,y-1, x2,y+50+1,10,"#000000",col1,1)
-    
-
 
 
     c.create_image(x,y,image=circle4,anchor="nw")
@@ -5398,11 +5406,11 @@ def main():
 
 
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
-    can["bg"]="#ff1115"
+    can["bg"]="#231115"
 
     if root_st==1:
 
-        root.geometry(str(50)+"x"+str(50)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
+        root.geometry(str(50)+"x"+str(100)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
 
         can.delete("all")
 
@@ -7384,7 +7392,10 @@ bg_filt,bg_filt_=0,0
 
 sel_filt1,sel_filt2=0,0
 
+pu_bg3_s,pu_bg4_s=0,0
 def draw_can(con=0):
+
+
 
     global can,st,w,h
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
@@ -7468,7 +7479,7 @@ def draw_can(con=0):
 
     global cur_can
     global can3,can4,can6
-    global pu_bg1,pu_bg2,pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s
+    global pu_bg1,pu_bg2,pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s,pu_bg3_s,pu_bg4_s
     global sort_st,settings_st2,add_st
     global bg_filt,bg_filt_
     global bg_sett_,bg_sort_,add_bg_,bg_del_
@@ -7476,6 +7487,9 @@ def draw_can(con=0):
     global none_l,none_l1
     global most_played,most_played_
     global sel_filt1,sel_filt2
+    global can_lyrics
+    global nxt_st,cnxt_x1,cnxt_v1,cnxt_v2
+
 
 
     #update_song_status()
@@ -7485,9 +7499,9 @@ def draw_can(con=0):
 
     if root_st==1:
 
-        can["bg"]="#ff1115"
+        can["bg"]="#231115"
 
-        root.geometry(str(50)+"x"+str(50)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
+        root.geometry(str(50)+"x"+str(100)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
 
         can.delete("all")
 
@@ -7559,6 +7573,9 @@ def draw_can(con=0):
 
 
 
+
+    
+
     if vid_st==1:
 
         can.create_rectangle(0,0,w,h,fill="#000000",outline="#000000")
@@ -7596,7 +7613,7 @@ def draw_can(con=0):
 
 
 
-        #can.create_image(0,0,image=b_g1_,anchor="nw")
+        
         #can.create_image(w,0,image=b_g2_,anchor="ne")
 
 
@@ -7606,6 +7623,29 @@ def draw_can(con=0):
         can.create_image(0,0,image=b_g1,anchor="nw")
         can.create_image(0,90+int(can2["height"]),image=b_g2,anchor="nw")
         
+
+    can.create_image(0,h-30,image=b_g1_,anchor="nw")
+
+
+    if not det_nxt()=="Empty!":
+
+
+    
+        txt=det_nxt().replace(".mp3","")
+
+    else:
+
+        txt="Empty!"
+
+
+
+    #cnxt_x1=w-500
+    f=font.Font(family="FreeMono",size=13)
+
+
+    cnxt_v1=can.create_text(cnxt_x1+f.measure("Up Next    "),15,text=txt,font=("FreeMono",13),anchor="w",fill=_theme[0])
+    cnxt_v2=can.create_text(cnxt_x1,15,text="Up Next    ",font=("FreeMono",13),anchor="w",fill=_theme[1][0])
+    nxt_st=1
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
@@ -8325,7 +8365,7 @@ def draw_can(con=0):
 
 
 
-        filter_can1["height"]=20+30*5
+        filter_can1["height"]=30*5
         filter_can1["width"]=250
 
 
@@ -8416,7 +8456,7 @@ def draw_can(con=0):
 
         
 
-        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,20+30*5,15)
+        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,30*5,15)
 
         bg_filt=ImageTk.PhotoImage(im1)
         bg_filt_=ImageTk.PhotoImage(im2)
@@ -8440,7 +8480,7 @@ def draw_can(con=0):
 
         ar=[(none_l,None),(favourite2,"Favourites"),(playlist2,"Playlists"),(vid1,"With Video"),(most_played,"Most Played")]
 
-        y=10
+        y=0
 
         for a in ar:
 
@@ -8690,13 +8730,16 @@ def draw_can(con=0):
     can2.delete(pu_bg2_)
     can2.delete(pu_bg2_s)
 
+    can_lyrics.delete(pu_bg3_s)
+    can_lyrics.delete(pu_bg4_s)
+
     if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
         
 
 
-        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,160)))
+        pu_bg1=ImageTk.PhotoImage(Image.new("RGBA",(w,h),(0,0,0,170)))
 
-        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,160)))
+        pu_bg2=ImageTk.PhotoImage(Image.new("RGBA",(int(can2["width"]),int(can2["height"])),(0,0,0,170)))
 
 
 
@@ -8718,8 +8761,8 @@ def draw_can(con=0):
 
         elif sort_st==1:
 
-            pu_bg1_s=can.create_image(10+25+15+25-15,h-20-30-15+5+10+2.5-160-15,image=bg_sort_,anchor="nw")
-            pu_bg2_s=can2.create_image(10+25+15+25-15-10,h-20-30-15+5+10+2.5-160+can2.canvasy(0)-88-15,image=bg_sort_,anchor="nw")
+            pu_bg1_s=can.create_image(10+25+15+25-15,h-20-30-15+5+10+2.5-150-15,image=bg_sort_,anchor="nw")
+            pu_bg2_s=can2.create_image(10+25+15+25-15-10,h-20-30-15+5+10+2.5-150+can2.canvasy(0)-88-15,image=bg_sort_,anchor="nw")
 
 
         elif add_st==1:
@@ -8732,6 +8775,13 @@ def draw_can(con=0):
 
             pu_bg1_s=can.create_image((w-int(conf_del["width"]))/2-15,(h-int(conf_del["height"]))/2-15,image=bg_del_,anchor="nw")
             pu_bg2_s=can2.create_image((w-int(conf_del["width"]))/2-15-10,(h-int(conf_del["height"]))/2+can2.canvasy(0)-88-15,image=bg_del_,anchor="nw")
+
+
+        if lyric_st==1:
+
+            pu_bg3_s=can_lyrics.create_image(-10,-50+can_lyrics.canvasy(0),image=pu_bg1,anchor="nw")
+
+            pu_bg4_s=can_lyrics.create_image((w-int(conf_del["width"]))/2-15-10,(h-int(conf_del["height"]))/2-15-50+can_lyrics.canvasy(0),image=bg_del_,anchor="nw")
 
 
 
@@ -8768,6 +8818,8 @@ def draw_can(con=0):
     draw_round_rec(can,1,1,w-2,h-2,25,"#000000","",1)
 
     draw_cur_can()
+
+
 
 
 
@@ -9328,7 +9380,7 @@ def load_im():
     b_g2=ImageTk.PhotoImage(dark_bg(w,h-(90+int(can2["height"])),"#000000",1))
 
 
-    #b_g1_=ImageTk.PhotoImage(dark_bg(20,h,_theme[1][-1],2))
+    b_g1_=ImageTk.PhotoImage(dark_bg(w,30,"#000000",1))
 
     #b_g2_=ImageTk.PhotoImage(dark_bg(20,h,_theme[1][-1],3))
 
@@ -9684,7 +9736,7 @@ def draw_cur_():
 
 
 
-    xx,yy=x-(wd-w)/2-(10+25+15+25),y-(ht-h)/2-(h-20-30-15+5+10+2.5-160)
+    xx,yy=x-(wd-w)/2-(10+25+15+25),y-(ht-h)/2-(h-20-30-15+5+10+2.5-150)
 
     cur_can_sort=can_sort.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
@@ -9853,7 +9905,7 @@ def check_cur_pos():
                         y=p[1]
 
                         can2.coords(cp_im,0,y)
-                        can2.coords(cp_im3,0,y)
+                        #can2.coords(cp_im3,0,y)
                         if current_playlist==p[0]:
 
                             attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add2,anchor="nw")
@@ -9886,7 +9938,7 @@ def check_cur_pos():
 
                     if y<30+30*4:
 
-                        if y<=can_sort.canvasy(y_-(h-20-30-15+5+10+2.5-160)+88)<=y+30:
+                        if y<=can_sort.canvasy(y_-(h-20-30-15+5+10+2.5-150)+88)<=y+30:
 
                             can_sort.coords(cso_im,0,y)
 
@@ -9929,7 +9981,7 @@ def check_cur_pos():
 
 
 
-                y=10
+                y=0
 
                 for _ in range(30*5):
 
@@ -10053,7 +10105,7 @@ def check_cur_pos():
                                 y=song[1]
 
                                 can2.coords(cp_im,0,y)
-                                can2.coords(cp_im2,0,y)
+                                #can2.coords(cp_im2,0,y)
 
                                 if song[0]==current_playing:
                                     _del_=delete2_
@@ -10334,7 +10386,7 @@ def convert_(im,col):
 
             pixels[x,y]=(r,g,b,255)
 
-        root.after(0,update)
+        root.after(1,update)
 
     return image
 
@@ -10541,7 +10593,7 @@ w=int(wd)
 root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 root.resizable(0,0)
 #root.wm_attributes("-alpha",0.9)
-root.wm_attributes("-transparentcolor","#ff1115")
+root.wm_attributes("-transparentcolor","#231115")
 root.wm_attributes("-topmost",True)
 root.iconbitmap("data/icon.ico")
 root.title("HMUSIC")
@@ -10624,6 +10676,7 @@ def adjust_theme():
     global _theme,theme_ent
     global adj_st
     global te_var
+    global unchanged
 
 
     if adj_st==0:
@@ -10635,8 +10688,8 @@ def adjust_theme():
 
 
 
-    
-    change_theme(col)
+    if unchanged==0:
+        change_theme(col)
 
     if _theme[-2]==1:
 
@@ -10756,7 +10809,7 @@ def adjust_theme():
     #subprocess.run(command, check=True, capture_output=True, text=True)
 
 
-    root.after(0,update)
+    root.after(1,update)
     adj_st=1
 
 
@@ -10796,7 +10849,9 @@ def move_bg():
 
             y1=can2.canvasy(0)
 
-            draw_can()
+            if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
+
+                draw_can()
 
 
         if y2!=can_lyrics.canvasy(0):
@@ -10903,10 +10958,12 @@ def scroll(val):
             draw_sb2()
 
     if lyric_st==1:
-        if not music_details[current_playing][2]=="":
-            can_lyrics.yview_scroll(int(-1*(val/120)), "units")
 
-            can_lyrics.coords(bg3,-10,-(50)+int(can_lyrics.canvasy(0)))
+        if settings_st2==0 and filter_st==0 and sort_st==0 and add_st==0 and del_st==0:
+            if not music_details[current_playing][2]=="":
+                can_lyrics.yview_scroll(int(-1*(val/120)), "units")
+
+                can_lyrics.coords(bg3,-10,-(50)+int(can_lyrics.canvasy(0)))
 
 
     if filter_st==1:
@@ -11775,7 +11832,7 @@ def draw_can_sort():
 
     can_sort.delete("all")
 
-    im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-160),int(can_sort["width"]),int(can_sort["height"]),15)
+    im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
 
     bg_sort=ImageTk.PhotoImage(im1)
     bg_sort_=ImageTk.PhotoImage(im2)
@@ -11901,7 +11958,7 @@ def draw_can_sort():
     can_sort.create_image(int(can_sort["width"])-5-20,5,image=cancel,anchor="nw")
 
 
-    can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-160)
+    can_sort.place(in_=root,x=10+25+15+25,y=h-20-30-15+5+10+2.5-150)
 
     shuff=0
     shuffle_st=0
@@ -11970,7 +12027,7 @@ def can_sort_b1(e):
 
 sort_st=0
 _sort=0
-can_sort=tk.Canvas(bg=_theme[1][1],width=250,height=160,relief="flat",highlightthickness=0,border=0,cursor="none")
+can_sort=tk.Canvas(bg=_theme[1][1],width=250,height=150,relief="flat",highlightthickness=0,border=0,cursor="none")
 
 can_sort.bind("<Button-1>",can_sort_b1)
 
@@ -12142,6 +12199,8 @@ up_theme=None
 sel_col=""
 settings_st2=0
 sett_m=0
+
+unchanged=0
 def can_settings_b1(e):
 
     global can_settings,theme_ent,sel_op_ent
@@ -12171,6 +12230,8 @@ def can_settings_b1(e):
     global op_ar
     global cte_txt1,cte_txt2
     global pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s,can,can2
+
+    global unchanged
 
 
 
@@ -12324,6 +12385,11 @@ def can_settings_b1(e):
 
         sel_col=str(te_var)
 
+        if te_var==_theme[0]:
+            unchanged=1
+        else:
+            unchanged=0
+
         con_theme=1
 
         _theme[2]=float(op1)
@@ -12354,7 +12420,7 @@ def can_settings_b1(e):
 
         #adjust_theme()
 
-        draw_settings()
+        #draw_settings()
 
         up_theme=threading.Thread(target=adjust_theme,daemon=True)
         up_theme.start()
@@ -13141,8 +13207,8 @@ def draw_settings(con=0):
 
 
 
-    can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40-1,
-        int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1+1,
+    can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40,
+        int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1,
         fill=_theme[0],outline="#000000")
 
 
@@ -13151,8 +13217,8 @@ def draw_settings(con=0):
     can_settings.create_image(int(can_settings["width"])/2+sz/2-30,int(can_settings["height"])-40,
         image=circle3,anchor="nw")
 
-    can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40,
-        int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1,
+    can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40+1,
+        int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1-1,
         fill=_theme[0],outline=_theme[0])
 
     can_settings.create_text(int(can_settings["width"])/2,int(can_settings["height"])-40+15,text="Save",
@@ -13832,7 +13898,7 @@ def conf_del_(file,con):
     global bg_del,bg_del_
     global del_st
 
-    pu_forget()
+    
 
     im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
 
@@ -13997,7 +14063,7 @@ def conf_del_(file,con):
 
 
 
-        draw_outline_text(conf_del,"Delete Lyrics",int(conf_del["width"])/2,15,"c",("FreeMono",13))
+        draw_outline_text(conf_del,"Delete Lyrics",int(conf_del["width"])/2,15+5,"c",("FreeMono",13))
 
 
         conf_del.create_text(int(conf_del["width"])/2,15+5,text="Delete Lyrics",
@@ -14062,7 +14128,7 @@ def can_search_kp(e):
 
     main()
 
-    root.after(0,update)
+    root.after(1,update)
 
 
 cs_i=[0,0]
@@ -14209,7 +14275,7 @@ def can_search_bs(e):
 
     main()
 
-    root.after(0,update)
+    root.after(1,update)
 
 def can_search_r(e):
     pass
@@ -14313,7 +14379,7 @@ def can_npl_kp(e):
             font=("FreeMono",13),anchor="w")
 
 
-    root.after(0,update)
+    root.after(1,update)
 
 
 cnpl_i=[0,0]
@@ -14459,7 +14525,7 @@ def can_npl_bs(e):
             font=("FreeMono",13),anchor="w")
 
 
-    root.after(0,update)
+    root.after(1,update)
 
 def can_npl_r(e):
     pass
@@ -14602,7 +14668,7 @@ def can_theme_ent_kp(e):
             te_border[1]=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
                 outline=_theme[0])
 
-    root.after(0,update)
+    root.after(1,update)
 
 
 
@@ -14834,7 +14900,7 @@ def can_theme_ent_bs(e):
                 outline=_theme[0])
 
 
-    root.after(0,update)
+    root.after(1,update)
 
 
 def can_theme_ent_r(e):
@@ -14928,10 +14994,110 @@ can_theme_ent_insert()
 
 
 
+cnxt_x1=w
+cnxt_v1,cnxt_v2=0,0
+nxt_st=0
+
+
+def det_nxt():
+    global mvar,_songs_,current_playing
+
+
+    txt="Empty!"
+
+
+    if mvar==len(_songs_)-1:
+
+        for s in _songs_:
+
+            if _songs_[mvar][0]==current_playing:
+
+                txt=_songs_[0][0]
+                break
+                
+
+
+
+    else:
+        for s in _songs_:
+
+            if _songs_[mvar][0]==current_playing:
+
+                txt=_songs_[mvar+1][0]
+
+                break
+
+    if current_playing=="":
+        txt="Empty!"
+
+    return txt
+
+def nxt_song():
+    global can
+    global cnxt_x1,cnxt_v1,cnxt_v2
+    global nxt_st
+    global mvar,_songs_
+    global current_playing
+    global _theme
+    global w,h
+
+
+
+    try:
+
+
+        f=font.Font(family="FreeMono",size=13)
 
 
 
 
+        if not det_nxt()=="Empty!":
+
+
+        
+            txt=det_nxt().replace(".mp3","")
+
+            
+
+            
+
+        else:
+
+            txt="Empty!"
+
+
+        l=f.measure("Up Next    "+txt)
+
+        if cnxt_x1<=-l:
+
+            cnxt_x1=w
+
+        
+        
+
+
+        if nxt_st==1:
+
+            if txt=="Empty!":
+                can.coords(cnxt_v2,-300,h-15)   
+                can.coords(cnxt_v1,cnxt_x1,h-15)
+            else:
+                can.coords(cnxt_v2,cnxt_x1,h-15)
+                can.coords(cnxt_v1,cnxt_x1+f.measure("Up Next    "),h-15)
+
+            can.itemconfig(cnxt_v1,text=txt)
+
+            cnxt_x1-=1
+
+    except:
+        pass
+
+
+
+    root.after(5,nxt_song)
+
+
+can_nxt=tk.Canvas(bg="#000000",width=w/2-10-150,height=30,relief="flat",highlightthickness=0,border=0)
 
 
 
@@ -14964,6 +15130,36 @@ check_pl()
 
 
 draw_wave()
+
+
+
+load_()
+update_bg_pos()
+
+
+check_sound_device()
+
+#update_sb()
+#update_sb2()
+
+check_cur_pos()
+move_bg()
+draw_cur()
+
+#draw_sel_theme()
+
+
+
+
+
+
+
+#update()
+check_up_theme()
+play_vid()
+vid_timer()
+check_theme_attr()
+nxt_song()
 
 
 try:
@@ -15000,31 +15196,6 @@ if playlist_st==0:
 default_font = tk.Label(root, text="Sample Text").cget("font")
 
 
-load_()
-update_bg_pos()
-
-
-check_sound_device()
-
-#update_sb()
-#update_sb2()
-
-check_cur_pos()
-move_bg()
-draw_cur()
-
-#draw_sel_theme()
-
-
-
-
-
-
-
-#update()
-check_up_theme()
-play_vid()
-vid_timer()
-check_theme_attr()
-
+main()
+draw_can()
 root.mainloop()
