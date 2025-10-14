@@ -591,7 +591,7 @@ def change_theme(pcol):
 
 
         
-        if i!="cursor.png" and con==0:
+        if i!="cursor.png" and i!="circle.png" and con==0:
 
             image_=darken_border(image_)
 
@@ -3410,7 +3410,7 @@ def can_b1(e):
 
         
 
-        cx,cy=w-10-25+12.5,(h-141+75)+((h-1)-(h-141+75)-25)/2+12.5
+        cx,cy=w-10-25+12.5,(h-141+75)+((h-1)-(h-141+75)-25)/2+12.5-10
 
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=e.y<=cy+12.5:
@@ -3448,7 +3448,7 @@ def can_b1(e):
         if 12.5<=e.y<=12.5+25:
 
 
-            
+            can_settings["height"]=h-200
             can_settings["width"]=int(can_settings["height"])*1.5
 
             _search=0
@@ -5291,7 +5291,10 @@ def draw_active(c,x,y,x2,sz,col):
     #draw_round_rec(can2,x+2,y+2, int(can2["width"])-1-2,y+50-2,10,col1,col1,1)
     #return
 
+    draw_round_rec(can2,x,y-1, x2-1,y+sz+1,10,"#000000","",1)
+
     x+=1
+    x2-=1
 
 
 
@@ -6440,7 +6443,7 @@ def main():
 
 
 
-                    can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y, (int(can2["width"])-sb_sz-1)/2+100,y+30-1,fill="#000000",outline="#000000")
+                    draw_round_rec(can2,(int(can2["width"])-sb_sz-1)/2-100-15-1,y-1,(int(can2["width"])-sb_sz-1)/2+100+15+1,y+30,15,"#000000","",1)
 
 
 
@@ -6448,7 +6451,7 @@ def main():
                     can2.create_image((int(can2["width"])-sb_sz-1)/2-100-15,y,image=circle3,anchor="nw")
                     can2.create_image((int(can2["width"])-sb_sz-1)/2+100-15,y,image=circle3,anchor="nw")
 
-                    can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y+1, (int(can2["width"])-sb_sz-1)/2+100,y+30-1-1,fill=col1,outline=col1)
+                    can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y, (int(can2["width"])-sb_sz-1)/2+100,y+30-1,fill=col1,outline=col1)
 
 
                     can2.create_text((int(can2["width"])-sb_sz-1)/2,y+15,text="Create New Playlist",font=("FreeMono",13),fill=_theme[1][1])
@@ -7625,9 +7628,7 @@ def draw_can(con=0):
         #can.create_image(w,0,image=b_g2_,anchor="ne")
 
 
-        can.create_image(0,0,image=b_g1,anchor="nw")
-        can.create_image(0,90+int(can2["height"]),image=b_g2,anchor="nw")
-        
+
         can.create_image(0,0,image=b_g1,anchor="nw")
         can.create_image(0,90+int(can2["height"]),image=b_g2,anchor="nw")
         
@@ -7786,13 +7787,14 @@ def draw_can(con=0):
                     if lyric_st==0:
 
 
-                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill="#000000",outline="#000000")
+
+                        draw_round_rec(can,x-40-1,y-1,x+40+1,y+30,15,"#000000","",1)
 
                         can.create_image(x-40,y,image=circle3,anchor="nw")
                         can.create_image(x+40-30,y,image=circle3,anchor="nw")
 
 
-                        can.create_rectangle(x-40+15,y+1, x+40-15,y+30-1-1, fill=col1,outline=col1)
+                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col1,outline=col1)
 
                         """
 
@@ -7812,7 +7814,9 @@ def draw_can(con=0):
 
                             if not music_details[current_playing][2]=="":
 
-                                can.create_image(x+40+5,y+15-4, image=circle7,anchor="nw")
+                                can.create_oval(x+40+5-1,y+15-4-1,x+40+5+8,y+15-4+8,outline="#000000")
+
+                                can.create_image(x+40+5,y+15-4, image=circle5,anchor="nw")
                         except:
                             pass
 
@@ -7820,14 +7824,15 @@ def draw_can(con=0):
 
 
 
-                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill="#000000",outline="#000000")
+                        draw_round_rec(can,x-40-1,y-1,x+40+1,y+30,15,"#000000","",1)
+
 
 
                         can.create_image(x-40,y,image=circle3,anchor="nw")
                         can.create_image(x+40-30,y,image=circle3,anchor="nw")
 
 
-                        can.create_rectangle(x-40+15,y+1, x+40-15,y+30-1-1, fill=col1,outline=col1)
+                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col1,outline=col1)
 
                         can.create_text(x,y+15,text="Lyrics",font=("FreeMono",13),fill=_theme[1][1])
 
@@ -8015,13 +8020,14 @@ def draw_can(con=0):
             col=_theme[1][1]
 
 
-            can.create_rectangle(x-60+15,50/2-15, x+60-15,50/2+15-1, fill="#000000",outline="#000000")
+            draw_round_rec(can,x-60-1,50/2-15-1,x+60+1,50/2-15+30,15,"#000000","",1)
+
 
             can.create_image(x-60,50/2-15,image=circle3,anchor="nw")
             can.create_image(x+60-30,50/2-15,image=circle3,anchor="nw")
 
 
-            can.create_rectangle(x-60+15,50/2-15+1, x+60-15,50/2+15-1-1, fill=col1,outline=col1)
+            can.create_rectangle(x-60+15,50/2-15, x+60-15,50/2+15-1, fill=col1,outline=col1)
 
 
 
@@ -8076,13 +8082,12 @@ def draw_can(con=0):
 
 
 
-                        can.create_rectangle(10+15,h-40-60-20-27-15+3+10+3+2+2-3+1+10, 10+15+length_in_pixels+30,h-40-60-20-27-15+3+10+3+2+2-3+30-1+1+10,
-                            fill="#000000",outline="#000000")
+                        draw_round_rec(can,10-1,h-40-60-20-27-15+3+10+3+2+2-3+1+10-1,10+15+length_in_pixels+30+15+1,h-40-60-20-27-15+3+10+3+2+2-3+1+10+30,15,"#000000","",1)
 
                         can.create_image(10,h-40-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
                         can.create_image(10+15+length_in_pixels+30-15,h-40-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
 
-                        can.create_rectangle(10+15,h-40-60-20-27-15+3+10+3+2+2-3+1+10+1, 10+15+length_in_pixels+30,h-40-60-20-27-15+3+10+3+2+2-3+30-1+1+10-1,
+                        can.create_rectangle(10+15,h-40-60-20-27-15+3+10+3+2+2-3+1+10, 10+15+length_in_pixels+30,h-40-60-20-27-15+3+10+3+2+2-3+30-1+1+10,
                             fill=col1,outline=col1)
 
 
@@ -8131,6 +8136,9 @@ def draw_can(con=0):
                 draw_outline_text(can,tot_tm,w-10,h-40-60-20+20+10+5-3+5-2+2,"e",("FreeMono",11))
                 can.create_text(w-10,h-40-60-20+20+10+5-3+5-2+2,text=tot_tm,font=("FreeMono",11),anchor="e",fill=col1)
 
+
+
+        can.create_oval(w/2-30-1,h-40-30-30+5+10-3-1,w/2-30+60,h-40-30-30+5+10-3+60,outline="#000000")
 
         can.create_image(w/2-30,h-40-30-30+5+10-3, image=circle,anchor="nw")
 
@@ -8315,12 +8323,12 @@ def draw_can(con=0):
         can2.delete("all")
         frame.place_forget()
         
-        yv=50+(((h-141)-50)-90)/2
+        yv=int(50+(((h-141)-50)-90)/2)
 
 
 
 
-        can.create_rectangle(w/2-80,yv, w/2+80,yv+30-1,fill="#000000",outline="#000000")
+        draw_round_rec(can,w/2-80-15-1,yv-1,w/2+80+15+1,yv+30,15,"#000000","",1)
 
 
 
@@ -8328,7 +8336,7 @@ def draw_can(con=0):
         can.create_image(w/2-80-15,yv, image=circle3,anchor="nw")
         can.create_image(w/2+80-15,yv, image=circle3,anchor="nw")
 
-        can.create_rectangle(w/2-80,yv+1, w/2+80,yv+30-1-1,fill=col1,outline=col1)
+        can.create_rectangle(w/2-80,yv, w/2+80,yv+30-1,fill=col1,outline=col1)
 
 
 
@@ -8338,14 +8346,14 @@ def draw_can(con=0):
 
 
 
-        can.create_rectangle(w/2-80,yv+60, w/2+80,yv+30-1+60,fill="#000000",outline="#000000")
+        draw_round_rec(can,w/2-80-15-1,yv-1+60,w/2+80+15+1,yv+30+60,15,"#000000","",1)
 
 
 
         can.create_image(w/2-80-15,yv+60, image=circle3,anchor="nw")
         can.create_image(w/2+80-15,yv+60, image=circle3,anchor="nw")
 
-        can.create_rectangle(w/2-80,yv+60+1, w/2+80,yv+30-1+60-1,fill=col1,outline=col1)
+        can.create_rectangle(w/2-80,yv+60, w/2+80,yv+30+60-1,fill=col1,outline=col1)
 
 
         can.create_text(w/2,yv+15+60,text="Add Audio File",fill=_theme[1][1],font=("FreeMono",13))
@@ -8360,14 +8368,14 @@ def draw_can(con=0):
 
         x=(w-(30+5+length_in_pixels))/2
 
-        can.create_image(x,(h-141+75)+((h-1)-(h-141+75))/2-11,image=playlist2,anchor="nw")
+        can.create_image(x,(h-141+75)+((h-1)-(h-141+75))/2-11-10,image=playlist2,anchor="nw")
 
 
-        draw_outline_text(can,playlist_select,x+30+5,(h-141+75)+((h-1)-(h-141+75))/2,"w",("FreeMono",13))
+        draw_outline_text(can,playlist_select,x+30+5,(h-141+75)+((h-1)-(h-141+75))/2-10,"w",("FreeMono",13))
 
-        can.create_text(x+30+5,(h-141+75)+((h-1)-(h-141+75))/2,text=playlist_select,font=("FreeMono",13),fill=col1,anchor="w")
+        can.create_text(x+30+5,(h-141+75)+((h-1)-(h-141+75))/2-10,text=playlist_select,font=("FreeMono",13),fill=col1,anchor="w")
 
-        can.create_image(w-10-25,(h-141+75)+((h-1)-(h-141+75)-25)/2,image=quit,anchor="nw")
+        can.create_image(w-10-25,(h-141+75)+((h-1)-(h-141+75)-25)/2-10,image=quit,anchor="nw")
 
 
 
@@ -9144,9 +9152,9 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
     if con==0:
 
-        c.create_polygon(ar,fill=col,outline=col2,width=width,smooth=True)
+        return c.create_polygon(ar,fill=col,outline=col2,width=width,smooth=True)
     elif con==1:    
-        c.create_line(ar,fill=col,width=width,smooth=True)
+        return c.create_line(ar,fill=col,width=width,smooth=True)
 
 
 
@@ -11560,6 +11568,7 @@ def draw_sb():
     can2.delete(sb[0])
     can2.delete(sb[1])
     can2.delete(sb[2])
+    can2.delete(sb[3])
     sb_col=_theme[0]
 
     h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
@@ -11567,10 +11576,10 @@ def draw_sb():
     #if not int(h)==int(can2["scrollregion"].split(" ")[-1]):
 
 
-
-    sb[0]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
-    sb[1]=can2.create_image(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+h-sb_sz-1),image=circle10,anchor="nw")
-    sb[2]=can2.create_rectangle(int(can2["width"])-sb_sz-1,can2.canvasy(sb_h+sb_sz/2),int(can2["width"])-1,can2.canvasy(sb_h+h-sb_sz/2-1),fill=sb_col,outline=sb_col)
+    sb[3]=draw_round_rec(can2,int(can2["width"])-sb_sz-1-1-1,can2.canvasy(sb_h)-1, int(can2["width"])-1,can2.canvasy(sb_h+h-sb_sz-1)+8,4,"#000000",col1,1)
+    sb[0]=can2.create_image(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
+    sb[1]=can2.create_image(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+h-sb_sz-1),image=circle10,anchor="nw")
+    sb[2]=can2.create_rectangle(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+sb_sz/2),int(can2["width"])-1-1,can2.canvasy(sb_h+h-sb_sz/2-1),fill=sb_col,outline=sb_col)
 
 
 
@@ -11588,7 +11597,7 @@ def sb_move(v1,v2):
     move_bg()
 
 
-sb=[0,0,0]
+sb=[0,0,0,0]
 sb_sz=6
 
 sb_col=_theme[0]
@@ -11697,12 +11706,13 @@ def draw_sb2():
     can3.delete(sb2[0])
     can3.delete(sb2[1])
     can3.delete(sb2[2])
+    can3.delete(sb2[3])
 
 
     h=int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])*int(can3["height"])
 
 
-
+    sb2[3]=draw_round_rec(can3,int(can3["width"])-sb2_sz-1-1-1,can3.canvasy(sb2_h)-1, int(can3["width"])-1,can3.canvasy(sb2_h+h-sb2_sz-1)+8,4,"#000000",col1,1)
 
     sb2[0]=can3.create_image(int(can3["width"])-sb2_sz-1-1,can3.canvasy(sb2_h),image=circle10,anchor="nw")
     sb2[1]=can3.create_image(int(can3["width"])-sb2_sz-1-1,can3.canvasy(sb2_h+h-sb2_sz-1),image=circle10,anchor="nw")
@@ -11723,7 +11733,7 @@ def sb2_move(v1,v2):
     move_bg()
 
 
-sb2=[0,0,0]
+sb2=[0,0,0,0]
 sb2_sz=6
 sb2_col=_theme[0]
 sb2_region=()
@@ -13226,18 +13236,17 @@ def draw_settings(con=0):
 
 
 
-    can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40,
-        int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1,
-        fill=_theme[0],outline="#000000")
 
+
+    draw_round_rec(can_settings,int(can_settings["width"])/2-sz/2-1,int(can_settings["height"])-40-1 ,int(can_settings["width"])/2+sz/2+1,int(can_settings["height"])-40+30,15,"#000000","",1)
 
     can_settings.create_image(int(can_settings["width"])/2-sz/2,int(can_settings["height"])-40,
         image=circle3,anchor="nw")
     can_settings.create_image(int(can_settings["width"])/2+sz/2-30,int(can_settings["height"])-40,
         image=circle3,anchor="nw")
 
-    can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40+1,
-        int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1-1,
+    can_settings.create_rectangle(int(can_settings["width"])/2-sz/2+15,int(can_settings["height"])-40,
+        int(can_settings["width"])/2+sz/2-15,int(can_settings["height"])-40+30-1,
         fill=_theme[0],outline=_theme[0])
 
     can_settings.create_text(int(can_settings["width"])/2,int(can_settings["height"])-40+15,text="Save",
@@ -13636,7 +13645,7 @@ def filter1_b1(e):
     ar=[None,"Favourites","Playlists","With Video","Most Played"]
 
 
-    y=10
+    y=0
 
     for a in ar:
 
