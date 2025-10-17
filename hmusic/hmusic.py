@@ -2074,8 +2074,8 @@ def add_playlist():
 
     can4.create_text(550/2,20,text="Playlists",font=("FreeMono",13),fill=col1)
 
-    can4.create_line(2,38,550-2,38,fill="#000000",width=3)
-    can4.create_line(2,38,550-2,38,fill=col1)
+    can4.create_line(0,38,550,38,fill="#000000",width=3)
+    can4.create_line(0,38,550,38,fill=col1)
 
     #draw_round_rec(can4,1,1 ,550-2,80,15,"#000000","",1,3)
     #draw_round_rec(can4,1,1 ,550-2,80,15,col1,"",1)
@@ -5291,7 +5291,7 @@ def draw_active(c,x,y,x2,sz,col):
     #draw_round_rec(can2,x+2,y+2, int(can2["width"])-1-2,y+50-2,10,col1,col1,1)
     #return
 
-    draw_round_rec(can2,x,y-1, x2-1,y+sz+1,10,"#000000","",1)
+    draw_round_rec(can2,x,y-1, x2-1,y+sz,10,"#000000","",1)
 
     x+=1
     x2-=1
@@ -6443,7 +6443,7 @@ def main():
 
 
 
-                    draw_round_rec(can2,(int(can2["width"])-sb_sz-1)/2-100-15-1,y-1,(int(can2["width"])-sb_sz-1)/2+100+15+1,y+30,15,"#000000","",1)
+                    draw_round_rec(can2,(int(can2["width"])-sb_sz-1)/2-100-15-1,y-1,(int(can2["width"])-sb_sz-1)/2+100+15,y+30,15,"#000000","",1)
 
 
 
@@ -6585,14 +6585,8 @@ def main():
                     songs=[]
 
 
-                    try:
+                    ar=playlist[current_playlist]
 
-
-                        ar=playlist[current_playlist]
-                    except:
-                        playlist_st=0
-                        main()
-                        return
 
                     songx=clean_songs(all_songs)
 
@@ -7655,9 +7649,9 @@ def draw_can(con=0):
 
     l=f.measure(sd)
 
-    cnxt_v1=can.create_text(cnxt_x1+f.measure("Up Next    ")+30+l,h-15+3,text=txt,font=("FreeMono",13),anchor="w",fill=_theme[0])
-    cnxt_v2=can.create_text(cnxt_x1+l,h-15+3,text="Up Next    ",font=("FreeMono",13),anchor="w",fill=_theme[1][0])
-    cnxt_v3=can.create_image(cnxt_x1+f.measure("Up Next    ")+l,h-15-10+3,image=musical_note3,anchor="nw")
+    cnxt_v1=can.create_text(cnxt_x1+f.measure("Up Next !    ")+30+l,h-15+3,text=txt,font=("FreeMono",13),anchor="w",fill=_theme[0])
+    cnxt_v2=can.create_text(cnxt_x1+l,h-15+3,text="Up Next !    ",font=("FreeMono",13),anchor="w",fill=_theme[1][0])
+    cnxt_v3=can.create_image(cnxt_x1+f.measure("Up Next !    ")+l,h-15-10+3,image=musical_note3,anchor="nw")
     cnxt_v4=can.create_text(cnxt_x1,h-15+3,text=sd,font=("FreeMono",13),anchor="w",fill=_theme[0])
 
     nxt_st=1
@@ -7788,7 +7782,7 @@ def draw_can(con=0):
 
 
 
-                        draw_round_rec(can,x-40-1,y-1,x+40+1,y+30,15,"#000000","",1)
+                        draw_round_rec(can,x-40-1,y-1,x+40,y+30,15,"#000000","",1)
 
                         can.create_image(x-40,y,image=circle3,anchor="nw")
                         can.create_image(x+40-30,y,image=circle3,anchor="nw")
@@ -7824,7 +7818,7 @@ def draw_can(con=0):
 
 
 
-                        draw_round_rec(can,x-40-1,y-1,x+40+1,y+30,15,"#000000","",1)
+                        draw_round_rec(can,x-40-1,y-1,x+40,y+30,15,"#000000","",1)
 
 
 
@@ -8020,7 +8014,7 @@ def draw_can(con=0):
             col=_theme[1][1]
 
 
-            draw_round_rec(can,x-60-1,50/2-15-1,x+60+1,50/2-15+30,15,"#000000","",1)
+            draw_round_rec(can,x-60-1,50/2-15-1,x+60,50/2-15+30,15,"#000000","",1)
 
 
             can.create_image(x-60,50/2-15,image=circle3,anchor="nw")
@@ -8082,7 +8076,7 @@ def draw_can(con=0):
 
 
 
-                        draw_round_rec(can,10-1,h-40-60-20-27-15+3+10+3+2+2-3+1+10-1,10+15+length_in_pixels+30+15+1,h-40-60-20-27-15+3+10+3+2+2-3+1+10+30,15,"#000000","",1)
+                        draw_round_rec(can,10-1,h-40-60-20-27-15+3+10+3+2+2-3+1+10-1,10+15+length_in_pixels+30+15,h-40-60-20-27-15+3+10+3+2+2-3+1+10+30,15,"#000000","",1)
 
                         can.create_image(10,h-40-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
                         can.create_image(10+15+length_in_pixels+30-15,h-40-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
@@ -8328,7 +8322,7 @@ def draw_can(con=0):
 
 
 
-        draw_round_rec(can,w/2-80-15-1,yv-1,w/2+80+15+1,yv+30,15,"#000000","",1)
+        draw_round_rec(can,w/2-80-15-1,yv-1,w/2+80+15,yv+30,15,"#000000","",1)
 
 
 
@@ -8346,7 +8340,7 @@ def draw_can(con=0):
 
 
 
-        draw_round_rec(can,w/2-80-15-1,yv-1+60,w/2+80+15+1,yv+30+60,15,"#000000","",1)
+        draw_round_rec(can,w/2-80-15-1,yv-1+60,w/2+80+15,yv+30+60,15,"#000000","",1)
 
 
 
@@ -8387,7 +8381,7 @@ def draw_can(con=0):
 
 
 
-        filter_can1["height"]=30*5
+        filter_can1["height"]=30+30*5
         filter_can1["width"]=250
 
 
@@ -8478,7 +8472,7 @@ def draw_can(con=0):
 
         
 
-        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,30*5,15)
+        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,30+30*5,15)
 
         bg_filt=ImageTk.PhotoImage(im1)
         bg_filt_=ImageTk.PhotoImage(im2)
@@ -8492,6 +8486,7 @@ def draw_can(con=0):
 
 
         filter_can1.coords(sel_filt1,0,-100)
+        
 
 
 
@@ -8502,7 +8497,13 @@ def draw_can(con=0):
 
         ar=[(none_l,None),(favourite2,"Favourites"),(playlist2,"Playlists"),(vid1,"With Video"),(most_played,"Most Played")]
 
-        y=0
+        draw_outline_text(filter_can1,"Filter",int(filter_can1["width"])/2,15,"c",("FreeMono",13))
+        filter_can1.create_text(int(filter_can1["width"])/2,15,text="Filter",font=("FreeMono",13),fill=_theme[0])
+
+        filter_can1.create_line(0,29,int(filter_can1["width"]),29,fill="#000000",width=3)
+        filter_can1.create_line(0,29,int(filter_can1["width"]),29,fill=_theme[0])
+
+        y=30
 
         for a in ar:
 
@@ -10006,12 +10007,12 @@ def check_cur_pos():
 
 
 
-                y=0
+                y=30
 
                 for _ in range(30*5):
 
 
-                    if y<10+30*5:
+                    if y<30+30*5:
 
                         if y<=y_-(40+30-10-5-5+30+10)+88<=y+30:
 
@@ -11960,8 +11961,8 @@ def draw_can_sort():
     can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
 
 
-    can_sort.create_line(3,30, 250-2,30,fill="#000000",width=3 )
-    can_sort.create_line(3,30, 250-2,30,fill=col1 )
+    can_sort.create_line(0,30, 250,30,fill="#000000",width=3 )
+    can_sort.create_line(0,30, 250,30,fill=col1 )
     y=30
     for _ in sa:
 
@@ -13238,7 +13239,7 @@ def draw_settings(con=0):
 
 
 
-    draw_round_rec(can_settings,int(can_settings["width"])/2-sz/2-1,int(can_settings["height"])-40-1 ,int(can_settings["width"])/2+sz/2+1,int(can_settings["height"])-40+30,15,"#000000","",1)
+    draw_round_rec(can_settings,int(can_settings["width"])/2-sz/2-1,int(can_settings["height"])-40-1 ,int(can_settings["width"])/2+sz/2,int(can_settings["height"])-40+30,15,"#000000","",1)
 
     can_settings.create_image(int(can_settings["width"])/2-sz/2,int(can_settings["height"])-40,
         image=circle3,anchor="nw")
@@ -13645,7 +13646,7 @@ def filter1_b1(e):
     ar=[None,"Favourites","Playlists","With Video","Most Played"]
 
 
-    y=0
+    y=30
 
     for a in ar:
 
@@ -13872,39 +13873,43 @@ def conf_del_b1(e):
 
                     can2["scrollregion"]=(0,0,(int(can2["width"])-sb_sz-1),int(can2["height"]))
 
+                    
+
+
                     if st==songs_status[0]:
                         if st==2:
                             if del_info[0]==songs_status[1]:
 
-                                try:
-                                    play_music("music/"+current_playing,tm,1)
-                                    pygame.mixer.quit()
-                                except:
-                                    pass
+
+                                if not current_playing=="":
+
+                                    try:
+                                        play_music("music/"+current_playing,tm,1)
+                                        pygame.mixer.quit()
+                                    except:
+                                        pass
 
 
                                 current_playing=""
                                 current_playlist=""
 
-                                playlist_st=0
-
-
                                 update_song_status()
 
-
-
+                                playlist_st=0
 
                     create_playlist(del_info[0],con=3)
+
+
+
+
+
+                    
 
 
                     
 
                     main()
 
-                    if st==songs_status[0]:
-                        if st==2:
-                            if current_playlist==songs_status[1]:
-                                update_song_status()
 
             elif del_info[1]=="lyrics":
 
@@ -15081,7 +15086,7 @@ def csong_det():
 
     pl=pl[:-2]
 
-    return n+",  Playlists { "+pl+" },  "
+    return n+",  Playlists | "+pl+" |,  "
 
 
 
@@ -15128,14 +15133,14 @@ def det_nxt():
     return txt
 
 nxt_tm=0
-up_nxt="Up Next"
+up_nxt="Up Next !"
 
 def nxt_style():
 
 
     global up_nxt,nxt_tm
 
-    up_nxt_="Up Next "
+    up_nxt_="Up Next ! "
 
     if nxt_tm>=len(up_nxt_):
         nxt_tm=0
@@ -15181,7 +15186,7 @@ def nxt_song():
 
 
 
-        l=f.measure("Up Next    "+txt)+30+l_
+        l=f.measure("Up Next !    "+txt)+30+l_
 
         if cnxt_x1<=-l:
 
@@ -15199,8 +15204,8 @@ def nxt_song():
 
 
             can.coords(cnxt_v2,cnxt_x1+l_,h-15+3)
-            can.coords(cnxt_v1,cnxt_x1+l_+f.measure("Up Next    ")+30,h-15+3)
-            can.coords(cnxt_v3,cnxt_x1+l_+f.measure("Up Next    "),h-15-10+3)
+            can.coords(cnxt_v1,cnxt_x1+l_+f.measure("Up Next !    ")+30,h-15+3)
+            can.coords(cnxt_v3,cnxt_x1+l_+f.measure("Up Next !    "),h-15-10+3)
             can.coords(cnxt_v4,cnxt_x1,h-15+3)
 
             can.itemconfig(cnxt_v2,text=up_nxt)
