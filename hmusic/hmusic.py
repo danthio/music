@@ -2289,6 +2289,56 @@ def add_playlist():
 
     draw_sb2()
 
+def play_nxt():
+    global mvar,_songs_,current_playing,tm,play_st,songs_status
+
+    main()
+
+
+    try:
+        con=0
+        if len(_songs_)==0:
+            con=1
+
+        elif len(_songs_)==1:
+            mvar=0
+        elif mvar==len(_songs_)-1:
+            mvar=0
+        else:
+            mvar=mvar
+
+
+        if con==1:
+
+            pygame.mixer.quit()
+            current_playing=""
+            play_st=0
+        else:
+
+            current_playing=_songs_[mvar][0]
+
+            tm=0
+
+            if play_st==0:
+
+                play_music("music/"+current_playing,tm,1)
+                pygame.mixer.quit()
+            else:
+
+                if songs_status[0]==st:
+
+                    if st==2:
+                        if current_playlist==songs_status[1]:
+                            play_music("music/"+current_playing,tm)
+
+                    else:
+                        play_music("music/"+current_playing,tm)
+    except:
+        pygame.mixer.quit()
+        current_playing=""
+        play_st=0
+    main()
+    move_to_playing(0)
 
 
 def can2_b1(e):
@@ -2675,47 +2725,10 @@ def can2_b1(e):
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=can2.canvasy(e.y)<=cy+12.5:
 
+
+
                 update_details(s[0],0)
-                main()
 
-                con_=0
-                
-
-
-                if songs_status[0]==1:
-                    if current_playing==s[0]:
-
-
-                        if len(_songs_)==1:
-                            mvar=0
-                        elif mvar==len(_songs_)-1:
-                            mvar=0
-                        else:
-                            mvar=mvar+1
-
-
-                        current_playing=_songs_[mvar][0]
-
-                        tm=0
-
-                        if play_st==0:
-
-                            play_music("music/"+current_playing,tm,1)
-                            pygame.mixer.quit()
-                        else:
-                            play_music("music/"+current_playing,tm)
-
-
-
-
-
-                        if len(_songs_)==1:
-                            current_playing=""
-                        
-                        songs_status[-1]=current_playing
-
-                        con_=1
-                main()
 
 
                 st_=st
@@ -2729,6 +2742,26 @@ def can2_b1(e):
 
                 main()
 
+
+
+                if st==1 or filter_val=="Favourites":
+
+                    if music_details[s[0]][0]==0:
+
+
+                        if st==songs_status[0]:
+
+                            if st==2:
+
+                                if current_playlist==songs_status[1]:
+
+                                    play_nxt()
+
+                            else:
+                                play_nxt()
+
+
+
                 st=st_
                 current_playlist=cp
                 playlist_st=p
@@ -2736,28 +2769,11 @@ def can2_b1(e):
 
                 main()
 
-                if songs_status[0]==1:
-                    if con_==1:
-
-                        move_to_playing()
 
 
 
 
-                con=0
 
-
-                for s in _songs_:
-
-                    if s[0]==current_playing:
-                        con=1
-                        break
-
-
-                if con==0:
-
-                    pygame.mixer.quit()
-                    current_playing=""
 
 
                 if st==songs_status[0]:
@@ -13828,6 +13844,7 @@ def filter1_b1(e):
 
                     if con==0:
 
+
                         pygame.mixer.quit()
                         current_playing=""
 
@@ -13868,6 +13885,7 @@ def filter2_b1(e):
                         con=1
 
                 if con==0:
+
 
                     pygame.mixer.quit()
                     current_playing=""
@@ -13944,6 +13962,12 @@ def conf_del_b1(e):
                 conn=0
 
 
+
+
+
+
+
+
                 if current_playing==song_:
 
 
@@ -13981,7 +14005,6 @@ def conf_del_b1(e):
 
 
                     
-                    songs_status[-1]=current_playing
 
 
                     conn=1
