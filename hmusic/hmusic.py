@@ -2594,7 +2594,7 @@ def can2_b1(e):
 
 
 
-                if f1_=="Favourites":
+                if f1_=="Favourites" or songs_status[0]==1:
 
                     if music_details[s[0]][0]==0:
 
