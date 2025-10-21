@@ -1935,7 +1935,7 @@ def can3_b1(e):
         if p[2]<=can3.canvasy(e.y)<=p[2]+50:
 
             create_playlist(p[0],1,p[1])
-            main()
+
 
 
             if current_playing==p[1]:
@@ -1948,59 +1948,13 @@ def can3_b1(e):
 
 
 
+                        for s_ in range(len(_songs_)):
 
-                        cp=p[1]
-
-
-                        
-
-
-
-
-
-                        ar=[]
-                        for s in range(len(_songs_)):
-
-                            if cp==_songs_[s][0]:
-
-                                ar.append(s)
-
-                        for p in ar:
-                            _songs_.pop(p)
-
-                        if len(_songs_)==1:
-                            mvar=0
-                        elif len(_songs_)==0:
-
-                            current_playing=""
-                            pygame.mixer.quit()
-                        elif mvar==len(_songs_):
-                            mvar=0
-
-                        if not current_playing=="":
-
-
-                            current_playing=_songs_[mvar][0]
-
-                            tm=0
-
-                            
-
-                            if play_st==0:
-                                play_music("music/"+current_playing,tm,1)
+                            if _songs_[s_][0]==current_playing:
                                 pygame.mixer.quit()
-                            else:
-                                play_music("music/"+current_playing,tm)
-
-                            move_to_playing()
-
-
-
-
-
-
-                            
-                        songs_status[-1]=current_playing
+                                current_playing=""
+                                songs_status[-1]=""
+                                break
 
 
 
@@ -2291,56 +2245,6 @@ def add_playlist():
 
     draw_sb2()
 
-def play_nxt():
-    global mvar,_songs_,current_playing,tm,play_st,songs_status
-
-    main()
-
-
-    try:
-        con=0
-        if len(_songs_)==0:
-            con=1
-
-        elif len(_songs_)==1:
-            mvar=0
-        elif mvar==len(_songs_)-1:
-            mvar=0
-        else:
-            mvar=mvar
-
-
-        if con==1:
-
-            pygame.mixer.quit()
-            current_playing=""
-            play_st=0
-        else:
-
-            current_playing=_songs_[mvar][0]
-
-            tm=0
-
-            if play_st==0:
-
-                play_music("music/"+current_playing,tm,1)
-                pygame.mixer.quit()
-            else:
-
-                if songs_status[0]==st:
-
-                    if st==2:
-                        if current_playlist==songs_status[1]:
-                            play_music("music/"+current_playing,tm)
-
-                    else:
-                        play_music("music/"+current_playing,tm)
-    except:
-        pygame.mixer.quit()
-        current_playing=""
-        play_st=0
-    main()
-    move_to_playing(0)
 
 
 def can2_b1(e):
@@ -2426,58 +2330,13 @@ def can2_b1(e):
 
 
 
+                            for s_ in range(len(_songs_)):
 
-                            cp=songs2[a][0]
-
-
-                            
-
-
-
-
-
-                            ar=[]
-                            for s in range(len(_songs_)):
-
-                                if cp==_songs_[s][0]:
-
-                                    ar.append(s)
-
-                            for p in ar:
-                                _songs_.pop(p)
-
-                            if len(_songs_)==1:
-                                mvar=0
-                            elif len(_songs_)==0:
-
-                                current_playing=""
-                                pygame.mixer.quit()
-
-                            elif mvar==len(_songs_):
-                                mvar=0
-
-                            if not current_playing=="":
-
-
-                                current_playing=_songs_[mvar][0]
-
-                                tm=0
-
-                                
-
-                                if play_st==0:
-                                    play_music("music/"+current_playing,tm,1)
+                                if _songs_[s_][0]==current_playing:
                                     pygame.mixer.quit()
-                                else:
-                                    play_music("music/"+current_playing,tm)
-
-
-
-
-
-
-                                
-                            songs_status[-1]=current_playing
+                                    current_playing=""
+                                    songs_status[-1]=""
+                                    break
 
 
 
@@ -2733,61 +2592,22 @@ def can2_b1(e):
 
 
 
-                st_=st
-                cp=current_playlist
-                p=playlist_st
 
 
-                st=songs_status[0]
-                current_playlist=songs_status[1]
-                playlist_st=1
-
-                main()
-
-
-
-                if st==1 or filter_val=="Favourites":
+                if f1_=="Favourites":
 
                     if music_details[s[0]][0]==0:
 
 
-                        if st==songs_status[0]:
+                        for s_ in range(len(_songs_)):
 
-                            if st==2:
-
-                                if current_playlist==songs_status[1]:
-
-                                    play_nxt()
-
-                            else:
-                                play_nxt()
+                            if _songs_[s_][0]==current_playing:
+                                pygame.mixer.quit()
+                                current_playing=""
+                                songs_status[-1]=""
+                                break
 
 
-
-                st=st_
-                current_playlist=cp
-                playlist_st=p
-
-
-                main()
-
-
-
-
-
-
-
-
-                if st==songs_status[0]:
-
-                    if st==2:
-
-                        if current_playlist==songs_status[1]:
-
-                            update_song_status()
-
-                    else:
-                        update_song_status()
 
 
                 main()
@@ -9597,7 +9417,7 @@ def load_im():
 
 
 def check_pl():
-    global npl,plv,can2,playlist_st,st,_npl,can_npl
+    global npl,plv,can2,playlist_st,st,_npl,npl_var,can_npl
 
     if st==2 and playlist_st==0:
 
@@ -9616,6 +9436,10 @@ def check_pl():
                 else:
 
                     can_npl.place_forget()
+    else:
+        _npl=0
+        npl_var=""
+        can_npl.place_forget()
 
 
     root.after(10,check_pl)
@@ -13821,7 +13645,7 @@ def filter1_b1(e):
 
     global filter_val,filter_pl
     global current_playing
-    global _songs_
+    global _songs_,songs_status
     global st
     global sort_ar,sort_val,shuffle_st,shuff,select_st
 
@@ -13878,6 +13702,7 @@ def filter1_b1(e):
 
                         pygame.mixer.quit()
                         current_playing=""
+                        songs_status[-1]=""
 
             main()
             move_to_playing()
@@ -13928,6 +13753,7 @@ def filter2_b1(e):
 
                     pygame.mixer.quit()
                     current_playing=""
+                    songs_status[-1]=""
 
             main()
             move_to_playing()
@@ -13974,81 +13800,16 @@ def conf_del_b1(e):
 
 
 
-                p_=play_st
-                
 
-                if songs_status[0]==st:
-                    if songs_status[1]==current_playlist:
-
-                        if current_playing==song_:
-                            play_st=0
-                            pygame.mixer.quit() 
-                    else:
                         
-                        if current_playing==song_:
-                            play_st=0
-                            pygame.mixer.quit() 
+                if current_playing==song_:
+                    play_st=0
+                    pygame.mixer.quit()
+                    current_playing=""
+                    songs_status[-1]=""
 
 
                 os.remove(del_info[0])
-
-
-                play_st=p_
-
-
-
-
-                conn=0
-
-
-
-
-
-
-
-
-                if current_playing==song_:
-
-
-
-                    if len(_songs_)==1:
-                        mvar=0
-                    elif mvar==len(_songs_)-1:
-                        mvar=0
-                    else:
-                        mvar=mvar+1
-
-
-                    current_playing=_songs_[mvar][0]
-
-                    tm=0
-
-
-
-                    if len(_songs_)==1:
-                        pygame.mixer.quit()
-                        current_playing=""
-
-                    else:
-
-
-                        if play_st==0:
-
-                            play_music("music/"+current_playing,tm,1)
-                            pygame.mixer.quit()
-                        elif play_st==1:
-
-                            play_music("music/"+current_playing,tm)
-
-
-
-
-                    
-
-
-                    conn=1
-
-
 
 
 
@@ -14059,8 +13820,6 @@ def conf_del_b1(e):
 
                 main()
 
-                if conn==1:
-                    move_to_playing()
 
             elif del_info[1]=="video":
 
