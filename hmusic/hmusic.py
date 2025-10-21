@@ -1315,7 +1315,7 @@ def check_sound_device():
         )
         volume = interface.QueryInterface(IAudioEndpointVolume)
 
-    root.after(2,check_sound_device)
+    root.after(20,check_sound_device)
 
 
 music_details={}
@@ -2019,6 +2019,8 @@ def can4_b1(e):
 
     if r<=11:
         pu_forget()
+
+        main()
 
 song_add_pl=0
 bgp=0
@@ -3059,6 +3061,24 @@ def move_to_playing(con_=0):
     global sb_h
 
 
+    con=0
+    if st==songs_status[0]:
+
+        if st==2:
+
+            if current_playlist==songs_status[1]:
+
+                con=1
+
+        else:
+            con=1
+
+    if con_!=2:
+
+        if con==0:
+
+            return
+
     try:
 
         if select_st==1:
@@ -3167,7 +3187,7 @@ def can_b3(e):
 
 
     #capture_canvas()
-    move_to_playing()
+    move_to_playing(2)
 
 
 
@@ -5586,7 +5606,7 @@ def main():
 
 
         bg2=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg,anchor="nw")
-        bg_styl1=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg_styl__,anchor="nw")
+        #bg_styl1=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg_styl__,anchor="nw")
         #bg_styl2=can2.create_image(int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)),image=b_g2_,anchor="ne")
 
         ar=[]
@@ -7811,7 +7831,7 @@ def draw_can(con=0):
 
     if vid_st==0:
 
-        can.create_image(0,0,image=bg_styl__,anchor="nw")
+        pass#can.create_image(0,0,image=bg_styl__,anchor="nw")
 
     else:
 
@@ -8877,7 +8897,18 @@ def draw_can(con=0):
 
 
                 draw_outline_text(filter_can2,p,10,y+15,"w",("FreeMono",13))
-                filter_can2.create_text(10,y+15,text=p,font=("FreeMono",13),fill=_theme[0],anchor="w")
+                col=_theme[0]
+
+
+                if st==2:
+
+                    if current_playlist==p:
+
+                        if select_st==0:
+
+                            col=_theme[1][0]
+
+                filter_can2.create_text(10,y+15,text=p,font=("FreeMono",13),fill=col,anchor="w")
 
                 if filter_pl==p:
                     pp=y
@@ -9186,7 +9217,7 @@ def show_lyrics():
                     can_lyrics.delete("all")
 
                     bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg,anchor="nw")
-                    bg_styl2=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg_styl__,anchor="nw")
+                    #bg_styl2=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg_styl__,anchor="nw")
 
 
                     
@@ -9541,12 +9572,12 @@ def load_im():
 
 
 
-    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,150)))
+    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,190)))
 
-    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,150)))
+    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,190)))
 
 
-    b_g1_=ImageTk.PhotoImage(Image.new("RGBA",(w,30),(0,0,0,150)))
+    b_g1_=ImageTk.PhotoImage(Image.new("RGBA",(w,30),(0,0,0,190)))
 
 
 
@@ -9587,7 +9618,7 @@ def check_pl():
                     can_npl.place_forget()
 
 
-    root.after(2,check_pl)
+    root.after(10,check_pl)
 
 
 
@@ -10021,7 +10052,7 @@ def check_cur_pos():
 
             if y_<0 or y_>int(can2["height"]):
 
-                root.after(2,check_cur_pos)
+                root.after(10,check_cur_pos)
                 return
 
             if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
@@ -10231,7 +10262,7 @@ def check_cur_pos():
 
             if y_<0 or y_>int(can2["height"]):
 
-                root.after(2,check_cur_pos)
+                root.after(10,check_cur_pos)
                 return
 
 
@@ -11013,7 +11044,7 @@ def move_bg():
 
 
             can2.coords(bg2,-10,-(90-2)+int(can2.canvasy(0)))
-            can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
+            #can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
             #can2.coords(bg_styl2,int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)))
 
             sb_h=can2.canvasy(0)*int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])
@@ -11030,7 +11061,7 @@ def move_bg():
 
 
             can_lyrics.coords(bg2,-10,-(50)+int(can_lyrics.canvasy(0)))
-            can_lyrics.coords(bg_styl2,-10,-(50)+int(can_lyrics.canvasy(0)))
+            #can_lyrics.coords(bg_styl2,-10,-(50)+int(can_lyrics.canvasy(0)))
 
             y2=can_lyrics.canvasy(0)
 
@@ -11106,7 +11137,7 @@ def scroll(val):
             can2.yview_scroll(int(-1*(val/120)), "units")
 
             can2.coords(bg2,-10,-(90-2)+int(can2.canvasy(0)))
-            can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
+            #can2.coords(bg_styl1,-10,-(90-2)+int(can2.canvasy(0)))
             #can2.coords(bg_styl2,int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)))
 
             
@@ -11137,7 +11168,7 @@ def scroll(val):
                 can_lyrics.yview_scroll(int(-1*(val/120)), "units")
 
                 can_lyrics.coords(bg3,-10,-(50)+int(can_lyrics.canvasy(0)))
-                can_lyrics.coords(bg_styl2,-10,-(50)+int(can_lyrics.canvasy(0)))
+                #can_lyrics.coords(bg_styl2,-10,-(50)+int(can_lyrics.canvasy(0)))
 
 
     if filter_st==1:
@@ -11842,7 +11873,7 @@ def update_sb2():
 
 
 
-    root.after(2,update_sb2)
+    root.after(20,update_sb2)
 
 
 def draw_sb2():
@@ -12172,6 +12203,7 @@ def can_sort_b1(e):
     if r<=11:
 
         pu_forget()
+        main()
 
         return
 
@@ -12432,7 +12464,7 @@ def can_settings_b1(e):
             can.delete(pu_bg1_s)
             can2.delete(pu_bg2_s)
 
-            draw_can()
+            main()
 
             return
 
@@ -13859,7 +13891,7 @@ def filter1_b1(e):
         y+=30
 def filter2_b1(e):
     global filter_pl
-    global current_playing
+    global current_playing,songs_status,select_st
     global _songs_
 
     y=0
@@ -13867,6 +13899,14 @@ def filter2_b1(e):
 
     for pl in playlist:
         if y<=filter_can2.canvasy(e.y)<=y+30:
+
+
+            if st==2:
+
+                if current_playlist==pl:
+
+                    if select_st==0:
+                        return
 
             filter_pl=pl
 
@@ -14082,7 +14122,7 @@ def conf_del_b1(e):
         del_st=0
         conf_del.delete("all")
         conf_del.place_forget()
-        draw_can()
+        main()
 
 
 
@@ -14361,7 +14401,6 @@ def can_search_kp(e):
 
     main()
 
-    root.after(2,update)
 
 
 cs_i=[0,0]
@@ -14474,7 +14513,6 @@ def can_search_bs(e):
 
     can_search_txt()
 
-    root.after(2,update)
 
 def can_search_r(e):
     pass
@@ -14694,7 +14732,6 @@ def can_npl_insert():
 
         cnpl_i_st=1
 
-    root.after(150,can_npl_insert)
 
 def can_npl_b1(e):
     global can_npl
