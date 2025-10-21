@@ -587,7 +587,7 @@ def change_theme(pcol):
 
                 #print(col,pixels[x_,y_])
 
-            root.after(1,update)
+            root.after(2,update)
 
 
         
@@ -610,7 +610,7 @@ def change_theme(pcol):
             im3.save("data/"+i_[0]+".png")
 
 
-            root.after(1,update)
+            root.after(2,update)
 
 
 
@@ -1135,11 +1135,11 @@ def convert_folder_to_audio():
 
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-                    root.after(1,update)
+                    root.after(2,update)
 
 
                 except:
-                    root.after(1,update)
+                    root.after(2,update)
                     
 
 
@@ -1246,11 +1246,11 @@ def convert_file_to_audio():
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
-                    root.after(1,update)
+                    root.after(2,update)
                     
 
                 except:
-                    root.after(1,update)
+                    root.after(2,update)
                     
 
 
@@ -7817,7 +7817,6 @@ def draw_can(con=0):
 
         if vid_st2==0:
         
-
             can.create_image(0,h-30,image=b_g1_,anchor="nw")
 
 
@@ -7830,8 +7829,6 @@ def draw_can(con=0):
     else:
 
         txt="Not found!"
-
-
 
     #cnxt_x1=w-500
     f=font.Font(family="FreeMono",size=13)
@@ -7848,6 +7845,8 @@ def draw_can(con=0):
     cnxt_v4=can.create_text(cnxt_x1,h-15,text=sd,font=("FreeMono",13),anchor="w",fill=_theme[0])
 
     nxt_st=1
+
+
 
 
     def draw_round_rec2(c,x,y,x2,y2,r,col):
@@ -9958,7 +9957,7 @@ def draw_cur():
 
 
 
-    root.after(2,draw_cur)
+    root.after(10,draw_cur)
 
 
 def check_cur_pos():
@@ -10092,7 +10091,7 @@ def check_cur_pos():
 
                         draw_cur_()
                         break
-            root.after(5,check_cur_pos)
+            root.after(10,check_cur_pos)
             return
 
 
@@ -10116,7 +10115,7 @@ def check_cur_pos():
                             can_sort.coords(cso_im,0,y)
 
                     y+=30
-            root.after(5,check_cur_pos)
+            root.after(10,check_cur_pos)
             return
 
 
@@ -10247,7 +10246,7 @@ def check_cur_pos():
 
                         can2.coords(cp_im,0,y)
                         break
-            root.after(5,check_cur_pos)
+            root.after(10,check_cur_pos)
             return
 
 
@@ -10266,7 +10265,7 @@ def check_cur_pos():
 
                     if y_<0 or y_>int(can2["height"]):
 
-                        root.after(2,check_cur_pos)
+                        root.after(10,check_cur_pos)
                         return
 
                     if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
@@ -10372,7 +10371,7 @@ def check_cur_pos():
 
 
 
-    root.after(5,check_cur_pos)
+    root.after(10,check_cur_pos)
 
 
 def can_label(x,y):
@@ -10559,7 +10558,7 @@ def convert_(im,col):
 
             pixels[x,y]=(r,g,b,255)
 
-        root.after(1,update)
+        root.after(2,update)
 
     return image
 
@@ -10982,7 +10981,7 @@ def adjust_theme():
     #subprocess.run(command, check=True, capture_output=True, text=True)
 
 
-    root.after(1,update)
+    root.after(2,update)
     adj_st=1
 
 
@@ -14362,7 +14361,7 @@ def can_search_kp(e):
 
     main()
 
-    root.after(1,update)
+    root.after(2,update)
 
 
 cs_i=[0,0]
@@ -14475,7 +14474,7 @@ def can_search_bs(e):
 
     can_search_txt()
 
-    root.after(1,update)
+    root.after(2,update)
 
 def can_search_r(e):
     pass
@@ -15523,7 +15522,7 @@ def nxt_song():
 
 
 
-    root.after(4,nxt_song)
+    root.after(10,nxt_song)
 
 
 can_nxt=tk.Canvas(bg="#000000",width=w/2-10-150,height=30,relief="flat",highlightthickness=0,border=0)
