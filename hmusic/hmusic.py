@@ -8102,7 +8102,7 @@ def draw_can(con=0):
                         current_playlist_=songs_status[1]
 
                         
-                        length_in_pixels = get_text_length(can, current_playlist_, "FreeMono", 12) 
+                        length_in_pixels = get_text_length(can, current_playlist_, "FreeMono", 13) 
 
 
 
@@ -15420,7 +15420,37 @@ if playlist_st==0:
 default_font = tk.Label(root, text="Sample Text").cget("font")
 
 
+def update_nxt():
+    global can,cnxt_v1,cnxt_v2,cnxt_v4,nxt_l
+
+    if not det_nxt()=="Not found!":
+
+
+    
+        txt=det_nxt().replace(".mp3","")
+
+    else:
+
+        txt="Not found!"
+
+
+
+    f=font.Font(family="FreeMono",size=13)
+
+    sd=csong_det()
+
+    l=f.measure(sd)
+
+    nxt_l=[f.measure("Up Next !    "+txt)+30+l,l]
+
+    can.itemconfig(cnxt_v1,text=txt)
+    can.itemconfig(cnxt_v4,text=sd)
+
+
+    root.after(1000,update_nxt)
+
 main()
 draw_can()
 nxt_style()
+update_nxt()
 root.mainloop()
