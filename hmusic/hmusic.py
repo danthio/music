@@ -3913,42 +3913,39 @@ def can_b1(e):
         r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
         if r<=30:
 
-            if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+            if current_playing=="":
                 pass
             else:
 
-                if not current_playing=="":
 
-                    if pp==0:
-                        pp=1
-                        play_st=1
+                if play_st==0:
+                    play_st=1
 
-                        paused=False
+                    paused=False
 
-                        tts=tm
+                    tts=tm
 
-                        if tm>0:
-                            play_music("music/"+current_playing,tm,1)
+                    if tm>0:
+                        play_music("music/"+current_playing,tm,1)
 
-                        else:
-                            play_music("music/"+current_playing,tm)
+                    else:
+                        play_music("music/"+current_playing,tm)
 
 
-                        if play_video_st==1:
-                            play_vid(tm)
-                        main()
-                    elif pp==1:
-                        play_st=0
+                    if play_video_st==1:
+                        play_vid(tm)
+                    main()
+                elif play_st==1:
+                    play_st=0
 
-                        paused=True
-                        pp=0
-                        
+                    paused=True
+                    
 
-                        pygame.mixer.quit()
+                    pygame.mixer.quit()
 
-                        prog(0)
+                    prog(0)
 
-                        main()
+                    main()
 
 
 
@@ -3964,9 +3961,6 @@ def can_b1(e):
             if cy-12.5<=e.y<=cy+12.5:
 
 
-
-                if st==2 and playlist_st==0 and pl_st==0:
-                    return
 
 
                 if current_playing=="":
@@ -4036,10 +4030,6 @@ def can_b1(e):
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=e.y<=cy+12.5:
 
-
-
-                if st==2 and playlist_st==0 and pl_st==0:
-                    return
 
 
                 if current_playing=="":
@@ -7977,11 +7967,11 @@ def draw_can(con=0):
 
                     can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
 
-            can.create_line(10-1,90-5,w-10+1,90-5,fill="#000000",width=3)
-            can.create_line(10,90-5,w-10,90-5,fill=_theme[0],width=1)
+            #can.create_line(10-1,90-5,w-10+1,90-5,fill="#000000",width=3)
+            #can.create_line(10,90-5,w-10,90-5,fill=_theme[0],width=1)
 
             can.create_line(10-1,90+int(can2["height"]),w-10+1,90+int(can2["height"]),fill="#000000",width=3)
-            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[0],width=1)
+            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[1][1],width=1)
 
             frame.place(in_=root,x=10,y=90-1-1)
 
@@ -11056,40 +11046,36 @@ def play_pause(e):
 
 
 
-    if st==2 and playlist_st==0 and pl_st==0 and current_playing=="":
+    if current_playing=="":
         pass
 
     else:
 
-        if not current_playing=="":
+        if play_st==0:
+            play_st=1
 
-            if pp==0:
-                pp=1
-                play_st=1
+            tts=tm
 
-                tts=tm
+            if tm>0:
+                play_music("music/"+current_playing,tm,1)
 
-                if tm>0:
-                    play_music("music/"+current_playing,tm,1)
+            else:
+                play_music("music/"+current_playing,tm)
 
-                else:
-                    play_music("music/"+current_playing,tm)
+            paused=False
 
-                paused=False
+            main()
+        elif play_st==1:
+            play_st=0
+            
 
-                main()
-            elif pp==1:
-                play_st=0
-                pp=0
-                
+            pygame.mixer.quit()
 
-                pygame.mixer.quit()
+            prog(0)
 
-                prog(0)
+            main()
 
-                main()
-
-                paused=True
+            paused=True
 
 
 
@@ -11106,8 +11092,6 @@ def play_next(e):
     global playlist_st,current_playlist,songs_status
 
 
-    if st==2 and playlist_st==0 and pl_st==0:
-        return
 
     if current_playing=="":
         return
@@ -11181,8 +11165,7 @@ def play_previous(e):
     global playlist_st,current_playlist,songs_status
 
 
-    if st==2 and playlist_st==0 and pl_st==0:
-        return
+
 
     if current_playing=="":
         return
