@@ -730,6 +730,12 @@ if directory_path.is_dir():
 else:
     os.makedirs("videos", exist_ok=True)
 
+directory_path = Path("data/backup")
+
+if directory_path.is_dir():
+    pass
+else:
+    os.makedirs("data/backup", exist_ok=True)
 
 
 def minimize_window():
@@ -1337,7 +1343,16 @@ def update_details(s="",con=-1,_lyric_=""):
 
 
         except:
-            data={}
+
+
+
+            try:
+
+                with open("data/backup/music_details.json", "r") as file:
+                    data = json.load(file)
+            except:
+
+                data={}
 
 
 
@@ -1453,7 +1468,14 @@ def create_playlist(pl="",con="",song=""):
 
 
         except:
-            data={}
+
+            try:
+
+                with open("data/backup/playlist.json", "r") as file:
+                    data = json.load(file)
+            except:
+
+                data={}
 
 
         all_songs = os.listdir("music")
@@ -1552,6 +1574,33 @@ def save():
         json.dump(data, file, indent=4) 
 
 
+
+    with open("data/music_details.json","r") as file:
+
+        data=json.load(file)
+
+        if not len(data)==0:
+
+            shutil.copy("data/music_details.json","data/backup")
+
+
+
+    with open("data/playlist.json","r") as file:
+
+        data=json.load(file)
+
+        if not len(data)==0:
+
+            shutil.copy("data/playlist.json","data/backup")
+
+
+    with open("data/save.json","r") as file:
+
+        data=json.load(file)
+
+        if not len(data)==0:
+
+            shutil.copy("data/save.json","data/backup")
 
 
 
@@ -8841,14 +8890,6 @@ def draw_can(con=0):
         pu_bg2_=can2.create_image(0,can2.canvasy(0),image=pu_bg2,anchor="nw")
 
 
-        if vid_st==0:
-
-            can.create_image(0,0,image=bg_styl__,anchor="nw")
-
-            can2.delete(bg_styl1)
-            bg_styl1=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg_styl__,anchor="nw")
-
-
 
 
         if filter_st==1:
@@ -8887,9 +8928,6 @@ def draw_can(con=0):
 
             if vid_st==0:
                 can_lyrics.delete(bg_styl2)
-
-                bg_styl2=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg_styl__,anchor="nw")
-
 
 
 
