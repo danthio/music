@@ -1871,25 +1871,7 @@ def timer():
             if tm+0.5>=tot_tm_ or get_playback_time()<0:
 
 
-                st_=st
-                cp=current_playlist
-                p=playlist_st
 
-
-                st=songs_status[0]
-                current_playlist=songs_status[1]
-                playlist_st=1
-
-                main()
-
-                st=st_
-                current_playlist=cp
-                playlist_st=p
-
-
-
-
-                play_video_st=0
                 
 
                 if loop==0:
