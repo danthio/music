@@ -7910,7 +7910,7 @@ def draw_can(con=0):
             r=15
             xx,yy=int((w/2-10-50)),70
 
-            im1=round_im("#000000","#000000",0.4,xx,yy,r,1)
+            im1=round_im("#000000","#000000",0.5,xx,yy,r,1)
 
             im2=round_im(_theme[0],_theme[0],0.1,xx,yy,r,1)
 
@@ -7923,7 +7923,7 @@ def draw_can(con=0):
 
             if vid_st2==1:
 
-                y=h-121-30-yy
+                y=h-121-20-yy
             else:
                 y=h-121-30-20-yy
 
@@ -9454,9 +9454,9 @@ def load_im():
 
 
 
-    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,int(round(0.4*255,0)))))
+    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,int(round(0.5*255,0)))))
 
-    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,int(round(0.4*255,0)))))
+    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,int(round(0.5*255,0)))))
 
 
     col=hex_to_rgb(_theme[0])
