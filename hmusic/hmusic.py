@@ -1871,24 +1871,15 @@ def timer():
             if tm+0.5>=tot_tm_ or get_playback_time()<0:
 
 
-
-                
+              
 
                 if loop==0:
                     mvar+=1
-                add_st=0
-                can4.delete("all")
-                can3.delete("all")
-                can6.delete("all")
-
-                frame2.place_forget()
                 
 
+                    if mvar>=len(_songs_):
+                        mvar=0
 
-                if mvar+1>len(_songs_):
-                    mvar=0
-
-                    can2["scrollregion"]=(0,0,int(can2["width"]),int(can2["height"]))
 
 
                 tm=0
@@ -1901,7 +1892,6 @@ def timer():
 
                 play_music("music/"+current_playing,tm)
 
-                pp=1
 
                 get_audio_duration("music/"+current_playing)
 
@@ -1909,10 +1899,8 @@ def timer():
 
                 lvar=0
 
-                play_video_st=0
                 lyric_st=0
 
-                cap=None
 
                 prog(0)
                 main()
@@ -7398,6 +7386,81 @@ def draw_bg_style(w,h,r,r2,col):
 
     return im
 
+def round_im(col1,col2,op,xx,yy,r,wd):
+
+
+
+        im=Image.new("RGBA",(xx,yy),(0,0,0,0))
+
+        draw=ImageDraw.Draw(im)
+
+
+
+        ar=[]
+
+        cx,cy=r,r
+
+        a_=180
+
+
+        for a in range(90):
+
+            x=int(round(r*math.sin(math.radians(a_))+cx,0))
+            y=int(round(r*math.cos(math.radians(a_))+cy,0))
+
+            ar.append((x,y))
+            a_+=1
+
+
+        cx,cy=r,yy-r-1
+
+        a_=270
+
+
+        for a in range(90):
+
+            x=int(round(r*math.sin(math.radians(a_))+cx,0))
+            y=int(round(r*math.cos(math.radians(a_))+cy,0))
+
+            ar.append((x,y))
+            a_+=1
+
+        cx,cy=xx-r-1,yy-r-1
+
+        a_=0
+
+
+        for a in range(90):
+
+            x=int(round(r*math.sin(math.radians(a_))+cx,0))
+            y=int(round(r*math.cos(math.radians(a_))+cy,0))
+
+            ar.append((x,y))
+            a_+=1
+
+
+        cx,cy=xx-r-1,r
+
+        a_=90
+
+
+        for a in range(90):
+
+            x=int(round(r*math.sin(math.radians(a_))+cx,0))
+            y=int(round(r*math.cos(math.radians(a_))+cy,0))
+
+            ar.append((x,y))
+            a_+=1
+
+
+        col1_=hex_to_rgb(col1)
+        col2_=hex_to_rgb(col2)
+
+        draw.polygon(ar,fill=(*col1_,int(round(op*255,0))),outline=(*col2_,255),width=wd)
+
+        return im
+
+
 bg_filt,bg_filt_=0,0
 
 sel_filt1,sel_filt2=0,0
@@ -7406,7 +7469,7 @@ pu_bg3_s,pu_bg4_s=0,0
 
 bg_styl__=0
 
-up_nxt=0
+up_nxt=[0,0]
 def draw_can(con=0):
 
 
@@ -7644,6 +7707,9 @@ def draw_can(con=0):
         can.create_image(0,0,image=b_g1,anchor="nw")
         can.create_image(0,90+int(can2["height"]),image=b_g2,anchor="nw")
 
+        can.create_image(0,0,image=b_g1_,anchor="nw")
+        can.create_image(0,90+int(can2["height"]),image=b_g2_,anchor="nw")
+
 
 
     if not det_nxt()=="Not found!":
@@ -7841,93 +7907,42 @@ def draw_can(con=0):
 
         if vid_st2==1 or vid_st==0:
 
+            r=15
             xx,yy=int((w/2-10-50)),70
 
-            im=Image.new("RGBA",(xx,yy),(0,0,0,0))
+            im1=round_im("#000000","#000000",0.4,xx,yy,r,1)
 
-            draw=ImageDraw.Draw(im)
-
-
-            r=15
-
-            ar=[]
-
-            cx,cy=r,r
-
-            a_=180
+            im2=round_im(_theme[0],_theme[0],0.1,xx,yy,r,1)
 
 
-            for a in range(90):
-
-                x=int(round(r*math.sin(math.radians(a_))+cx,0))
-                y=int(round(r*math.cos(math.radians(a_))+cy,0))
-
-                ar.append((x,y))
-                a_+=1
-
-
-            cx,cy=r,yy-r-1
-
-            a_=270
-
-
-            for a in range(90):
-
-                x=int(round(r*math.sin(math.radians(a_))+cx,0))
-                y=int(round(r*math.cos(math.radians(a_))+cy,0))
-
-                ar.append((x,y))
-                a_+=1
-
-            cx,cy=xx-r-1,yy-r-1
-
-            a_=0
-
-
-            for a in range(90):
-
-                x=int(round(r*math.sin(math.radians(a_))+cx,0))
-                y=int(round(r*math.cos(math.radians(a_))+cy,0))
-
-                ar.append((x,y))
-                a_+=1
-
-
-            cx,cy=xx-r-1,r
-
-            a_=90
-
-
-            for a in range(90):
-
-                x=int(round(r*math.sin(math.radians(a_))+cx,0))
-                y=int(round(r*math.cos(math.radians(a_))+cy,0))
-
-                ar.append((x,y))
-                a_+=1
-
-
-            col=hex_to_rgb(_theme[0])
-
-            draw.polygon(ar,fill=(*col,35),outline=(*col,255),width=1)
-
-            up_nxt=ImageTk.PhotoImage(im)
-
-
-            can.create_image(w-10-xx,h-121-30-20-yy,image=up_nxt,anchor="nw")
+    
 
 
 
-            draw_outline_text(can,"Up Next!",w-10-xx+r,h-121-30-20-yy+15,"w",("FreeMono",13))
+            up_nxt=ImageTk.PhotoImage(im1),ImageTk.PhotoImage(im2)
 
-            can.create_text(w-10-xx+r,h-121-30-20-yy+15,text="Up Next!",fill=_theme[0],font=("FreeMono",13),anchor="w")
+            if vid_st2==1:
+
+                y=h-121-30-yy
+            else:
+                y=h-121-30-20-yy
+
+
+            can.create_image(w-10-xx,y,image=up_nxt[0],anchor="nw")
+            can.create_image(w-10-xx,y,image=up_nxt[1],anchor="nw")
+
+
+
+            draw_outline_text(can,"Up Next!",w-10-xx+r,y+15,"w",("FreeMono",13))
+
+            can.create_text(w-10-xx+r,y+15,text="Up Next!",fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
 
             txt=_text_(can,det_nxt().replace(".mp3",""),"FreeMono",13,xx-r*2)
 
-            draw_outline_text(can,txt,w-10-xx+r,h-121-30-20-yy+30+(yy-30)/2,"w",("FreeMono",13))
-            can.create_text(w-10-xx+r,h-121-30-20-yy+30+(yy-30)/2,text=txt,fill=_theme[0],font=("FreeMono",13),anchor="w")
+            draw_outline_text(can,txt,w-10-xx+r,y+30+(yy-30)/2,"w",("FreeMono",13))
+            can.create_text(w-10-xx+r,y+30+(yy-30)/2,text=txt,fill=_theme[0],font=("FreeMono",13),anchor="w")
 
 
 
@@ -9439,27 +9454,21 @@ def load_im():
 
 
 
-    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,190)))
+    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,int(round(0.4*255,0)))))
 
-    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,190)))
+    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,int(round(0.4*255,0)))))
 
 
-    b_g1_=ImageTk.PhotoImage(Image.new("RGBA",(w,30),(0,0,0,190)))
+    col=hex_to_rgb(_theme[0])
+    b_g1_=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(*col,int(round(0.1*255,0)))))
+
+    b_g2_=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(*col,int(round(0.1*255,0)))))
+
 
 
 
     bg_styl__=ImageTk.PhotoImage(draw_bg_style(w,h,25,20,_theme[1][-1]))
     bg_styl2__=ImageTk.PhotoImage(draw_bg_style(w,h,25,20,_theme[0]))
-
-
-    #b_g2_=ImageTk.PhotoImage(dark_bg(20,h,_theme[1][-1],3))
-
-
-    #r,g,b=hex_to_rgb(_theme[0])
-
-    #im=Image.new("RGBA",(w-12,50),(r,g,b,int(255*_theme[3])))
-
-    #highl1=ImageTk.PhotoImage(im)
 
 
 
@@ -10408,7 +10417,10 @@ def can_label(x,y):
 
                         v=ar.index(current_playing.replace(".mp3",".mp4"))
 
-                        txt="play video"
+                        if vid_st==1:
+                            txt="stop video"
+                        else:
+                            txt="play video"
                     except:
                         txt="no video"
 
