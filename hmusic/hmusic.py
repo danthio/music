@@ -219,7 +219,7 @@ def configure_theme(pcol):
 
     col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
     col3=(int(col1[0]*30/mxc),int(col1[1]*30/mxc),int(col1[2]*30/mxc))
-    col4=(int(col1[0]*70/mxc),int(col1[1]*70/mxc),int(col1[2]*70/mxc))
+    col4=(int(col1[0]*80/mxc),int(col1[1]*80/mxc),int(col1[2]*80/mxc))
 
     ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3,"#%02x%02x%02x" % col4]
 
@@ -382,7 +382,7 @@ im_dict={
 }
 
 
-def darken_border(im,border=14):
+def darken_border(im,border=17):
     w,h=im.size
 
     im_=Image.new("RGBA",(w+border*2,h+border*2),(0,0,0,0))
@@ -715,12 +715,6 @@ else:
 
 
 
-directory_path = Path("waves")
-
-if directory_path.is_dir():
-    pass
-else:
-    os.makedirs("waves", exist_ok=True)
 
 
 directory_path = Path("videos")
@@ -800,7 +794,7 @@ def draw_wave():
 
 
 
-                amplitude = get_amplitude_at_time("waves/"+current_playing[:-3]+"wav", get_playback_time()+tts)
+                amplitude = get_amplitude_at_time("data/current_playing.wav", get_playback_time()+tts)
 
 
 
@@ -918,63 +912,38 @@ def get_amplitude_at_time(file_path, time_sec):
 
 def convert_mp3_to_wav(mp3_file):
 
-    all_songs = os.listdir("waves")
-
-
-    wav_file="waves/"+mp3_file.split("/")[-1][:-3]+"wav"
-
+    ar=os.listdir("data")
 
     try:
 
-        v=all_songs.index(mp3_file.split("/")[-1][:-3]+"wav")
+        v=ar.index("current_playing.wav")
+    
+        os.remove("data/current_playing.wav")
     except:
+        pass
 
 
-        ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
+    wav_file="data/current_playing.wav"
 
-        try:
-            # Ensure the ffmpeg executable exists
-            if not os.path.isfile(ffmpeg_path):
-                raise FileNotFoundError(f"ffmpeg not found at: {ffmpeg_path}")
-            
-            # Execute the ffmpeg command
-            subprocess.run(
-                [ffmpeg_path, "-i", mp3_file, wav_file],
-                check=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-            )
-        except:
-            pass
+    ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
 
-
-
-def del_wave():
-    all_music=os.listdir("music")
-    all_waves=os.listdir("waves")
-
-    for w in all_waves:
-
-        try:
-            v=all_music.index(w[:-3]+"mp3")
-        except:
-            os.remove("waves/"+w)
-
-
-def update_waves():
-    all_songs = os.listdir("music")
-
-
-    for s in all_songs:
-
-
-        convert_mp3_to_wav("music/"+s)
+    try:
+        # Ensure the ffmpeg executable exists
+        if not os.path.isfile(ffmpeg_path):
+            raise FileNotFoundError(f"ffmpeg not found at: {ffmpeg_path}")
+        
+        # Execute the ffmpeg command
+        subprocess.run(
+            [ffmpeg_path, "-i", mp3_file, wav_file],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except:
+        pass
 
 
 
-
-
-update_waves()
 
 
 
@@ -1163,7 +1132,6 @@ def convert_folder_to_audio():
         can.create_text(w/2,h-121-20-40,text="Done!",fill=_theme[0],font=("FreeMono",17))
 
         convert=0
-        update_waves()
 
 
 
@@ -1271,7 +1239,6 @@ def convert_file_to_audio():
         can.create_text(w/2,h-121-20-40,text="Done!",fill=_theme[0],font=("FreeMono",17))
 
         convert=0
-        update_waves()
         
 
 
@@ -1376,17 +1343,6 @@ def update_details(s="",con=-1,_lyric_=""):
                 ar.append(i)
 
 
-
-        for v in ar:
-            data.pop(v)
-
-            ar=os.listdir("videos")
-
-            try:
-                v_=ar.index(v.replace(".mp3",".mp4"))
-                os.remove("videos/"+v.replace(".mp3",".mp4"))
-            except:
-                pass
 
         for song in all_songs:
             
@@ -1944,8 +1900,6 @@ def can3_b1(e):
         return
 
 
-
-
     #add_st=0
     #frame2.place_forget()
 
@@ -1967,13 +1921,11 @@ def can3_b1(e):
 
 
 
-                        for s_ in range(len(_songs_)):
 
-                            if _songs_[s_][0]==current_playing:
-                                pygame.mixer.quit()
-                                current_playing=""
-                                songs_status[-1]=""
-                                break
+                        pygame.mixer.quit()
+                        current_playing=""
+                        songs_status[-1]=""
+
 
 
 
@@ -2341,14 +2293,9 @@ def can2_b1(e):
                         except:
 
 
-
-                            for s_ in range(len(_songs_)):
-
-                                if _songs_[s_][0]==current_playing:
-                                    pygame.mixer.quit()
-                                    current_playing=""
-                                    songs_status[-1]=""
-                                    break
+                            pygame.mixer.quit()
+                            current_playing=""
+                            songs_status[-1]=""
 
 
 
@@ -2608,16 +2555,13 @@ def can2_b1(e):
 
                 if f1_=="Favourites" or songs_status[0]==1:
 
-                    if music_details[s[0]][0]==0:
+                    if music_details[s[0]][0]==0 and music_details[s[0]]==current_playing:
 
 
-                        for s_ in range(len(_songs_)):
-
-                            if _songs_[s_][0]==current_playing:
-                                pygame.mixer.quit()
-                                current_playing=""
-                                songs_status[-1]=""
-                                break
+                        pygame.mixer.quit()
+                        current_playing=""
+                        songs_status[-1]=""
+                        break
 
 
 
@@ -5036,6 +4980,8 @@ def play_music(file,time,con=0):
 
             sig=[]
             tts=0
+
+        convert_mp3_to_wav(file)
 
 
 
@@ -7469,7 +7415,7 @@ pu_bg3_s,pu_bg4_s=0,0
 
 bg_styl__=0
 
-up_nxt=[0,0]
+up_nxt=0
 def draw_can(con=0):
 
 
@@ -7707,9 +7653,6 @@ def draw_can(con=0):
         can.create_image(0,0,image=b_g1,anchor="nw")
         can.create_image(0,90+int(can2["height"]),image=b_g2,anchor="nw")
 
-        can.create_image(0,0,image=b_g1_,anchor="nw")
-        can.create_image(0,90+int(can2["height"]),image=b_g2_,anchor="nw")
-
 
 
     if not det_nxt()=="Not found!":
@@ -7910,16 +7853,15 @@ def draw_can(con=0):
             r=15
             xx,yy=int((w/2-10-50)),70
 
-            im1=round_im("#000000","#000000",0.5,xx,yy,r,1)
+            im1=round_im("#000000",_theme[0],0.75,xx,yy,r,1)
 
-            im2=round_im(_theme[0],_theme[0],0.1,xx,yy,r,1)
 
 
     
 
 
 
-            up_nxt=ImageTk.PhotoImage(im1),ImageTk.PhotoImage(im2)
+            up_nxt=ImageTk.PhotoImage(im1)
 
             if vid_st2==1:
 
@@ -7928,8 +7870,7 @@ def draw_can(con=0):
                 y=h-121-30-20-yy
 
 
-            can.create_image(w-10-xx,y,image=up_nxt[0],anchor="nw")
-            can.create_image(w-10-xx,y,image=up_nxt[1],anchor="nw")
+            can.create_image(w-10-xx,y,image=up_nxt,anchor="nw")
 
 
 
@@ -8223,7 +8164,7 @@ def draw_can(con=0):
 
 
         can.create_rectangle(10-1,h-20-60-20+10+2+5-3+10-2,w-10,h-20-60-20+10+2+5-3+10+1,outline="#000000")
-        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][1],width=2)
+        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][-1],width=2)
         
         if st==2 and playlist_st==0 and current_playing=="":
             pass
@@ -8363,7 +8304,7 @@ def draw_can(con=0):
 
         
         can.create_rectangle(w-10-120-1,h-20-30+5+10-3-2, w-10,h-20-30+5+10-3+1,outline="#000000")
-        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][1],width=2)
+        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][-1],width=2)
 
         can.create_image(w-10-120-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
 
@@ -9454,9 +9395,9 @@ def load_im():
 
 
 
-    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,int(round(0.5*255,0)))))
+    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,int(round(0.75*255,0)))))
 
-    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,int(round(0.5*255,0)))))
+    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,int(round(0.75*255,0)))))
 
 
     col=hex_to_rgb(_theme[0])
@@ -11403,13 +11344,17 @@ def drag_can(e):
 
     if play_st2==1:
 
-        if 10<=e.x<=w-10:
+        if h-20-60-20+10+2+5-10-3+10+5-15<=e.y<=h-20-60-20+10+2+5+10-3+10-5+15:
 
 
+            if e.x<=10:
+                tm=0
+            elif e.x>=w-10:
+                tm=tot_tm_
+            elif 10<=e.x<=w-10:
+                x=e.x-10
 
-            x=e.x-10
-
-            tm=x*tot_tm_/(w-20)
+                tm=x*tot_tm_/(w-20)
 
 
             if play_st==1:
@@ -11431,39 +11376,49 @@ def drag_can(e):
 
     if v_st==1:
 
-
-        if w-10-120<=e.x<=w-10:
-
-            can_outline_st=7
+        if h-20-30+5-10+10-3-15<=e.y<=h-20-30+5+10+10-3+15:
 
 
+            if w-10-120-10<=e.x<=w:
+
+                r=120
 
 
-            x=e.x-(w-10-120)
+                if e.x<=w-10-120:
+                    current_volume=0
 
-            r=120
+                elif e.x>=w-10:
+                    current_volume=1
 
-            current_volume=x/r
-
-
-            volume.SetMasterVolumeLevelScalar(current_volume, None)
-
-                
-            can.delete(vol1)
-            can.delete(vol2)
-            can.delete(vol3)
-            can.delete(vol3_)
-            can.delete(vol4)        
+                elif w-10-120<=e.x<=w-10:
 
 
-            vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=_theme[0],width=2)
-
-            draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
-
-            vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
+                    x=e.x-(w-10-120)
+                    current_volume=x/r
 
 
-            draw_cur_can()
+
+                can_outline_st=7
+
+
+                volume.SetMasterVolumeLevelScalar(current_volume, None)
+
+                    
+                can.delete(vol1)
+                can.delete(vol2)
+                can.delete(vol3)
+                can.delete(vol3_)
+                can.delete(vol4)        
+
+
+                vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=_theme[0],width=2)
+
+                draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
+
+                vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
+
+
+                draw_cur_can()
 
 
 
@@ -13268,7 +13223,7 @@ def draw_settings(con=0):
     can_settings.create_rectangle(20+l1+10-1,int(can_settings["height"])-65-2-15, 20+l1+10+100,int(can_settings["height"])-65+1-15,
         outline="#000000")
     can_settings.create_line(20+l1+10,int(can_settings["height"])-65-15, 20+l1+10+100,int(can_settings["height"])-65-15,
-        fill=_theme[1][1],width=2)
+        fill=_theme[1][-1],width=2)
 
 
 
@@ -13290,7 +13245,7 @@ def draw_settings(con=0):
     can_settings.create_rectangle(20+l1+10+100+30+l2+10-1,int(can_settings["height"])-65-2-15, 20+l1+10+100+30+l2+10+100,int(can_settings["height"])-65+1-15,
         outline="#000000")
     can_settings.create_line(20+l1+10+100+30+l2+10,int(can_settings["height"])-65-15, 20+l1+10+100+30+l2+10+100,int(can_settings["height"])-65-15,
-        fill=_theme[1][1],width=2)
+        fill=_theme[1][-1],width=2)
 
 
 
@@ -13876,7 +13831,7 @@ def conf_del_b1(e):
 
 
                 
-                del_wave()
+                
 
                 main()
 
@@ -15250,7 +15205,22 @@ def det_nxt():
 
 can_nxt=tk.Canvas(bg="#000000",width=w/2-10-150,height=30,relief="flat",highlightthickness=0,border=0)
 
+def update_videos():
 
+    v_=os.listdir("videos")
+    s_=os.listdir("music")
+
+    for i in v_:
+
+        try:
+
+            s=s_.index(i.replace(".mp4",".mp3"))
+        except:
+            os.remove("videos/"+i)
+
+
+
+    root.after(2000,update_videos)
 
 
 
@@ -15350,4 +15320,5 @@ default_font = tk.Label(root, text="Sample Text").cget("font")
 
 main()
 draw_can()
+update_videos()
 root.mainloop()
