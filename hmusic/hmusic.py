@@ -8612,7 +8612,7 @@ def draw_can(con=0):
             y+=30
 
 
-        filter_can1.place(in_=root,x=w-10-int(filter_can1["width"]),y=40+30-10-5-5+30+10)
+        filter_can1.place(in_=root,x=w-10-int(filter_can1["width"])-25,y=40+30-10-5-5+30+10)
 
 
         if filter_val=="Playlists":
@@ -8762,7 +8762,7 @@ def draw_can(con=0):
 
 
             
-            filter_can2.place(in_=root,x=w-10-int(filter_can1["width"])-int(filter_can2["width"])-10,y=40+30-10-5-5+30+10+10+90)
+            filter_can2.place(in_=root,x=w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25,y=40+30-10-5-5+30+10+10+90)
 
             f2=[0,0]
 
@@ -8832,8 +8832,8 @@ def draw_can(con=0):
 
         if filter_st==1:
 
-            pu_bg1_s=can.create_image(w-10-int(filter_can1["width"])-15,40+30-10-5-5+30+10-15,image=bg_filt_,anchor="nw")
-            pu_bg2_s=can2.create_image(w-10-int(filter_can1["width"])-15-10,40+30-10-5-5+30+10+can2.canvasy(0)-88-15,image=bg_filt_,anchor="nw")
+            pu_bg1_s=can.create_image(w-10-int(filter_can1["width"])-15-25,40+30-10-5-5+30+10-15,image=bg_filt_,anchor="nw")
+            pu_bg2_s=can2.create_image(w-10-int(filter_can1["width"])-15-10-25,40+30-10-5-5+30+10+can2.canvasy(0)-88-15,image=bg_filt_,anchor="nw")
 
         elif settings_st2==1:
 
@@ -9787,12 +9787,12 @@ def draw_cur_():
 
 
 
-    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])),y-(ht-h)/2-(40+30-10-5-5+30+10)
+    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])-25),y-(ht-h)/2-(40+30-10-5-5+30+10)
 
     cur_filter_can1=filter_can1.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
-    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),y-(ht-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
+    xx,yy=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25),y-(ht-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
 
     cur_filter_can2=filter_can2.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
@@ -9811,8 +9811,7 @@ def draw_cur():
 
     root.after(10,draw_cur)
 
-
-def check_cur_pos():
+def __check_cur_pos():
     global can2,attr,current_playing,playlist,songs
     global _pl_,playlist2,playlist3,_fv_,music_details,favourite1,favourite1_,favourite2_,favourite2
     global sb_sz,_del_,delete,delete2,music_details
@@ -9873,7 +9872,6 @@ def check_cur_pos():
 
             if y_<0 or y_>int(can2["height"]):
 
-                root.after(10,check_cur_pos)
                 return
 
             if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
@@ -9943,7 +9941,6 @@ def check_cur_pos():
 
                         draw_cur_()
                         break
-            root.after(10,check_cur_pos)
             return
 
 
@@ -9967,7 +9964,6 @@ def check_cur_pos():
                             can_sort.coords(cso_im,0,y)
 
                     y+=30
-            root.after(10,check_cur_pos)
             return
 
 
@@ -10083,7 +10079,6 @@ def check_cur_pos():
 
             if y_<0 or y_>int(can2["height"]):
 
-                root.after(10,check_cur_pos)
                 return
 
 
@@ -10098,7 +10093,7 @@ def check_cur_pos():
 
                         can2.coords(cp_im,0,y)
                         break
-            root.after(10,check_cur_pos)
+
             return
 
 
@@ -10117,7 +10112,6 @@ def check_cur_pos():
 
                     if y_<0 or y_>int(can2["height"]):
 
-                        root.after(10,check_cur_pos)
                         return
 
                     if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
@@ -10221,6 +10215,10 @@ def check_cur_pos():
 
 
 
+
+def check_cur_pos():
+
+    __check_cur_pos()
 
 
     root.after(10,check_cur_pos)
@@ -10972,6 +10970,7 @@ def scroll(val):
             #draw_can()
 
             draw_cur_()
+            __check_cur_pos()
             
 
      
@@ -10999,6 +10998,7 @@ def scroll(val):
                 #can_lyrics.coords(bg_styl2,-10,-(50)+int(can_lyrics.canvasy(0)))
 
                 draw_cur_()
+                __check_cur_pos()
 
 
     if filter_st==1:
@@ -11025,6 +11025,7 @@ def scroll(val):
                 -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0))
 
             draw_cur_()
+            __check_cur_pos()
 
 
 
