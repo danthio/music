@@ -2515,6 +2515,9 @@ def can2_b1(e):
 
 
 
+                    _npl=0
+                    npl_var=""
+                    can_npl.place_forget()
 
 
 
@@ -5003,6 +5006,8 @@ def play_music(file,time,con=0):
         pygame.mixer.music.set_volume(1.0)
 
         songs_status[-1]=current_playing
+
+        main()
 
 
 
@@ -9433,10 +9438,6 @@ def check_pl():
                 else:
 
                     can_npl.place_forget()
-    else:
-        _npl=0
-        npl_var=""
-        can_npl.place_forget()
 
 
     root.after(10,check_pl)
@@ -14483,6 +14484,7 @@ def can_npl_insert():
                 fill=_theme[0])
 
         cnpl_i_st=1
+    root.after(150,can_npl_insert)
 
 
 def can_npl_b1(e):
