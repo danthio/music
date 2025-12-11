@@ -1342,6 +1342,8 @@ def update_details(s="",con=-1,_lyric_=""):
 
                 ar.append(i)
 
+        for i in ar:
+            data.pop(i)
 
 
         for song in all_songs:
@@ -1926,6 +1928,22 @@ def can3_b1(e):
                         current_playing=""
                         songs_status[-1]=""
 
+                        ss=None
+
+                        for s__ in range(len(_songs_)):
+
+                            if _songs_[s__][0]==current_playing:
+
+                                ss=s__
+
+                        if not ss==None:
+
+                            _songs_.pop(ss)
+
+
+
+
+
 
 
 
@@ -1965,6 +1983,7 @@ def add_playlist():
     global _theme
     global add_bg,add_bg_
     global cancel
+    global cur_can3_2,cur_can4_2,cur_can6_2
 
 
 
@@ -1978,6 +1997,16 @@ def add_playlist():
     can4.delete("all")
     can3.delete("all")
     can6.delete("all")
+
+    can4["bg"]=_theme[1][1]
+    can3["bg"]=_theme[1][1]
+    can6["bg"]=_theme[1][1]
+
+    cur_can4_2=can4.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+    cur_can3_2=can3.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+    cur_can6_2=can6.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+
+
     #40,250-40,350+100
 
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
@@ -2015,7 +2044,7 @@ def add_playlist():
 
 
 
-    can3.delete("all")
+    
 
     bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0),image=bg2_,anchor="nw")
 
@@ -2247,6 +2276,7 @@ def can2_b1(e):
     global cnpl_txt1,cnpl_txt2
     global settings_st2,filter_st,sort_st,add_st,del_st
     global loop_song
+    global cur_can_npl_2
 
 
     if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
@@ -2297,6 +2327,18 @@ def can2_b1(e):
                             current_playing=""
                             songs_status[-1]=""
 
+
+                            ss=None
+
+                            for s__ in range(len(_songs_)):
+
+                                if _songs_[s__][0]==current_playing:
+
+                                    ss=s__
+
+                            if not ss==None:
+
+                                _songs_.pop(ss)
 
 
 
@@ -2393,6 +2435,9 @@ def can2_b1(e):
             can_npl["height"]=28
 
             can_npl.delete("all")
+            can_npl["bg"]=_theme[1][1]
+
+            cur_can_npl_2=can_npl.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
 
             can_npl.create_image(-(10+15+10),-(5+1+88),image=bg,anchor="nw")
                 
@@ -2567,7 +2612,17 @@ def can2_b1(e):
                         break
 
 
+                        ss=None
 
+                        for s__ in range(len(_songs_)):
+
+                            if _songs_[s__][0]==current_playing:
+
+                                ss=s__
+
+                        if not ss==None:
+
+                            _songs_.pop(ss)
 
                 main()
                 return
@@ -3115,6 +3170,7 @@ def can_b1(e):
     global del_st
     global cancel
     global loop_song
+    global cur_can_search_2
 
     #minimize
 
@@ -4661,6 +4717,9 @@ def can_b1(e):
         cs_txt1,cs_txt2="",""
 
         can_search.delete("all")
+        can_search["bg"]=_theme[1][1]
+
+        cur_can_search_2=can_search.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
 
         can_search.create_image(-(10+15),-(50+1),image=bg,anchor="nw")
 
@@ -4766,7 +4825,7 @@ def can_b1(e):
             if convert==0:
                 input_file=filedialog.askopenfilename()
 
-                if not input_file=="":
+                if not input_file=="": 
                     convert=2
                     start_conversion()
 
@@ -5230,6 +5289,7 @@ def main():
     global highl1
     global del_st
     global bg_styl__
+    global cur_can2_2
 
 
     root.wm_attributes("-topmost",True)
@@ -5385,6 +5445,8 @@ def main():
 
 
         can2.delete("all")
+
+        cur_can2_2=can2.create_oval(0,0,150,150,fill=_theme[0],outline=_theme[0])
 
 
         bg2=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg,anchor="nw")
@@ -7520,8 +7582,14 @@ def draw_can(con=0):
     global bg_styl__,bg_styl2__,bg_styl1,bg_styl2
 
     global up_nxt
+    global cur_can_2,cur_can_filter_can1_2,cur_can_filter_can2_2
+
+    can.delete("all")
+
+    can["bg"]=_theme[1][1]
 
 
+    cur_can_2=can.create_oval(0,0,150,150,fill=_theme[0],outline=_theme[0])
 
 
     #update_song_status()
@@ -7577,7 +7645,7 @@ def draw_can(con=0):
 
 
 
-    can.delete("all")
+    
 
     vframe=[0,0,0]
 
@@ -7598,7 +7666,6 @@ def draw_can(con=0):
 
 
 
-    can["bg"]="#000000"
 
     can.create_image(0,0,image=bg,anchor="nw")
 
@@ -8460,6 +8527,9 @@ def draw_can(con=0):
 
 
         filter_can1.delete("all")
+        filter_can1["bg"]=_theme[1][1]
+
+        cur_can_filter_can1_2=filter_can1.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
 
 
 
@@ -8567,6 +8637,11 @@ def draw_can(con=0):
         #draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,"#000000","",1,3)
         #draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,_theme[0],"",1)
         filter_can2.delete("all")
+
+        filter_can2["bg"]=_theme[1][1]
+
+        cur_can_filter_can2_2=filter_can2.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+
         filter_can2.place_forget()
 
         ar=[(none_l,None),(favourite2,"Favourites"),(playlist2,"Playlists"),(vid1,"With Video"),(most_played,"Most Played")]
@@ -8715,8 +8790,6 @@ def draw_can(con=0):
 
                 filter_can2["width"]=300
 
-
-            filter_can2.delete("all")
 
             bg_f2=filter_can2.create_image(-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
                 -(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0),image=bg2_,anchor="nw")
@@ -8983,6 +9056,7 @@ def show_lyrics():
     global cur_can_lyrics
     global no_music
     global bg_styl__,bg_styl2
+    global cur_can_lyrics_2
 
 
 
@@ -9044,6 +9118,10 @@ def show_lyrics():
 
                     can_lyrics.delete("all")
 
+                    can_lyrics["bg"]=_theme[1][1]
+
+                    cur_can_lyrics_2=can_lyrics.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+
                     bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg,anchor="nw")
                     #bg_styl2=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg_styl__,anchor="nw")
 
@@ -9051,7 +9129,6 @@ def show_lyrics():
                     
 
 
-                    can_lyrics["bg"]=_theme[1][1]
 
                     can_lyrics["width"]=w-20
                     can_lyrics["height"]=(h-121-30-50/2+(50-30)/2)-50
@@ -9541,6 +9618,24 @@ cur_filter_can1=0
 cur_filter_can2=0
 cur_conf_del=0
 
+
+cur_can_2=0
+cur_can2_2=0
+cur_can3_2=0
+cur_can4_2=0
+cur_can6_2=0
+
+cur_can_lyrics_2=0
+cur_can_sort_2=0
+cur_can_settings_2=0
+cur_can_search_2=0
+cur_can_npl_2=0
+cur_can_theme_ent_2=0
+cur_filter_can1_2=0
+cur_filter_can2_2=0
+cur_conf_del_2=0
+
+
 cur_p=[]
 
 def check_cur_on_s(x,y):
@@ -9629,6 +9724,7 @@ def check_cur_on_s2(x,y):
     return 0
 
 
+
 def draw_cur_():
 
     global can,can2,can3,can4,can6,can_lyrics,can_sort,can_settings,can_search,can_npl,can_theme_ent
@@ -9645,13 +9741,124 @@ def draw_cur_():
     global cursor
     global vid_tm
     global play_st2,v_st
+    global _theme
     
+    global cur_can_2,cur_can2_2,cur_can3_2,cur_can4_2,cur_can6_2,cur_can_lyrics_2,cur_can_sort_2,cur_can_settings_2,cur_can_search_2,cur_can_npl_2,cur_can_theme_ent_2,cur_filter_can1_2,cur_filter_can2_2,cur_conf_del_2    
+
+    global add_st,lyric_st,sort_st,settings_st2,filter_st,del_st
 
 
     x,y=pyautogui.position()
 
 
-    
+    r=90
+
+    can.coords(cur_can_2,x-r,y-r,x+r,y+r)
+    can.itemconfig(cur_can_2,fill=_theme[0],outline=_theme[0])
+
+
+    can2.coords(cur_can2_2,x-r-10,y-r+can2.canvasy(0)-88,x+r-10,y+r+can2.canvasy(0)-88)
+    can2.itemconfig(cur_can2_2,fill=_theme[0],outline=_theme[0])
+
+    if add_st==1:
+
+        x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40+can3.canvasy(0)
+        can3.coords(cur_can3_2,x_-r,y_-r,x_+r,y_+r)
+        can3.itemconfig(cur_can3_2,fill=_theme[0],outline=_theme[0])
+
+
+        x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
+
+        can4.coords(cur_can4_2,x_-r,y_-r,x_+r,y_+r)
+        can4.itemconfig(cur_can4_2,fill=_theme[0],outline=_theme[0])
+
+
+        x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40-int(can3["height"])
+
+        can6.coords(cur_can6_2,x_-r,y_-r,x_+r,y_+r)
+        can6.itemconfig(cur_can6_2,fill=_theme[0],outline=_theme[0])
+
+    if lyric_st==1:
+
+
+        x_,y_=x-(wd-w)/2-10,y-(ht-h)/2-50+can_lyrics.canvasy(0)
+        can_lyrics.coords(cur_can_lyrics_2,x_-r,y_-r,x_+r,y_+r)
+        can_lyrics.itemconfig(cur_can_lyrics_2,fill=_theme[0],outline=_theme[0])
+
+
+
+
+    if sort_st==1:
+
+
+        x_,y_=x-(wd-w)/2-(10+25+15+25),y-(ht-h)/2-(h-20-30-15+5+10+2.5-150)
+        can_sort.coords(cur_can_sort_2,x_-r,y_-r,x_+r,y_+r)
+        can_sort.itemconfig(cur_can_sort_2,fill=_theme[0],outline=_theme[0])
+
+
+
+
+    if settings_st2==1:
+
+
+        x_,y_=x-(wd-w)/2-(10+25+5),y-(ht-h)/2-(25+12.5+5)
+        can_settings.coords(cur_can_settings_2,x_-r,y_-r,x_+r,y_+r)
+        can_settings.itemconfig(cur_can_settings_2,fill=_theme[0],outline=_theme[0])
+
+
+    if _search==1:
+
+
+        x_,y_=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
+        can_search.coords(cur_can_search_2,x_-r,y_-r,x_+r,y_+r)
+        can_search.itemconfig(cur_can_search_2,fill=_theme[0],outline=_theme[0])
+
+
+
+    if _npl==1:
+
+
+        x_,y_=x-(wd-w)/2-(10+15+10),y-(ht-h)/2-(5+1+88)
+        can_npl.coords(cur_can_npl_2,x_-r,y_-r,x_+r,y_+r)
+        can_npl.itemconfig(cur_can_npl_2,fill=_theme[0],outline=_theme[0])
+
+
+
+
+    if settings_st2==1:
+
+
+        x_,y_=x-(wd-w)/2-(77-1+1+(10+25+5)),y-(ht-h)/2-(19+1+(25+12.5+5))
+        can_theme_ent.coords(cur_can_theme_ent_2,x_-r,y_-r,x_+r,y_+r)
+        can_theme_ent.itemconfig(cur_can_theme_ent_2,fill=_theme[0],outline=_theme[0])
+
+
+
+
+    if filter_st==1:
+
+
+        x_,y_=x-(wd-w)/2-(w-10-int(filter_can1["width"])-25),y-(ht-h)/2-(40+30-10-5-5+30+10)
+        filter_can1.coords(cur_can_filter_can1_2,x_-r,y_-r,x_+r,y_+r)
+        filter_can1.itemconfig(cur_can_filter_can1_2,fill=_theme[0],outline=_theme[0])
+
+
+
+
+        x_,y_=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25),y-(ht-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
+        filter_can2.coords(cur_can_filter_can2_2,x_-r,y_-r,x_+r,y_+r)
+        filter_can2.itemconfig(cur_can_filter_can2_2,fill=_theme[0],outline=_theme[0])
+
+
+
+
+
+    if del_st==1:
+
+
+        x_,y_=x-(wd-w)/2-((w-int(conf_del["width"]))/2),y-(ht-h)/2-((h-int(conf_del["height"]))/2)
+        conf_del.coords(cur_conf_del_2,x_-r,y_-r,x_+r,y_+r)
+        conf_del.itemconfig(cur_conf_del_2,fill=_theme[0],outline=_theme[0])
 
 
 
@@ -9696,6 +9903,8 @@ def draw_cur_():
     filter_can2.delete(cur_filter_can2)
     conf_del.delete(cur_conf_del)
 
+
+
     if root_st==1 and con==1:
 
 
@@ -9730,6 +9939,8 @@ def draw_cur_():
 
         cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
         can_label(xx,yy)
+
+
 
 
     if lst==1:
@@ -10416,6 +10627,105 @@ def convert_(im,col):
 
     return image
 
+def draw_hexagons(w,h,sz):
+
+    global im,can
+
+    im=Image.new("RGBA",(w,h),(0,0,0,255))
+
+    draw=ImageDraw.Draw(im)
+
+    x_,y_=100,100
+
+    a_=180
+
+    xx1=(sz/2)*math.sin(math.radians(a_))+x_
+    
+    a_=180-(360/6)/2
+    xx2=(sz/2)*math.sin(math.radians(a_))+x_
+
+    x1=xx2-xx1
+
+
+    a_=180-(360/6)/2
+    xx3=(sz/2)*math.sin(math.radians(a_))+x_
+    
+    a_=180-(360/6)/2-(360/6)
+    xx4=(sz/2)*math.sin(math.radians(a_))+x_
+
+    x2=xx4-xx3
+
+
+
+    a_=180-(360/6)/2
+    yy1=(sz/2)*math.cos(math.radians(a_))+y_
+    
+    a_=180-(360/6)/2-(360/6)
+    yy2=(sz/2)*math.cos(math.radians(a_))+y_
+
+    yv=yy2-yy1
+
+
+    a_=360-(360/6)/2
+    xx5=(sz/2)*math.sin(math.radians(a_))+x_
+    
+    a_=0+(360/6)/2
+    xx6=(sz/2)*math.sin(math.radians(a_))+x_
+
+    x3=xx6-xx5
+
+
+    con=0
+
+    y_=-yv
+
+    ny=int(h/yv)+1
+    for y in range(ny):
+        nx=int(w/(x1*2+x2*2+x3))+1
+
+        if con==0:
+
+            x_=x2+x1
+        elif con==1:
+            x_=-x1
+
+
+        for x in range(nx):
+
+            ar=[]
+
+
+
+
+            a_=180+(360/6)/2
+            for a in range(6):
+
+                _x=(sz/2)*math.sin(math.radians(a_))+x_
+                _y=(sz/2)*math.cos(math.radians(a_))+y_
+
+                ar.append((int(round(_x,0)),int(round(_y,0))))
+
+
+                a_+=(360/6)
+
+            x_+=x1*2+x2*2+x3
+
+
+            draw.polygon(ar,outline=(0,0,0,0))
+
+
+
+            
+        if con==0:
+            con=1
+        elif con==1:
+            con=0
+
+
+        y_+=yv
+
+
+    return im
 
 circle=0
 circle2=0
@@ -10703,6 +11013,7 @@ def adjust_theme():
     global adj_st
     global te_var
     global unchanged
+    global wd,ht
 
 
     if adj_st==0:
@@ -10719,7 +11030,9 @@ def adjust_theme():
 
     if _theme[-2]==1:
 
-        im=Image.new("RGBA",(w,h),(0,0,0,255))
+
+
+        im=draw_hexagons(wd,ht,50)
         im.save("data/bg_.png")
         im.save("data/bg.png")
         im.save("data/bg_dark.png")
@@ -11425,7 +11738,7 @@ def drag_can(e):
 
 
 
-can["bg"]="#000000"
+
 
 can.bind("<Button-1>",can_b1)
 can.bind("<Button-3>",can_b3)
@@ -11871,6 +12184,7 @@ def draw_can_sort():
     global sort_ar,sa
     global sort_val
     global cso_im
+    global cur_can_sort_2
 
 
     col1=_theme[0]
@@ -11882,6 +12196,9 @@ def draw_can_sort():
 
 
     can_sort.delete("all")
+    can_sort["bg"]=_theme[1][1]
+
+    cur_can_sort_2=can_sort.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
 
     im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
 
@@ -12063,6 +12380,8 @@ def can_sort_b1(e):
 
 
             draw_can_sort()
+
+            draw_can()
 
             return
 
@@ -12534,7 +12853,7 @@ def can_settings_b1(e):
 
                 _theme[4].pop(_theme[4].index(c[0]))
                 save()
-                draw_settings()
+                draw_settings(1)
                 return
 
             te_var=c[0]
@@ -12863,6 +13182,7 @@ def draw_settings(con=0):
     global cte_txt1,cte_txt2
     global bg2_
     global bg_sett,bg_sett_,pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s
+    global cur_can_settings_2,cur_can_theme_ent_2
 
 
     pu_forget()
@@ -12905,6 +13225,9 @@ def draw_settings(con=0):
     
 
     can_settings.delete("all")
+    can_settings["bg"]=_theme[1][1]
+
+    cur_can_settings_2=can_settings.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
     can_settings.place(in_=root,x=10+25+5,y=25+12.5+5)
 
     im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+5),(25+12.5+5),int(can_settings["width"]),int(can_settings["height"]),25)
@@ -12937,6 +13260,8 @@ def draw_settings(con=0):
     can_theme_ent["height"]=(42)-(20)
 
     can_theme_ent.delete("all")
+    can_theme_ent["bg"]=_theme[1][1]
+    cur_can_theme_ent_2=can_theme_ent.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
 
     can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
 
@@ -13308,6 +13633,14 @@ def can_settings_m(e):
     global no_bg_st
     global te_var
     global tbg3
+
+    global up_theme
+
+    if not up_theme==None:
+
+        if up_theme.is_alive()==True:
+            return
+
 
     can_settings.delete(del_theme)
 
@@ -13721,6 +14054,18 @@ def filter1_b1(e):
                         current_playing=""
                         songs_status[-1]=""
 
+                        ss=None
+
+                        for s__ in range(len(_songs_)):
+
+                            if _songs_[s__][0]==current_playing:
+
+                                ss=s__
+
+                        if not ss==None:
+
+                            _songs_.pop(ss)
+
             main()
             move_to_playing()
 
@@ -13771,6 +14116,18 @@ def filter2_b1(e):
                     pygame.mixer.quit()
                     current_playing=""
                     songs_status[-1]=""
+
+                    ss=None
+
+                    for s__ in range(len(_songs_)):
+
+                        if _songs_[s__][0]==current_playing:
+
+                            ss=s__
+
+                    if not ss==None:
+
+                        _songs_.pop(ss)
 
             main()
             move_to_playing()
@@ -13825,6 +14182,17 @@ def conf_del_b1(e):
                     current_playing=""
                     songs_status[-1]=""
 
+                    ss=None
+
+                    for s__ in range(len(_songs_)):
+
+                        if _songs_[s__][0]==current_playing:
+
+                            ss=s__
+
+                    if not ss==None:
+
+                        _songs_.pop(ss)
 
                 os.remove(del_info[0])
 
@@ -13870,6 +14238,19 @@ def conf_del_b1(e):
                                 current_playing=""
                                 current_playlist=""
 
+
+                                ss=None
+
+                                for s__ in range(len(_songs_)):
+
+                                    if _songs_[s__][0]==current_playing:
+
+                                        ss=s__
+
+                                if not ss==None:
+
+                                    _songs_.pop(ss)
+
                                 update_song_status()
 
                                 playlist_st=0
@@ -13913,6 +14294,7 @@ def conf_del_(file,con):
     global w,h
     global bg_del,bg_del_
     global del_st
+    global cur_conf_del_2
 
     
 
@@ -13923,6 +14305,9 @@ def conf_del_(file,con):
 
 
     conf_del.delete("all")
+    conf_del["bg"]=_theme[1][1]
+
+    cur_conf_del_2=conf_del.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
 
 
     conf_del.create_image(-15,-15,
@@ -14684,6 +15069,9 @@ def can_theme_ent_txt():
     global can_outline_st
     global _theme
 
+
+
+
     can_theme_ent.delete(cte_txt[0])
     can_theme_ent.delete(cte_txt[1])
     can_theme_ent.delete(can_theme_ent_sel_)
@@ -14795,6 +15183,12 @@ def can_theme_ent_kp(e):
     global can_theme_ent_sel_
 
 
+    global up_theme
+
+    if not up_theme==None:
+
+        if up_theme.is_alive()==True:
+            return
     
 
     if can_theme_ent_sel_st==1:
@@ -14822,7 +15216,17 @@ def can_theme_ent_insert():
     global sel_col
     global focus__
     global cte_txt1,cte_txt2
+    global up_theme
 
+    if not up_theme==None:
+
+        if up_theme.is_alive()==True:
+            focus__=0
+            can.focus_set()
+            can_theme_ent.delete(cte_i[0])
+            can_theme_ent.delete(cte_i[1])
+            root.after(150,can_theme_ent_insert)
+            return
 
     if focus__==1:
 
@@ -14885,6 +15289,12 @@ def can_theme_ent_b1(e):
     global te_var,cte_txt,cte_txt1,cte_txt2
     global focus__
     global can_theme_ent_sel_st,te_border,can_theme_ent_sel_,can_outline_st
+    global up_theme
+
+    if not up_theme==None:
+
+        if up_theme.is_alive()==True:
+            return
 
 
 
@@ -14936,6 +15346,12 @@ def can_theme_ent_bs(e):
     global can_outline_st
     global te_border
     global cte_txt1,cte_txt2,can_theme_ent_sel_st,can_theme_ent_sel_
+    global up_theme
+
+    if not up_theme==None:
+
+        if up_theme.is_alive()==True:
+            return
 
 
 
@@ -14968,6 +15384,12 @@ def can_theme_ent_sel(e):
     global can_outline_st
     global te_border
 
+    global up_theme
+
+    if not up_theme==None:
+
+        if up_theme.is_alive()==True:
+            return
 
 
     cte_txt1,cte_txt2=te_var,""
@@ -15037,6 +15459,12 @@ def can_theme_ent_ml(e):
     global te_border
     global _theme
     global focus__
+    global up_theme
+
+    if not up_theme==None:
+
+        if up_theme.is_alive()==True:
+            return
 
     if focus__==1:
 
@@ -15061,6 +15489,13 @@ def can_theme_ent_mr(e):
     global te_border
     global _theme
     global focus__
+    global up_theme
+
+    if not up_theme==None:
+
+        if up_theme.is_alive()==True:
+            return
+
 
     if focus__==1:
 
