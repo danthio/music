@@ -1983,7 +1983,7 @@ def add_playlist():
     global _theme
     global add_bg,add_bg_
     global cancel
-    global cur_can3_2,cur_can4_2,cur_can6_2
+    global cur_can3_2,cur_can4_2,cur_can6_2,bg_hex
 
 
 
@@ -2002,9 +2002,9 @@ def add_playlist():
     can3["bg"]=_theme[1][1]
     can6["bg"]=_theme[1][1]
 
-    cur_can4_2=can4.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
-    cur_can3_2=can3.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
-    cur_can6_2=can6.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+    cur_can4_2=can4.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
+    cur_can3_2=can3.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
+    cur_can6_2=can6.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
 
     #40,250-40,350+100
@@ -2276,7 +2276,7 @@ def can2_b1(e):
     global cnpl_txt1,cnpl_txt2
     global settings_st2,filter_st,sort_st,add_st,del_st
     global loop_song
-    global cur_can_npl_2
+    global cur_can_npl_2,bg_hex
 
 
     if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
@@ -2437,7 +2437,7 @@ def can2_b1(e):
             can_npl.delete("all")
             can_npl["bg"]=_theme[1][1]
 
-            cur_can_npl_2=can_npl.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+            cur_can_npl_2=can_npl.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
             can_npl.create_image(-(10+15+10),-(5+1+88),image=bg,anchor="nw")
                 
@@ -3170,7 +3170,7 @@ def can_b1(e):
     global del_st
     global cancel
     global loop_song
-    global cur_can_search_2
+    global cur_can_search_2,bg_hex
 
     #minimize
 
@@ -4719,7 +4719,7 @@ def can_b1(e):
         can_search.delete("all")
         can_search["bg"]=_theme[1][1]
 
-        cur_can_search_2=can_search.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+        cur_can_search_2=can_search.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
         can_search.create_image(-(10+15),-(50+1),image=bg,anchor="nw")
 
@@ -5446,7 +5446,7 @@ def main():
 
         can2.delete("all")
 
-        cur_can2_2=can2.create_oval(0,0,150,150,fill=_theme[0],outline=_theme[0])
+        cur_can2_2=can2.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
 
         bg2=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg,anchor="nw")
@@ -7583,13 +7583,14 @@ def draw_can(con=0):
 
     global up_nxt
     global cur_can_2,cur_can_filter_can1_2,cur_can_filter_can2_2
+    global bg_hex
 
     can.delete("all")
 
     can["bg"]=_theme[1][1]
 
 
-    cur_can_2=can.create_oval(0,0,150,150,fill=_theme[0],outline=_theme[0])
+    cur_can_2=can.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
 
     #update_song_status()
@@ -8529,7 +8530,7 @@ def draw_can(con=0):
         filter_can1.delete("all")
         filter_can1["bg"]=_theme[1][1]
 
-        cur_can_filter_can1_2=filter_can1.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+        cur_can_filter_can1_2=filter_can1.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
 
 
@@ -8640,7 +8641,7 @@ def draw_can(con=0):
 
         filter_can2["bg"]=_theme[1][1]
 
-        cur_can_filter_can2_2=filter_can2.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+        cur_can_filter_can2_2=filter_can2.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
         filter_can2.place_forget()
 
@@ -9056,7 +9057,7 @@ def show_lyrics():
     global cur_can_lyrics
     global no_music
     global bg_styl__,bg_styl2
-    global cur_can_lyrics_2
+    global cur_can_lyrics_2,bg_hex
 
 
 
@@ -9120,7 +9121,7 @@ def show_lyrics():
 
                     can_lyrics["bg"]=_theme[1][1]
 
-                    cur_can_lyrics_2=can_lyrics.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+                    cur_can_lyrics_2=can_lyrics.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
                     bg3=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg,anchor="nw")
                     #bg_styl2=can_lyrics.create_image(-10,-(50)+int(can_lyrics.canvasy(0)),image=bg_styl__,anchor="nw")
@@ -9355,6 +9356,8 @@ filter2=0
 
 musical_note3=0
 bg_styl2__=0
+
+bg_hex=[0,120]
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -9392,6 +9395,7 @@ def load_im():
     global most_played,most_played_
     global filter2
     global bg_styl__,bg_styl2__
+    global bg_hex
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -9492,6 +9496,9 @@ def load_im():
 
     bg_styl__=ImageTk.PhotoImage(draw_bg_style(w,h,25,20,_theme[1][-1]))
     bg_styl2__=ImageTk.PhotoImage(draw_bg_style(w,h,25,20,_theme[0]))
+
+
+    bg_hex[0]=ImageTk.PhotoImage(draw_fadingc(bg_hex[1]))
 
 
 
@@ -9751,39 +9758,37 @@ def draw_cur_():
     x,y=pyautogui.position()
 
 
-    r=90
+    r=bg_hex[1]
 
-    can.coords(cur_can_2,x-r,y-r,x+r,y+r)
-    can.itemconfig(cur_can_2,fill=_theme[0],outline=_theme[0])
+    can.coords(cur_can_2,x-r,y-r)
 
 
-    can2.coords(cur_can2_2,x-r-10,y-r+can2.canvasy(0)-88,x+r-10,y+r+can2.canvasy(0)-88)
-    can2.itemconfig(cur_can2_2,fill=_theme[0],outline=_theme[0])
+    can2.coords(cur_can2_2,x-r-10,y-r+can2.canvasy(0)-88)
 
     if add_st==1:
 
         x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40+can3.canvasy(0)
-        can3.coords(cur_can3_2,x_-r,y_-r,x_+r,y_+r)
-        can3.itemconfig(cur_can3_2,fill=_theme[0],outline=_theme[0])
+        can3.coords(cur_can3_2,x_-r,y_-r)
+
 
 
         x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
 
-        can4.coords(cur_can4_2,x_-r,y_-r,x_+r,y_+r)
-        can4.itemconfig(cur_can4_2,fill=_theme[0],outline=_theme[0])
+        can4.coords(cur_can4_2,x_-r,y_-r)
+
 
 
         x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40-int(can3["height"])
 
-        can6.coords(cur_can6_2,x_-r,y_-r,x_+r,y_+r)
-        can6.itemconfig(cur_can6_2,fill=_theme[0],outline=_theme[0])
+        can6.coords(cur_can6_2,x_-r,y_-r)
+
 
     if lyric_st==1:
 
 
         x_,y_=x-(wd-w)/2-10,y-(ht-h)/2-50+can_lyrics.canvasy(0)
-        can_lyrics.coords(cur_can_lyrics_2,x_-r,y_-r,x_+r,y_+r)
-        can_lyrics.itemconfig(cur_can_lyrics_2,fill=_theme[0],outline=_theme[0])
+        can_lyrics.coords(cur_can_lyrics_2,x_-r,y_-r)
+
 
 
 
@@ -9792,8 +9797,8 @@ def draw_cur_():
 
 
         x_,y_=x-(wd-w)/2-(10+25+15+25),y-(ht-h)/2-(h-20-30-15+5+10+2.5-150)
-        can_sort.coords(cur_can_sort_2,x_-r,y_-r,x_+r,y_+r)
-        can_sort.itemconfig(cur_can_sort_2,fill=_theme[0],outline=_theme[0])
+        can_sort.coords(cur_can_sort_2,x_-r,y_-r)
+
 
 
 
@@ -9802,16 +9807,16 @@ def draw_cur_():
 
 
         x_,y_=x-(wd-w)/2-(10+25+5),y-(ht-h)/2-(25+12.5+5)
-        can_settings.coords(cur_can_settings_2,x_-r,y_-r,x_+r,y_+r)
-        can_settings.itemconfig(cur_can_settings_2,fill=_theme[0],outline=_theme[0])
+        can_settings.coords(cur_can_settings_2,x_-r,y_-r)
+
 
 
     if _search==1:
 
 
         x_,y_=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
-        can_search.coords(cur_can_search_2,x_-r,y_-r,x_+r,y_+r)
-        can_search.itemconfig(cur_can_search_2,fill=_theme[0],outline=_theme[0])
+        can_search.coords(cur_can_search_2,x_-r,y_-r)
+
 
 
 
@@ -9819,8 +9824,8 @@ def draw_cur_():
 
 
         x_,y_=x-(wd-w)/2-(10+15+10),y-(ht-h)/2-(5+1+88)
-        can_npl.coords(cur_can_npl_2,x_-r,y_-r,x_+r,y_+r)
-        can_npl.itemconfig(cur_can_npl_2,fill=_theme[0],outline=_theme[0])
+        can_npl.coords(cur_can_npl_2,x_-r,y_-r)
+
 
 
 
@@ -9829,8 +9834,8 @@ def draw_cur_():
 
 
         x_,y_=x-(wd-w)/2-(77-1+1+(10+25+5)),y-(ht-h)/2-(19+1+(25+12.5+5))
-        can_theme_ent.coords(cur_can_theme_ent_2,x_-r,y_-r,x_+r,y_+r)
-        can_theme_ent.itemconfig(cur_can_theme_ent_2,fill=_theme[0],outline=_theme[0])
+        can_theme_ent.coords(cur_can_theme_ent_2,x_-r,y_-r)
+
 
 
 
@@ -9839,15 +9844,15 @@ def draw_cur_():
 
 
         x_,y_=x-(wd-w)/2-(w-10-int(filter_can1["width"])-25),y-(ht-h)/2-(40+30-10-5-5+30+10)
-        filter_can1.coords(cur_can_filter_can1_2,x_-r,y_-r,x_+r,y_+r)
-        filter_can1.itemconfig(cur_can_filter_can1_2,fill=_theme[0],outline=_theme[0])
+        filter_can1.coords(cur_can_filter_can1_2,x_-r,y_-r)
+
 
 
 
 
         x_,y_=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25),y-(ht-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
-        filter_can2.coords(cur_can_filter_can2_2,x_-r,y_-r,x_+r,y_+r)
-        filter_can2.itemconfig(cur_can_filter_can2_2,fill=_theme[0],outline=_theme[0])
+        filter_can2.coords(cur_can_filter_can2_2,x_-r,y_-r)
+
 
 
 
@@ -9857,8 +9862,8 @@ def draw_cur_():
 
 
         x_,y_=x-(wd-w)/2-((w-int(conf_del["width"]))/2),y-(ht-h)/2-((h-int(conf_del["height"]))/2)
-        conf_del.coords(cur_conf_del_2,x_-r,y_-r,x_+r,y_+r)
-        conf_del.itemconfig(cur_conf_del_2,fill=_theme[0],outline=_theme[0])
+        conf_del.coords(cur_conf_del_2,x_-r,y_-r)
+
 
 
 
@@ -10627,11 +10632,40 @@ def convert_(im,col):
 
     return image
 
-def draw_hexagons(w,h,sz):
+def draw_hexagons(w,h,sz,_col_):
 
     global im,can
 
     im=Image.new("RGBA",(w,h),(0,0,0,255))
+
+
+    im2=Image.open("data/im_ref/musical_note2.png")
+    x,y=im2.size
+
+    im2_=Image.new("RGBA",(x,y),(0,0,0,0))
+
+    pixels=im2_.load()
+
+    col=hex_to_rgb(_col_)
+    mc=max(col)
+
+    col=(int(col[0]*30/mc),int(col[1]*30/mc),int(col[2]*30/mc),255)
+
+    for y_ in range(y):
+
+        for x_ in range(x):
+
+            col_=im2.getpixel((x_,y_))
+
+            if col_[-1]==0:
+                pixels[x_,y_]=(0,0,0,255)
+            else:
+                pixels[x_,y_]=col
+
+
+    im.paste(im2_,(int((w-x)/2),int((h-y)/2)))
+
+
 
     draw=ImageDraw.Draw(im)
 
@@ -10679,9 +10713,9 @@ def draw_hexagons(w,h,sz):
 
     y_=-yv
 
-    ny=int(h/yv)+1
+    ny=int(h/yv)+2
     for y in range(ny):
-        nx=int(w/(x1*2+x2*2+x3))+1
+        nx=int(w/(x1*2+x2*2+x3))+2
 
         if con==0:
 
@@ -10724,6 +10758,46 @@ def draw_hexagons(w,h,sz):
 
         y_+=yv
 
+
+    return im
+
+
+
+def draw_fadingc(r):
+    global _theme
+
+
+
+    im=Image.new("RGBA",(r*2,r*2),(0,0,0,0))
+
+    draw=ImageDraw.Draw(im)
+
+
+
+    for r_ in range(r):
+
+        op=255
+
+        if r_!=0:
+
+            op-=255*r_/r
+
+
+        ar=[]
+        for a in range(361):
+
+            x=r_*math.sin(math.radians(a))+r
+            y=r_*math.cos(math.radians(a))+r
+
+
+            x=int(round(x,0))            
+            y=int(round(y,0))
+
+
+            ar.append((x,y))
+
+
+        draw.polygon(ar,outline=(*hex_to_rgb(_theme[0]),int(round(op,0))))
 
     return im
 
@@ -11032,7 +11106,7 @@ def adjust_theme():
 
 
 
-        im=draw_hexagons(wd,ht,50)
+        im=draw_hexagons(wd,ht,40,col)
         im.save("data/bg_.png")
         im.save("data/bg.png")
         im.save("data/bg_dark.png")
@@ -12184,7 +12258,7 @@ def draw_can_sort():
     global sort_ar,sa
     global sort_val
     global cso_im
-    global cur_can_sort_2
+    global cur_can_sort_2,bg_hex
 
 
     col1=_theme[0]
@@ -12198,7 +12272,7 @@ def draw_can_sort():
     can_sort.delete("all")
     can_sort["bg"]=_theme[1][1]
 
-    cur_can_sort_2=can_sort.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+    cur_can_sort_2=can_sort.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
     im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
 
@@ -12558,6 +12632,12 @@ def check_theme_attr():
 
 
 
+            
+
+
+
+
+
 
 
 
@@ -12603,6 +12683,7 @@ def can_settings_b1(e):
     global pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s,can,can2
 
     global unchanged
+    global wd,ht
 
 
 
@@ -12907,7 +12988,7 @@ def can_settings_b1(e):
                     te_border[1]=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
                         outline=_theme[0])
 
-
+            draw_settings(1)
             return
 
     #crop
@@ -13008,7 +13089,8 @@ def can_settings_b1(e):
         if int(can_settings["height"])-95+5-30<=e.y<=int(can_settings["height"])-95+5+25-30:
 
 
-                tbg2_=Image.new("RGBA", (w,h), (0,0,0,255))
+                
+
 
 
                 no_bg_st=1
@@ -13182,7 +13264,9 @@ def draw_settings(con=0):
     global cte_txt1,cte_txt2
     global bg2_
     global bg_sett,bg_sett_,pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s
-    global cur_can_settings_2,cur_can_theme_ent_2
+    global cur_can_settings_2,cur_can_theme_ent_2,bg_hex
+
+    global wd,ht
 
 
     pu_forget()
@@ -13227,7 +13311,7 @@ def draw_settings(con=0):
     can_settings.delete("all")
     can_settings["bg"]=_theme[1][1]
 
-    cur_can_settings_2=can_settings.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+    cur_can_settings_2=can_settings.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
     can_settings.place(in_=root,x=10+25+5,y=25+12.5+5)
 
     im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+5),(25+12.5+5),int(can_settings["width"]),int(can_settings["height"]),25)
@@ -13261,7 +13345,7 @@ def draw_settings(con=0):
 
     can_theme_ent.delete("all")
     can_theme_ent["bg"]=_theme[1][1]
-    cur_can_theme_ent_2=can_theme_ent.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+    cur_can_theme_ent_2=can_theme_ent.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
     can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
 
@@ -13345,6 +13429,9 @@ def draw_settings(con=0):
     if con==0:
 
         tbg2_=tbg_
+
+    if no_bg_st==1:
+        tbg2_=draw_hexagons(wd,ht,40,te_var)
 
 
 
@@ -13473,6 +13560,20 @@ def draw_settings(con=0):
 
     if no_bg_st==1:
         xy=[0,0]
+
+
+        nobg_col=hex_to_rgb(te_var)
+        mc=max(nobg_col)
+
+        nobg_col=(int(nobg_col[0]*30/mc),int(nobg_col[1]*30/mc),int(nobg_col[2]*30/mc))
+
+        nobg_col="#%02x%02x%02x" % nobg_col
+
+        xxx,yyy=tbg3.size
+
+
+
+        can_settings.create_rectangle(20+30+x_,60+30+y_,20+30+x_+xxx,60+30+y_+yyy,fill=nobg_col,outline=nobg_col)
 
 
 
@@ -14294,7 +14395,7 @@ def conf_del_(file,con):
     global w,h
     global bg_del,bg_del_
     global del_st
-    global cur_conf_del_2
+    global cur_conf_del_2,bg_hex
 
     
 
@@ -14307,7 +14408,7 @@ def conf_del_(file,con):
     conf_del.delete("all")
     conf_del["bg"]=_theme[1][1]
 
-    cur_conf_del_2=conf_del.create_oval(0,0,0,0,fill=_theme[0],outline=_theme[0])
+    cur_conf_del_2=conf_del.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
 
     conf_del.create_image(-15,-15,
