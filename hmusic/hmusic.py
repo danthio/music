@@ -1592,7 +1592,7 @@ print(f"Amplitude at {target_time} seconds: {amplitude}")
 def draw_cur_can():
     global can,cur_can
     global w,h,wd,ht
-    global cursor
+    global cursor,cur_can_2
 
     x,y=pyautogui.position()
 
@@ -1604,6 +1604,11 @@ def draw_cur_can():
     can.delete(cur_can)
 
     
+    r=bg_hex[1]
+
+    
+    can.coords(cur_can_2,xx-r,yy-r)
+
 
     cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
@@ -2792,6 +2797,8 @@ def can2_b1(e):
 
 
     #play song
+
+    main()
 
     if e.x<=(int(can2["width"])-sb_sz-1)-1:
         for a in range(len(songs)):
@@ -5691,10 +5698,10 @@ def main():
                 txt=_text_(can2,song[:-4],"FreeMono",13,(int(can2["width"])-10-20-10-sb_sz-2-50))
 
 
-                draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+                draw_outline_text(can2,txt,50,y+20,"w",("FreeMono",13))
 
 
-                can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                can2.create_text(50,y+20,text=txt,font=("FreeMono",13),fill=col,anchor="w")
                 
                 try:
 
@@ -5948,7 +5955,7 @@ def main():
 
                         else:
 
-                            draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+                            draw_outline_text(can2,txt,50,y+20,"w",("FreeMono",13))
 
 
                             can2.create_image(0,y+10,image=musical_note2,anchor="nw")
@@ -5961,7 +5968,7 @@ def main():
                         
 
 
-                        can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                        can2.create_text(50,y+20,text=txt,font=("FreeMono",13),fill=col,anchor="w")
                         
 
 
@@ -6036,7 +6043,7 @@ def main():
                             can2.create_image(0,y+10,image=musical_note1,anchor="nw")
 
                         else:
-                            draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+                            draw_outline_text(can2,txt,50,y+20,"w",("FreeMono",13))
                             col=col1
                             can2.create_image(0,y+10,image=musical_note2,anchor="nw")
 
@@ -6048,7 +6055,7 @@ def main():
                         
 
 
-                        can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                        can2.create_text(50,y+20,text=txt,font=("FreeMono",13),fill=col,anchor="w")
                         
 
 
@@ -6232,7 +6239,7 @@ def main():
 
                             else:
 
-                                draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+                                draw_outline_text(can2,txt,50,y+20,"w",("FreeMono",13))
 
                                 col=col1
 
@@ -6251,7 +6258,7 @@ def main():
                             
 
 
-                            can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                            can2.create_text(50,y+20,text=txt,font=("FreeMono",13),fill=col,anchor="w")
                             
 
 
@@ -6320,7 +6327,7 @@ def main():
 
                             else:
 
-                                draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+                                draw_outline_text(can2,txt,50,y+20,"w",("FreeMono",13))
 
 
                                 can2.create_image(0,y+10,image=musical_note2,anchor="nw")
@@ -6333,7 +6340,7 @@ def main():
                             
 
 
-                            can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                            can2.create_text(50,y+20,text=txt,font=("FreeMono",13),fill=col,anchor="w")
                             
 
 
@@ -6384,7 +6391,7 @@ def main():
 
                     else:
 
-                        draw_outline_text(can2,txt,50,y+25,"w",("FreeMono",13))
+                        draw_outline_text(can2,txt,50,y+20,"w",("FreeMono",13))
 
 
 
@@ -6398,7 +6405,7 @@ def main():
                     
 
 
-                    can2.create_text(50,y+25,text=txt,font=("FreeMono",13),fill=col,anchor="w")
+                    can2.create_text(50,y+20,text=txt,font=("FreeMono",13),fill=col,anchor="w")
                     
 
 
@@ -9753,121 +9760,10 @@ def draw_cur_():
     global cur_can_2,cur_can2_2,cur_can3_2,cur_can4_2,cur_can6_2,cur_can_lyrics_2,cur_can_sort_2,cur_can_settings_2,cur_can_search_2,cur_can_npl_2,cur_can_theme_ent_2,cur_filter_can1_2,cur_filter_can2_2,cur_conf_del_2    
 
     global add_st,lyric_st,sort_st,settings_st2,filter_st,del_st
+    global _theme
 
 
     x,y=pyautogui.position()
-
-
-    r=bg_hex[1]
-
-    can.coords(cur_can_2,x-r,y-r)
-
-
-    can2.coords(cur_can2_2,x-r-10,y-r+can2.canvasy(0)-88)
-
-    if add_st==1:
-
-        x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40+can3.canvasy(0)
-        can3.coords(cur_can3_2,x_-r,y_-r)
-
-
-
-        x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
-
-        can4.coords(cur_can4_2,x_-r,y_-r)
-
-
-
-        x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40-int(can3["height"])
-
-        can6.coords(cur_can6_2,x_-r,y_-r)
-
-
-    if lyric_st==1:
-
-
-        x_,y_=x-(wd-w)/2-10,y-(ht-h)/2-50+can_lyrics.canvasy(0)
-        can_lyrics.coords(cur_can_lyrics_2,x_-r,y_-r)
-
-
-
-
-
-    if sort_st==1:
-
-
-        x_,y_=x-(wd-w)/2-(10+25+15+25),y-(ht-h)/2-(h-20-30-15+5+10+2.5-150)
-        can_sort.coords(cur_can_sort_2,x_-r,y_-r)
-
-
-
-
-
-    if settings_st2==1:
-
-
-        x_,y_=x-(wd-w)/2-(10+25+5),y-(ht-h)/2-(25+12.5+5)
-        can_settings.coords(cur_can_settings_2,x_-r,y_-r)
-
-
-
-    if _search==1:
-
-
-        x_,y_=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
-        can_search.coords(cur_can_search_2,x_-r,y_-r)
-
-
-
-
-    if _npl==1:
-
-
-        x_,y_=x-(wd-w)/2-(10+15+10),y-(ht-h)/2-(5+1+88)
-        can_npl.coords(cur_can_npl_2,x_-r,y_-r)
-
-
-
-
-
-    if settings_st2==1:
-
-
-        x_,y_=x-(wd-w)/2-(77-1+1+(10+25+5)),y-(ht-h)/2-(19+1+(25+12.5+5))
-        can_theme_ent.coords(cur_can_theme_ent_2,x_-r,y_-r)
-
-
-
-
-
-    if filter_st==1:
-
-
-        x_,y_=x-(wd-w)/2-(w-10-int(filter_can1["width"])-25),y-(ht-h)/2-(40+30-10-5-5+30+10)
-        filter_can1.coords(cur_can_filter_can1_2,x_-r,y_-r)
-
-
-
-
-
-        x_,y_=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25),y-(ht-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
-        filter_can2.coords(cur_can_filter_can2_2,x_-r,y_-r)
-
-
-
-
-
-
-    if del_st==1:
-
-
-        x_,y_=x-(wd-w)/2-((w-int(conf_del["width"]))/2),y-(ht-h)/2-((h-int(conf_del["height"]))/2)
-        conf_del.coords(cur_conf_del_2,x_-r,y_-r)
-
-
-
-
-
 
 
 
@@ -9878,6 +9774,131 @@ def draw_cur_():
         cur_p=[x,y]
 
         can.delete(cur_can)
+
+
+
+
+    if _theme[-2]==1:
+
+
+        r=bg_hex[1]
+
+        if con==1:
+
+            can.coords(cur_can_2,x-r,y-r)
+
+        if lst==1:
+
+
+            can2.coords(cur_can2_2,x-r-10,y-r+can2.canvasy(0)-88)
+
+        if add_st==1:
+
+            x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40+can3.canvasy(0)
+            can3.coords(cur_can3_2,x_-r,y_-r)
+
+
+
+            x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2
+
+            can4.coords(cur_can4_2,x_-r,y_-r)
+
+
+
+            x_,y_=x-(wd-w)/2-(w-int(can3["width"]))/2,y-(ht-h)/2-(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2-40-int(can3["height"])
+
+            can6.coords(cur_can6_2,x_-r,y_-r)
+
+
+        if lyric_st==1:
+
+
+            x_,y_=x-(wd-w)/2-10,y-(ht-h)/2-50+can_lyrics.canvasy(0)
+            can_lyrics.coords(cur_can_lyrics_2,x_-r,y_-r)
+
+
+
+
+
+        if sort_st==1:
+
+
+            x_,y_=x-(wd-w)/2-(10+25+15+25),y-(ht-h)/2-(h-20-30-15+5+10+2.5-150)
+            can_sort.coords(cur_can_sort_2,x_-r,y_-r)
+
+
+
+
+
+        if settings_st2==1:
+
+
+            x_,y_=x-(wd-w)/2-(10+25+5),y-(ht-h)/2-(25+12.5+5)
+            can_settings.coords(cur_can_settings_2,x_-r,y_-r)
+
+
+
+        if _search==1:
+
+
+            x_,y_=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
+            can_search.coords(cur_can_search_2,x_-r,y_-r)
+
+
+
+
+        if _npl==1:
+
+
+            x_,y_=x-(wd-w)/2-(10+15+10),y-(ht-h)/2-(5+1+88)
+            can_npl.coords(cur_can_npl_2,x_-r,y_-r)
+
+
+
+
+
+        if settings_st2==1:
+
+
+            x_,y_=x-(wd-w)/2-(77-1+1+(10+25+5)),y-(ht-h)/2-(19+1+(25+12.5+5))
+            can_theme_ent.coords(cur_can_theme_ent_2,x_-r,y_-r)
+
+
+
+
+
+        if filter_st==1:
+
+
+            x_,y_=x-(wd-w)/2-(w-10-int(filter_can1["width"])-25),y-(ht-h)/2-(40+30-10-5-5+30+10)
+            filter_can1.coords(cur_can_filter_can1_2,x_-r,y_-r)
+
+
+
+
+
+            x_,y_=x-(wd-w)/2-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25),y-(ht-h)/2-(40+30-10-5-5+30+10+10+90)+filter_can2.canvasy(0)
+            filter_can2.coords(cur_can_filter_can2_2,x_-r,y_-r)
+
+
+
+
+
+
+        if del_st==1:
+
+
+            x_,y_=x-(wd-w)/2-((w-int(conf_del["width"]))/2),y-(ht-h)/2-((h-int(conf_del["height"]))/2)
+            conf_del.coords(cur_conf_del_2,x_-r,y_-r)
+
+
+
+
+
+
+
+
+
 
     can2.delete(cur_can2)
 
@@ -10028,6 +10049,26 @@ def draw_cur():
 
     root.after(10,draw_cur)
 
+
+def no_of_s_pl(pl):
+
+    global playlist
+
+    for p in playlist:
+
+
+        if p==pl:
+
+            n=len(playlist[p])
+
+            if n==1:
+
+                return f"{n} song"
+            else:
+                return f"{n} songs"
+
+nviews=0
+nplst=0
 def __check_cur_pos():
     global can2,attr,current_playing,playlist,songs
     global _pl_,playlist2,playlist3,_fv_,music_details,favourite1,favourite1_,favourite2_,favourite2
@@ -10049,6 +10090,7 @@ def __check_cur_pos():
     global delete_,delete2_
     global settings_st2,filter_st,sort_st,add_st,del_st
     global sel_filt1,sel_filt2,filter_can1,filter_can2,filter_val
+    global nviews,nplst
 
 
 
@@ -10145,6 +10187,15 @@ def __check_cur_pos():
 
                         can2.coords(cp_im,0,y)
                         #can2.coords(cp_im3,0,y)
+
+                        if p[0]==current_playlist:
+                            cpl="#000000"
+                        else:
+                            cpl=_theme[0]
+
+                        can2.delete(nplst)
+                        nplst=can2.create_text(50,y+50,text=no_of_s_pl(p[0]),anchor="sw",fill=cpl,
+                            font=("FreeMono",9))
                         if current_playlist==p[0]:
 
                             attr[0]=can2.create_image((int(can2["width"])-sb_sz-1)-10-25-15-25,y+12.5,image=add2,anchor="nw")
@@ -10309,6 +10360,10 @@ def __check_cur_pos():
                         y=song[1]
 
                         can2.coords(cp_im,0,y)
+
+                        can2.delete(nviews)
+
+                        nviews=can2.create_text(50,y+50,text=get_no_of_views(song[0]),fill=_theme[0],anchor="sw",font=("FreeMono",9))
                         break
 
             return
@@ -10340,6 +10395,17 @@ def __check_cur_pos():
                                 y=song[1]
 
                                 can2.coords(cp_im,0,y)
+
+                                can2.delete(nviews)
+
+                                if song[0]==current_playing:
+                                    cviews="#000000"
+                                else:
+                                    cviews=_theme[0]
+
+                                nviews=can2.create_text(50,y+50,text=get_no_of_views(song[0]),fill=cviews,anchor="sw",font=("FreeMono",9))
+
+
                                 #can2.coords(cp_im2,0,y)
 
                                 if song[0]==current_playing:
@@ -10632,7 +10698,7 @@ def convert_(im,col):
 
     return image
 
-def draw_hexagons(w,h,sz,_col_):
+def draw_hexagons(w,h,sz,_col_,col2=None):
 
     global im,can
 
@@ -10745,7 +10811,14 @@ def draw_hexagons(w,h,sz,_col_):
             x_+=x1*2+x2*2+x3
 
 
-            draw.polygon(ar,outline=(0,0,0,0))
+            cole=(0,0,0,0)
+
+            if col2!=None:
+
+                cole=(*hex_to_rgb(col2),255)
+
+
+            draw.polygon(ar,outline=cole)
 
 
 
@@ -12988,7 +13061,6 @@ def can_settings_b1(e):
                     te_border[1]=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
                         outline=_theme[0])
 
-            draw_settings(1)
             return
 
     #crop
@@ -13199,18 +13271,48 @@ def conf_bg(col):
     global _theme
     global bg_region_,bg_region2
     global op_var,tbg3,tbg3_
+    global no_bg_st
+    global te_var
+    global _bim_
 
-    x1=int(round(bg_region_[1][0]-bg_region_[0][0],0))
-    x2=int(round(bg_region_[1][4]-bg_region_[0][0],0))
-
-    y1=int(round(bg_region_[1][1]-bg_region_[0][1],0))
-    y2=int(round(bg_region_[1][5]-bg_region_[0][1],0))
 
     im=tbg3
-    im=im.crop((x1,y1,x2,y2))
+    xx,yy=im.size
 
-    tbg3_=convert_(im,col)
-    tbg3_=darken_image(tbg3_,(0,0,0), float(str(op_var).replace(" ","").split(",")[0]))
+
+    
+
+    if no_bg_st==1:
+
+        nobg_col=hex_to_rgb(col)
+        mc=max(nobg_col)
+
+        nobg_col=(int(nobg_col[0]*30/mc),int(nobg_col[1]*30/mc),int(nobg_col[2]*30/mc))
+
+        nobg_col="#%02x%02x%02x" % nobg_col
+
+
+        im=draw_hexagons(wd,ht,40,col,nobg_col)
+
+        im=im.resize((xx,yy))
+
+
+
+        tbg3_=im
+    else:
+
+        x1=int(round(bg_region_[1][0]-bg_region_[0][0],0))
+        x2=int(round(bg_region_[1][4]-bg_region_[0][0],0))
+
+        y1=int(round(bg_region_[1][1]-bg_region_[0][1],0))
+        y2=int(round(bg_region_[1][5]-bg_region_[0][1],0))
+
+
+
+        im=im.crop((x1,y1,x2,y2))
+
+        tbg3_=convert_(im,col)
+        tbg3_=darken_image(tbg3_,(0,0,0), float(str(op_var).replace(" ","").split(",")[0]))
 
     bg_region2=ImageTk.PhotoImage(tbg3_)
 
@@ -13227,6 +13329,7 @@ tbg_,tbg2_,tbg3=0,0,0
 op_ar=[]
 
 bg_sett,bg_sett_=0,0
+
 def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
@@ -13269,6 +13372,7 @@ def draw_settings(con=0):
     global wd,ht
 
 
+
     pu_forget()
 
 
@@ -13304,6 +13408,11 @@ def draw_settings(con=0):
             col_=sel_col
         except:
             col_=_theme[0] 
+
+
+    if no_bg_st==1:
+
+        op_var=str(0.5)+","+str(_theme[3])
 
 
     
@@ -13562,18 +13671,6 @@ def draw_settings(con=0):
         xy=[0,0]
 
 
-        nobg_col=hex_to_rgb(te_var)
-        mc=max(nobg_col)
-
-        nobg_col=(int(nobg_col[0]*30/mc),int(nobg_col[1]*30/mc),int(nobg_col[2]*30/mc))
-
-        nobg_col="#%02x%02x%02x" % nobg_col
-
-        xxx,yyy=tbg3.size
-
-
-
-        can_settings.create_rectangle(20+30+x_,60+30+y_,20+30+x_+xxx,60+30+y_+yyy,fill=nobg_col,outline=nobg_col)
 
 
 
@@ -13791,6 +13888,7 @@ def draw_op(x,y,xv,con):
     global op2_v1,op2_v2,op2_v3,op2_v4,op2_v5
 
     global can_outline_st
+    global no_bg_st
 
 
 
@@ -13804,8 +13902,10 @@ def draw_op(x,y,xv,con):
 
         a1=round(100*float(xv),0)
 
-        op1_v1=can_settings.create_line(x,y, x+a1,y,
-            fill=_theme[0],width=2)
+        if no_bg_st==0:
+
+            op1_v1=can_settings.create_line(x,y, x+a1,y,
+                fill=_theme[0],width=2)
 
 
 
@@ -13813,7 +13913,14 @@ def draw_op(x,y,xv,con):
 
 
         draw_outline_text(can_settings,str(round(xv,3)),x+100,y+10,"e",("FreeMono",11))
-        op1_v5=can_settings.create_text(x+100,y+10,text=str(round(xv,3)),
+
+
+        txt=str(round(xv,3))
+
+        if no_bg_st==1:
+            txt="n/a"
+
+        op1_v5=can_settings.create_text(x+100,y+10,text=txt,
             fill=_theme[0],font=("FreeMono",11),anchor="e")
 
 
@@ -15632,6 +15739,42 @@ can_theme_ent.bind("<KeyPress>",can_theme_ent_kp)
 
 
 can_theme_ent_insert()
+
+
+def get_no_of_views(song):
+
+
+    n=music_details[song][1]
+
+
+
+    if n>=1000000000:
+
+        n=str(round(n/1000000000,3))+" B Views"
+
+    elif n>=1000000:
+
+        n=str(round(n/1000000,3))+" M Views"
+        
+
+    elif n>=1000:
+
+        n=str(round(n/1000,3))+" K Views"
+
+
+
+    else:
+
+        if n==1:
+
+           n=str(n)+" View"
+        else:
+            n=str(n)+" Views"
+
+
+    return n
+
+
 
 
 
