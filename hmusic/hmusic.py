@@ -10117,6 +10117,8 @@ def __check_cur_pos():
         filter_can1.coords(sel_filt1,0,-100)
         filter_can2.coords(sel_filt2,0,-100)
 
+        can2.delete(nviews)
+        can2.delete(nplst)
 
 
 
