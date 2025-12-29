@@ -5074,7 +5074,6 @@ def play_music(file,time,con=0):
 
         songs_status[-1]=current_playing
 
-        main()
 
 
 
@@ -9444,7 +9443,7 @@ filter2=0
 musical_note3=0
 bg_styl2__=0
 
-bg_hex=[0,120]
+bg_hex=[0,200]
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -10802,8 +10801,30 @@ def convert_(im,col):
 
             mx=max(rgb)
 
+            #c_=color[rgb.index(mx)]
+            """
+            else:
 
-            c_=color[rgb.index(mx)]
+
+
+                color=[*color[:3]]
+
+                min_=color.index(min(color))
+
+                
+
+                color[rgb.index(mx)]=color[min_]
+
+                color[min_]=color[rgb.index(mx)]
+
+
+
+
+
+                c_=max(color)
+            """
+
+            c_=max(color)
 
 
 
@@ -10970,7 +10991,7 @@ def draw_fadingc(r):
     draw=ImageDraw.Draw(im)
 
 
-
+    sc=1
     for r_ in range(r):
 
         op=255
@@ -10993,9 +11014,12 @@ def draw_fadingc(r):
 
             ar.append((x,y))
 
+            col=hex_to_rgb(_theme[0])
 
-        draw.polygon(ar,outline=(*hex_to_rgb(_theme[0]),int(round(op,0))))
 
+        draw.polygon(ar,outline=(int(col[0]*sc),int(col[1]*sc),int(col[2]*sc),int(round(op,0))))
+
+        sc-=1/r
     return im
 
 circle=0
@@ -15987,10 +16011,13 @@ def csong_det():
 
 def check_nxtx():
 
-    global nxt_sng
+    global nxt_sng,w
     global _v81__,_v82__,_v83__,_v84__
 
-    txt=det_nxt()
+    r=15
+    xx=int((w/2-10-50))
+    txt=_text_(can,det_nxt().replace(".mp3",""),"FreeMono",13,xx-r*2)
+
 
     can.itemconfig(nxt_sng,text=txt)
     can.itemconfig(_v81__,text=txt)
