@@ -2544,7 +2544,7 @@ def can2_b1(e):
 
 
 
-            if e.x<=(int(can2["width"])-sb_sz-1)-10-25-15-25-10:
+            if e.x<=(int(can2["width"])-sb_sz-1):
 
 
                 if _pl[1]<=can2.canvasy(e.y)<=_pl[1]+50:
@@ -8562,16 +8562,16 @@ def draw_can(con=0):
 
     if select_st==1:
 
-        length_in_pixels = get_text_length(can, playlist_select, "FreeMono", 13) 
+        length_in_pixels = get_text_length(can, f"{playlist_select} - {no_of_s_pl(playlist_select)}", "FreeMono", 13) 
 
         x=(w-(30+5+length_in_pixels))/2
 
         can.create_image(x,(h-121+75)+((h-1)-(h-121+75))/2-11,image=playlist2,anchor="nw")
 
 
-        draw_outline_text(can,playlist_select,x+30+5,(h-121+75)+((h-1)-(h-121+75))/2,"w",("FreeMono",13))
+        draw_outline_text(can,f"{playlist_select} - {no_of_s_pl(playlist_select)}",x+30+5,(h-121+75)+((h-1)-(h-121+75))/2,"w",("FreeMono",13))
 
-        can.create_text(x+30+5,(h-121+75)+((h-1)-(h-121+75))/2,text=playlist_select,font=("FreeMono",13),fill=col1,anchor="w")
+        can.create_text(x+30+5,(h-121+75)+((h-1)-(h-121+75))/2,text=f"{playlist_select} - {no_of_s_pl(playlist_select)}",font=("FreeMono",13),fill=col1,anchor="w")
 
         can.create_image(w-10-25,(h-121+75)+((h-1)-(h-121+75)-25)/2,image=quit,anchor="nw")
 
@@ -9443,7 +9443,7 @@ filter2=0
 musical_note3=0
 bg_styl2__=0
 
-bg_hex=[0,200]
+bg_hex=[0,150]
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
