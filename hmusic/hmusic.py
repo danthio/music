@@ -270,7 +270,8 @@ def create_dark_im():
     ["no-music.png",[302,27]],
     ["playlist2.png",[27]],
     ["delete.png",[27]],
-    ["most_played.png",[27]]   
+    ["most_played.png",[27]],
+    ["up",[15]]   
 
     ]
 
@@ -378,7 +379,8 @@ im_dict={
 "add2":[("add2",25)],
 "checked":[("checked",20)],
 "bin2":[("bin2",25),("bin3",20)],
-"most_played":[("most_played",25)]
+"most_played":[("most_played",25)],
+"up":[("up",15),("down",15,180)]
 }
 
 
@@ -634,7 +636,7 @@ def darken_image(im,col, alpha):
     img = im.convert("RGBA")
     
     # Create a black overlay with the same size as the image
-    black_overlay = Image.new("RGBA", img.size, (*col, int(255 * alpha)))
+    black_overlay = Image.new("RGBA", img.size, (*col, int(255 * (1-alpha))))
     
     # Composite the black overlay onto the image
     darkened_img = Image.alpha_composite(img, black_overlay)
@@ -3041,6 +3043,7 @@ def pu_forget():
     global conf_del,del_st
     global filter_st,filter_can1,filter_can2
     global can_lyrics,lyric_st
+    global can_effects
 
     _search=0
     search_var=""
@@ -3085,6 +3088,8 @@ def pu_forget():
     lyric_st=0
     can_lyrics.delete("all")
     can_lyrics.place_forget()
+
+    can_effects.place_forget()
 
     draw_can()
 
@@ -9443,6 +9448,8 @@ filter2=0
 musical_note3=0
 bg_styl2__=0
 
+up,down=0,0
+
 bg_hex=[0,150]
 def load_im():
 
@@ -9482,6 +9489,7 @@ def load_im():
     global filter2
     global bg_styl__,bg_styl2__
     global bg_hex
+    global up,down
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -9554,8 +9562,8 @@ def load_im():
     no_music=ImageTk.PhotoImage(file="data/no-music.png") 
     none_l=ImageTk.PhotoImage(file="data/no-music2.png") 
 
-
-
+    up=ImageTk.PhotoImage(file="data/up.png")  
+    down=ImageTk.PhotoImage(file="data/down.png")  
 
 
     most_played=ImageTk.PhotoImage(file="data/most_played.png")
@@ -9857,7 +9865,7 @@ def draw_cur_():
 
 
 
-    if _theme[-2]==1:
+    if _theme[-2][0]==1:
 
 
         r=bg_hex[1]
@@ -10839,7 +10847,8 @@ def convert_(im,col):
 
     return image
 
-def draw_hexagons(w,h,sz,_col_,con,col2=None):
+def draw_effects(w,h,sz,_col_,con,col2=None):
+
 
 
     im=Image.new("RGBA",(w,h),(0,0,0,255))
@@ -10852,10 +10861,6 @@ def draw_hexagons(w,h,sz,_col_,con,col2=None):
 
     pixels=im2_.load()
 
-    col=hex_to_rgb(_col_)
-    mc=max(col)
-
-    col=(int(col[0]*30/mc),int(col[1]*30/mc),int(col[2]*30/mc),255)
 
     for y_ in range(y):
 
@@ -10866,7 +10871,7 @@ def draw_hexagons(w,h,sz,_col_,con,col2=None):
             if col_[-1]==0:
                 pixels[x_,y_]=(0,0,0,255)
             else:
-                pixels[x_,y_]=col
+                pixels[x_,y_]=(*hex_to_rgb(_col_),255)
 
         root.after(1,update)
 
@@ -10937,7 +10942,7 @@ def draw_hexagons(w,h,sz,_col_,con,col2=None):
 
                 if col2!=None:
 
-                    cole=(*hex_to_rgb(col2),255)
+                    cole=_col_
 
                 draw.polygon(ar,outline=cole)
 
@@ -11027,7 +11032,7 @@ def draw_hexagons(w,h,sz,_col_,con,col2=None):
 
                 if col2!=None:
 
-                    cole=(*hex_to_rgb(col2),255)
+                    cole=_col_
 
 
                 draw.polygon(ar,outline=cole)
@@ -11046,6 +11051,69 @@ def draw_hexagons(w,h,sz,_col_,con,col2=None):
             y_+=yv
             root.after(1,update)
 
+
+
+    elif con==2:
+
+
+        y1=(sz/2)*math.cos(math.radians(60))
+        y2=(sz/2)*math.cos(math.radians(0))
+
+
+
+
+        xv=(sz/2)*math.sin(math.radians(180-60))
+
+        x1=(sz/2)*math.sin(math.radians(270))
+        x2=(sz/2)*math.sin(math.radians(270))+xv 
+
+
+
+        yv=y2-y1
+
+        st=0
+
+        x_=-(x2-x1)
+
+        nx=int(w/(xv))+3
+        for x in range(nx):
+
+            ny=int(h/(sz/2))+3
+
+            if st==0:
+                y_=-(sz)
+                st=1
+            elif st==1:
+                st=0
+                y_=-(sz)+yv
+
+            for y in range(ny):
+
+                ar=[]
+                for a in range(360):
+
+                    x=(sz/2)*math.sin(math.radians(a))+x_
+                    y=(sz/2)*math.cos(math.radians(a))+y_
+
+
+                    ar.append((int(round(x,0)),int(round(y,0))))
+
+
+                cole=(0,0,0,0)
+
+                if col2!=None:
+
+                    cole=_col_
+
+
+                draw.polygon(ar,outline=cole)
+
+
+                y_+=sz/2
+
+            x_+=xv
+
+            root.after(1,update)
 
 
     return im
@@ -11278,7 +11346,7 @@ backward=None
 
 note_=None
 
-_theme=["#ffffff",[],0,0.15,[],1,[]]
+_theme=["#ffffff",[],0,0.15,[],[1],[]]
 
 
 
@@ -11394,11 +11462,26 @@ def adjust_theme():
     if unchanged==0:
         change_theme(col)
 
-    if _theme[-2]==1:
+    if _theme[-2][0]==1:
+
+
+        try:
+
+            im=draw_effects(wd,ht,_theme[-2][2],_theme[-2][3],_theme[-2][1])
+        except:
+
+            ecol=hex_to_rgb(col)
+
+            ecol="#%02x%02x%02x" % (int(ecol[0]*0.8),int(ecol[1]*0.8),int(ecol[2]*0.8),)
+
+            _theme[2]=0.15
+            _theme[-2]=[1,0,40,ecol]
+
+
+            im=draw_effects(wd,ht,_theme[-2][2],_theme[-2][3],_theme[-2][1])
 
 
 
-        im=draw_hexagons(wd,ht,40,col,0)
         im.save("data/bg_.png")
         im.save("data/bg.png")
         im.save("data/bg_dark.png")
@@ -12843,7 +12926,7 @@ def check_up_theme():
             con_theme=0
 
     root.after(2,check_up_theme)
-theme_attr=[0,0]
+theme_attr=[0,0,[0,0]]
 
 def check_theme_attr():
     global settings_st2
@@ -12862,9 +12945,9 @@ def check_theme_attr():
     if settings_st2==1 and con_op==0:
 
 
-        if te_var!=theme_attr[0] or op_var!=theme_attr[1]:
+        if te_var!=theme_attr[0] or op_var!=theme_attr[1] or effect!=theme_attr[2][0] or effect_sz!=theme_attr[2][1]:
 
-            theme_attr=[te_var,op_var]
+            theme_attr=[te_var,op_var,[effect,effect_sz]]
 
             can_settings.delete(bg_region)
             can_settings.delete(bg_region2_)
@@ -12920,11 +13003,17 @@ def check_theme_attr():
                 bg_region=can_settings.create_line(bg_region_[1],fill=te_var)
                 if no_bg_st==1:
                     can_settings.itemconfig(def_lb,fill=te_var)
+
+                no_bg_eff(effect,effect_sz,te_var)
             except:
                 bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
     
                 if no_bg_st==1:
                     can_settings.itemconfig(def_lb,fill=_theme[0])
+
+                no_bg_eff(effect,effect_sz,_theme[0])
+
+
 
 
 
@@ -12981,6 +13070,10 @@ def can_settings_b1(e):
 
     global unchanged
     global wd,ht
+    global effect,effect_sz,ep
+    global can_effects
+
+    can_effects.place_forget()
 
 
 
@@ -13056,6 +13149,7 @@ def can_settings_b1(e):
 
 
     if con_save==1:
+
 
 
         try:
@@ -13163,7 +13257,17 @@ def can_settings_b1(e):
 
         _theme[-1]=[ar[0],ar[1],ar[4],ar[5]]
 
-        _theme[-2]=no_bg_st
+
+        if no_bg_st==0:
+
+            _theme[-2]=[0]
+        elif no_bg_st==1:
+
+            ecol=hex_to_rgb(te_var)
+
+            effect_col="#%02x%02x%02x" % (int(ecol[0]*float(op1)),int(ecol[1]*float(op1)),int(ecol[2]*float(op1)))
+            _theme[-2]=[1,effect,effect_sz,effect_col]
+
 
         save()
 
@@ -13387,7 +13491,7 @@ def can_settings_b1(e):
 
                 
 
-
+                _theme[2]=0.15
 
                 no_bg_st=1
 
@@ -13416,33 +13520,32 @@ def can_settings_b1(e):
 
                 if op_==0:
 
-                    if no_bg_st==0:
 
 
-                        if e.x<op_ar[op_][0]:
+                    if e.x<op_ar[op_][0]:
 
-                                    
-                            op_var1_=0
+                                
+                        op_var1_=0
 
-                            op_var=str(op_var1_)+","+str(op_var2_)
+                        op_var=str(op_var1_)+","+str(op_var2_)
 
-                        elif e.x>op_ar[op_][0]+100:
+                    elif e.x>op_ar[op_][0]+100:
 
+                
                     
-                        
-                            op_var1_=1
+                        op_var1_=1
 
-                            op_var=str(op_var1_)+","+str(op_var2_)
-                        elif op_ar[op_][0]<=e.x<=op_ar[op_][0]+100:
+                        op_var=str(op_var1_)+","+str(op_var2_)
+                    elif op_ar[op_][0]<=e.x<=op_ar[op_][0]+100:
 
-                            x=e.x-op_ar[op_][0]
+                        x=e.x-op_ar[op_][0]
 
-                            op_var1_=x/100
+                        op_var1_=x/100
 
-                            op_var=str(op_var1_)+","+str(op_var2_)
+                        op_var=str(op_var1_)+","+str(op_var2_)
 
 
-                        draw_op(op_ar[op_][0],op_ar[op_][1],op_var1_,0)
+                    draw_op(op_ar[op_][0],op_ar[op_][1],op_var1_,0)
 
                     return
 
@@ -13475,6 +13578,40 @@ def can_settings_b1(e):
 
                     return
 
+    #effects
+
+    if ep[0][0]<=e.x<=ep[0][0]+15:
+        if ep[0][1]<=e.y<=ep[0][1]+15:
+
+
+
+            #effect
+
+
+
+            draw_can_effects()
+
+            return
+
+
+    if ep[1][0]<=e.x<=ep[1][0]+15:
+        if ep[1][1]<=e.y<=ep[1][1]+15:
+            #effect sz up
+
+            effect_sz+=5
+
+            return
+
+
+    if ep[2][0]<=e.x<=ep[2][0]+15:
+        if ep[2][1]<=e.y<=ep[2][1]+15:
+            #effect sz down
+
+            if not effect_sz-5<0:
+
+                effect_sz-=5
+
+            return
 
 
 no_bg_st=0
@@ -13500,6 +13637,7 @@ def conf_bg(col):
     global no_bg_st
     global te_var
     global _bim_
+    global effect,effect_sz
 
 
     im=tbg3
@@ -13510,15 +13648,18 @@ def conf_bg(col):
 
     if no_bg_st==1:
 
+
         nobg_col=hex_to_rgb(col)
         mc=max(nobg_col)
 
-        nobg_col=(int(nobg_col[0]*30/mc),int(nobg_col[1]*30/mc),int(nobg_col[2]*30/mc))
+        op=float(str(op_var).replace(" ","").split(",")[0])
+
+        nobg_col=(int(nobg_col[0]*op),int(nobg_col[1]*op),int(nobg_col[2]*op))
 
         nobg_col="#%02x%02x%02x" % nobg_col
 
 
-        im=draw_hexagons(wd,ht,40,col,0,nobg_col)
+        im=draw_effects(wd,ht,effect_sz,nobg_col,effect,nobg_col)
 
         im=im.resize((xx,yy))
 
@@ -13544,6 +13685,52 @@ def conf_bg(col):
 
     return bg_region2
 
+
+e1,e2,e3,e4,e5=0,0,0,0,0
+effect,effect_sz=0,0
+ep=[]
+ar_effects=["hexagon 1","hexagon 2","flower of life"]
+def no_bg_eff(effect,effect_sz,col):
+    global can_settings
+    global up,down
+    global e1,e2,e3,e4,e5,ep,ey
+    global ar_effects
+
+    global can_settings
+
+
+    can_settings.delete(e1)
+    can_settings.delete(e2)
+    can_settings.delete(e3)
+    can_settings.delete(e4)
+    can_settings.delete(e5)
+
+    ep=[]
+
+
+    f=font.Font(family="FreeMono",size=13)
+
+
+
+    l1=f.measure(f"{ar_effects[effect]} ")
+    l2=f.measure(f"{effect_sz} ")
+
+    ex=(int(can_settings["width"])-(l1+15+70+l2+15))/2
+
+
+    e1=can_settings.create_text(ex,60+30+ey+15,text=str(ar_effects[effect]),font=("FreeMono",13),fill=col,anchor="w")
+    e2=can_settings.create_image(ex+l1,60+30+ey+15,image=down,anchor="w")
+
+    ep.append((ex+l1,60+30+ey+15-7.5))
+
+    e3=can_settings.create_text(ex+l1+15+70,60+30+ey+15,text=str(effect_sz),font=("FreeMono",13),fill=col,anchor="w")
+    e4=can_settings.create_image(ex+l1+15+70+l2,60+30+ey+15-15,image=up,anchor="nw")
+    e5=can_settings.create_image(ex+l1+15+70+l2,60+30+ey+15,image=down,anchor="nw")
+
+    ep.append((ex+l1+15+70+l2,60+30+ey+15-15))
+    ep.append((ex+l1+15+70+l2,60+30+ey+15))
+
+
 bg_region2_=0
 con_theme=0
 bg_region_=0
@@ -13556,6 +13743,7 @@ op_ar=[]
 
 bg_sett,bg_sett_=0,0
 def_lb=0
+ey=0
 def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
@@ -13599,6 +13787,9 @@ def draw_settings(con=0):
 
     global def_lb
 
+    global up,down
+    global effect,effect_sz,ey
+
 
 
     pu_forget()
@@ -13614,11 +13805,15 @@ def draw_settings(con=0):
 
     if con==0:
 
-        no_bg_st=_theme[-2]
+        no_bg_st=_theme[-2][0]
         col_=_theme[0]
         settings_st=0
 
         op_var=str(_theme[2])+","+str(_theme[3])
+
+
+
+
     else:
 
 
@@ -13640,10 +13835,15 @@ def draw_settings(con=0):
 
     if no_bg_st==1:
 
-        op_var=str(0.5)+","+str(_theme[3])
+        try:
 
 
-    
+            effect=_theme[-2][1]
+            effect_sz=_theme[-2][2]
+        except:
+            effect=0
+            effect_sz=40
+            effect_op=0.15
 
     can_settings.delete("all")
     can_settings["bg"]=_theme[1][1]
@@ -13768,7 +13968,10 @@ def draw_settings(con=0):
         tbg2_=tbg_
 
     if no_bg_st==1:
-        tbg2_=draw_hexagons(wd,ht,40,te_var,0)
+
+        ecol=hex_to_rgb(te_var)
+        ecol="#%02x%02x%02x"%(int(ecol[0]*_theme[2]),int(ecol[1]*_theme[2]),int(ecol[2]*_theme[2]))
+        tbg2_=draw_effects(wd,ht,80,ecol,2)
 
 
 
@@ -13912,9 +14115,11 @@ def draw_settings(con=0):
     can_settings.create_rectangle(20+30,60+30,20+30+xx,60+30+yy,outline=_theme[1][0])
 
     if no_bg_st==1:
-        def_lb=can_settings.create_text(20+30+xx/2,60+30+yy+15,text="Default",fill=col_,font=("FreeMono",13))
+        def_lb=can_settings.create_text(20+30+xx/2,60+15,text="Default",fill=col_,font=("FreeMono",13))
 
+        ey=yy
 
+        no_bg_eff(effect,effect_sz,_theme[0])
 
     x1=20+30+x_+xy[0]*x/_x
     y1=60+30+y_+xy[1]*y/_y
@@ -14133,10 +14338,8 @@ def draw_op(x,y,xv,con):
 
         a1=round(100*float(xv),0)
 
-        if no_bg_st==0:
-
-            op1_v1=can_settings.create_line(x,y, x+a1,y,
-                fill=_theme[0],width=2)
+        op1_v1=can_settings.create_line(x,y, x+a1,y,
+            fill=_theme[0],width=2)
 
 
 
@@ -14148,8 +14351,6 @@ def draw_op(x,y,xv,con):
 
         txt=str(round(xv,3))
 
-        if no_bg_st==1:
-            txt="n/a"
 
         op1_v5=can_settings.create_text(x+100,y+10,text=txt,
             fill=_theme[0],font=("FreeMono",11),anchor="e")
@@ -14222,35 +14423,34 @@ def can_settings_drag(e):
 
                 if op_==0:
 
-                    if no_bg_st==0:
 
 
-                        if e.x<op_ar[op_][0]:
+                    if e.x<op_ar[op_][0]:
 
-                                    
-                            op_var1_=0
+                                
+                        op_var1_=0
 
-                            op_var=str(op_var1_)+","+str(op_var2_)
+                        op_var=str(op_var1_)+","+str(op_var2_)
 
-                        elif e.x>op_ar[op_][0]+100:
+                    elif e.x>op_ar[op_][0]+100:
 
+                
                     
-                        
-                            op_var1_=1
+                        op_var1_=1
 
-                            op_var=str(op_var1_)+","+str(op_var2_)
-                        elif op_ar[op_][0]<=e.x<=op_ar[op_][0]+100:
+                        op_var=str(op_var1_)+","+str(op_var2_)
+                    elif op_ar[op_][0]<=e.x<=op_ar[op_][0]+100:
 
-                            x=e.x-op_ar[op_][0]
+                        x=e.x-op_ar[op_][0]
 
-                            op_var1_=x/100
+                        op_var1_=x/100
 
-                            op_var=str(op_var1_)+","+str(op_var2_)
+                        op_var=str(op_var1_)+","+str(op_var2_)
 
 
-                        draw_op(op_ar[op_][0],op_ar[op_][1],op_var1_,0)
+                    draw_op(op_ar[op_][0],op_ar[op_][1],op_var1_,0)
 
-                        draw_cur_()
+                    draw_cur_()
 
                     return
 
@@ -16162,9 +16362,49 @@ def update_videos():
     root.after(2000,update_videos)
 
 
+def can_effects_b1(e):
+
+    global effect,ar_effects
+    global can_effects
+
+
+    effect=int(e.y/30)
+
+    can_effects.place_forget()
 
 
 
+def draw_can_effects():
+    global ep
+    global can_effects
+    global bg2_,checked,_theme
+
+    f=font.Font(family="FreeMono",size=13)
+
+    l=10+f.measure(ar_effects[2])+20+20
+
+    can_effects["width"]=l
+    can_effects["height"]=30*len(ar_effects)
+    can_effects["bg"]=_theme[1][1]
+
+    can_effects.create_image(-(10+25+5+ep[0][0]+15),-(25+12.5+5+ep[0][1]+15),image=bg2_,anchor="nw")
+
+    y=15
+    for i in range(len(ar_effects)):
+        can_effects.create_text(10,y,text=ar_effects[i],fill=_theme[0],font=("FreeMono",13),anchor="w")
+
+        if i==effect:
+            can_effects.create_image(int(can_effects["width"])-10-20,y-10,image=checked,anchor="nw")
+
+        y+=30
+    can_effects.create_rectangle(0,0,int(can_effects["width"])-1,int(can_effects["height"])-1,outline=_theme[0])
+
+
+
+    can_effects.place(in_=root,x=10+25+5+ep[0][0]+15,y=25+12.5+5+ep[0][1]+15)
+
+can_effects=tk.Canvas(relief="flat",highlightthickness=0,border=0)
+can_effects.bind("<Button-1>",can_effects_b1)
 
 
 
