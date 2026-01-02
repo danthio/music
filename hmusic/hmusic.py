@@ -10839,9 +10839,8 @@ def convert_(im,col):
 
     return image
 
-def draw_hexagons(w,h,sz,_col_,col2=None):
+def draw_hexagons(w,h,sz,_col_,con,col2=None):
 
-    global im,can
 
     im=Image.new("RGBA",(w,h),(0,0,0,255))
 
@@ -10880,101 +10879,173 @@ def draw_hexagons(w,h,sz,_col_,col2=None):
 
     x_,y_=100,100
 
-    a_=180
+    if con==0:
 
-    xx1=(sz/2)*math.sin(math.radians(a_))+x_
-    
-    a_=180-(360/6)/2
-    xx2=(sz/2)*math.sin(math.radians(a_))+x_
+        x1=(sz/2)*math.sin(math.radians(180))
+        x2=(sz/2)*math.sin(math.radians(180-60))
 
-    x1=xx2-xx1
+        xv=(x2-x1)*2
 
+        x1_=(sz/2)*math.sin(math.radians(180+60))
+        x2_=(sz/2)*math.sin(math.radians(180-60))
 
-    a_=180-(360/6)/2
-    xx3=(sz/2)*math.sin(math.radians(a_))+x_
-    
-    a_=180-(360/6)/2-(360/6)
-    xx4=(sz/2)*math.sin(math.radians(a_))+x_
-
-    x2=xx4-xx3
+        y1=(sz/2)*math.cos(math.radians(60))
+        y2=(sz/2)*math.cos(math.radians(0))
 
 
 
-    a_=180-(360/6)/2
-    yy1=(sz/2)*math.cos(math.radians(a_))+y_
-    
-    a_=180-(360/6)/2-(360/6)
-    yy2=(sz/2)*math.cos(math.radians(a_))+y_
+        y1_=(sz/2)*math.cos(math.radians(180))
+        y2_=(sz/2)*math.cos(math.radians(0))
 
-    yv=yy2-yy1
-
-
-    a_=360-(360/6)/2
-    xx5=(sz/2)*math.sin(math.radians(a_))+x_
-    
-    a_=0+(360/6)/2
-    xx6=(sz/2)*math.sin(math.radians(a_))+x_
-
-    x3=xx6-xx5
-
-
-    con=0
-
-    y_=-yv
-
-    ny=int(h/yv)+2
-    for y in range(ny):
-        nx=int(w/(x1*2+x2*2+x3))+2
-
-        if con==0:
-
-            x_=x2+x1
-        elif con==1:
-            x_=-x1
-
-
-        for x in range(nx):
-
-            ar=[]
+        yv=(y2_-y1_)-(y2-y1)
 
 
 
-
-            a_=180+(360/6)/2
-            for a in range(6):
-
-                _x=(sz/2)*math.sin(math.radians(a_))+x_
-                _y=(sz/2)*math.cos(math.radians(a_))+y_
-
-                ar.append((int(round(_x,0)),int(round(_y,0))))
+        ny=int(h/((y2_-y1_)-yv))
 
 
-                a_+=(360/6)
+        st=0
 
-            x_+=x1*2+x2*2+x3
+        y_=sz/2
+        for y in range(ny):
 
-
-            cole=(0,0,0,0)
-
-            if col2!=None:
-
-                cole=(*hex_to_rgb(col2),255)
-
-
-            draw.polygon(ar,outline=cole)
-
-
-
+            nx=int(w/(x2_-x1_))+1
             
-        if con==0:
-            con=1
-        elif con==1:
-            con=0
+            if st==0:
+                x_=x1-x1_
+                st=1
+            elif st==1:
+                x_=0
+                st=0
+
+            for x in range(nx):
+
+                ang=180
+
+                ar=[]
+
+                for a in range(6):
+
+                    x=int(round((sz/2)*math.sin(math.radians(ang))+x_,0))
+                    y=int(round((sz/2)*math.cos(math.radians(ang))+y_,0))
+
+                    ar.append((x,y))
+
+                    ang+=60
+
+                cole=(0,0,0,0)
+
+                if col2!=None:
+
+                    cole=(*hex_to_rgb(col2),255)
+
+                draw.polygon(ar,outline=cole)
+
+                x_+=xv
 
 
-        y_+=yv
+            y_+=yv
 
-        root.after(1,update)
+            root.after(1,update)
+    elif con==1:
+
+        a_=180
+
+        xx1=(sz/2)*math.sin(math.radians(a_))+x_
+        
+        a_=180-(360/6)/2
+        xx2=(sz/2)*math.sin(math.radians(a_))+x_
+
+        x1=xx2-xx1
+
+
+        a_=180-(360/6)/2
+        xx3=(sz/2)*math.sin(math.radians(a_))+x_
+        
+        a_=180-(360/6)/2-(360/6)
+        xx4=(sz/2)*math.sin(math.radians(a_))+x_
+
+        x2=xx4-xx3
+
+
+
+        a_=180-(360/6)/2
+        yy1=(sz/2)*math.cos(math.radians(a_))+y_
+        
+        a_=180-(360/6)/2-(360/6)
+        yy2=(sz/2)*math.cos(math.radians(a_))+y_
+
+        yv=yy2-yy1
+
+
+        a_=360-(360/6)/2
+        xx5=(sz/2)*math.sin(math.radians(a_))+x_
+        
+        a_=0+(360/6)/2
+        xx6=(sz/2)*math.sin(math.radians(a_))+x_
+
+        x3=xx6-xx5
+
+
+        st=0
+
+        y_=-yv
+
+        ny=int(h/yv)+2
+        for y in range(ny):
+            nx=int(w/(x1*2+x2*2+x3))+2
+
+            if st==0:
+
+                x_=x2+x1
+            elif st==1:
+                x_=-x1
+
+
+            for x in range(nx):
+
+                ar=[]
+
+
+
+
+                a_=180+(360/6)/2
+                for a in range(6):
+
+                    _x=(sz/2)*math.sin(math.radians(a_))+x_
+                    _y=(sz/2)*math.cos(math.radians(a_))+y_
+
+                    ar.append((int(round(_x,0)),int(round(_y,0))))
+
+
+                    a_+=(360/6)
+
+                x_+=x1*2+x2*2+x3
+
+
+                cole=(0,0,0,0)
+
+                if col2!=None:
+
+                    cole=(*hex_to_rgb(col2),255)
+
+
+                draw.polygon(ar,outline=cole)
+
+                
+
+
+
+                
+            if st==0:
+                st=1
+            elif st==1:
+                st=0
+
+
+            y_+=yv
+            root.after(1,update)
+
 
 
     return im
@@ -11327,7 +11398,7 @@ def adjust_theme():
 
 
 
-        im=draw_hexagons(wd,ht,40,col)
+        im=draw_hexagons(wd,ht,40,col,0)
         im.save("data/bg_.png")
         im.save("data/bg.png")
         im.save("data/bg_dark.png")
@@ -13447,7 +13518,7 @@ def conf_bg(col):
         nobg_col="#%02x%02x%02x" % nobg_col
 
 
-        im=draw_hexagons(wd,ht,40,col,nobg_col)
+        im=draw_hexagons(wd,ht,40,col,0,nobg_col)
 
         im=im.resize((xx,yy))
 
@@ -13697,7 +13768,7 @@ def draw_settings(con=0):
         tbg2_=tbg_
 
     if no_bg_st==1:
-        tbg2_=draw_hexagons(wd,ht,40,te_var)
+        tbg2_=draw_hexagons(wd,ht,40,te_var,0)
 
 
 
