@@ -1991,6 +1991,7 @@ def add_playlist():
     global add_bg,add_bg_
     global cancel
     global cur_can3_2,cur_can4_2,cur_can6_2,bg_hex
+    global bg_col
 
 
 
@@ -2005,9 +2006,9 @@ def add_playlist():
     can3.delete("all")
     can6.delete("all")
 
-    can4["bg"]=_theme[1][1]
-    can3["bg"]=_theme[1][1]
-    can6["bg"]=_theme[1][1]
+    can4["bg"]=bg_col
+    can3["bg"]=bg_col
+    can6["bg"]=bg_col
 
     cur_can4_2=can4.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
     cur_can3_2=can3.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
@@ -2284,6 +2285,7 @@ def can2_b1(e):
     global settings_st2,filter_st,sort_st,add_st,del_st
     global loop_song
     global cur_can_npl_2,bg_hex
+    global bg_col
 
 
     if settings_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
@@ -2442,7 +2444,7 @@ def can2_b1(e):
             can_npl["height"]=28
 
             can_npl.delete("all")
-            can_npl["bg"]=_theme[1][1]
+            can_npl["bg"]=bg_col
 
             cur_can_npl_2=can_npl.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
@@ -3044,6 +3046,7 @@ def pu_forget():
     global filter_st,filter_can1,filter_can2
     global can_lyrics,lyric_st
     global can_effects
+    global effect_st
 
     _search=0
     search_var=""
@@ -3088,6 +3091,9 @@ def pu_forget():
     lyric_st=0
     can_lyrics.delete("all")
     can_lyrics.place_forget()
+
+
+    effect_st=0
 
     can_effects.place_forget()
 
@@ -3183,6 +3189,7 @@ def can_b1(e):
     global cancel
     global loop_song
     global cur_can_search_2,bg_hex
+    global bg_col
 
     #minimize
 
@@ -4729,7 +4736,7 @@ def can_b1(e):
         cs_txt1,cs_txt2="",""
 
         can_search.delete("all")
-        can_search["bg"]=_theme[1][1]
+        can_search["bg"]=bg_col
 
         cur_can_search_2=can_search.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
@@ -5302,6 +5309,7 @@ def main():
     global del_st
     global bg_styl__
     global cur_can2_2
+    global bg_col
 
 
     root.wm_attributes("-topmost",True)
@@ -5375,7 +5383,7 @@ def main():
 
         
 
-        can2["bg"]=_theme[1][1]
+        can2["bg"]=bg_col
 
 
 
@@ -7675,10 +7683,11 @@ def draw_can(con=0):
     global nxt_sng
 
     global can_outline_st
+    global bg_col
 
     can.delete("all")
 
-    can["bg"]=_theme[1][1]
+    can["bg"]=bg_col
 
 
     cur_can_2=can.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
@@ -7924,11 +7933,11 @@ def draw_can(con=0):
 
 
 
-    search["bg"]=_theme[1][1]
+    search["bg"]=bg_col
     search["fg"]=col1
     search["insertbackground"]=col1
 
-    npl["bg"]=_theme[1][1]
+    npl["bg"]=bg_col
     npl["fg"]=col1
     npl["insertbackground"]=col1
  
@@ -8619,7 +8628,7 @@ def draw_can(con=0):
 
 
         filter_can1.delete("all")
-        filter_can1["bg"]=_theme[1][1]
+        filter_can1["bg"]=bg_col
 
         cur_can_filter_can1_2=filter_can1.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
@@ -8730,7 +8739,7 @@ def draw_can(con=0):
         #draw_round_rec(filter_can1,1,1,int(filter_can1["width"])-2,int(filter_can1["height"])-2,15,_theme[0],"",1)
         filter_can2.delete("all")
 
-        filter_can2["bg"]=_theme[1][1]
+        filter_can2["bg"]=bg_col
 
         cur_can_filter_can2_2=filter_can2.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
@@ -9149,6 +9158,7 @@ def show_lyrics():
     global no_music
     global bg_styl__,bg_styl2
     global cur_can_lyrics_2,bg_hex
+    global bg_col
 
 
 
@@ -9210,7 +9220,7 @@ def show_lyrics():
 
                     can_lyrics.delete("all")
 
-                    can_lyrics["bg"]=_theme[1][1]
+                    can_lyrics["bg"]=bg_col
 
                     cur_can_lyrics_2=can_lyrics.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
@@ -9718,7 +9728,7 @@ cur_can_theme_ent=0
 cur_filter_can1=0
 cur_filter_can2=0
 cur_conf_del=0
-
+cur_can_effects=0
 
 cur_can_2=0
 cur_can2_2=0
@@ -9735,7 +9745,7 @@ cur_can_theme_ent_2=0
 cur_filter_can1_2=0
 cur_filter_can2_2=0
 cur_conf_del_2=0
-
+cur_can_effects_2=0
 
 cur_p=[]
 
@@ -9845,9 +9855,13 @@ def draw_cur_():
     global _theme
     
     global cur_can_2,cur_can2_2,cur_can3_2,cur_can4_2,cur_can6_2,cur_can_lyrics_2,cur_can_sort_2,cur_can_settings_2,cur_can_search_2,cur_can_npl_2,cur_can_theme_ent_2,cur_filter_can1_2,cur_filter_can2_2,cur_conf_del_2    
+    global cur_can_effects,cur_can_effects_2,can_effects
+
 
     global add_st,lyric_st,sort_st,settings_st2,filter_st,del_st
     global _theme
+    global ep
+    global effect_st
 
 
     x,y=pyautogui.position()
@@ -9922,6 +9936,16 @@ def draw_cur_():
 
             x_,y_=x-(wd-w)/2-(10+25+5),y-(ht-h)/2-(25+12.5+5)
             can_settings.coords(cur_can_settings_2,x_-r,y_-r)
+
+
+
+            if effect_st==1:
+
+
+                x_,y_=x-(wd-w)/2-(10+25+5+ep[0][0]+15),y-(ht-h)/2-(25+12.5+5+ep[0][1]+15)
+                can_effects.coords(cur_can_effects_2,x_-r,y_-r)
+
+
 
 
 
@@ -10015,6 +10039,7 @@ def draw_cur_():
     filter_can1.delete(cur_filter_can1)
     filter_can2.delete(cur_filter_can2)
     conf_del.delete(cur_conf_del)
+    can_effects.delete(cur_can_effects)
 
 
 
@@ -10094,9 +10119,15 @@ def draw_cur_():
 
     cur_can_settings=can_settings.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
+    if effect_st==1:
+        xx,yy=x-(wd-w)/2-(10+25+5+ep[0][0]+15),y-(ht-h)/2-(25+12.5+5+ep[0][1]+15)
+        cur_can_effects=can_effects.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
+
+
     xx,yy=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
 
     cur_can_search=can_search.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
+
 
 
 
@@ -10948,10 +10979,12 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
                 x_+=xv
 
+                root.after(1,update)
+
 
             y_+=yv
 
-            root.after(1,update)
+            
     elif con==1:
 
         a_=180
@@ -11037,6 +11070,8 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
                 draw.polygon(ar,outline=cole)
 
+                root.after(1,update)
+
                 
 
 
@@ -11049,7 +11084,7 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
 
             y_+=yv
-            root.after(1,update)
+            
 
 
 
@@ -11108,12 +11143,14 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
                 draw.polygon(ar,outline=cole)
 
+                root.after(1,update)
+
 
                 y_+=sz/2
 
             x_+=xv
 
-            root.after(1,update)
+            
 
 
     return im
@@ -11441,13 +11478,14 @@ def update():
 configure_theme(_theme[0])
 
 adj_st=0
-
+bg_col=""
 def adjust_theme():
     global _theme,theme_ent
     global adj_st
     global te_var
     global unchanged
     global wd,ht
+    global bg_col
 
 
     if adj_st==0:
@@ -11481,6 +11519,10 @@ def adjust_theme():
             im=draw_effects(wd,ht,_theme[-2][2],_theme[-2][3],_theme[-2][1])
 
 
+        if adj_st==0:
+            bg_col=_theme[-2][3]
+
+
 
         im.save("data/bg_.png")
         im.save("data/bg.png")
@@ -11489,6 +11531,7 @@ def adjust_theme():
         _theme[-1]=[0,0,0,0]
 
     else:
+        bg_col="#000000"
         try:
 
 
@@ -12634,6 +12677,7 @@ def draw_can_sort():
     global sort_val
     global cso_im
     global cur_can_sort_2,bg_hex
+    global bg_col
 
 
     col1=_theme[0]
@@ -12645,7 +12689,7 @@ def draw_can_sort():
 
 
     can_sort.delete("all")
-    can_sort["bg"]=_theme[1][1]
+    can_sort["bg"]=bg_col
 
     cur_can_sort_2=can_sort.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
@@ -12881,6 +12925,7 @@ def check_up_theme():
     global l1,l2,ang_
     global con_theme
     global bg_region_
+    global bg_col
 
     if not up_theme==None:
 
@@ -12903,6 +12948,10 @@ def check_up_theme():
 
 
             _theme[0]=str(sel_col)
+
+            if _theme[-2][0]==1:
+
+                bg_col=_theme[-2][3]
 
             configure_theme(_theme[0])
 
@@ -13004,14 +13053,13 @@ def check_theme_attr():
                 if no_bg_st==1:
                     can_settings.itemconfig(def_lb,fill=te_var)
 
-                no_bg_eff(effect,effect_sz,te_var)
             except:
                 bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
     
                 if no_bg_st==1:
                     can_settings.itemconfig(def_lb,fill=_theme[0])
 
-                no_bg_eff(effect,effect_sz,_theme[0])
+            no_bg_eff(effect,effect_sz,_theme[0])
 
 
 
@@ -13072,7 +13120,11 @@ def can_settings_b1(e):
     global wd,ht
     global effect,effect_sz,ep
     global can_effects
+    global con_op
 
+    global effect_st
+
+    effect_st=0
     can_effects.place_forget()
 
 
@@ -13580,38 +13632,48 @@ def can_settings_b1(e):
 
     #effects
 
-    if ep[0][0]<=e.x<=ep[0][0]+15:
-        if ep[0][1]<=e.y<=ep[0][1]+15:
+    if no_bg_st==1:
+
+        if ep[0][0]<=e.x<=ep[0][0]+15:
+            if ep[0][1]<=e.y<=ep[0][1]+15:
 
 
 
-            #effect
+                #effect
 
 
 
-            draw_can_effects()
+                draw_can_effects()
 
-            return
-
-
-    if ep[1][0]<=e.x<=ep[1][0]+15:
-        if ep[1][1]<=e.y<=ep[1][1]+15:
-            #effect sz up
-
-            effect_sz+=5
-
-            return
+                return
 
 
-    if ep[2][0]<=e.x<=ep[2][0]+15:
-        if ep[2][1]<=e.y<=ep[2][1]+15:
-            #effect sz down
+        if ep[1][0]<=e.x<=ep[1][0]+15:
+            if ep[1][1]<=e.y<=ep[1][1]+15:
+                #effect sz up
 
-            if not effect_sz-5<0:
+                con_op=1
 
-                effect_sz-=5
+                effect_sz+=5
 
-            return
+                no_bg_eff(effect,effect_sz,_theme[0])
+
+                return
+
+
+        if ep[2][0]<=e.x<=ep[2][0]+15:
+            if ep[2][1]<=e.y<=ep[2][1]+15:
+                #effect sz down
+
+                con_op=1
+
+                if not effect_sz-5<0:
+
+                    effect_sz-=5
+
+                    no_bg_eff(effect,effect_sz,_theme[0])
+
+                return
 
 
 no_bg_st=0
@@ -13699,36 +13761,39 @@ def no_bg_eff(effect,effect_sz,col):
     global can_settings
 
 
+
+
     can_settings.delete(e1)
     can_settings.delete(e2)
     can_settings.delete(e3)
     can_settings.delete(e4)
     can_settings.delete(e5)
 
-    ep=[]
+    if no_bg_st==1:
+        ep=[]
 
 
-    f=font.Font(family="FreeMono",size=13)
+        f=font.Font(family="FreeMono",size=13)
 
 
 
-    l1=f.measure(f"{ar_effects[effect]} ")
-    l2=f.measure(f"{effect_sz} ")
+        l1=f.measure(f"{ar_effects[effect]} ")
+        l2=f.measure(f"{effect_sz} ")
 
-    ex=(int(can_settings["width"])-(l1+15+70+l2+15))/2
+        ex=(int(can_settings["width"])-(l1+15+70+l2+15))/2
 
 
-    e1=can_settings.create_text(ex,60+30+ey+15,text=str(ar_effects[effect]),font=("FreeMono",13),fill=col,anchor="w")
-    e2=can_settings.create_image(ex+l1,60+30+ey+15,image=down,anchor="w")
+        e1=can_settings.create_text(ex,60+30+ey+15,text=str(ar_effects[effect]),font=("FreeMono",13),fill=col,anchor="w")
+        e2=can_settings.create_image(ex+l1,60+30+ey+15,image=down,anchor="w")
 
-    ep.append((ex+l1,60+30+ey+15-7.5))
+        ep.append((ex+l1,60+30+ey+15-7.5))
 
-    e3=can_settings.create_text(ex+l1+15+70,60+30+ey+15,text=str(effect_sz),font=("FreeMono",13),fill=col,anchor="w")
-    e4=can_settings.create_image(ex+l1+15+70+l2,60+30+ey+15-15,image=up,anchor="nw")
-    e5=can_settings.create_image(ex+l1+15+70+l2,60+30+ey+15,image=down,anchor="nw")
+        e3=can_settings.create_text(ex+l1+15+70,60+30+ey+15,text=str(effect_sz),font=("FreeMono",13),fill=col,anchor="w")
+        e4=can_settings.create_image(ex+l1+15+70+l2,60+30+ey+15-15,image=up,anchor="nw")
+        e5=can_settings.create_image(ex+l1+15+70+l2,60+30+ey+15,image=down,anchor="nw")
 
-    ep.append((ex+l1+15+70+l2,60+30+ey+15-15))
-    ep.append((ex+l1+15+70+l2,60+30+ey+15))
+        ep.append((ex+l1+15+70+l2,60+30+ey+15-15))
+        ep.append((ex+l1+15+70+l2,60+30+ey+15))
 
 
 bg_region2_=0
@@ -13789,6 +13854,7 @@ def draw_settings(con=0):
 
     global up,down
     global effect,effect_sz,ey
+    global bg_col
 
 
 
@@ -13846,7 +13912,7 @@ def draw_settings(con=0):
             effect_op=0.15
 
     can_settings.delete("all")
-    can_settings["bg"]=_theme[1][1]
+    can_settings["bg"]=bg_col
 
     cur_can_settings_2=can_settings.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
     can_settings.place(in_=root,x=10+25+5,y=25+12.5+5)
@@ -13881,7 +13947,7 @@ def draw_settings(con=0):
     can_theme_ent["height"]=(42)-(20)
 
     can_theme_ent.delete("all")
-    can_theme_ent["bg"]=_theme[1][1]
+    can_theme_ent["bg"]=bg_col
     cur_can_theme_ent_2=can_theme_ent.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
     can_theme_ent.create_image(-(77-1+1+(10+25+5)),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
@@ -14622,6 +14688,40 @@ def on_release_s(e):
     draw_cur_()
 
 
+def cse_b1(e):
+    global ep
+    global _theme
+    global con_op
+    global effect,effect_sz
+
+    if ep[1][0]<=e.x<=ep[1][0]+15:
+        if ep[1][1]<=e.y<=ep[1][1]+15:
+            #effect sz up
+
+            con_op=1
+
+            effect_sz+=5
+
+            no_bg_eff(effect,effect_sz,_theme[0])
+
+            return
+
+
+    if ep[2][0]<=e.x<=ep[2][0]+15:
+        if ep[2][1]<=e.y<=ep[2][1]+15:
+            #effect sz down
+
+            con_op=1
+
+            if not effect_sz-5<0:
+
+                effect_sz-=5
+
+                no_bg_eff(effect,effect_sz,_theme[0])
+
+            return
+
+
 settings_st=0
 
 can_settings=tk.Canvas(width=w-100,height=h-200,bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
@@ -14629,6 +14729,7 @@ can_settings.bind("<Button-1>",can_settings_b1)
 can_settings.bind("<Motion>",can_settings_m)
 can_settings.bind("<B1-Motion>",can_settings_drag)
 can_settings.bind("<ButtonRelease-1>",on_release_s)
+#can_settings.bind("<ButtonPress-1>",cse_b1)
 
 theme_ent=tk.Entry(width=20,font=("FreeMono",13),bg=_theme[1][1],fg=_theme[0],relief="flat",highlightthickness=0,
     border=0,insertbackground=_theme[0],selectbackground=_theme[0],selectforeground=_theme[1][1])
@@ -14943,6 +15044,7 @@ def conf_del_(file,con):
     global bg_del,bg_del_
     global del_st
     global cur_conf_del_2,bg_hex
+    global bg_col
 
     
 
@@ -14953,7 +15055,7 @@ def conf_del_(file,con):
 
 
     conf_del.delete("all")
-    conf_del["bg"]=_theme[1][1]
+    conf_del["bg"]=bg_col
 
     cur_conf_del_2=conf_del.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
@@ -16366,6 +16468,9 @@ def can_effects_b1(e):
 
     global effect,ar_effects
     global can_effects
+    global effect_st
+
+    effect_st=0
 
 
     effect=int(e.y/30)
@@ -16374,10 +16479,18 @@ def can_effects_b1(e):
 
 
 
+effect_st=0
+
 def draw_can_effects():
     global ep
     global can_effects
     global bg2_,checked,_theme
+    global bg_col
+    global cur_can_effects_2
+    global bg_hex
+    global effect_st
+
+    effect_st=1
 
     f=font.Font(family="FreeMono",size=13)
 
@@ -16385,7 +16498,12 @@ def draw_can_effects():
 
     can_effects["width"]=l
     can_effects["height"]=30*len(ar_effects)
-    can_effects["bg"]=_theme[1][1]
+    can_effects["bg"]=bg_col
+
+    can_effects.delete("all")
+
+    cur_can_effects_2=can_effects.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
+
 
     can_effects.create_image(-(10+25+5+ep[0][0]+15),-(25+12.5+5+ep[0][1]+15),image=bg2_,anchor="nw")
 
@@ -16403,7 +16521,7 @@ def draw_can_effects():
 
     can_effects.place(in_=root,x=10+25+5+ep[0][0]+15,y=25+12.5+5+ep[0][1]+15)
 
-can_effects=tk.Canvas(relief="flat",highlightthickness=0,border=0)
+can_effects=tk.Canvas(relief="flat",highlightthickness=0,border=0,cursor="none")
 can_effects.bind("<Button-1>",can_effects_b1)
 
 
