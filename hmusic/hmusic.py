@@ -5859,7 +5859,19 @@ def main():
 
 
             elif shuffle_st==2:
+                
+                for s in shuffle_ar:
+
+                    try:
+                        v=music_details[s]
+                    except:
+                        v=shuffle_ar.index(s)
+
+                        shuffle_ar.pop(v)
+                        
                 all_songs=shuffle_ar
+
+
 
 
 
