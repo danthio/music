@@ -11113,7 +11113,7 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
         nx=int(w/(xv))+3
         for x in range(nx):
 
-            ny=int(h/(sz/2))+3
+            ny=int(h/(sz/2))+4
 
             if st==0:
                 y_=-(sz)
@@ -12987,11 +12987,11 @@ def check_theme_attr():
 
     global can_theme_ent,te_var
     global te_border
-    global con_op
+    global con_theme
     global def_lb
 
 
-    if settings_st2==1 and con_op==0:
+    if settings_st2==1 and con_theme==0:
 
 
         if te_var!=theme_attr[0] or op_var!=theme_attr[1] or effect!=theme_attr[2][0] or effect_sz!=theme_attr[2][1]:
@@ -13120,7 +13120,7 @@ def can_settings_b1(e):
     global wd,ht
     global effect,effect_sz,ep
     global can_effects
-    global con_op
+    global con_theme
 
     global effect_st
 
@@ -13228,20 +13228,20 @@ def can_settings_b1(e):
 
         if len(_op)==2:
 
-            con_op=0
+            con_theme=0
 
             try:
 
                 v1=float(_op[0])
                 v2=float(_op[1])
             except:
-                con_op=1
+                con_theme=1
 
 
             if v1>1 or v2>1:
-                con_op=1
+                con_theme=1
 
-            if con_op==1:
+            if con_theme==1:
                 can_settings.delete(sett_m)
 
 
@@ -13652,7 +13652,7 @@ def can_settings_b1(e):
             if ep[1][1]<=e.y<=ep[1][1]+15:
                 #effect sz up
 
-                con_op=1
+                con_theme=1
 
                 effect_sz+=5
 
@@ -13665,7 +13665,7 @@ def can_settings_b1(e):
             if ep[2][1]<=e.y<=ep[2][1]+15:
                 #effect sz down
 
-                con_op=1
+                con_theme=1
 
                 if not effect_sz-5<0:
 
@@ -13747,15 +13747,56 @@ def conf_bg(col):
 
     return bg_region2
 
+def change_effect_sz():
+    global no_bg_st
+    global ep
+    global con_theme
+    global _theme
+    global effect,effect_sz
 
-e1,e2,e3,e4,e5=0,0,0,0,0
+
+
+    if no_bg_st==1 and con_theme==1:
+        x,y=pyautogui.position()
+        x=x-(10+25+5)
+        y=y-(25+12.5+5)
+
+        if ep[1][0]<=x<=ep[1][0]+15:
+            if ep[1][1]<=y<=ep[1][1]+15:
+                #effect sz up
+
+
+
+                effect_sz+=5
+
+                no_bg_eff(effect,effect_sz,_theme[0])
+
+
+
+        if ep[2][0]<=x<=ep[2][0]+15:
+            if ep[2][1]<=y<=ep[2][1]+15:
+                #effect sz down
+
+
+                if not effect_sz-5<0:
+
+                    effect_sz-=5
+
+                    no_bg_eff(effect,effect_sz,_theme[0])
+
+
+
+
+    root.after(300,change_effect_sz)
+
+e1,e2,e3,e4,e5,e6=0,0,0,0,0,0
 effect,effect_sz=0,0
 ep=[]
 ar_effects=["hexagon 1","hexagon 2","flower of life"]
 def no_bg_eff(effect,effect_sz,col):
     global can_settings
     global up,down
-    global e1,e2,e3,e4,e5,ep,ey
+    global e1,e2,e3,e4,e5,e6,ep,ey
     global ar_effects
 
     global can_settings
@@ -13768,6 +13809,8 @@ def no_bg_eff(effect,effect_sz,col):
     can_settings.delete(e3)
     can_settings.delete(e4)
     can_settings.delete(e5)
+    can_settings.delete(e6)
+
 
     if no_bg_st==1:
         ep=[]
@@ -13778,9 +13821,10 @@ def no_bg_eff(effect,effect_sz,col):
 
 
         l1=f.measure(f"{ar_effects[effect]} ")
-        l2=f.measure(f"{effect_sz} ")
+        l2=f.measure("Size ")
+        l3=f.measure(str(effect_sz)+" ")
 
-        ex=(int(can_settings["width"])-(l1+15+70+l2+15))/2
+        ex=(int(can_settings["width"])-(l1+15+70+l2+l3))/2
 
 
         e1=can_settings.create_text(ex,60+30+ey+15,text=str(ar_effects[effect]),font=("FreeMono",13),fill=col,anchor="w")
@@ -13788,12 +13832,13 @@ def no_bg_eff(effect,effect_sz,col):
 
         ep.append((ex+l1,60+30+ey+15-7.5))
 
-        e3=can_settings.create_text(ex+l1+15+70,60+30+ey+15,text=str(effect_sz),font=("FreeMono",13),fill=col,anchor="w")
-        e4=can_settings.create_image(ex+l1+15+70+l2,60+30+ey+15-15,image=up,anchor="nw")
-        e5=can_settings.create_image(ex+l1+15+70+l2,60+30+ey+15,image=down,anchor="nw")
+        e3=can_settings.create_text(ex+l1+15+70,60+30+ey+15,text="Size",font=("FreeMono",13),fill=col,anchor="w")
+        e4=can_settings.create_text(ex+l1+15+70+l2,60+30+ey+15,text=str(effect_sz),font=("FreeMono",13),fill=col,anchor="w")
+        e5=can_settings.create_image(ex+l1+15+70+l2+l3,60+30+ey+15-15,image=up,anchor="nw")
+        e6=can_settings.create_image(ex+l1+15+70+l2+l3,60+30+ey+15,image=down,anchor="nw")
 
-        ep.append((ex+l1+15+70+l2,60+30+ey+15-15))
-        ep.append((ex+l1+15+70+l2,60+30+ey+15))
+        ep.append((ex+l1+15+70+l2+l3,60+30+ey+15-15))
+        ep.append((ex+l1+15+70+l2+l3,60+30+ey+15))
 
 
 bg_region2_=0
@@ -14445,7 +14490,7 @@ def draw_op(x,y,xv,con):
 
 
 
-con_op=0
+con_theme=0
 bg_xy=[]
 def can_settings_drag(e):
     global can_settings
@@ -14455,7 +14500,7 @@ def can_settings_drag(e):
     global tbg3
     global sett_m
     global op_ar
-    global op_var,con_op
+    global op_var,con_theme
     global no_bg_st
 
 
@@ -14485,7 +14530,7 @@ def can_settings_drag(e):
 
             if op_ar[op_][1]-10<=e.y<=op_ar[op_][1]+10:
 
-                con_op=1
+                con_theme=1
 
                 if op_==0:
 
@@ -14640,11 +14685,11 @@ def on_release_s(e):
     global theme_ent
     global te_var
     global sett_m
-    global con_op
+    global con_theme
 
 
 
-    con_op=0
+    con_theme=0
 
 
 
@@ -14691,14 +14736,14 @@ def on_release_s(e):
 def cse_b1(e):
     global ep
     global _theme
-    global con_op
+    global con_theme
     global effect,effect_sz
 
     if ep[1][0]<=e.x<=ep[1][0]+15:
         if ep[1][1]<=e.y<=ep[1][1]+15:
             #effect sz up
 
-            con_op=1
+            con_theme=1
 
             effect_sz+=5
 
@@ -14711,7 +14756,7 @@ def cse_b1(e):
         if ep[2][1]<=e.y<=ep[2][1]+15:
             #effect sz down
 
-            con_op=1
+            con_theme=1
 
             if not effect_sz-5<0:
 
@@ -16620,4 +16665,5 @@ draw_can()
 update_videos()
 
 check_nxtx()
+change_effect_sz()
 root.mainloop()
