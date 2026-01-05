@@ -385,6 +385,7 @@ im_dict={
 
 
 def darken_border(im,border=17):
+
     w,h=im.size
 
     im_=Image.new("RGBA",(w+border*2,h+border*2),(0,0,0,0))
@@ -593,13 +594,24 @@ def change_theme(pcol):
 
 
         
-        if i!="cursor.png" and i!="circle.png" and con==0:
+        if i!="cursor.png" and i!="circle.png" and i!="no-music.png" and con==0:
 
             image_=darken_border(image_)
+
+
+
 
         im3=image_
 
         for i_ in im_dict[i.replace(".png","")]:
+
+            if i=="no-music.png" and i_[1]==300:
+
+                im3=darken_border(image_,3)
+
+
+            elif i=="no-music.png" and i_[1]==25:
+                im3=darken_border(image_)
 
             im3=im3.resize((i_[1],i_[1]))
 
@@ -5868,7 +5880,7 @@ def main():
                         v=shuffle_ar.index(s)
 
                         shuffle_ar.pop(v)
-                        
+
                 all_songs=shuffle_ar
 
 
@@ -6626,7 +6638,9 @@ _v61__,_v62__,_v63__,_v64__=0,0,0,0
 _v71__,_v72__,_v73__,_v74__=0,0,0,0
 _v81__,_v82__,_v83__,_v84__=0,0,0,0
 _v91__,_v92__,_v93__,_v94__=0,0,0,0
-
+_v101__,_v102__,_v103__,_v104__=0,0,0,0
+_v111__,_v112__,_v113__,_v114__=0,0,0,0
+_v121__,_v122__,_v123__,_v124__=0,0,0,0
 def draw_outline_text(c,text,x,y,anchor,font):
 
 
@@ -6646,6 +6660,10 @@ def draw_outline_text(c,text,x,y,anchor,font):
     global _v71__,_v72__,_v73__,_v74__
     global _v81__,_v82__,_v83__,_v84__
     global _v91__,_v92__,_v93__,_v94__
+
+    global _v101__,_v102__,_v103__,_v104__
+    global _v111__,_v112__,_v113__,_v114__
+    global _v121__,_v122__,_v123__,_v124__
 
     global _theme
 
@@ -6931,6 +6949,84 @@ def draw_outline_text(c,text,x,y,anchor,font):
         _v92__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
         _v93__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
         _v94__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+
+    elif can_outline_st==12:
+
+
+        c.delete(_v101__)
+        c.delete(_v102__)
+        c.delete(_v103__)
+        c.delete(_v104__)
+
+
+
+
+
+        if text=="":
+
+            can_outline_st=0
+            return
+
+
+
+        _v101__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v102__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v103__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v104__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+
+    elif can_outline_st==13:
+
+
+        c.delete(_v111__)
+        c.delete(_v112__)
+        c.delete(_v113__)
+        c.delete(_v114__)
+
+
+
+
+
+        if text=="":
+
+            can_outline_st=0
+            return
+
+
+
+        _v111__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v112__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v113__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v114__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+
+
+    elif can_outline_st==14:
+
+
+        c.delete(_v121__)
+        c.delete(_v122__)
+        c.delete(_v123__)
+        c.delete(_v124__)
+
+
+
+
+        if text=="":
+
+            can_outline_st=0
+            return
+
+
+
+        _v121__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v122__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v123__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v124__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
 
 
@@ -8038,7 +8134,7 @@ def draw_can(con=0):
             r=15
             xx,yy=int((w/2-10-50)),70
 
-            im1=round_im("#000000",_theme[0],0.75,xx,yy,r,1)
+            im1=round_im("#000000",_theme[0],0.8,xx,yy,r,1)
 
 
 
@@ -9597,9 +9693,9 @@ def load_im():
 
 
 
-    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,int(round(0.75*255,0)))))
+    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,int(round(0.8*255,0)))))
 
-    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,int(round(0.75*255,0)))))
+    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,int(round(0.8*255,0)))))
 
 
     col=hex_to_rgb(_theme[0])
@@ -11136,14 +11232,6 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
             for y in range(ny):
 
-                ar=[]
-                for a in range(360):
-
-                    x=(sz/2)*math.sin(math.radians(a))+x_
-                    y=(sz/2)*math.cos(math.radians(a))+y_
-
-
-                    ar.append((int(round(x,0)),int(round(y,0))))
 
 
                 cole=(0,0,0,0)
@@ -11153,7 +11241,7 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
                     cole=_col_
 
 
-                draw.polygon(ar,outline=cole)
+                draw.ellipse((x_-sz/2,y_-sz/2, x_+sz/2,y_+sz/2),outline=cole)
 
                 root.after(1,update)
 
@@ -11507,10 +11595,32 @@ def adjust_theme():
     else:
         col=te_var
 
+    ar=os.listdir("data")
+
+    c=0
+    for i in ar:
+
+        if i.split(".")[-1]=="png":
+
+            c+=1
+
+    conf_stheme=0
+
+    if c==65:
+
+        im=Image.open("data/circle.png")
+        imx,imy=im.size
+
+        if im.getpixel((int(imx/2),int(imy/2)))[:-1]==hex_to_rgb(_theme[0]):
+
+            conf_stheme=1
 
 
-    if unchanged==0:
+    if unchanged==0 and conf_stheme==0:
+        
         change_theme(col)
+
+
 
     if _theme[-2][0]==1:
 
@@ -11522,7 +11632,7 @@ def adjust_theme():
 
             ecol=hex_to_rgb(col)
 
-            ecol="#%02x%02x%02x" % (int(ecol[0]*0.8),int(ecol[1]*0.8),int(ecol[2]*0.8),)
+            ecol="#%02x%02x%02x" % (int(ecol[0]*0.15),int(ecol[1]*0.15),int(ecol[2]*0.15),)
 
             _theme[2]=0.15
             _theme[-2]=[1,0,40,ecol]
@@ -13553,9 +13663,10 @@ def can_settings_b1(e):
         if int(can_settings["height"])-95+5-30<=e.y<=int(can_settings["height"])-95+5+25-30:
 
 
+
+            if no_bg_st==0:
                 
 
-                _theme[2]=0.15
 
                 no_bg_st=1
 
@@ -13812,6 +13923,7 @@ def no_bg_eff(effect,effect_sz,col):
     global ar_effects
 
     global can_settings
+    global can_outline_st
 
 
 
@@ -13838,14 +13950,22 @@ def no_bg_eff(effect,effect_sz,col):
 
         ex=(int(can_settings["width"])-(l1+15+70+l2+l3))/2
 
-
+        can_outline_st=12
+        draw_outline_text(can_settings,str(ar_effects[effect]),ex,60+30+ey+15,"w",("FreeMono",13))
         e1=can_settings.create_text(ex,60+30+ey+15,text=str(ar_effects[effect]),font=("FreeMono",13),fill=col,anchor="w")
+
         e2=can_settings.create_image(ex+l1,60+30+ey+15,image=down,anchor="w")
 
         ep.append((ex+l1,60+30+ey+15-7.5))
 
+        can_outline_st=13
+        draw_outline_text(can_settings,"Size",ex+l1+15+70,60+30+ey+15,"w",("FreeMono",13))
         e3=can_settings.create_text(ex+l1+15+70,60+30+ey+15,text="Size",font=("FreeMono",13),fill=col,anchor="w")
+
+        can_outline_st=14
+        draw_outline_text(can_settings,str(effect_sz),ex+l1+15+70+l2,60+30+ey+15,"w",("FreeMono",13))
         e4=can_settings.create_text(ex+l1+15+70+l2,60+30+ey+15,text=str(effect_sz),font=("FreeMono",13),fill=col,anchor="w")
+
         e5=can_settings.create_image(ex+l1+15+70+l2+l3,60+30+ey+15-15,image=up,anchor="nw")
         e6=can_settings.create_image(ex+l1+15+70+l2+l3,60+30+ey+15,image=down,anchor="nw")
 
@@ -13963,10 +14083,11 @@ def draw_settings(con=0):
 
             effect=_theme[-2][1]
             effect_sz=_theme[-2][2]
+            op_var=str(_theme[2])+","+str(_theme[3])
         except:
             effect=0
             effect_sz=40
-            effect_op=0.15
+            op_var=str(0.15)+","+str(_theme[3])
 
     can_settings.delete("all")
     can_settings["bg"]=bg_col
@@ -14238,6 +14359,8 @@ def draw_settings(con=0):
     can_settings.create_rectangle(20+30,60+30,20+30+xx,60+30+yy,outline=_theme[1][0])
 
     if no_bg_st==1:
+        can_outline_st=0
+        draw_outline_text(can_settings,"Default",20+30+xx/2,60+15,"w",("FreeMono",13))
         def_lb=can_settings.create_text(20+30+xx/2,60+15,text="Default",fill=col_,font=("FreeMono",13))
 
         ey=yy
@@ -16546,6 +16669,7 @@ def draw_can_effects():
     global cur_can_effects_2
     global bg_hex
     global effect_st
+    global can_outline_st
 
     effect_st=1
 
@@ -16566,6 +16690,8 @@ def draw_can_effects():
 
     y=15
     for i in range(len(ar_effects)):
+        can_outline_st=0
+        draw_outline_text(can_effects,ar_effects[i],10,y,"w",("FreeMono",13))
         can_effects.create_text(10,y,text=ar_effects[i],fill=_theme[0],font=("FreeMono",13),anchor="w")
 
         if i==effect:
