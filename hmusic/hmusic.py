@@ -3202,6 +3202,7 @@ def can_b1(e):
     global loop_song
     global cur_can_search_2,bg_hex
     global bg_col
+    global up_theme
 
     #minimize
 
@@ -3369,7 +3370,13 @@ def can_b1(e):
             can.delete(pu_bg1_s)
             can2.delete(pu_bg2_s)
 
-            draw_settings()
+
+            if not up_theme==None:
+
+                if up_theme.is_alive():
+                    draw_settings(1)
+            else:
+                draw_settings()
 
             return
 
@@ -7792,6 +7799,7 @@ def draw_can(con=0):
 
     global can_outline_st
     global bg_col
+    global ibg
 
     can.delete("all")
 
@@ -8470,7 +8478,8 @@ def draw_can(con=0):
 
 
 
-
+        if vid_st==0:
+            can.create_image(10+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
         if st==4:
             can.create_image(10,h-20-30-15+5+10-3+2.5,image=list1,anchor="nw")
@@ -8519,6 +8528,11 @@ def draw_can(con=0):
                 con_st=1
 
 
+
+        if vid_st==0:
+            can.create_image(10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
+
+
         if sort_st!=1:
 
 
@@ -8535,6 +8549,8 @@ def draw_can(con=0):
 
 
 
+        if vid_st==0:
+            can.create_image(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
         if songs_status[0]==3 or filter_val=="Most Played" or con_st==0:
@@ -8553,12 +8569,27 @@ def draw_can(con=0):
 
 
 
+
+
+
+        if vid_st==0:
+            can.create_image(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
+
+
+
         if loop==0:
             can.create_image(10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=loop1,anchor="nw")
 
         elif loop==1:
 
             can.create_image(10+25+15+25+15+25+15,h-20-30-15+5+10-3+2.5,image=loop2,anchor="nw")
+
+
+
+
+
+        if vid_st==0:
+            can.create_image(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
         if vid_st==0:
@@ -9569,6 +9600,7 @@ bg_styl2__=0
 up,down=0,0
 
 bg_hex=[0,150]
+ibg=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -9608,6 +9640,7 @@ def load_im():
     global bg_styl__,bg_styl2__
     global bg_hex
     global up,down
+    global ibg
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -9711,6 +9744,14 @@ def load_im():
 
 
     bg_hex[0]=ImageTk.PhotoImage(draw_fadingc(bg_hex[1]))
+
+
+    im=Image.new("RGBA",(35,35),(0,0,0,0))
+    draw=ImageDraw.Draw(im)
+
+    draw.ellipse((0,0,35,35),fill=(0,0,0,int(0.8*255)),outline=(0,0,0,int(0.8*255)))
+
+    ibg=ImageTk.PhotoImage(im)
 
 
 
@@ -11250,6 +11291,9 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
             x_+=xv
 
+            root.after(1,update)
+
+
             
 
 
@@ -11611,7 +11655,7 @@ def adjust_theme():
         im=Image.open("data/circle.png")
         imx,imy=im.size
 
-        if im.getpixel((int(imx/2),int(imy/2)))[:-1]==hex_to_rgb(_theme[0]):
+        if im.getpixel((int(imx/2),int(imy/2)))[:-1]==hex_to_rgb(col):
 
             conf_stheme=1
 
@@ -13081,20 +13125,20 @@ def check_up_theme():
             load_im()
 
             
-            main()
-            draw_settings()
+
+
+
             up_theme=None
 
 
-            draw_outline_text(can_settings,"Theme Updated!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
 
-
-            can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
-                text="Theme Updated!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
             sel_col=""
             ang_=0
             con_theme=0
+
+            pu_forget()
+            main()
 
     root.after(2,check_up_theme)
 theme_attr=[0,0,[0,0]]
