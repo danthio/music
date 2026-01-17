@@ -1124,6 +1124,15 @@ def convert_folder_to_audio():
 
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+
+
+                    if i[-4:]==".mp4":
+
+                        shutil.copy(input_folder+"\\"+i,"videos")
+
+
+
                     root.after(2,update)
 
 
@@ -1233,6 +1242,11 @@ def convert_file_to_audio():
 
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+                    if input_file[-4:]==".mp4":
+
+                        shutil.copy(input_file,"videos")
+
 
                     root.after(2,update)
                     
@@ -5076,9 +5090,22 @@ def play_music(file,time,con=0):
 
         if time==0:
 
-            vid_st=0
-            vid_st2=0
+            if vid_st==1:
 
+                d=os.listdir("videos")
+
+                try:
+                    v=d.index(current_playing.replace(".mp3",".mp4"))
+
+                except:
+
+
+                    vid_st=0
+                    vid_st2=0
+            else:
+
+                vid_st=0
+                vid_st2=0
             sig=[]
             tts=0
 
@@ -8140,7 +8167,7 @@ def draw_can(con=0):
         if vid_st2==1 or vid_st==0:
 
             r=15
-            xx,yy=int((w/2-10-50)),70
+            xx,yy=int((w/2-10-40)),70
 
             im1=round_im("#000000",_theme[0],0.8,xx,yy,r,1)
 
@@ -8163,16 +8190,16 @@ def draw_can(con=0):
 
 
 
-            draw_outline_text(can,"Up Next...",w-10-xx+r,y+15,"w",("FreeMono",13))
+            draw_outline_text(can,"Up Next...",w-10-xx+r,y+10,"nw",("FreeMono",13))
 
-            can.create_text(w-10-xx+r,y+15,text="Up Next...",fill=_theme[0],font=("FreeMono",13),anchor="w")
+            can.create_text(w-10-xx+r,y+10,text="Up Next...",fill=_theme[0],font=("FreeMono",13),anchor="nw")
 
 
     
             txt=_text_(can,det_nxt().replace(".mp3",""),"FreeMono",13,xx-r*2)
             can_outline_st=10
-            draw_outline_text(can,txt,w-10-xx+r,y+30+(yy-30)/2,"w",("FreeMono",13))
-            nxt_sng=can.create_text(w-10-xx+r,y+30+(yy-30)/2,text=txt,fill=_theme[0],font=("FreeMono",13),anchor="w")
+            draw_outline_text(can,txt,w-10-xx+r,y+yy-10,"sw",("FreeMono",13))
+            nxt_sng=can.create_text(w-10-xx+r,y+yy-10,text=txt,fill=_theme[0],font=("FreeMono",13),anchor="sw")
 
 
 
@@ -8478,7 +8505,7 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0:
+        if vid_st==0 and _theme[-2][0]==1:
             can.create_image(10+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
         if st==4:
@@ -8529,7 +8556,7 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0:
+        if vid_st==0 and _theme[-2][0]==1:
             can.create_image(10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
@@ -8549,7 +8576,7 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0:
+        if vid_st==0 and _theme[-2][0]==1:
             can.create_image(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
@@ -8572,7 +8599,7 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0:
+        if vid_st==0 and _theme[-2][0]==1:
             can.create_image(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
@@ -8588,7 +8615,7 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0:
+        if vid_st==0 and _theme[-2][0]==1:
             can.create_image(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
@@ -9746,10 +9773,10 @@ def load_im():
     bg_hex[0]=ImageTk.PhotoImage(draw_fadingc(bg_hex[1]))
 
 
-    im=Image.new("RGBA",(35,35),(0,0,0,0))
+    im=Image.new("RGBA",(34,34),(0,0,0,0))
     draw=ImageDraw.Draw(im)
 
-    draw.ellipse((0,0,35,35),fill=(0,0,0,int(0.8*255)),outline=(0,0,0,int(0.8*255)))
+    draw.ellipse((0,0,34,34),fill=(0,0,0,int(0.8*255)),outline=(0,0,0,int(0.8*255)))
 
     ibg=ImageTk.PhotoImage(im)
 
@@ -12844,6 +12871,7 @@ def draw_can_sort():
     global cso_im
     global cur_can_sort_2,bg_hex
     global bg_col
+    global vid_st
 
 
     col1=_theme[0]
@@ -12864,10 +12892,14 @@ def draw_can_sort():
     bg_sort=ImageTk.PhotoImage(im1)
     bg_sort_=ImageTk.PhotoImage(im2)
 
+
+    if vid_st==0:
+        can_sort.create_image(0,0,image=bg_sort,anchor="nw")
+
+    else:
+        can_sort.create_rectangle(0,0,int(can_sort["width"]),int(can_sort["height"]),fill="#000000",outline="#000000")
+
     can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
-    can_sort.create_image(0,0,image=bg_sort,anchor="nw")
-
-
 
 
     ar=[]
@@ -14076,6 +14108,7 @@ def draw_settings(con=0):
     global up,down
     global effect,effect_sz,ey
     global bg_col
+    global vid_st
 
 
 
@@ -14145,8 +14178,16 @@ def draw_settings(con=0):
     bg_sett_=ImageTk.PhotoImage(im2)
 
 
+
+
+    if vid_st==0:
+        can_settings.create_image(0,0,image=bg_sett,anchor="nw")
+    else:
+        can_settings.create_rectangle(0,0,int(can_settings["width"]),int(can_settings["height"]),fill="#000000",outline="#000000")
+
+
     can_settings.create_image(-25,-25,image=bg_sett_,anchor="nw")
-    can_settings.create_image(0,0,image=bg_sett,anchor="nw")
+
 
     #draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,"#000000",col1,1,3)
     #draw_round_rec(can_settings,1,1, int(can_settings["width"])-2,int(can_settings["height"])-2,25,_theme[0],col1,1)
