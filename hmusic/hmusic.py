@@ -5078,34 +5078,56 @@ def check_volume():
 
 
 
-def play_music(file,time,con=0):
+def play_music(file,time_,con=0):
     global current_playing
     global sig,tts
     global play_st
 
     global vid_st,vid_st2
+    global songs_status,current_playlist,vid_tm,lst,_search,_npl,lyric_st,vframe,can2,frame
 
 
     if play_st==1:
 
-        if time==0:
-
-            if vid_st==1:
-
-                d=os.listdir("videos")
-
-                try:
-                    v=d.index(current_playing.replace(".mp3",".mp4"))
-
-                except:
+        if time_==0:
 
 
-                    vid_st=0
-                    vid_st2=0
-            else:
+            d=os.listdir("videos")
 
-                vid_st=0
-                vid_st2=0
+            try:
+                v=d.index(current_playing.replace(".mp3",".mp4"))
+
+                vid_st=1
+                vid_st2=1
+
+
+                st=songs_status[0]
+
+                if st==2:
+
+                    current_playlist=songs_status[1]
+
+
+                
+
+                vid_tm=time.time()
+                lst=0
+                _search=0
+                _npl=0
+
+                lyric_st=0
+
+
+                vframe=[0,0,0]
+
+                pu_forget()
+                frame.place_forget()
+
+                main()
+            except:
+                vid_st,vid_st2=0,0
+
+
             sig=[]
             tts=0
 
@@ -5125,8 +5147,8 @@ def play_music(file,time,con=0):
             update_details(current_playing,1)
 
         # Start playing the audio from a specific position (in seconds)
-        start_time = time  # Replace with the desi#38fca5 starting time in seconds
-        pygame.mixer.music.play(start=round(start_time))  # Use round for an integer value
+        start_time = time_  # Replace with the desi#38fca5 starting time in seconds
+        pygame.mixer.music.play(start=start_time)  # Use round for an integer value
 
         pygame.mixer.music.set_volume(1.0)
 
@@ -5368,6 +5390,9 @@ def main():
     if root_st==1:
 
         root.geometry(str(50)+"x"+str(100)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
+        root["bg"]="#231115"
+
+        can.place(in_=root,x=(wd-3-50),y=(ht-51-50))
 
         can.delete("all")
 
@@ -5411,7 +5436,9 @@ def main():
     else:
 
         root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
+        root["bg"]="#000000"
 
+        can.place(in_=root,x=0,y=0)
 
 
 
@@ -7846,6 +7873,10 @@ def draw_can(con=0):
         can["bg"]="#231115"
 
         root.geometry(str(50)+"x"+str(100)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
+        root["bg"]="#231115"
+
+        can.place(in_=root,x=(wd-3-50),y=(ht-51-50))
+
 
         can.delete("all")
 
@@ -7886,6 +7917,11 @@ def draw_can(con=0):
         can_theme_ent.place_forget()
 
         return
+    else:
+        root["bg"]="#000000"
+
+        can.place(in_=root,x=0,y=0)
+
 
 
 
@@ -11572,11 +11608,12 @@ root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
 root.resizable(0,0)
 #root.wm_attributes("-alpha",0.9)
 root.wm_attributes("-transparentcolor","#231115")
+root.wm_attributes("-fullscreen",True)
 root.wm_attributes("-topmost",True)
 root.iconbitmap("data/icon.ico")
 root.title("HMUSIC")
 
-root.overrideredirect(True)
+#root.overrideredirect(True)
 
 
 can=tk.Canvas(width=w,height=h,relief="flat",highlightthickness=0,border=0,cursor="none")
