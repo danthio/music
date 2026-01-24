@@ -782,6 +782,7 @@ def draw_wave():
     global current_volume
 
     global vid_st
+    global settings_st2
 
     try:
 
@@ -836,28 +837,34 @@ def draw_wave():
                     x+=xv
 
 
+                    if lst==0 and st!=4 and lyric_st==0 and root_st==0 and vid_st==0 and settings_st2==0:
+
+                        if len(sig2)>4:
+
+                            
 
 
-                if len(sig2)>4:
 
-                    if lst==0 and st!=4 and lyric_st==0 and root_st==0 and vid_st==0:
+                                if not tts>tot_tm_:
 
+                                    #can.coords(sig_2,*sig2)
+                                    can.coords(sig_,*sig2)
 
-
-                        if not tts>tot_tm_:
-
-                            can.coords(sig_2,*sig2)
-                            can.coords(sig_,*sig2)
-
-                elif len(sig2)==4:
+                        elif len(sig2)==4:
 
 
-                    can.delete(sig_)
-                    can.delete(sig_2)
-                    #sig_2=can.create_line(sig2,fill=_theme[1][1],width=5)
-                    sig_=can.create_line(sig2,fill=_theme[0],width=1)
+                            can.delete(sig_)
+                            #can.delete(sig_2)
+                            #sig_2=can.create_line(sig2,fill=_theme[1][1],width=5)
+                            sig_=can.create_line(sig2,fill=_theme[0],width=1)
+
+                    else:
 
 
+                            can.delete(sig_)
+                            #can.delete(sig_2)
+                            #sig_2=can.create_line(sig2,fill=_theme[1][1],width=5)
+                            sig_=can.create_line(0,0,0,0,fill=_theme[0],width=1)
 
 
     except:
@@ -1546,11 +1553,12 @@ def save():
     global _theme
     global filter_val,filter_pl
     global f1_,f2_
+    global rpx,rpy
 
 
 
 
-    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,f1_,f2_]}
+    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,f1_,f2_,rpx,rpy]}
 
 
 
@@ -2018,6 +2026,7 @@ def add_playlist():
     global cancel
     global cur_can3_2,cur_can4_2,cur_can6_2,bg_hex
     global bg_col
+    global bg_dark_
 
 
 
@@ -2045,7 +2054,7 @@ def add_playlist():
 
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
-    im1,im2=rounded_im(Image.open("data/bg_dark.png"),((w-550)/2),((h-(40+250-40+50+40))/2),550,(40+250-40+50+40),15)
+    im1,im2=rounded_im(bg_dark_,((w-550)/2),((h-(40+250-40+50+40))/2),550,(40+250-40+50+40),15)
 
     add_bg=ImageTk.PhotoImage(im1)
     add_bg_=ImageTk.PhotoImage(im2)
@@ -2167,7 +2176,7 @@ def add_playlist():
 
         ar=playlist[p]
 
-        can3.create_image(10,y+10+4,image=playlist2,anchor="nw")
+        can3.create_image(10,y+5,image=playlist2,anchor="nw")
 
 
         txt=_text_(can2,p,"FreeMono",13,int(can3["width"])-(10+30+10)-(sb2_sz+2+10+20)-10)
@@ -3217,6 +3226,7 @@ def can_b1(e):
     global cur_can_search_2,bg_hex
     global bg_col
     global up_theme
+    global root_st2,root_st_tm
 
     #minimize
 
@@ -3247,19 +3257,10 @@ def can_b1(e):
     wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
     if root_st==1:
 
+        root_st2=1
+        root_st_tm=time.time()
 
 
-        root_st=0
-        pu_forget()
-
-
-
-
-        root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
-
-        main()
-
-        move_to_playing()
 
         return
 
@@ -4482,12 +4483,6 @@ def can_b1(e):
 
                     if vid_st==1:
 
-                        st=songs_status[0]
-
-                        if st==2:
-
-                            current_playlist=songs_status[1]
-
 
                         
 
@@ -5084,7 +5079,7 @@ def play_music(file,time_,con=0):
     global play_st
 
     global vid_st,vid_st2
-    global songs_status,current_playlist,vid_tm,lst,_search,_npl,lyric_st,vframe,can2,frame
+    global vid_tm,lst,_search,_npl,lyric_st,vframe,can2,frame
 
 
     if play_st==1:
@@ -5099,13 +5094,6 @@ def play_music(file,time_,con=0):
 
                 vid_st=1
                 vid_st2=1
-
-
-                st=songs_status[0]
-
-                if st==2:
-
-                    current_playlist=songs_status[1]
 
 
                 
@@ -5232,7 +5220,7 @@ playlist_select=""
 
 
 
-def _text_(c,text,font_,size,l):
+def _text_(c,text,font_,size,l,con=0):
 
 
     f=font.Font(family=font_,size=size)
@@ -5240,15 +5228,28 @@ def _text_(c,text,font_,size,l):
 
     if f.measure(text)>l:
 
-        while 1:
+        if con==1:
 
-            if f.measure(text+"...")>l:
+            while 1:
 
-                text=text[:-1]
+                if f.measure(text)>l:
 
-            else:
-                
-                return text+"..."
+                    text=text[:-1]
+
+                else:
+                    
+                    return text
+
+        else:
+            while 1:
+
+                if f.measure(text+"...")>l:
+
+                    text=text[:-1]
+
+                else:
+                    
+                    return text+"..."
 
     else:
         return text
@@ -5378,6 +5379,7 @@ def main():
     global bg_styl__
     global cur_can2_2
     global bg_col
+    global rpx,rpy
 
 
     root.wm_attributes("-topmost",True)
@@ -5389,10 +5391,10 @@ def main():
 
     if root_st==1:
 
-        root.geometry(str(50)+"x"+str(100)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
+        root.geometry(str(50)+"x"+str(100)+"+"+str(rpx-25)+"+"+str(rpy-25))
         root["bg"]="#231115"
 
-        can.place(in_=root,x=(wd-3-50),y=(ht-51-50))
+        can.place(in_=root,x=(rpx-25),y=(rpy-25))
 
         can.delete("all")
 
@@ -5776,7 +5778,7 @@ def main():
 
 
 
-                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                can2.create_image(0,y+5,image=musical_note2,anchor="nw")
                 col=col1
 
 
@@ -6046,7 +6048,7 @@ def main():
                             #draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
                             draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
 
-                            can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                            can2.create_image(0,y+5,image=musical_note1,anchor="nw")
                             col=_theme[1][1]
 
 
@@ -6056,7 +6058,7 @@ def main():
                             draw_outline_text(can2,txt,50,y+5,"nw",("FreeMono",13))
 
 
-                            can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                            can2.create_image(0,y+5,image=musical_note2,anchor="nw")
                             col=_theme[0]
 
 
@@ -6138,12 +6140,12 @@ def main():
                             draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
                             col=_theme[1][1]
 
-                            can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                            can2.create_image(0,y+5,image=musical_note1,anchor="nw")
 
                         else:
                             draw_outline_text(can2,txt,50,y+5,"nw",("FreeMono",13))
                             col=col1
-                            can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                            can2.create_image(0,y+5,image=musical_note2,anchor="nw")
 
 
 
@@ -6348,7 +6350,7 @@ def main():
 
 
                             
-                            can2.create_image(5,y+25-12.5,image=_pl_,anchor="nw")
+                            can2.create_image(5,y+5,image=_pl_,anchor="nw")
 
 
 
@@ -6420,7 +6422,7 @@ def main():
                                 draw_active(can2,0,y,(int(can2["width"])-sb_sz-1)-1,51,col1)
 
 
-                                can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                                can2.create_image(0,y+5,image=musical_note1,anchor="nw")
                                 col=_theme[1][1]
 
                             else:
@@ -6428,7 +6430,7 @@ def main():
                                 draw_outline_text(can2,txt,50,y+5,"nw",("FreeMono",13))
 
 
-                                can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                                can2.create_image(0,y+5,image=musical_note2,anchor="nw")
                                 col=col1
 
 
@@ -6485,7 +6487,7 @@ def main():
 
                         col=_theme[1][1]
 
-                        can2.create_image(0,y+10,image=musical_note1,anchor="nw")
+                        can2.create_image(0,y+5,image=musical_note1,anchor="nw")
 
                     else:
 
@@ -6494,7 +6496,7 @@ def main():
 
 
 
-                        can2.create_image(0,y+10,image=musical_note2,anchor="nw")
+                        can2.create_image(0,y+5,image=musical_note2,anchor="nw")
                         col=col1
 
 
@@ -7854,6 +7856,8 @@ def draw_can(con=0):
     global can_outline_st
     global bg_col
     global ibg
+    global bg_dark_
+    global rpx,rpy
 
     can.delete("all")
 
@@ -7872,10 +7876,10 @@ def draw_can(con=0):
 
         can["bg"]="#231115"
 
-        root.geometry(str(50)+"x"+str(100)+"+"+str(wd-3-50)+"+"+str(ht-51-50))
+        root.geometry(str(50)+"x"+str(100)+"+"+str(rpx-25)+"+"+str(rpy-25))
         root["bg"]="#231115"
 
-        can.place(in_=root,x=(wd-3-50),y=(ht-51-50))
+        can.place(in_=root,x=(rpx-25),y=(rpy-25))
 
 
         can.delete("all")
@@ -8003,7 +8007,7 @@ def draw_can(con=0):
         
 
         can.create_image(0,0,image=b_g1,anchor="nw")
-        can.create_image(0,90+int(can2["height"]),image=b_g2,anchor="nw")
+        can.create_image(0,90+int(can2["height"])-20,image=b_g2,anchor="nw")
 
 
 
@@ -8346,8 +8350,8 @@ def draw_can(con=0):
             #can.create_line(10-1,90-5,w-10+1,90-5,fill="#000000",width=3)
             #can.create_line(10,90-5,w-10,90-5,fill=_theme[0],width=1)
 
-            can.create_line(10-1,90+int(can2["height"]),w-10+1,90+int(can2["height"]),fill="#000000",width=3)
-            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[0],width=1)
+            can.create_line(10-1,90+int(can2["height"]),w-10+1,90+int(can2["height"]),fill="#000000",width=4)
+            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[0],width=2)
 
             frame.place(in_=root,x=10,y=90-1-1)
 
@@ -8919,7 +8923,7 @@ def draw_can(con=0):
 
         
 
-        im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,30+30*5,15)
+        im1,im2=rounded_im(bg_dark_,(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,30+30*5,15)
 
         bg_filt=ImageTk.PhotoImage(im1)
         bg_filt_=ImageTk.PhotoImage(im2)
@@ -9704,6 +9708,7 @@ def load_im():
     global bg_hex
     global up,down
     global ibg
+    global _bg_,bg_dark_
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -9756,8 +9761,15 @@ def load_im():
 
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
-    bg=ImageTk.PhotoImage(file="data/bg.png")
-    bg2_=ImageTk.PhotoImage(file="data/bg_dark.png")
+
+    if _theme[-2][0]==1:
+        bg=ImageTk.PhotoImage(_bg_)
+        bg2_=bg
+
+    else:
+        bg=ImageTk.PhotoImage(_bg_)
+        bg2_=ImageTk.PhotoImage(bg_dark_)
+
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
     settings=ImageTk.PhotoImage(file="data/settings.png")
@@ -9786,12 +9798,91 @@ def load_im():
 
 
 
+    r=20
+
+    im=Image.new("RGBA",(w,50+r),(0,0,0,0))
+    draw=ImageDraw.Draw(im)
+
+    ar=[]
+
+    ar.append((0,0))
+    ar.append((w,0))
 
 
 
-    b_g1=ImageTk.PhotoImage(Image.new("RGBA",(w,50),(0,0,0,int(round(0.8*255,0)))))
 
-    b_g2=ImageTk.PhotoImage(Image.new("RGBA",(w,h-(90+int(can2["height"]))),(0,0,0,int(round(0.8*255,0)))))
+
+    a_=90
+
+    for a in range(90):
+        x=int(round(r*math.sin(math.radians(a_))+w-r,0))
+        y=int(round(r*math.cos(math.radians(a_))+50+r,0))
+
+        ar.append((x,y))
+
+        a_+=1
+
+
+    a_=180
+
+    for a in range(90):
+        x=int(round(r*math.sin(math.radians(a_))+r,0))
+        y=int(round(r*math.cos(math.radians(a_))+50+r,0))
+
+        ar.append((x,y))
+
+        a_+=1
+
+
+
+
+
+    draw.polygon(ar,fill=(0,0,0,int(round(0.8*255,0))),outline=(0,0,0,int(round(0.8*255,0))))
+
+    b_g1=ImageTk.PhotoImage(im)
+
+
+
+
+
+
+
+
+    im=Image.new("RGBA",(w,h-(90+int(can2["height"]))+r),(0,0,0,0))
+    draw=ImageDraw.Draw(im)
+
+    ar=[]
+
+    a_=270
+
+    for a in range(90):
+        x=int(round(r*math.sin(math.radians(a_))+r,0))
+        y=int(round(r*math.cos(math.radians(a_))+0,0))
+
+        ar.append((x,y))
+
+        a_+=1
+
+    a_=0
+
+    for a in range(90):
+        x=int(round(r*math.sin(math.radians(a_))+w-r,0))
+        y=int(round(r*math.cos(math.radians(a_))+0,0))
+
+        ar.append((x,y))
+
+        a_+=1
+
+    ar.append((w,h-(90+int(can2["height"]))+r))
+    ar.append((0,h-(90+int(can2["height"]))+r))
+
+    draw.polygon(ar,fill=(0,0,0,int(round(0.8*255,0))),outline=(0,0,0,int(round(0.8*255,0))))
+
+    b_g2=ImageTk.PhotoImage(im)
+
+
+
+
 
 
     col=hex_to_rgb(_theme[0])
@@ -9815,6 +9906,10 @@ def load_im():
     draw.ellipse((0,0,34,34),fill=(0,0,0,int(0.8*255)),outline=(0,0,0,int(0.8*255)))
 
     ibg=ImageTk.PhotoImage(im)
+
+
+
+
 
 
 
@@ -10074,6 +10169,7 @@ def draw_cur_():
     global _theme
     global ep
     global effect_st
+    global rpx,rpy
 
 
     x,y=pyautogui.position()
@@ -10154,7 +10250,7 @@ def draw_cur_():
             if effect_st==1:
 
 
-                x_,y_=x-(wd-w)/2-(10+25+5+ep[0][0]+15),y-(ht-h)/2-(25+12.5+5+ep[0][1]+15)
+                x_,y_=x-(wd-w)/2-(10+25+5+ep[0][0]+15-int(can_effects["width"])),y-(ht-h)/2-(25+12.5+5+ep[0][1]+30-10)
                 can_effects.coords(cur_can_effects_2,x_-r,y_-r)
 
 
@@ -10261,9 +10357,9 @@ def draw_cur_():
         #str(wd-3-50)+"+"+str(ht-51-50)
 
 
-        xx,yy=x-(wd-3-50),y-(ht-51-50)
+        xx,yy=x-(rpx-25),y-(rpy-25)
 
-        cx,cy=(wd-3-50)+25,(ht-51-50)+25
+        cx,cy=rpx,rpy
 
         r=math.sqrt((x-cx)**2+(y-cy)**2)
 
@@ -10332,7 +10428,7 @@ def draw_cur_():
     cur_can_settings=can_settings.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
     if effect_st==1:
-        xx,yy=x-(wd-w)/2-(10+25+5+ep[0][0]+15),y-(ht-h)/2-(25+12.5+5+ep[0][1]+15)
+        xx,yy=x-(wd-w)/2-(10+25+5+ep[0][0]+15-int(can_effects["width"])),y-(ht-h)/2-(25+12.5+5+ep[0][1]+30-10)
         cur_can_effects=can_effects.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
@@ -11602,6 +11698,7 @@ wd,ht=root.winfo_screenwidth(),root.winfo_screenheight()
 h=int(ht)
 w=int(wd)
 
+rpx,rpy=(w-3-50)+25,(h-51-50)+25
 
 
 root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
@@ -11631,12 +11728,12 @@ try:
 
 
     try:
-        can.create_line(-1,-1,-1,-1,fill=data["save"][-3][0])
+        can.create_line(-1,-1,-1,-1,fill=data["save"][-5][0])
 
     except:
 
 
-        data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl]}
+        data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl,rpx,rpy]}
 
 
 
@@ -11648,7 +11745,7 @@ try:
 
 
 except:
-    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl]}
+    data={"save":[st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl,rpx,rpy]}
 
 
 
@@ -11661,7 +11758,7 @@ except:
 try:
 
 
-    st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl=data["save"]
+    st,current_playing,current_playlist,playlist_st,lst,sort_val,shuff,loop,shuffle_ar,shuffle_st,songs_status,_theme,filter_val,filter_pl,rpx,rpy=data["save"]
 
 
     st,current_playlist,shuffle_st,sort_val,shuffle_ar,loop,current_playing=songs_status
@@ -11687,6 +11784,8 @@ configure_theme(_theme[0])
 
 adj_st=0
 bg_col=""
+
+bg_dark_,_bg_=0,0
 def adjust_theme():
     global _theme,theme_ent
     global adj_st
@@ -11694,6 +11793,9 @@ def adjust_theme():
     global unchanged
     global wd,ht
     global bg_col
+    global bg_dark_,_bg_
+    global tbg2_
+
 
 
     if adj_st==0:
@@ -11714,7 +11816,7 @@ def adjust_theme():
 
     conf_stheme=0
 
-    if c==65:
+    if c==63:
 
         im=Image.open("data/circle.png")
         imx,imy=im.size
@@ -11734,7 +11836,6 @@ def adjust_theme():
 
 
         try:
-
             im=draw_effects(wd,ht,_theme[-2][2],_theme[-2][3],_theme[-2][1])
         except:
 
@@ -11754,11 +11855,13 @@ def adjust_theme():
 
 
 
-        im.save("data/bg_.png")
         im.save("data/bg.png")
-        im.save("data/bg_dark.png")
+
+        _bg_=im
+        bg_dark_=im
 
         _theme[-1]=[0,0,0,0]
+
 
     else:
         bg_col="#000000"
@@ -11769,12 +11872,12 @@ def adjust_theme():
 
             for i in ar:
 
-                if i.split(".")[0]=="bg_":
+                if i.split(".")[0]=="bg":
                     ext=i.split(".")[1]
 
             
 
-            im=Image.open("data/bg_."+ext)
+            im=Image.open("data/bg."+ext)
             x,y=im.size
 
 
@@ -11840,23 +11943,15 @@ def adjust_theme():
 
             
 
-
-
-
             im=convert_(im,col)
-
-
-
 
 
             
             im1=darken_image(im,(0,0,0), _theme[2])
             im2=darken_image(im1,(0,0,0), 0.5)
 
-            im1.save("data/bg.png")
-            im2.save("data/bg_dark.png")
-
-
+            _bg_=im1
+            bg_dark_=im2
 
 
         except:
@@ -11872,6 +11967,7 @@ def adjust_theme():
 
     root.after(2,update)
     adj_st=1
+
 
 
     
@@ -12349,9 +12445,31 @@ def __list(e):
 
         move_to_playing(1)
 
-
+root_st2=0
 def on_release_can(e):
     global play_st2,v_st
+    global root_st,root_st2
+    global root_st_tm
+
+    if root_st==1 and root_st2==1:
+
+        root_st2=0
+
+
+        if time.time()-root_st_tm<0.25:
+
+
+            root_st=0
+            pu_forget()
+
+
+
+
+            root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
+
+            main()
+
+            move_to_playing()
 
 
     if play_st2==1:
@@ -12361,6 +12479,38 @@ def on_release_can(e):
         v_st=0
 
     draw_can()
+
+def drag_root_wn():
+
+
+    global root_st,root_st2,rpx,rpy
+    global root_st_tm
+
+    x,y=pyautogui.position()
+
+
+    if root_st==1 and root_st2==1:
+
+
+
+
+
+
+        if time.time()-root_st_tm>0.25:
+
+            if 25<=x<=w-25:
+                rpx=x
+
+            if 25<=y<=h-25-get_taskbar_height()-5:
+
+                rpy=y
+
+
+            can.place(in_=root,x=rpx-25,y=rpy-25)
+
+
+
+    root.after(1,drag_root_wn)
 
 def drag_can(e):
 
@@ -12375,11 +12525,15 @@ def drag_can(e):
     global current_playing,tts,sig
 
     global can_outline_st
+    global root_st,root_st2,rpx,rpy
 
 
 
 
     if play_st2==1:
+
+
+
 
         if h-20-60-20+10+2+5-10-3+10+5-15<=e.y<=h-20-60-20+10+2+5+10-3+10-5+15:
 
@@ -12909,6 +13063,7 @@ def draw_can_sort():
     global cur_can_sort_2,bg_hex
     global bg_col
     global vid_st
+    global bg_dark_
 
 
     col1=_theme[0]
@@ -12924,7 +13079,7 @@ def draw_can_sort():
 
     cur_can_sort_2=can_sort.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
-    im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
+    im1,im2=rounded_im(bg_dark_,(10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
 
     bg_sort=ImageTk.PhotoImage(im1)
     bg_sort_=ImageTk.PhotoImage(im2)
@@ -13507,7 +13662,7 @@ def can_settings_b1(e):
 
 
 
-        tbg2_.save("data/bg_.png")
+        tbg2_.save("data/bg.png")
 
 
         
@@ -14146,6 +14301,7 @@ def draw_settings(con=0):
     global effect,effect_sz,ey
     global bg_col
     global vid_st
+    global bg_dark_
 
 
 
@@ -14209,7 +14365,7 @@ def draw_settings(con=0):
     cur_can_settings_2=can_settings.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
     can_settings.place(in_=root,x=10+25+5,y=25+12.5+5)
 
-    im1,im2=rounded_im(Image.open("data/bg_dark.png"),(10+25+5),(25+12.5+5),int(can_settings["width"]),int(can_settings["height"]),25)
+    im1,im2=rounded_im(bg_dark_,(10+25+5),(25+12.5+5),int(can_settings["width"]),int(can_settings["height"]),25)
 
     bg_sett=ImageTk.PhotoImage(im1)
     bg_sett_=ImageTk.PhotoImage(im2)
@@ -14322,11 +14478,11 @@ def draw_settings(con=0):
 
     for i in ar:
 
-        if i.split(".")[0]=="bg_":
+        if i.split(".")[0]=="bg":
 
             ext=i.split(".")[1]
 
-    tbg_=Image.open("data/bg_."+ext)
+    tbg_=Image.open("data/bg."+ext)
 
 
     if con==0:
@@ -15347,10 +15503,11 @@ def conf_del_(file,con):
     global del_st
     global cur_conf_del_2,bg_hex
     global bg_col
+    global bg_dark_
 
     
 
-    im1,im2=rounded_im(Image.open("data/bg_dark.png"),(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
+    im1,im2=rounded_im(bg_dark_,(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
 
     bg_del=ImageTk.PhotoImage(im1)
     bg_del_=ImageTk.PhotoImage(im2)
@@ -15585,6 +15742,7 @@ def can_search_kp(e):
 
     cs_txt1+=e.char
 
+
     search_var=cs_txt1+cs_txt2
     can_search_txt()
 
@@ -15653,16 +15811,17 @@ def can_search_b1(e):
         if l1>int(can_search["width"])-2:
 
 
-            cs_txt1=_text_(can_search,search_var,"FreeMono",13,(l1-(int(can_search["width"])-2))+e.x)
+            cs_txt1=_text_(can_search,search_var,"FreeMono",13,(l1-(int(can_search["width"])-2))+e.x,1)
 
             cs_txt2=search_var[len(cs_txt1):]
 
         else:
 
 
-            cs_txt1=_text_(can_search,search_var,"FreeMono",13,e.x)
+            cs_txt1=_text_(can_search,search_var,"FreeMono",13,e.x,1)
 
             cs_txt2=search_var[len(cs_txt1):]
+
 
 
     else:
@@ -15946,14 +16105,14 @@ def can_npl_b1(e):
         if l2>int(can_npl["width"])-2:
 
 
-            cnpl_txt1=_text_(can_npl,npl_var,"FreeMono",13,(l2-(int(can_npl["width"])-2))+e.x)
+            cnpl_txt1=_text_(can_npl,npl_var,"FreeMono",13,(l2-(int(can_npl["width"])-2))+e.x,1)
 
             cnpl_txt2=npl_var[len(cnpl_txt1):]
 
         else:
 
 
-            cnpl_txt1=_text_(can_npl,npl_var,"FreeMono",13,e.x)
+            cnpl_txt1=_text_(can_npl,npl_var,"FreeMono",13,e.x,1)
 
             cnpl_txt2=npl_var[len(cnpl_txt1):]
 
@@ -16368,14 +16527,14 @@ def can_theme_ent_b1(e):
         if l2>int(can_theme_ent["width"])-4:
 
 
-            cte_txt1=_text_(can_theme_ent,te_var,"FreeMono",13,(l2-(int(can_theme_ent["width"])-3))+e.x)
+            cte_txt1=_text_(can_theme_ent,te_var,"FreeMono",13,(l2-(int(can_theme_ent["width"])-3))+e.x,1)
 
             cte_txt2=te_var[len(cte_txt1):]
 
         else:
 
 
-            cte_txt1=_text_(can_theme_ent,te_var,"FreeMono",13,e.x)
+            cte_txt1=_text_(can_theme_ent,te_var,"FreeMono",13,e.x,1)
 
             cte_txt2=te_var[len(cte_txt1):]
 
@@ -16808,7 +16967,7 @@ def draw_can_effects():
     cur_can_effects_2=can_effects.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
 
-    can_effects.create_image(-(10+25+5+ep[0][0]+15),-(25+12.5+5+ep[0][1]+15),image=bg2_,anchor="nw")
+    can_effects.create_image(-(10+25+5+ep[0][0]+15-int(can_effects["width"])),-(25+12.5+5+ep[0][1]+30-10),image=bg2_,anchor="nw")
 
     y=15
     for i in range(len(ar_effects)):
@@ -16824,7 +16983,7 @@ def draw_can_effects():
 
 
 
-    can_effects.place(in_=root,x=10+25+5+ep[0][0]+15,y=25+12.5+5+ep[0][1]+15)
+    can_effects.place(in_=root,x=10+25+5+ep[0][0]+15-int(can_effects["width"]),y=25+12.5+5+ep[0][1]+30-10)
 
 can_effects=tk.Canvas(relief="flat",highlightthickness=0,border=0,cursor="none")
 can_effects.bind("<Button-1>",can_effects_b1)
@@ -16926,4 +17085,6 @@ update_videos()
 
 check_nxtx()
 change_effect_sz()
+
+drag_root_wn()
 root.mainloop()
