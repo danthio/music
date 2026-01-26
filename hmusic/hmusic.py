@@ -1136,7 +1136,9 @@ def convert_folder_to_audio():
 
                     if i[-4:]==".mp4":
 
-                        shutil.copy(input_folder+"\\"+i,"videos")
+                        #shutil.copy(input_folder+"\\"+i,"videos")
+
+                        vid_quality(input_folder+"\\"+i,"videos/"+i)
 
 
 
@@ -1250,9 +1252,11 @@ def convert_file_to_audio():
                 try:
                     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
-                    if input_file[-4:]==".mp4":
+                    if i[-4:]==".mp4":
 
-                        shutil.copy(input_file,"videos")
+                        #shutil.copy(input_file,"videos")
+
+                        vid_quality(input_file,"videos/"+i)
 
 
                     root.after(2,update)
@@ -2790,7 +2794,14 @@ def can2_b1(e):
                         if file[-3:]=="mp4":
 
                             destination_file = os.path.join("videos", os.path.basename(file))
-                            shutil.copy(file, "videos")
+
+                            #vid_quality(file,"videos/"+file.split("/")[-1])
+
+                            th=threading.Thread(target=vid_quality,args=(file,"videos/"+file.split("/")[-1]),daemon=True)
+                            th.start()
+                            th.join()
+
+                            #shutil.copy(file, "videos")
 
                             os.rename("videos/"+file.split("/")[-1],"videos/"+s[0].replace(".mp3",".mp4"))
 
@@ -16924,6 +16935,20 @@ def update_videos():
 
     root.after(2000,update_videos)
 
+def vid_quality(input_,output):
+
+
+
+
+    subprocess.run([
+        r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe",
+        "-i", input_,
+        "-c:v", "libx264",
+        "-crf", "30",
+        "-preset", "ultrafast",
+        "-c:a", "copy",
+        output
+    ])
 
 def can_effects_b1(e):
 
