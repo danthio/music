@@ -150,6 +150,10 @@ def play_vid():
 
             x,y=_frame__.size
 
+            _frame__=_frame__.resize(( int(round(200*x/y,0)),200))
+
+
+
 
 
             x_,y_=w,h
@@ -1136,9 +1140,9 @@ def convert_folder_to_audio():
 
                     if i[-4:]==".mp4":
 
-                        #shutil.copy(input_folder+"\\"+i,"videos")
+                        shutil.copy(input_folder+"\\"+i,"videos")
 
-                        vid_quality(input_folder+"\\"+i,"videos/"+i)
+                        #vid_quality(input_folder+"\\"+i,"videos/"+i)
 
 
 
@@ -1254,9 +1258,9 @@ def convert_file_to_audio():
 
                     if i[-4:]==".mp4":
 
-                        #shutil.copy(input_file,"videos")
+                        shutil.copy(input_file,"videos")
 
-                        vid_quality(input_file,"videos/"+i)
+                        #vid_quality(input_file,"videos/"+i)
 
 
                     root.after(2,update)
@@ -2797,11 +2801,11 @@ def can2_b1(e):
 
                             #vid_quality(file,"videos/"+file.split("/")[-1])
 
-                            th=threading.Thread(target=vid_quality,args=(file,"videos/"+file.split("/")[-1]),daemon=True)
-                            th.start()
-                            th.join()
+                            #th=threading.Thread(target=vid_quality,args=(file,"videos/"+file.split("/")[-1]),daemon=True)
+                            #th.start()
+                            #th.join()
 
-                            #shutil.copy(file, "videos")
+                            shutil.copy(file, "videos")
 
                             os.rename("videos/"+file.split("/")[-1],"videos/"+s[0].replace(".mp3",".mp4"))
 
@@ -8361,8 +8365,8 @@ def draw_can(con=0):
             #can.create_line(10-1,90-5,w-10+1,90-5,fill="#000000",width=3)
             #can.create_line(10,90-5,w-10,90-5,fill=_theme[0],width=1)
 
-            can.create_line(10-1,90+int(can2["height"]),w-10+1,90+int(can2["height"]),fill="#000000",width=4)
-            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[0],width=2)
+            can.create_line(10-1,90+int(can2["height"]),w-10+1,90+int(can2["height"]),fill="#000000",width=3)
+            can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[0],width=1)
 
             frame.place(in_=root,x=10,y=90-1-1)
 
@@ -16944,7 +16948,7 @@ def vid_quality(input_,output):
         r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe",
         "-i", input_,
         "-c:v", "libx264",
-        "-crf", "30",
+        "-crf", "25",
         "-preset", "ultrafast",
         "-c:a", "copy",
         output
