@@ -5089,12 +5089,14 @@ def check_volume():
 
 
 def play_music(file,time_,con=0):
-    global current_playing
+    global current_playing,current_playlist
     global sig,tts
     global play_st
 
     global vid_st,vid_st2
     global vid_tm,lst,_search,_npl,lyric_st,vframe,can2,frame
+
+    global st,playlist_st,songs_status
 
 
     if play_st==1:
@@ -5104,31 +5106,48 @@ def play_music(file,time_,con=0):
 
             d=os.listdir("videos")
 
-            try:
-                v=d.index(current_playing.replace(".mp3",".mp4"))
-
-                vid_st=1
-                vid_st2=1
-
-
+            if st==2 and playlist_st==0:
                 
-
-                vid_tm=time.time()
-                lst=0
-                _search=0
-                _npl=0
-
-                lyric_st=0
-
-
-                vframe=[0,0,0]
-
-                pu_forget()
-                frame.place_forget()
-
-                main()
-            except:
                 vid_st,vid_st2=0,0
+
+            elif st==4:
+                vid_st,vid_st2=0,0
+
+            elif st==songs_status[0]:
+
+                con=1
+
+                if st==2:
+                    if current_playlist!=songs_status[1]:
+                        con=0
+
+                if con==1:
+
+                    try:
+                        v=d.index(current_playing.replace(".mp3",".mp4"))
+
+                        vid_st=1
+                        vid_st2=1
+
+
+                        
+
+                        vid_tm=time.time()
+                        lst=0
+                        _search=0
+                        _npl=0
+
+                        lyric_st=0
+
+
+                        vframe=[0,0,0]
+
+                        pu_forget()
+                        frame.place_forget()
+
+                        main()
+                    except:
+                        vid_st,vid_st2=0,0
 
 
             sig=[]
@@ -14653,7 +14672,7 @@ def draw_settings(con=0):
 
     if no_bg_st==1:
         can_outline_st=0
-        draw_outline_text(can_settings,"Default",20+30+xx/2,60+15,"w",("FreeMono",13))
+        draw_outline_text(can_settings,"Default",20+30+xx/2,60+15,"c",("FreeMono",13))
         def_lb=can_settings.create_text(20+30+xx/2,60+15,text="Default",fill=col_,font=("FreeMono",13))
 
         ey=yy
