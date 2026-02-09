@@ -2067,8 +2067,9 @@ def add_playlist():
     add_bg=ImageTk.PhotoImage(im1)
     add_bg_=ImageTk.PhotoImage(im2)
 
-    can4.create_image(-15,-15,image=add_bg_,anchor="nw")
     can4.create_image(0,0,image=add_bg,anchor="nw")
+    can4.create_image(-15,-15,image=add_bg_,anchor="nw")
+
 
 
     can4.create_image(int(can4["width"])-10-20,10,image=cancel,anchor="nw")
@@ -2873,18 +2874,6 @@ def can2_b1(e):
 
                 frame2.place_forget()
 
-                tm=0
-                
-                current_playing=songs[a][0]
-                mvar=a
-                play_st=1
-
-                play_music("music/"+current_playing,tm)
-
-                pp=1
-
-                get_audio_duration("music/"+current_playing)
-
 
                 con=0
                 if st==songs_status[0]:
@@ -2934,6 +2923,21 @@ def can2_b1(e):
 
                 update_song_status()
                 draw_can()
+
+
+                tm=0
+                
+                current_playing=songs[a][0]
+                mvar=a
+                play_st=1
+
+                play_music("music/"+current_playing,tm)
+
+                pp=1
+
+                get_audio_duration("music/"+current_playing)
+
+
 
                 main()
 
@@ -8243,7 +8247,7 @@ def draw_can(con=0):
             r=15
             xx,yy=int((w/2-10-40)),70
 
-            im1=round_im("#000000",_theme[0],0.8,xx,yy,r,1)
+            im1=round_im("#000000",_theme[0],0.9,xx,yy,r,1)
 
 
 
@@ -8962,9 +8966,9 @@ def draw_can(con=0):
         bg_filt=ImageTk.PhotoImage(im1)
         bg_filt_=ImageTk.PhotoImage(im2)
 
-        
+        filter_can1.create_image(0,0,image=bg_filt,anchor="nw")        
         filter_can1.create_image(-15,-15,image=bg_filt_,anchor="nw")
-        filter_can1.create_image(0,0,image=bg_filt,anchor="nw")
+
 
 
         sel_filt1=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=filter_can1)
@@ -9871,7 +9875,7 @@ def load_im():
 
 
 
-    draw.polygon(ar,fill=(0,0,0,int(round(0.8*255,0))),outline=(0,0,0,int(round(0.8*255,0))))
+    draw.polygon(ar,fill=(0,0,0,int(round(0.8*255,0))),outline=(0,0,0,int(round(0.9*255,0))))
 
     b_g1=ImageTk.PhotoImage(im)
 
@@ -9910,7 +9914,7 @@ def load_im():
     ar.append((w,h-(90+int(can2["height"]))+r))
     ar.append((0,h-(90+int(can2["height"]))+r))
 
-    draw.polygon(ar,fill=(0,0,0,int(round(0.8*255,0))),outline=(0,0,0,int(round(0.8*255,0))))
+    draw.polygon(ar,fill=(0,0,0,int(round(0.8*255,0))),outline=(0,0,0,int(round(0.9*255,0))))
 
     b_g2=ImageTk.PhotoImage(im)
 
@@ -9937,7 +9941,7 @@ def load_im():
     im=Image.new("RGBA",(34,34),(0,0,0,0))
     draw=ImageDraw.Draw(im)
 
-    draw.ellipse((0,0,34,34),fill=(0,0,0,int(0.8*255)),outline=(0,0,0,int(0.8*255)))
+    draw.ellipse((0,0,34,34),fill=(0,0,0,int(0.9*255)),outline=(0,0,0,int(0.9*255)))
 
     ibg=ImageTk.PhotoImage(im)
 
@@ -13381,6 +13385,10 @@ def check_up_theme():
 
 
             load_im()
+            """
+            th=threading.Thread(target=load_im,daemon=True)
+            th.start()
+            th.join()"""
 
             
 
@@ -15552,12 +15560,13 @@ def conf_del_(file,con):
 
     cur_conf_del_2=conf_del.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
+    conf_del.create_image(0,0,
+        image=bg_del,anchor="nw")
 
     conf_del.create_image(-15,-15,
         image=bg_del_,anchor="nw")
 
-    conf_del.create_image(0,0,
-        image=bg_del,anchor="nw")
+
 
 
 
@@ -17040,7 +17049,11 @@ can_effects.bind("<Button-1>",can_effects_b1)
 
 adjust_theme()
 load_im()
+"""
 
+th=threading.Thread(target=load_im,daemon=True)
+th.start()
+th.join()"""
 
 
 
