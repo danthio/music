@@ -5106,6 +5106,7 @@ def play_music(file,time_,con=0):
     if play_st==1:
 
         if time_==0:
+            con=0
 
 
             d=os.listdir("videos")
@@ -5119,13 +5120,13 @@ def play_music(file,time_,con=0):
 
             elif st==songs_status[0]:
 
-                con=1
+                con_=1
 
                 if st==2:
                     if current_playlist!=songs_status[1]:
-                        con=0
+                        con_=0
 
-                if con==1:
+                if con_==1:
 
                     try:
                         v=d.index(current_playing.replace(".mp3",".mp4"))
