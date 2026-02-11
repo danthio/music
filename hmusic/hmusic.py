@@ -767,11 +767,12 @@ sig=[]
 sig_=0
 sig_2=0
 sig2=[]
+sig2_=[]
 tts=0
 
 def draw_wave():
 
-    global lst,can,st,sig,sig_,sig_2,sig2,tm,tts,play_st,current_playing,w,h
+    global lst,can,st,sig,sig_,sig_2,sig2,sig2_,tm,tts,play_st,current_playing,w,h
 
 
 
@@ -787,6 +788,8 @@ def draw_wave():
 
     global vid_st
     global settings_st2
+    global select_st
+    global can2
 
     try:
 
@@ -832,11 +835,26 @@ def draw_wave():
 
 
                 sig2=[]
+                sig2_=[]
                 x=10
                 for a in sig:
 
                     sig2.append(x)
                     sig2.append(a+50+((h-121-30)-50)/2)
+
+
+
+                    sig2_.append(x)
+
+                    hh=90+int(can2["height"])
+
+
+
+                    if a<0:
+                        a2=-a/amp*(h-hh)
+                    else:
+                        a2=a/amp*(h-hh)
+                    sig2_.append(h-a2)
 
                     x+=xv
 
@@ -850,25 +868,27 @@ def draw_wave():
 
 
                                 if not tts>tot_tm_:
-
-                                    #can.coords(sig_2,*sig2)
                                     can.coords(sig_,*sig2)
 
-                        elif len(sig2)==4:
 
 
-                            can.delete(sig_)
-                            #can.delete(sig_2)
-                            #sig_2=can.create_line(sig2,fill=_theme[1][1],width=5)
-                            sig_=can.create_line(sig2,fill=_theme[0],width=1)
 
-                    else:
+                    if lst==1 or st==4:
 
 
-                            can.delete(sig_)
-                            #can.delete(sig_2)
-                            #sig_2=can.create_line(sig2,fill=_theme[1][1],width=5)
-                            sig_=can.create_line(0,0,0,0,fill=_theme[0],width=1)
+
+                        if len(sig2_)>4:
+
+                            
+
+
+
+                                if not tts>tot_tm_:
+
+                                    can.coords(sig_2,*sig2_)
+
+
+
 
 
     except:
@@ -3246,6 +3266,8 @@ def can_b1(e):
     global bg_col
     global up_theme
     global root_st2,root_st_tm
+
+    draw_cur_(1)
 
     #minimize
 
@@ -7869,7 +7891,7 @@ def draw_can(con=0):
 
     global b_g1,b_g2, b_g1_,b_g2_
 
-    global sig_,sig_2,sig2
+    global sig_,sig_2,sig2_,sig2
 
 
 
@@ -7967,7 +7989,6 @@ def draw_can(con=0):
 
 
 
-
     
 
     vframe=[0,0,0]
@@ -7991,7 +8012,6 @@ def draw_can(con=0):
 
 
     can.create_image(0,0,image=bg,anchor="nw")
-
 
 
 
@@ -8034,8 +8054,6 @@ def draw_can(con=0):
 
 
 
-    
-    
 
 
     if vid_st2==1:
@@ -8047,6 +8065,21 @@ def draw_can(con=0):
 
         can.create_image(0,0,image=b_g1,anchor="nw")
         can.create_image(0,90+int(can2["height"])-20,image=b_g2,anchor="nw")
+
+
+
+    if lst==1 or st==4:
+        can.delete(sig_2)
+
+
+        col=hex_to_rgb(_theme[0])
+        col="#%02x%02x%02x" % (int(round(col[0]*0.7,0)),int(round(col[1]*0.7,0)),int(round(col[2]*0.7,0)))
+        try:
+            sig_2=can.create_line(sig2_,fill=col,width=1)
+        except:
+            sig_2=can.create_line(0,0,0,0,fill=col,width=1)
+
+    
 
 
 
@@ -8599,13 +8632,12 @@ def draw_can(con=0):
                 
 
                 can.delete(sig_)
-                can.delete(sig_2)
+                
 
                 try:
 
                     if st!=4:
                         if vid_st==0:
-                            #sig_2=can.create_line(sig2,fill=_theme[1][1],width=5)
                             sig_=can.create_line(sig2,fill=_theme[0],width=1)
 
                 except:
@@ -8618,7 +8650,7 @@ def draw_can(con=0):
 
         if lyric_st==1:
             can.delete(sig_)
-            can.delete(sig_2)
+
 
 
         con_st=0
@@ -10182,7 +10214,7 @@ def check_cur_on_s2(x,y):
 
 
 
-def draw_cur_():
+def draw_cur_(conp=0):
 
     global can,can2,can3,can4,can6,can_lyrics,can_sort,can_settings,can_search,can_npl,can_theme_ent
     global filter_can1,cur_filter_can1
@@ -10215,13 +10247,17 @@ def draw_cur_():
 
 
 
-    con=0
-    if not cur_p==[x,y]:
-        vid_tm=time.time()
-        con=1
-        cur_p=[x,y]
+    if cur_p==[x,y] and conp==0:
+        
 
-        can.delete(cur_can)
+
+        return
+    else:
+        vid_tm=time.time()
+
+        cur_p=[x,y]
+        __check_cur_pos()
+        
 
 
 
@@ -10231,9 +10267,7 @@ def draw_cur_():
 
         r=bg_hex[1]
 
-        if con==1:
-
-            can.coords(cur_can_2,x-r,y-r)
+        can.coords(cur_can_2,x-r,y-r)
 
         if lst==1:
 
@@ -10357,7 +10391,8 @@ def draw_cur_():
 
 
 
-
+    can.delete(cur_can)
+    
     can2.delete(cur_can2)
 
 
@@ -10390,7 +10425,7 @@ def draw_cur_():
 
 
 
-    if root_st==1 and con==1:
+    if root_st==1:
 
 
         #str(wd-3-50)+"+"+str(ht-51-50)
@@ -10413,17 +10448,13 @@ def draw_cur_():
 
 
 
-    if con==1:
 
+    xx,yy=x-(wd-w)/2,y-(ht-h)/2
 
+    
 
-
-        xx,yy=x-(wd-w)/2,y-(ht-h)/2
-
-        
-
-        cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
-        can_label(xx,yy)
+    cur_can=can.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
+    can_label(xx,yy)
 
 
 
@@ -10504,6 +10535,8 @@ def draw_cur_():
 
     cur_conf_del=conf_del.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
+    
+
 
 
 def draw_cur():
@@ -10512,7 +10545,7 @@ def draw_cur():
 
 
 
-    root.after(10,draw_cur)
+    root.after(20,draw_cur)
 
 
 def no_of_s_pl(pl):
@@ -10561,6 +10594,8 @@ def __check_cur_pos():
     global can_outline_st        
     global _v71__,_v72__,_v73__,_v74__
     global _v91__,_v92__,_v93__,_v94__
+
+    global cur_p
     if root_st==0:
 
 
@@ -10569,7 +10604,14 @@ def __check_cur_pos():
         
 
         x,y=pyautogui.position()
+        """
+        if cur_p==[x,y]:
+            
+            return
 
+        else:
+
+            cur_p=[x,y]"""
 
 
         can2.delete(attr[0])
@@ -11006,7 +11048,7 @@ def __check_cur_pos():
 
 def check_cur_pos():
 
-    __check_cur_pos()
+    #__check_cur_pos()
 
 
     root.after(10,check_cur_pos)
@@ -12140,8 +12182,7 @@ def scroll(val):
 
             #draw_can()
 
-            draw_cur_()
-            __check_cur_pos()
+            draw_cur_(1)
             
 
      
@@ -12157,7 +12198,7 @@ def scroll(val):
             can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0))
             draw_sb2()
 
-            draw_cur_()
+            draw_cur_(1)
 
     if lyric_st==1:
 
@@ -12168,9 +12209,7 @@ def scroll(val):
                 can_lyrics.coords(bg3,-10,-(50)+int(can_lyrics.canvasy(0)))
                 #can_lyrics.coords(bg_styl2,-10,-(50)+int(can_lyrics.canvasy(0)))
 
-                draw_cur_()
-                __check_cur_pos()
-
+                draw_cur_(1)
 
     if filter_st==1:
 
@@ -12195,8 +12234,7 @@ def scroll(val):
             filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
                 -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0))
 
-            draw_cur_()
-            __check_cur_pos()
+            draw_cur_(1)
 
 
 
@@ -12547,6 +12585,8 @@ def drag_root_wn():
 
             can.place(in_=root,x=rpx-25,y=rpy-25)
 
+            draw_cur_(1)
+
 
 
     root.after(1,drag_root_wn)
@@ -12774,6 +12814,7 @@ def drag(e):
 
             move_bg()
             draw_sb()
+            draw_cur_(1)
 
 
 def update_sb():
@@ -12913,6 +12954,8 @@ def drag2(e):
 
             move_bg()
             draw_sb2()
+
+            draw_cur_(1)
 
 
 def update_sb2():
@@ -15017,7 +15060,7 @@ def can_settings_drag(e):
 
                     draw_op(op_ar[op_][0],op_ar[op_][1],op_var1_,0)
 
-                    draw_cur_()
+                    draw_cur_(1)
 
                     return
 
@@ -15048,7 +15091,7 @@ def can_settings_drag(e):
 
                     draw_op(op_ar[op_][0],op_ar[op_][1],op_var2_,1)
 
-                    draw_cur_()
+                    draw_cur_(1)
 
                     return
 
@@ -17086,7 +17129,7 @@ check_sound_device()
 #update_sb()
 #update_sb2()
 
-check_cur_pos()
+#check_cur_pos()
 move_bg()
 draw_cur()
 
