@@ -802,7 +802,7 @@ def draw_wave():
 
 
 
-        xv=5
+        xv=4
         amp=((h-121-30)-50)/2-20-70-10
 
         if play_st==1:
@@ -1967,7 +1967,7 @@ def can3_b1(e):
         else:
             sb2_move(int(can3["height"])-h_,(int(can3["height"])-h_)*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
 
-
+        draw_cur_(1)
         return
 
 
@@ -2020,6 +2020,7 @@ def can3_b1(e):
             
 
             main()
+            draw_cur_(1)
             return
 
 
@@ -2417,6 +2418,8 @@ def can2_b1(e):
 
                 main()
 
+                draw_cur_(1)
+
                 return
 
 
@@ -2453,6 +2456,7 @@ def can2_b1(e):
                 can_npl.place_forget()
 
                 main()
+                draw_cur_(1)
                 return
 
 
@@ -2521,6 +2525,8 @@ def can2_b1(e):
             can_npl.focus_set()
             main()
 
+            draw_cur_(1)
+
             return
 
         # create new playlist
@@ -2539,6 +2545,7 @@ def can2_b1(e):
                 _npl=0
 
                 main()
+            draw_cur_(1)
             return
 
 
@@ -2553,7 +2560,7 @@ def can2_b1(e):
                 can_npl.delete("all")
                 can_npl.place_forget()
                 main()
-
+            draw_cur_(1)
             return
 
 
@@ -2566,6 +2573,7 @@ def can2_b1(e):
                     can_npl.delete("all")
                     can_npl.place_forget()
                     main()
+                draw_cur_(1)
                 return
 
 
@@ -2593,6 +2601,8 @@ def can2_b1(e):
 
                 main()
 
+                draw_cur_(1)
+
                 return
 
 
@@ -2606,6 +2616,8 @@ def can2_b1(e):
 
                     pu_forget()
                     conf_del_(_pl[0],"playlist")
+
+                    draw_cur_(1)
 
 
                     return
@@ -2642,11 +2654,14 @@ def can2_b1(e):
 
 
                     main()
+                    draw_cur_(1)
                     return
 
 
 
         main()
+
+        draw_cur_(1)
 
 
         return
@@ -2698,6 +2713,7 @@ def can2_b1(e):
                             _songs_.pop(ss)
 
                 main()
+                draw_cur_(1)
                 return
 
     #playlist
@@ -2737,6 +2753,8 @@ def can2_b1(e):
                     #can3.focus_set()
 
                 draw_can()
+
+                draw_cur_(1)
 
                 return
 
@@ -2835,6 +2853,7 @@ def can2_b1(e):
 
 
                     main()
+                draw_cur_(1)
                 return
 
     #delete file
@@ -2866,6 +2885,7 @@ def can2_b1(e):
                 #    pass
 
                 main()
+                draw_cur_(1)
                 return
 
 
@@ -2963,6 +2983,8 @@ def can2_b1(e):
 
 
                 move_to_playing()
+
+                draw_cur_(1)
 
                 return
     add_st=0
@@ -3107,6 +3129,8 @@ def can_b3(e):
 
     #capture_canvas()
     move_to_playing(2)
+
+    draw_cur_(1)
 
 
 
@@ -6660,6 +6684,8 @@ def main():
 
 
     draw_can()
+
+    draw_cur_(1)
 
 
 
