@@ -802,7 +802,7 @@ def draw_wave():
 
 
 
-        xv=4
+        xv=5
         amp=((h-121-30)-50)/2-20-70-10
 
         if play_st==1:
@@ -10571,7 +10571,7 @@ def draw_cur():
 
 
 
-    root.after(20,draw_cur)
+    root.after(30,draw_cur)
 
 
 def no_of_s_pl(pl):
