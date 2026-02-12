@@ -825,7 +825,7 @@ def draw_wave():
                 sig.append(-amplitude*amp*current_volume)
 
 
-                xn=int((w-20)/xv)
+                xn=int((w)/xv)
 
 
                 if len(sig)>=xn:
@@ -836,7 +836,7 @@ def draw_wave():
 
                 sig2=[]
                 sig2_=[0,h]
-                x=10
+                x=0
                 for a in range(len(sig)):
 
                     sig2.append(x)
@@ -8107,11 +8107,11 @@ def draw_can(con=0):
 
 
         col=hex_to_rgb(_theme[0])
-        col="#%02x%02x%02x" % (int(round(col[0]*0.4,0)),int(round(col[1]*0.4,0)),int(round(col[2]*0.4,0)))
+        col="#%02x%02x%02x" % (int(round(col[0]*0.25,0)),int(round(col[1]*0.25,0)),int(round(col[2]*0.25,0)))
         try:
-            sig_2=can.create_polygon(sig2_,fill=col,outline=col,width=1)
+            sig_2=can.create_polygon(sig2_,fill=col,outline=_theme[0],width=1)
         except:
-            sig_2=can.create_polygon(0,0,0,0,fill=col,outline=col,width=1)
+            sig_2=can.create_polygon(0,0,0,0,fill=col,outline=_theme[0],width=1)
 
     
 
