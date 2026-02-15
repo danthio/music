@@ -13491,7 +13491,23 @@ def check_up_theme():
             con_theme=0
 
             pu_forget()
+            
+            draw_settings()
+
+            draw_outline_text(can_settings,"Theme Updated!",int(can_settings["width"])-20,int(can_settings["height"])-10-15,"e",("FreeMono",13))
+
+
+            sett_m=can_settings.create_text(int(can_settings["width"])-20,int(can_settings["height"])-10-15,
+                    text="Theme Updated!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+
+
+
             main()
+
+
+
 
     root.after(2,check_up_theme)
 theme_attr=[0,0,[0,0]]
