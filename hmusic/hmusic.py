@@ -3301,6 +3301,10 @@ def can_b1(e):
 
     draw_cur_(1)
 
+    if vid_st==1 and vid_st2==0:
+        return
+
+
     #minimize
 
     cx,cy=w-10-25-10-25+12.5,(50-25)/2+12.5
@@ -5156,6 +5160,8 @@ def play_music(file,time_,con=0):
 
     global st,playlist_st,songs_status
 
+    global filter_st,sort_st,settings_st2,del_st,add_st
+
 
     if play_st==1:
 
@@ -5165,7 +5171,10 @@ def play_music(file,time_,con=0):
 
             d=os.listdir("videos")
 
-            if st==2 and playlist_st==0:
+            if filter_st==1 or sort_st==1 or settings_st2==1 or del_st==1 or add_st==1:
+                pass
+
+            elif st==2 and playlist_st==0:
                 
                 vid_st,vid_st2=0,0
 
@@ -8107,7 +8116,7 @@ def draw_can(con=0):
 
 
         col=hex_to_rgb(_theme[0])
-        col="#%02x%02x%02x" % (int(round(col[0]*0.25,0)),int(round(col[1]*0.25,0)),int(round(col[2]*0.25,0)))
+        col="#%02x%02x%02x" % (int(round(col[0]*0.4,0)),int(round(col[1]*0.4,0)),int(round(col[2]*0.4,0)))
         try:
             sig_2=can.create_polygon(sig2_,fill=col,outline=col,width=1)
         except:
@@ -8651,8 +8660,8 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0 and _theme[-2][0]==1:
-            can.create_image(10+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
+        if vid_st==0:
+            can.create_image(10+12.5-1,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
         if st==4:
             can.create_image(10,h-20-30-15+5+10-3+2.5,image=list1,anchor="nw")
@@ -8701,8 +8710,8 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0 and _theme[-2][0]==1:
-            can.create_image(10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
+        if vid_st==0:
+            can.create_image(10+25+15+12.5-1,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
         if sort_st!=1:
@@ -8721,8 +8730,8 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0 and _theme[-2][0]==1:
-            can.create_image(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
+        if vid_st==0:
+            can.create_image(10+25+15+25+15+12.5-1,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
         if songs_status[0]==3 or filter_val=="Most Played" or con_st==0:
@@ -8744,8 +8753,8 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0 and _theme[-2][0]==1:
-            can.create_image(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
+        if vid_st==0:
+            can.create_image(10+25+15+25+15+25+15+12.5-1,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
 
@@ -8760,8 +8769,8 @@ def draw_can(con=0):
 
 
 
-        if vid_st==0 and _theme[-2][0]==1:
-            can.create_image(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
+        if vid_st==0:
+            can.create_image(10+25+15+25+15+25+15+25+15+12.5-1,h-20-30-15+5+10-3+2.5+12.5,image=ibg,anchor="c")
 
 
         if vid_st==0:
