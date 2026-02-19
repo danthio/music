@@ -384,7 +384,7 @@ im_dict={
 "checked":[("checked",20)],
 "bin2":[("bin2",25),("bin3",20)],
 "most_played":[("most_played",25)],
-"up":[("up",15),("down",15,180)]
+"up":[("n_im",30,-90),("p_im",30,90),("up",15),("down",15,180)]
 }
 
 
@@ -608,24 +608,25 @@ def change_theme(pcol):
         im3=image_
 
         for i_ in im_dict[i.replace(".png","")]:
+            im3_=im3
 
             if i=="no-music.png" and i_[1]==300:
 
-                im3=darken_border(image_,3)
+                im3_=darken_border(image_,3)
 
 
             elif i=="no-music.png" and i_[1]==25:
-                im3=darken_border(image_)
+                im3_=darken_border(image_)
 
-            im3=im3.resize((i_[1],i_[1]))
+            im3_=im3_.resize((i_[1],i_[1]))
 
 
             if len(i_)==3:
-                im3=im3.rotate(i_[2])
+                im3_=im3_.rotate(i_[2])
 
 
 
-            im3.save("data/"+i_[0]+".png")
+            im3_.save("data/"+i_[0]+".png")
 
 
             root.after(2,update)
@@ -878,7 +879,7 @@ def draw_wave():
                                 if not tts>tot_tm_:
                                     can.coords(sig_,*sig2)
 
-
+                    """
 
 
                     if lst==1 or st==4:
@@ -894,6 +895,7 @@ def draw_wave():
                                 if not tts>tot_tm_:
 
                                     can.coords(sig_2,*sig2_)
+                    """
 
 
 
@@ -1688,14 +1690,15 @@ def draw_cur_can():
 prog2_=0
 prog3=0
 ctime2=0
-
+c_sig=0
+progc=0
 can_outline_st=0
 
 def prog(conp):
 
     global play_st,tm,start_time,can
     global ctime,ctime2,tot_tm_
-    global prog1,prog2,prog2_,prog3
+    global prog1,prog2,prog2_,prog3,c_sig,progc
     global tvar
     global w,h
     global wd,ht
@@ -1715,6 +1718,7 @@ def prog(conp):
 
 
     global v1__,v2__,v3__,v4__
+    global sig
 
 
 
@@ -1791,9 +1795,18 @@ def prog(conp):
                 x_=tm*(w-20)/tot_tm_
 
 
+                amp=((h-121-30)-50)/2-20-70-10
 
 
+                try:
 
+                    sr=sig[-1]/amp*20
+
+                    if sr<0:
+                        sr=-sr
+
+                except:
+                    sr=0
 
                 if conp==1:
 
@@ -1809,6 +1822,8 @@ def prog(conp):
                     can.coords(prog2_,x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1)
                     can.coords(prog3,x_+10-3,h-20-60-20+10+2+5-3-3+10)
                     can.coords(prog1,10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10)
+                    can.coords(progc,x_+10,h-20-60-20+10+2+5-3+10)
+                    can.coords(c_sig,x_+10-sr-1-3,h-20-60-20+10+2+5-3+10-sr-1-3, x_+10+3+sr,h-20-60-20+10+2+5-3+10+3+sr)
 
                 else:
 
@@ -1824,6 +1839,7 @@ def prog(conp):
                     can.delete(prog2)
                     can.delete(prog2_)
                     can.delete(prog3)
+                    can.delete(c_sig)
 
 
 
@@ -1836,6 +1852,12 @@ def prog(conp):
                     ctime=can.create_text(10,h-20-60-20+20+10+5-3+5-2+2,text=tt,font=("FreeMono",11),fill=col1,anchor="w")
 
                     prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
+
+                    progc=can.create_image(x_+10,h-20-60-20+10+2+5-3+10,image=circle7,anchor="c")
+
+
+
+                    c_sig=can.create_oval(x_+10-sr-1-3,h-20-60-20+10+2+5-3+10-sr-1-3, x_+10+3+sr,h-20-60-20+10+2+5-3+10+3+sr,outline=_theme[0])
 
 
                 if current_playing=="":
@@ -3228,7 +3250,7 @@ def can_b1(e):
     global mvar,songs
     global search,search_var
     global lst
-    global current_volume,vol1,vol2
+    global current_volume,vol1,vol2,vol3
     global playlist_st,current_playlist
     global frame2,can3,add_st,sel_playlist,playlist2,npl,playlist
     global checked
@@ -5141,6 +5163,7 @@ def check_volume():
 
         vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
 
+        vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
         draw_cur_can()
 
     root.after(500,check_volume)
@@ -5408,7 +5431,7 @@ def main():
     global search,search_var,_search
     global cancel,cancel2,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,sort,delete,favourite1_,favourite2_,delete2,playlist3
     global music_details
-    global vol1,vol2,current_volume
+    global vol1,vol2,vol3,current_volume
     global playlist,playlist_st
     global can2,sb
     global current_playlist
@@ -7959,7 +7982,7 @@ def draw_can(con=0):
 
     global can_outline_st
     global bg_col
-    global ibg
+    global ibg,ibg2
     global bg_dark_
     global rpx,rpy
 
@@ -8109,7 +8132,7 @@ def draw_can(con=0):
         can.create_image(0,0,image=b_g1,anchor="nw")
         can.create_image(0,90+int(can2["height"])-20,image=b_g2,anchor="nw")
 
-
+    """
 
     if lst==1 or st==4:
         can.delete(sig_2)
@@ -8122,7 +8145,7 @@ def draw_can(con=0):
         except:
             sig_2=can.create_polygon(0,0,0,0,fill=col,outline=col,width=1)
 
-    
+    """
 
 
 
@@ -8681,7 +8704,13 @@ def draw_can(con=0):
 
                     if st!=4:
                         if vid_st==0:
-                            sig_=can.create_line(sig2,fill=_theme[0],width=1)
+
+                            try:
+
+                                sig_=can.create_line(sig2,fill=_theme[0],width=1)
+                            except:
+                                sig_=can.create_line(0,0,0,0,fill=_theme[0],width=1)
+
 
                 except:
                     pass
@@ -8788,6 +8817,9 @@ def draw_can(con=0):
 
         try:
             v=ar.index(current_playing.replace(".mp3",".mp4"))
+
+            if vid_st==0:
+                can.create_image(10+25+15+25+15+25+15+25+15+25+3-3,h-20-30-15+5+10-3+2.5+12.5-2-3,image=ibg2,anchor="nw")
             can.create_image(10+25+15+25+15+25+15+25+15+25+3,h-20-30-15+5+10-3+2.5+12.5-2,image=circle6,anchor="nw")
 
         except:
@@ -8819,6 +8851,9 @@ def draw_can(con=0):
 
         vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
 
+
+        vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
+
         draw_cur_can()
 
         can.create_image(w/2-30-30-25,h-20-30-15+5+10-3+2.5,image=previous,anchor="nw")
@@ -8840,6 +8875,7 @@ def draw_can(con=0):
 
 
     prog(0)
+
 
 
 
@@ -9781,7 +9817,9 @@ bg_styl2__=0
 up,down=0,0
 
 bg_hex=[0,150]
-ibg=0
+ibg,ibg2=0,0
+
+n_im,p_im=0,0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -9821,8 +9859,9 @@ def load_im():
     global bg_styl__,bg_styl2__
     global bg_hex
     global up,down
-    global ibg
+    global ibg,ibg2
     global _bg_,bg_dark_
+    global n_im,p_im
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -9873,10 +9912,12 @@ def load_im():
     add2=ImageTk.PhotoImage(file="data/add2.png")
 
 
+
+
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
 
-    if _theme[-2][0]==1:
+    if _theme[-3][0]==1:
         bg=ImageTk.PhotoImage(_bg_)
         bg2_=bg
 
@@ -9911,6 +9952,8 @@ def load_im():
     filter2=ImageTk.PhotoImage(file="data/filter2.png")
 
 
+    n_im=ImageTk.PhotoImage(file="data/n_im.png")
+    p_im=ImageTk.PhotoImage(file="data/p_im.png")
 
     r=20
 
@@ -10014,14 +10057,19 @@ def load_im():
     bg_hex[0]=ImageTk.PhotoImage(draw_fadingc(bg_hex[1]))
 
 
-    im=Image.new("RGBA",(34,34),(0,0,0,0))
+    im=Image.new("RGBA",(550,550),(0,0,0,0))
     draw=ImageDraw.Draw(im)
 
-    draw.ellipse((0,0,34,34),fill=(0,0,0,int(0.9*255)),outline=(0,0,0,int(0.9*255)))
+    draw.ellipse((0,0,550,550),fill=(0,0,0,int(0.9*255)),outline=(0,0,0,int(0.9*255)))
+
+    im=im.resize((34,34))
 
     ibg=ImageTk.PhotoImage(im)
 
 
+    im=im.resize((10,10))
+
+    ibg2=ImageTk.PhotoImage(im)
 
 
 
@@ -10305,7 +10353,7 @@ def draw_cur_(conp=0):
 
 
 
-    if _theme[-2][0]==1:
+    if _theme[-3][0]==1:
 
 
         r=bg_hex[1]
@@ -11246,7 +11294,7 @@ def can_label(x,y):
                     mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
                     draw_cur_can()
 
-def convert_(im,col):
+def convert_(im,col,con):
 
     im = im.convert('RGB')
 
@@ -11272,30 +11320,17 @@ def convert_(im,col):
 
             mx=max(rgb)
 
-            #c_=color[rgb.index(mx)]
-            """
-            else:
 
 
+            if con==0:
+                c_=color[rgb.index(mx)]
 
-                color=[*color[:3]]
-
-                min_=color.index(min(color))
+                
+            elif con==1:
+                c_=max(color)
 
                 
 
-                color[rgb.index(mx)]=color[min_]
-
-                color[min_]=color[rgb.index(mx)]
-
-
-
-
-
-                c_=max(color)
-            """
-
-            c_=max(color)
 
 
 
@@ -11810,7 +11845,7 @@ backward=None
 
 note_=None
 
-_theme=["#ffffff",[],0,0.15,[],[1],[]]
+_theme=["#ffffff",[],0,0.15,[],[1],[],0]
 
 
 
@@ -11940,7 +11975,7 @@ def adjust_theme():
 
     conf_stheme=0
 
-    if c==63:
+    if c==65:
 
         im=Image.open("data/circle.png")
         imx,imy=im.size
@@ -11950,17 +11985,18 @@ def adjust_theme():
             conf_stheme=1
 
 
+
     if unchanged==0 and conf_stheme==0:
         
         change_theme(col)
 
 
 
-    if _theme[-2][0]==1:
+    if _theme[-3][0]==1:
 
 
         try:
-            im=draw_effects(wd,ht,_theme[-2][2],_theme[-2][3],_theme[-2][1])
+            im=draw_effects(wd,ht,_theme[-3][2],_theme[-3][3],_theme[-3][1])
         except:
 
             ecol=hex_to_rgb(col)
@@ -11968,14 +12004,14 @@ def adjust_theme():
             ecol="#%02x%02x%02x" % (int(ecol[0]*0.15),int(ecol[1]*0.15),int(ecol[2]*0.15),)
 
             _theme[2]=0.15
-            _theme[-2]=[1,0,40,ecol]
+            _theme[-3]=[1,0,40,ecol]
 
 
-            im=draw_effects(wd,ht,_theme[-2][2],_theme[-2][3],_theme[-2][1])
+            im=draw_effects(wd,ht,_theme[-3][2],_theme[-3][3],_theme[-3][1])
 
 
         if adj_st==0:
-            bg_col=_theme[-2][3]
+            bg_col=_theme[-3][3]
 
 
 
@@ -11984,7 +12020,7 @@ def adjust_theme():
         _bg_=im
         bg_dark_=im
 
-        _theme[-1]=[0,0,0,0]
+        _theme[-2]=[0,0,0,0]
 
 
     else:
@@ -12006,7 +12042,7 @@ def adjust_theme():
 
 
 
-            if _theme[-1]==[]:
+            if _theme[-2]==[]:
 
                 if w/h>x/y:
 
@@ -12014,7 +12050,7 @@ def adjust_theme():
 
                     im=im.crop((0,yy,x,y-yy))
 
-                    _theme[-1]=[0,yy,x,y-yy]
+                    _theme[-2]=[0,yy,x,y-yy]
 
                 elif w/h<x/y:
 
@@ -12022,19 +12058,19 @@ def adjust_theme():
 
                     im=im.crop((xx,0,x-xx,y))
 
-                    _theme[-1]=[xx,0,x-xx,y]
+                    _theme[-2]=[xx,0,x-xx,y]
                 else:
-                    _theme[-1]=[0,0,0,0]
+                    _theme[-2]=[0,0,0,0]
 
             else:
 
-                x_=_theme[-1][2]-_theme[-1][0]
-                y_=_theme[-1][3]-_theme[-1][1]
+                x_=_theme[-2][2]-_theme[-2][0]
+                y_=_theme[-2][3]-_theme[-2][1]
 
 
                 if x_/y_-0.02<=w/h<=x_/y_+0.02:
 
-                    im=im.crop((_theme[-1][0],_theme[-1][1],_theme[-1][2],_theme[-1][3]))
+                    im=im.crop((_theme[-2][0],_theme[-2][1],_theme[-2][2],_theme[-2][3]))
                 else:
 
 
@@ -12044,7 +12080,7 @@ def adjust_theme():
 
                         im=im.crop((0,yy,x,y-yy))
 
-                        _theme[-1]=[0,yy,x,y-yy]
+                        _theme[-2]=[0,yy,x,y-yy]
 
                     elif w/h<x/y:
 
@@ -12052,9 +12088,9 @@ def adjust_theme():
 
                         im=im.crop((xx,0,x-xx,y))
 
-                        _theme[-1]=[xx,0,x-xx,y]
+                        _theme[-2]=[xx,0,x-xx,y]
                     else:
-                        _theme[-1]=[0,0,0,0]
+                        _theme[-2]=[0,0,0,0]
 
 
 
@@ -12067,7 +12103,7 @@ def adjust_theme():
 
             
 
-            im=convert_(im,col)
+            im=convert_(im,col,_theme[-1])
 
 
             
@@ -12079,7 +12115,7 @@ def adjust_theme():
 
 
         except:
-            _theme=["#ffffff",[],0,0.15,[],1,[]]
+            _theme=["#ffffff",[],0,0.15,[],[1],[],0]
             adjust_theme()
             return
 
@@ -12729,7 +12765,8 @@ def drag_can(e):
                 draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
                 vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
-
+                
+                vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
 
                 draw_cur_can()
 
@@ -13464,9 +13501,9 @@ def check_up_theme():
 
             _theme[0]=str(sel_col)
 
-            if _theme[-2][0]==1:
+            if _theme[-3][0]==1:
 
-                bg_col=_theme[-2][3]
+                bg_col=_theme[-4][3]
 
             configure_theme(_theme[0])
 
@@ -13658,6 +13695,7 @@ def can_settings_b1(e):
     global con_theme
 
     global effect_st
+    global ch_im,ch_im_p
 
     effect_st=0
     can_effects.place_forget()
@@ -13842,18 +13880,20 @@ def can_settings_b1(e):
                 ar.append(int(round((bg_region_[1][p]-bg_region_[0][1])*y_/y,0)))
                 bg_st=0
 
-        _theme[-1]=[ar[0],ar[1],ar[4],ar[5]]
+        _theme[-2]=[ar[0],ar[1],ar[4],ar[5]]
 
 
         if no_bg_st==0:
 
-            _theme[-2]=[0]
+            _theme[-3]=[0]
         elif no_bg_st==1:
 
             ecol=hex_to_rgb(te_var)
 
             effect_col="#%02x%02x%02x" % (int(ecol[0]*float(op1)),int(ecol[1]*float(op1)),int(ecol[2]*float(op1)))
-            _theme[-2]=[1,effect,effect_sz,effect_col]
+            _theme[-3]=[1,effect,effect_sz,effect_col]
+
+        _theme[-1]=ch_im
 
 
         save()
@@ -14211,6 +14251,51 @@ def can_settings_b1(e):
 
                 return
 
+    con_ch_im=0
+
+
+    if no_bg_st==0:
+
+        if ch_im_p[0][0]-15<=e.x<=ch_im_p[0][0]+15:
+            if ch_im_p[0][1]-15<=e.y<=ch_im_p[0][1]+15:
+
+                con_ch_im=1
+
+
+
+
+        if ch_im_p[1][0]-15<=e.x<=ch_im_p[1][0]+15:
+            if ch_im_p[1][1]-15<=e.y<=ch_im_p[1][1]+15:
+
+                con_ch_im=1
+
+
+    if con_ch_im==1:
+
+
+
+        if ch_im==0:
+            ch_im=1
+        elif ch_im==1:
+            ch_im=0
+
+        can_settings.delete(bg_region)
+        can_settings.delete(bg_region2_)
+
+        try:
+
+            bg_region2_=can_settings.create_image(bg_region_[1][0],bg_region_[1][1],image=conf_bg(te_var),anchor="nw")
+        except:
+            pass
+
+        try:
+
+            bg_region=can_settings.create_line(bg_region_[1],fill=te_var)
+
+        except:
+            bg_region=can_settings.create_line(bg_region_[1],fill=_theme[0])
+
+
 
 no_bg_st=0
 
@@ -14236,6 +14321,7 @@ def conf_bg(col):
     global te_var
     global _bim_
     global effect,effect_sz
+    global ch_im
 
 
     im=tbg3
@@ -14276,7 +14362,7 @@ def conf_bg(col):
 
         im=im.crop((x1,y1,x2,y2))
 
-        tbg3_=convert_(im,col)
+        tbg3_=convert_(im,col,ch_im)
         tbg3_=darken_image(tbg3_,(0,0,0), float(str(op_var).replace(" ","").split(",")[0]))
 
     bg_region2=ImageTk.PhotoImage(tbg3_)
@@ -14399,6 +14485,8 @@ op_ar=[]
 bg_sett,bg_sett_=0,0
 def_lb=0
 ey=0
+ch_im=0
+ch_im_p=[]
 def draw_settings(con=0):
 
     global can_settings,theme_ent,sel_op_ent
@@ -14447,6 +14535,9 @@ def draw_settings(con=0):
     global bg_col
     global vid_st
     global bg_dark_
+    global ch_im,ch_im_p
+    global p_im,n_im
+
 
 
 
@@ -14463,11 +14554,13 @@ def draw_settings(con=0):
 
     if con==0:
 
-        no_bg_st=_theme[-2][0]
+        no_bg_st=_theme[-3][0]
         col_=_theme[0]
         settings_st=0
 
         op_var=str(_theme[2])+","+str(_theme[3])
+
+        ch_im=_theme[-1]
 
 
 
@@ -14496,8 +14589,8 @@ def draw_settings(con=0):
         try:
 
 
-            effect=_theme[-2][1]
-            effect_sz=_theme[-2][2]
+            effect=_theme[-3][1]
+            effect_sz=_theme[-3][2]
             op_var=str(_theme[2])+","+str(_theme[3])
         except:
             effect=0
@@ -14706,7 +14799,7 @@ def draw_settings(con=0):
 
 
 
-        if _theme[-1]==[]:
+        if _theme[-2]==[]:
 
 
 
@@ -14717,7 +14810,7 @@ def draw_settings(con=0):
 
                 xy=[0,yy_]
 
-                _theme[-1]=[0,yy_,_x,_y-yy_]
+                _theme[-2]=[0,yy_,_x,_y-yy_]
 
             elif w/h<_x/_y:
 
@@ -14726,14 +14819,14 @@ def draw_settings(con=0):
 
                 xy=[xx_,0]
 
-                _theme[-1]=[xx_,0,_x-xx_,_y]
+                _theme[-2]=[xx_,0,_x-xx_,_y]
 
             else:
                 xy=[0,0]
 
         else:
 
-            xy=_theme[-1][:2]
+            xy=_theme[-2][:2]
 
     else:
         _x,_y=tbg2_.size
@@ -14789,6 +14882,15 @@ def draw_settings(con=0):
         ey=yy
 
         no_bg_eff(effect,effect_sz,_theme[0])
+
+    else:
+
+        can_settings.create_image(20+15,60+((int(can_settings["height"])-95-30)-60)/2,image=p_im,anchor="c")
+
+
+        can_settings.create_image(int(can_settings["width"])-(20+15),60+((int(can_settings["height"])-95-30)-60)/2,image=n_im,anchor="c")
+
+        ch_im_p=[[20+15,60+((int(can_settings["height"])-95-30)-60)/2],[int(can_settings["width"])-(20+15),60+((int(can_settings["height"])-95-30)-60)/2]]
 
     x1=20+30+x_+xy[0]*x/_x
     y1=60+30+y_+xy[1]*y/_y
@@ -15010,6 +15112,8 @@ def draw_op(x,y,xv,con):
         op1_v1=can_settings.create_line(x,y, x+a1,y,
             fill=_theme[0],width=2)
 
+        op1_v2=can_settings.create_image(x+a1,y,image=circle7,anchor="c")
+
 
 
         can_outline_st=6
@@ -15037,6 +15141,8 @@ def draw_op(x,y,xv,con):
 
         op2_v1=can_settings.create_line(x,y, x+a1,y,
             fill=_theme[0],width=2)
+
+        op2_v2=can_settings.create_image(x+a1,y,image=circle7,anchor="c")
 
 
 
