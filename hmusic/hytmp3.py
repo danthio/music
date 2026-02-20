@@ -76,8 +76,16 @@ def download():
 
 
 	    elif d['status'] == 'finished':
+
+	        can.delete(prog[0])
+	        can.delete(prog[1])
+
+
+	        prog[0]=can.create_rectangle(0,int(can["height"])-30, int(can["width"]),int(can["height"]),fill="#500000",outline="#500000")
+	        prog[1]=can.create_rectangle(0,int(can["height"])-30, int(can["width"])*percent/100,int(can["height"]),fill="#ff0000",outline="#ff0000")
+
 	        can.delete(mess)
-	        mess=can.create_text(int(can["width"])/2,int(can["height"])-15,text="Download Finished!",
+	        mess=can.create_text(int(can["width"])/2,int(can["height"])-15,text="Downloaded!",
 	        	fill="#ffffff",font=("FreeMono",13),anchor="c")
 
 
