@@ -7,7 +7,7 @@ from PIL import Image,ImageTk
 import pyperclip
 
 from pathlib import Path
-
+import threading
 
 """
 
@@ -35,15 +35,55 @@ else:
 
 
 
-
 def download():
 	global url
 	global can,p,mess
+	global typ
 
+
+
+	def progress_hook(d):
+	    global can,mess,prog
+
+	    if d['status'] == 'downloading':
+
+	        total = d.get('total_bytes') or d.get('total_bytes_estimate')
+	        downloaded = d.get('downloaded_bytes', 0)
+
+	        if total:
+	            percent = downloaded / total * 100
+	        else:
+	            percent = 0
+
+	        speed = str(d.get('_speed_str', 'N/A'))
+	        eta = str(d.get('_eta_str', 'N/A'))
+
+	        #print(speed,eta)
+
+	        #print(f"Progress: {percent:6.2f}% | Speed: {speed} | ETA: {eta}")
+
+	        can.delete(prog[0])
+	        can.delete(prog[1])
+
+
+	        prog[0]=can.create_rectangle(0,int(can["height"])-30, int(can["width"]),int(can["height"]),fill="#500000",outline="#500000")
+	        prog[1]=can.create_rectangle(0,int(can["height"])-30, int(can["width"])*percent/100,int(can["height"]),fill="#ff0000",outline="#ff0000")
+
+	        can.delete(mess)
+	        mess=can.create_text(int(can["width"])/2,int(can["height"])-15,text=f"{percent:6.2f}%",
+	        	fill="#ffffff",font=("FreeMono",13),anchor="c")
+
+
+
+	    elif d['status'] == 'finished':
+	        can.delete(mess)
+	        mess=can.create_text(int(can["width"])/2,int(can["height"])-15,text="Download Finished!",
+	        	fill="#ffffff",font=("FreeMono",13),anchor="c")
 
 
 	ydl_opts = {
 	    'format': 'bestaudio/best',
+	    'progress_hooks': [progress_hook],
 	    'ffmpeg_location': r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe",
 	    'outtmpl': os.path.join("downloads", '%(title)s.%(ext)s'),
 	    'postprocessors': [{
@@ -51,15 +91,34 @@ def download():
 	        'preferredcodec': 'mp3',
 	        'preferredquality': '192',
 	    }],
+	    'quiet': True,
+	    'no_warnings': True,
+        'noprogress': True
+
 	}
 
 
-	with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-	    ydl.download([url])
+	ydl_opts_v = {
+	    'format': 'best[ext=mp4]',
+	    'progress_hooks': [progress_hook],
+	    'ffmpeg_location': r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe",
+	    'outtmpl': os.path.join("downloads", '%(title)s.%(ext)s'),
+	    'quiet': True,
+	    'no_warnings': True,
+        'noprogress': True	    
 
-	can.delete(mess)
+	}
 
-	mess=can.create_text(p[2]+15,p[1]+15,text="Done!",font=("FreeMono",13),fill="#ff0000",anchor="w")
+	if typ=="mp3":
+
+		with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+		    ydl.download([url])
+
+	elif typ=="mp4":
+
+		with yt_dlp.YoutubeDL(ydl_opts_v) as ydl:
+		    ydl.download([url])
+
 
 url=""
 def check_song():
@@ -105,6 +164,9 @@ ent_v=None
 def check_ent():
 	global ent_v
 	global url
+	global mess,prog
+
+
 
 	url=ent.get()
 
@@ -113,6 +175,9 @@ def check_ent():
 		check_song()
 		ent_v=url
 
+		can.delete(prog[0])
+		can.delete(prog[1])
+		can.delete(mess)
 
 
 
@@ -125,9 +190,7 @@ def draw_download(txt):
 	
 	global can,dwd
 	global p
-	global mess
 
-	can.delete(mess)
 	can.delete(dwd[0])
 	can.delete(dwd[1])
 
@@ -136,7 +199,7 @@ def draw_download(txt):
 	l=f.measure(txt)
 
 
-	p=[20,150,20+30+l,180]
+	p=[20,150+25,20+30+l,180+25]
 
 	ar=[]
 
@@ -175,9 +238,39 @@ def can_b1(e):
 	global d_st,p
 	global can,mess
 	global ent
+	global typ,typ_
 
-	can.delete(mess)
 
+
+	r=math.sqrt((e.x-71)**2+(e.y-140)**2)
+
+	if r<=10:
+
+
+		typ="mp3"
+
+		can.delete(typ_)
+
+		typ_=can.create_oval(71-7,140-7,71+7,140+7,fill="#ff0000",outline="#ff0000")
+
+
+		return
+
+
+	r=math.sqrt((e.x-152)**2+(e.y-140)**2)
+
+	if r<=10:
+
+
+		typ="mp4"
+
+		can.delete(typ_)
+
+		typ_=can.create_oval(152-7,140-7,152+7,140+7,fill="#ff0000",outline="#ff0000")
+
+
+		return
+		
 
 
 	if d_st==1:
@@ -186,21 +279,24 @@ def can_b1(e):
 		r=math.sqrt((e.x-p[0]+15)**2+(e.y-p[1]+15))
 
 		if r<=15:
-			download()
+			th=threading.Thread(target=download,daemon=True)
+			th.start()
 			return
 
 
 		r=math.sqrt((e.x-p[2]-15)**2+(e.y-p[1]+15))
 
 		if r<=15:
-			download()
+			th=threading.Thread(target=download,daemon=True)
+			th.start()
 			return
 
 
 		if p[0]+15<=e.x<=p[2]-15:
 			if p[1]<=e.y<=p[3]:
 
-				download()
+				th=threading.Thread(target=download,daemon=True)
+				th.start()
 				return
 
 
@@ -232,7 +328,7 @@ def load_im():
 	copy=ImageTk.PhotoImage(file="data_hytmp3/copy.png")
 
 
-w,h=550,250
+w,h=550,270
 root=tk.Tk()
 root.geometry(f"{w}x{h}+50+50")
 root.title("hytmp3")
@@ -260,6 +356,29 @@ load_im()
 can.create_image(492,58,image=copy,anchor="c")
 can.create_image(492+35,58,image=cancel,anchor="c")
 
+f=font.Font(family="FreeMono",size=13)
+
+
+typ="mp3"
+
+can.create_text(20,140,text="mp3",font=("FreeMono",13),fill="#ff0000",anchor="w")
+
+can.create_oval(20+f.measure("mp3")+10,140-10, 20+f.measure("mp3")+10+20,140+10,outline="#ff0000")
+
+
+if typ=="mp3":
+
+	typ_=can.create_oval(20+f.measure("mp3")+10+3,140-10+3, 20+f.measure("mp3")+10+20-3,140+10-3,outline="#ff0000",fill="#ff0000")
+
+can.create_text(20+f.measure("mp3")+10+20+20,140,text="mp4",font=("FreeMono",13),fill="#ff0000",anchor="w")
+
+can.create_oval(20+f.measure("mp3")+10+20+20+f.measure("mp4")+10,140-10, 20+f.measure("mp3")+10+20+20+f.measure("mp4")+10+20,140+10,outline="#ff0000")
+
+if typ=="mp4":
+
+	typ_=can.create_oval(20+f.measure("mp3")+10+20+20+f.measure("mp4")+10+3,140-10+3, 20+f.measure("mp3")+10+20+20+f.measure("mp4")+10+20-3,140+10-3,outline="#ff0000",fill="#ff0000")
+
+prog=[0,0]
 
 
 check_ent()
