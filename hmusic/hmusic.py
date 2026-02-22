@@ -8347,7 +8347,11 @@ def draw_can(con=0):
             r=15
             xx,yy=int((w/2-10-40)),70
 
-            im1=round_im("#000000",_theme[0],0.9,xx,yy,r,1)
+            col=hex_to_rgb(_theme[0])
+            col=(int(col[0]*0.125),int(col[1]*0.125),int(col[2]*0.125))
+            col="#%02x%02x%02x" % col
+
+            im1=round_im(col,_theme[0],0.8,xx,yy,r,1)
 
 
 
@@ -9991,10 +9995,9 @@ def load_im():
         a_+=1
 
 
+    col=hex_to_rgb(_theme[0])
 
-
-
-    draw.polygon(ar,fill=(0,0,0,int(round(0.8*255,0))),outline=(0,0,0,int(round(0.9*255,0))))
+    draw.polygon(ar,fill=(int(col[0]*0.125),int(col[1]*0.125),int(col[2]*0.125),int(round(0.8*255,0))),outline=(int(col[0]*0.125),int(col[1]*0.125),int(col[2]*0.125),int(round(0.9*255,0))))
 
     b_g1=ImageTk.PhotoImage(im)
 
@@ -10033,7 +10036,7 @@ def load_im():
     ar.append((w,h-(90+int(can2["height"]))+r))
     ar.append((0,h-(90+int(can2["height"]))+r))
 
-    draw.polygon(ar,fill=(0,0,0,int(round(0.8*255,0))),outline=(0,0,0,int(round(0.9*255,0))))
+    draw.polygon(ar,fill=(int(col[0]*0.125),int(col[1]*0.125),int(col[2]*0.125),int(round(0.8*255,0))),outline=(int(col[0]*0.125),int(col[1]*0.125),int(col[2]*0.125),int(round(0.9*255,0))))
 
     b_g2=ImageTk.PhotoImage(im)
 
