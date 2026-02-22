@@ -33,7 +33,7 @@ else:
     os.makedirs("downloads", exist_ok=True)
 
 
-
+d_st2=0
 
 def download():
 	global url
@@ -43,11 +43,14 @@ def download():
 
 
 	def progress_hook(d):
-	    global can,mess,prog
+	    global can,mess,prog,d_st2,ent
 
 	    if d['status'] == 'downloading':
-
+	    	
+	        d_st2=1
+	        ent["state"]="disabled"
 	        total = d.get('total_bytes') or d.get('total_bytes_estimate')
+
 	        downloaded = d.get('downloaded_bytes', 0)
 
 	        if total:
@@ -76,8 +79,11 @@ def download():
 
 
 	    elif d['status'] == 'finished':
+	        d_st2=0
+	        ent["state"]="normal"	    	
 
 	        can.delete(prog[0])
+
 	        can.delete(prog[1])
 
 
@@ -87,7 +93,20 @@ def download():
 	        can.delete(mess)
 	        mess=can.create_text(int(can["width"])/2,int(can["height"])-15,text="Downloaded!",
 	        	fill="#ffffff",font=("FreeMono",13),anchor="c")
+	    else:
+	        d_st2=0
+	        ent["state"]="normal"	    	
+	        can.delete(prog[0])
+	        can.delete(prog[1])
 
+
+
+	        prog[0]=can.create_rectangle(0,int(can["height"])-30, int(can["width"]),int(can["height"]),fill="#500000",outline="#500000")
+	        prog[1]=can.create_rectangle(0,int(can["height"])-30, int(can["width"]),int(can["height"]),fill="#ff0000",outline="#ff0000")
+
+	        can.delete(mess)
+	        mess=can.create_text(int(can["width"])/2,int(can["height"])-15,text="Download Interrupted!",
+	        	fill="#ffffff",font=("FreeMono",13),anchor="c")
 
 	ydl_opts = {
 	    'format': 'bestaudio/best',
@@ -244,9 +263,14 @@ mess=0
 def can_b1(e):
 
 	global d_st,p
-	global can,mess
+	global can,mess,prog
 	global ent
 	global typ,typ_
+	global d_st2
+
+	if d_st2==1:
+
+		return
 
 
 
@@ -284,7 +308,7 @@ def can_b1(e):
 	if d_st==1:
 
 
-		r=math.sqrt((e.x-p[0]+15)**2+(e.y-p[1]+15))
+		r=math.sqrt((e.x-(p[0]+15))**2+(e.y-(p[1]+15)))
 
 		if r<=15:
 			th=threading.Thread(target=download,daemon=True)
@@ -292,7 +316,7 @@ def can_b1(e):
 			return
 
 
-		r=math.sqrt((e.x-p[2]-15)**2+(e.y-p[1]+15))
+		r=math.sqrt((e.x-(p[2]-15))**2+(e.y-(p[1]+15)))
 
 		if r<=15:
 			th=threading.Thread(target=download,daemon=True)
@@ -310,7 +334,9 @@ def can_b1(e):
 
 	if 492-12.5<=e.x<=492+12.5:
 		if 58-12.5<=e.y<=58+12.5:
-
+			can.delete(prog[0])
+			can.delete(prog[1])
+			can.delete(mess)
 			ent.delete(0,tk.END)
 
 			ent.insert(tk.END,pyperclip.paste())
@@ -321,6 +347,9 @@ def can_b1(e):
 	if 492+35-12.5<=e.x<=492+35+12.5:
 		if 58-12.5<=e.y<=58+12.5:
 
+			can.delete(prog[0])
+			can.delete(prog[1])
+			can.delete(mess)
 			ent.delete(0,tk.END)
 
 
@@ -347,7 +376,7 @@ can=tk.Canvas(width=w,height=h,bg="#000000",relief="flat",highlightthickness=0,b
 can.place(in_=root,x=0,y=0)
 can.bind("<Button-1>",can_b1)
 
-ent=tk.Entry(bg="#ff0000",fg="#000000",font=("FreeMono",13),width=50,relief="flat",highlightthickness=0,border=0)
+ent=tk.Entry(bg="#ff0000",fg="#000000",font=("FreeMono",13),width=50,relief="flat",highlightthickness=0,border=0,disabledbackground="#500000",disabledforeground="#ff0000")
 
 can.create_text(20,30,text="Youtube URL",fill="#ff0000",font=("FreeMono",13),anchor="w")
 

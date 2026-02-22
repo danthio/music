@@ -8926,7 +8926,7 @@ def draw_can(con=0):
 
         can.create_text(w/2,yv+15+60,text="Add Audio File",fill=_theme[1][1],font=("FreeMono",13))
 
-        prog(0)
+        #prog(0)
 
 
 
@@ -13503,7 +13503,7 @@ def check_up_theme():
 
             if _theme[-3][0]==1:
 
-                bg_col=_theme[-4][3]
+                bg_col=_theme[-3][3]
 
             configure_theme(_theme[0])
 
