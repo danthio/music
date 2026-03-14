@@ -1823,7 +1823,7 @@ def prog(conp):
                     can.coords(prog3,x_+10-3,h-20-60-20+10+2+5-3-3+10)
                     can.coords(prog1,10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10)
                     can.coords(progc,x_+10,h-20-60-20+10+2+5-3+10)
-                    can.coords(c_sig,x_+10-sr-1-6,h-20-60-20+10+2+5-3+10-sr-1-6, x_+10+6+sr,h-20-60-20+10+2+5-3+10+6+sr)
+                    can.coords(c_sig,x_+10-sr-1-4,h-20-60-20+10+2+5-3+10-sr-1-4, x_+10+4+sr,h-20-60-20+10+2+5-3+10+4+sr)
 
                 else:
 
@@ -1857,7 +1857,7 @@ def prog(conp):
 
 
 
-                    c_sig=can.create_oval(x_+10-sr-1-6,h-20-60-20+10+2+5-3+10-sr-1-6, x_+10+6+sr,h-20-60-20+10+2+5-3+10+6+sr,outline=_theme[0])
+                    c_sig=can.create_oval(x_+10-sr-1-4,h-20-60-20+10+2+5-3+10-sr-1-4, x_+10+4+sr,h-20-60-20+10+2+5-3+10+4+sr,outline=_theme[0])
 
 
                 if current_playing=="":
@@ -3001,11 +3001,6 @@ def can2_b1(e):
                 mvar=a
                 play_st=1
 
-                play_music("music/"+current_playing,tm)
-
-                pp=1
-
-                get_audio_duration("music/"+current_playing)
 
 
                 update_song_status()
@@ -3015,6 +3010,12 @@ def can2_b1(e):
                 move_to_playing()
 
                 draw_cur_(1)
+                
+                play_music("music/"+current_playing,tm)
+
+                pp=1
+
+                get_audio_duration("music/"+current_playing)
 
                 return
     add_st=0
@@ -11442,139 +11443,139 @@ def can_label(x,y):
                 #can2
 
 
+                if y>88:
+
+
+                    if playlist_st==1:
 
 
 
-                if playlist_st==1:
+                        y_=0
 
 
 
-                    y_=0
+                        for s in songs:
+
+                            if y_<=can2.canvasy(y-88)<=y_+50:
+
+                                con_th=0
+
+                                if current_playing==s[0]:
+                                    col1="#000000"
+                                    con_th=1
+
+
+                                cx,cy=(int(can2["width"])-sb_sz-1)-10-25+12.5,y_+12.5+12.5
+                                if cx-12.5+10<=x<=cx+12.5+10:
+                                    if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
+
+                                        if not con_th==1:
+                                            can_outline_st=16
+                                            draw_outline_text(can2,"delete song",cx+12.5,cy+12.5+6,"e",("FreeMono",10))
+
+                                        mot_val_can2=can2.create_text(cx+12.5,cy+12.5+6,text="delete song",fill=col1,font=("FreeMono",10),anchor="e")
+
+
+                                cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25+12.5,y_+12.5+12.5
+                                if cx-12.5+10<=x<=cx+12.5+10:
+                                    if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
+
+                                        dir_ar=os.listdir("videos")
+
+                                        try:
+                                            v=dir_ar.index(s[0].replace(".mp3",".mp4"))
+                                            txt="delete video"
+                                        except:
+                                            txt="add video"
+
+                                        if not con_th==1:
+                                            can_outline_st=16
+                                            draw_outline_text(can2,txt,cx,cy+12.5+6,"c",("FreeMono",10))
+
+                                        mot_val_can2=can2.create_text(cx,cy+12.5+6,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
+
+
+                                cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25-15-25+12.5,y_+12.5+12.5
+                                if cx-12.5+10<=x<=cx+12.5+10:
+                                    if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
+
+                                        if not con_th==1:
+                                            can_outline_st=16
+                                            draw_outline_text(can2,"playlist",cx,cy+12.5+6,"c",("FreeMono",10))
+
+                                        mot_val_can2=can2.create_text(cx,cy+12.5+6,text="playlist",fill=col1,font=("FreeMono",10),anchor="c")
+
+
+                                cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25-15-25-15-25+12.5,y_+12.5+12.5
+                                if cx-12.5+10<=x<=cx+12.5+10:
+                                    if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
+
+                                        if music_details[s[0]][0]==1:
+                                            txt="remove from favourites"
+                                        else:
+                                            txt="add to favourites"
+
+                                        if not con_th==1:
+                                            can_outline_st=16
+                                            draw_outline_text(can2,txt,cx,cy+12.5+6,"c",("FreeMono",10))
+
+                                        mot_val_can2=can2.create_text(cx,cy+12.5+6,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
+
+         
+
+
+                                return
+
+
+                            y_+=50
 
 
 
-                    for s in songs:
-
-                        if y_<=can2.canvasy(y-88)<=y_+50:
-
-                            con_th=0
-
-                            if current_playing==s[0]:
-                                col1="#000000"
-                                con_th=1
+                    else:
 
 
-                            cx,cy=(int(can2["width"])-sb_sz-1)-10-25+12.5,y_+12.5+12.5
-                            if cx-12.5+10<=x<=cx+12.5+10:
-                                if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
+                        y_=95
 
-                                    if not con_th==1:
-                                        can_outline_st=16
-                                        draw_outline_text(can2,"delete song",cx+12.5,cy+12.5+6,"e",("FreeMono",10))
+                        for p in playlist:
 
-                                    mot_val_can2=can2.create_text(cx+12.5,cy+12.5+6,text="delete song",fill=col1,font=("FreeMono",10),anchor="e")
-
-
-                            cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25+12.5,y_+12.5+12.5
-                            if cx-12.5+10<=x<=cx+12.5+10:
-                                if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
-
-                                    dir_ar=os.listdir("videos")
-
-                                    try:
-                                        v=dir_ar.index(s[0].replace(".mp3",".mp4"))
-                                        txt="delete video"
-                                    except:
-                                        txt="add video"
-
-                                    if not con_th==1:
-                                        can_outline_st=16
-                                        draw_outline_text(can2,txt,cx,cy+12.5+6,"c",("FreeMono",10))
-
-                                    mot_val_can2=can2.create_text(cx,cy+12.5+6,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
-
-
-                            cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25-15-25+12.5,y_+12.5+12.5
-                            if cx-12.5+10<=x<=cx+12.5+10:
-                                if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
-
-                                    if not con_th==1:
-                                        can_outline_st=16
-                                        draw_outline_text(can2,"playlist",cx,cy+12.5+6,"c",("FreeMono",10))
-
-                                    mot_val_can2=can2.create_text(cx,cy+12.5+6,text="playlist",fill=col1,font=("FreeMono",10),anchor="c")
-
-
-                            cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25-15-25-15-25+12.5,y_+12.5+12.5
-                            if cx-12.5+10<=x<=cx+12.5+10:
-                                if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
-
-                                    if music_details[s[0]][0]==1:
-                                        txt="un-check favourite"
-                                    else:
-                                        txt="check favourite"
-
-                                    if not con_th==1:
-                                        can_outline_st=16
-                                        draw_outline_text(can2,txt,cx,cy+12.5+6,"c",("FreeMono",10))
-
-                                    mot_val_can2=can2.create_text(cx,cy+12.5+6,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
-
-     
-
-
-                            return
-
-
-                        y_+=50
-
-
-
-                else:
-
-
-                    y_=95
-
-                    for p in playlist:
-
-                        if y_<=can2.canvasy(y-88)<=y_+50:
+                            if y_<=can2.canvasy(y-88)<=y_+50:
 
 
 
 
-                            con_th=0
+                                con_th=0
 
-                            if current_playlist==p:
-                                col1="#000000"
-                                con_th=1
-
-
-                            cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25+12.5,y_+12.5+12.5
-                            if cx-12.5+10<=x<=cx+12.5+10:
-                                if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
-
-                                    if not con_th==1:
-                                        can_outline_st=16
-                                        draw_outline_text(can2,"add songs",cx,cy+12.5+6,"c",("FreeMono",10))
-
-                                    mot_val_can2=can2.create_text(cx,cy+12.5+6,text="add songs",fill=col1,font=("FreeMono",10),anchor="c")
-
-                            cx,cy=(int(can2["width"])-sb_sz-1)-10-25+12.5,y_+12.5+12.5
-                            if cx-12.5+10<=x<=cx+12.5+10:
-                                if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
-
-                                    if not con_th==1:
-                                        can_outline_st=16
-                                        draw_outline_text(can2,"delete playlist",cx+12.5,cy+12.5+6,"e",("FreeMono",10))
-
-                                    mot_val_can2=can2.create_text(cx+12.5,cy+12.5+6,text="delete playlist",fill=col1,font=("FreeMono",10),anchor="e")
+                                if current_playlist==p:
+                                    col1="#000000"
+                                    con_th=1
 
 
+                                cx,cy=(int(can2["width"])-sb_sz-1)-10-25-15-25+12.5,y_+12.5+12.5
+                                if cx-12.5+10<=x<=cx+12.5+10:
+                                    if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
 
-                            return
+                                        if not con_th==1:
+                                            can_outline_st=16
+                                            draw_outline_text(can2,"add songs",cx,cy+12.5+6,"c",("FreeMono",10))
+
+                                        mot_val_can2=can2.create_text(cx,cy+12.5+6,text="add songs",fill=col1,font=("FreeMono",10),anchor="c")
+
+                                cx,cy=(int(can2["width"])-sb_sz-1)-10-25+12.5,y_+12.5+12.5
+                                if cx-12.5+10<=x<=cx+12.5+10:
+                                    if cy-12.5<=can2.canvasy(y-88)<=cy+12.5:
+
+                                        if not con_th==1:
+                                            can_outline_st=16
+                                            draw_outline_text(can2,"delete playlist",cx+12.5,cy+12.5+6,"e",("FreeMono",10))
+
+                                        mot_val_can2=can2.create_text(cx+12.5,cy+12.5+6,text="delete playlist",fill=col1,font=("FreeMono",10),anchor="e")
 
 
-                        y_+=50
+
+                                return
+
+
+                            y_+=50
 
 
 
