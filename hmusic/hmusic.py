@@ -10113,7 +10113,7 @@ def load_im():
     im=Image.new("RGBA",(550,550),(0,0,0,0))
     draw=ImageDraw.Draw(im)
 
-    draw.ellipse((0,0,550,550),fill=(0,0,0,int(0.9*255)),outline=(0,0,0,int(0.9*255)))
+    draw.ellipse((0,0,550,550),fill=(0,0,0,int(0.5*255)),outline=(0,0,0,int(0.5*255)))
 
     im=im.resize((34,34))
 
@@ -11607,25 +11607,32 @@ def convert_(im,col,con):
 
             color = im.getpixel((x, y))
 
+
+
+
             mx=max(rgb)
 
-
-
             if con==0:
+
+                r,g,b=color
+
+
+            elif con==1:
                 c_=color[rgb.index(mx)]
 
+                r=int(c_*rgb[0]/mx)
+                g=int(c_*rgb[1]/mx)
+                b=int(c_*rgb[2]/mx)
+
                 
-            elif con==1:
+            elif con==2:
                 c_=max(color)
 
-                
+            
 
-
-
-
-            r=int(c_*rgb[0]/mx)
-            g=int(c_*rgb[1]/mx)
-            b=int(c_*rgb[2]/mx)
+                r=int(c_*rgb[0]/mx)
+                g=int(c_*rgb[1]/mx)
+                b=int(c_*rgb[2]/mx)
 
 
             pixels[x,y]=(r,g,b,255)
@@ -14548,6 +14555,13 @@ def can_theme_b1(e):
         if ch_im_p[0][0]-15<=e.x<=ch_im_p[0][0]+15:
             if ch_im_p[0][1]-15<=e.y<=ch_im_p[0][1]+15:
 
+
+                if ch_im-1<0:
+                    ch_im=2
+                else:
+                    ch_im-=1
+
+
                 con_ch_im=1
 
 
@@ -14556,6 +14570,12 @@ def can_theme_b1(e):
         if ch_im_p[1][0]-15<=e.x<=ch_im_p[1][0]+15:
             if ch_im_p[1][1]-15<=e.y<=ch_im_p[1][1]+15:
 
+                if ch_im+1==3:
+                    ch_im=0
+                else:
+                    ch_im+=1
+
+
                 con_ch_im=1
 
 
@@ -14563,10 +14583,6 @@ def can_theme_b1(e):
 
 
 
-        if ch_im==0:
-            ch_im=1
-        elif ch_im==1:
-            ch_im=0
 
         can_theme.delete(bg_region)
         can_theme.delete(bg_region2_)
@@ -15314,6 +15330,145 @@ def draw_theme(con=0):
     theme_st2=1
     draw_can()
 
+th_col=0
+th_col_=""
+def get_thbg_color():
+    global can_theme
+    global bg_region_,tbg3
+    global no_bg_st
+    global th_col,th_col_,te_var
+    global _theme,theme_st2
+    global can_outline_st
+
+    if theme_st2==1:
+
+
+
+        can_theme.delete(th_col)
+
+        if no_bg_st==0:
+
+            x,y=pyautogui.position()
+
+            x-=10+25+5
+            y-=25+12.5+5
+
+            xv,yv=tbg3.size
+
+            if bg_region_[0][0]<=x<=bg_region_[0][0]+xv:
+                if bg_region_[0][1]<=y<=bg_region_[0][1]+yv:
+
+                    try:
+
+                        xx=x-bg_region_[0][0]
+                        yy=y-bg_region_[0][1]
+
+                        col=tbg3.getpixel((xx,yy))
+                        col="#%02x%02x%02x" % col
+
+                        th_col_=col
+
+                        can_outline_st=15
+                        draw_outline_text(can_theme,col,x,y+40,"c",("FreeMono",13))
+
+
+                        try:
+
+                            th_col=can_theme.create_text(x,y+40,text=col,fill=te_var,font=("FreeMono",13))
+
+                        except:
+
+
+                            th_col=can_theme.create_text(x,y+40,text=col,fill=_theme[0],font=("FreeMono",13))
+                    except:
+                        pass
+    root.after(1,get_thbg_color)
+
+def can_theme_b3(e):
+
+    global _theme,te_var,cte_txt1,cte_txt2,cte_txt
+    global can_theme_ent,te_border
+    global th_col_
+    global bg_region_
+    global can_outline_st
+    global theme_st2
+    global up_theme
+
+    if theme_st2==1:
+
+
+        if not up_theme==None:
+
+            if up_theme.is_alive():
+
+                return
+        x,y=pyautogui.position()
+
+        x-=10+25+5
+        y-=25+12.5+5
+
+        xv,yv=tbg3.size
+
+        if bg_region_[0][0]<=x<=bg_region_[0][0]+xv:
+            if bg_region_[0][1]<=y<=bg_region_[0][1]+yv:
+
+                try:
+
+                    te_var=th_col_
+                    cte_txt1,cte_txt2=te_var,""
+
+
+                    can_theme_ent.delete(cte_txt[0])
+                    can_theme_ent.delete(cte_txt[1])
+
+                    can_outline_st=5
+
+                    if get_text_length(can_theme_ent, cte_txt1, "FreeMono", 13)>int(can_theme_ent["width"])-4-3:
+
+                        try:
+
+                            draw_outline_text(can_theme_ent,cte_var,int(can_theme_ent["width"])-4,10,"e",("FreeMono",13))
+                            cte_txt[0]=can_theme_ent.create_text(int(can_theme_ent["width"])-4,10,text=te_var,fill=te_var,
+                                font=("FreeMono",13),anchor="e")
+                        except:
+                            draw_outline_text(can_theme_ent,te_var,int(can_theme_ent["width"])-4,10,"e",("FreeMono",13))
+                            cte_txt[0]=can_theme_ent.create_text(int(can_theme_ent["width"])-4,10,text=te_var,fill=_theme[0],
+                                font=("FreeMono",13),anchor="e")
+                    else:
+
+                        try:
+                            draw_outline_text(can_theme_ent,te_var,3,10,"w",("FreeMono",13))
+                            cte_txt[0]=can_theme_ent.create_text(3,10,text=te_var,fill=te_var,
+                                font=("FreeMono",13),anchor="w")
+
+                        except:
+                            draw_outline_text(can_theme_ent,te_var,3,10,"w",("FreeMono",13))
+                            cte_txt[0]=can_theme_ent.create_text(3,10,text=te_var,fill=_theme[0],
+                                font=("FreeMono",13),anchor="w")
+
+
+                    can_theme_ent.delete(te_border[0])
+                    can_theme_ent.delete(te_border[1])
+
+
+                    te_border[0]=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
+                        outline="#000000",width=3)
+
+                    if te_var=="":
+                        te_border[1]=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
+                            outline=_theme[0])
+                    else:
+                        try:
+                            te_border[1]=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
+                                outline=te_var)
+                        except:
+                            te_border[1]=can_theme_ent.create_rectangle(0,0, int(can_theme_ent["width"])-1,int(can_theme_ent["height"])-1,
+                                outline=_theme[0])
+
+                    draw_cur_(1)
+                except:
+                    pass
+
 del_theme=0
 def can_theme_m(e):
     global can_theme
@@ -15724,6 +15879,7 @@ theme_st=0
 
 can_theme=tk.Canvas(width=w-100,height=h-200,bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
 can_theme.bind("<Button-1>",can_theme_b1)
+can_theme.bind("<Button-3>",can_theme_b3)
 can_theme.bind("<Motion>",can_theme_m)
 can_theme.bind("<B1-Motion>",can_theme_drag)
 can_theme.bind("<ButtonRelease-1>",on_release_s)
@@ -17653,4 +17809,9 @@ check_nxtx()
 change_effect_sz()
 
 drag_root_wn()
+
+get_thbg_color()
+
+
+
 root.mainloop()
