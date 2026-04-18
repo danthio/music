@@ -10811,7 +10811,7 @@ def __check_cur_pos():
     global _v71__,_v72__,_v73__,_v74__
     global _v91__,_v92__,_v93__,_v94__
 
-    global cur_psb_sz
+    global cur_p,sb2_sz
     if root_st==0:
 
 
@@ -11064,7 +11064,7 @@ def __check_cur_pos():
 
             else:
 
-                if (root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2+int(can3["width"]):
+                if (root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can3["width"]))/2+int(can3["width"])-sb2_sz-2:
 
                     y=0
 
