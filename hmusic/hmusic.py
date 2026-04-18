@@ -224,8 +224,8 @@ def configure_theme(pcol):
     col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
     col3=(int(col1[0]*30/mxc),int(col1[1]*30/mxc),int(col1[2]*30/mxc))
     col4=(int(col1[0]*80/mxc),int(col1[1]*80/mxc),int(col1[2]*80/mxc))
-
-    ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3,"#%02x%02x%02x" % col4]
+    col5=(int(col1[0]*170/mxc),int(col1[1]*170/mxc),int(col1[2]*170/mxc))
+    ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3,"#%02x%02x%02x" % col4,"#%02x%02x%02x" % col5]
 
 
     _theme[1]=ar
@@ -1155,6 +1155,16 @@ def convert_folder_to_audio():
                         con=1
 
                 if con==1:
+                    if i[-4:]==".mp4":
+
+                        try:
+                            ar=os.listdir("videos")
+
+                            v=ar.index(i.replace(".mp3",".mp4"))
+                        except:
+
+                            shutil.copy(input_folder+"\\"+i,"videos")
+
                     continue
 
                 if i[-3:]=="mp3":
@@ -1267,6 +1277,17 @@ def convert_file_to_audio():
                 if i[:-3]==i_[:-3]:
                     con=1
 
+            if con==1:
+
+                if i[-4:]==".mp4":
+
+                    try:
+                        ar=os.listdir("videos")
+
+                        v=ar.index(i.replace(".mp3",".mp4"))
+                    except:
+
+                        shutil.copy(input_file,"videos")
 
 
             if i[-3:]=="mp3":
@@ -1874,7 +1895,7 @@ def prog(conp):
 
 
 
-                    c_sig=can.create_oval(x_+10-sr-1-4,h-20-60-20+10+2+5-3+10-sr-1-4, x_+10+4+sr,h-20-60-20+10+2+5-3+10+4+sr ,fill=_theme[1][0] ,outline=_theme[1][0])
+                    c_sig=can.create_oval(x_+10-sr-1-4,h-20-60-20+10+2+5-3+10-sr-1-4, x_+10+4+sr,h-20-60-20+10+2+5-3+10+4+sr ,fill=_theme[1][3] ,outline=_theme[1][3])
                     progc=can.create_image(x_+10,h-20-60-20+10+2+5-3+10,image=circle7,anchor="c")
 
 
@@ -8725,7 +8746,7 @@ def draw_can(con=0):
 
 
         can.create_rectangle(10-1,h-20-60-20+10+2+5-3+10-2,w-10,h-20-60-20+10+2+5-3+10+1,outline="#000000")
-        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][-1],width=2)
+        can.create_line(10,h-20-60-20+10+2+5-3+10,w-10,h-20-60-20+10+2+5-3+10,fill=_theme[1][2],width=2)
         
         if st==2 and playlist_st==0 and current_playing=="":
             pass
@@ -8931,7 +8952,7 @@ def draw_can(con=0):
 
         
         can.create_rectangle(w-10-120-1,h-20-30+5+10-3-2, w-10,h-20-30+5+10-3+1,outline="#000000")
-        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][-1],width=2)
+        can.create_line(w-10-120,h-20-30+5+10-3, w-10,h-20-30+5+10-3,fill=_theme[1][2],width=2)
 
         can.create_image(w-10-120-10-30+5,h-20-30-15+5+10-3+1,image=speaker,anchor="nw")
 
@@ -10151,7 +10172,7 @@ def load_im():
 
 
 
-    bg_styl__=ImageTk.PhotoImage(draw_bg_style(w,h,25,20,_theme[1][-1]))
+    bg_styl__=ImageTk.PhotoImage(draw_bg_style(w,h,25,20,_theme[1][2]))
     bg_styl2__=ImageTk.PhotoImage(draw_bg_style(w,h,25,20,_theme[0]))
 
 
@@ -15311,7 +15332,7 @@ def draw_theme(con=0):
     can_theme.create_rectangle(20+l1+10-1,int(can_theme["height"])-65-2-15, 20+l1+10+100,int(can_theme["height"])-65+1-15,
         outline="#000000")
     can_theme.create_line(20+l1+10,int(can_theme["height"])-65-15, 20+l1+10+100,int(can_theme["height"])-65-15,
-        fill=_theme[1][-1],width=2)
+        fill=_theme[1][2],width=2)
 
 
 
@@ -15333,7 +15354,7 @@ def draw_theme(con=0):
     can_theme.create_rectangle(20+l1+10+100+30+l2+10-1,int(can_theme["height"])-65-2-15, 20+l1+10+100+30+l2+10+100,int(can_theme["height"])-65+1-15,
         outline="#000000")
     can_theme.create_line(20+l1+10+100+30+l2+10,int(can_theme["height"])-65-15, 20+l1+10+100+30+l2+10+100,int(can_theme["height"])-65-15,
-        fill=_theme[1][-1],width=2)
+        fill=_theme[1][2],width=2)
 
 
 
