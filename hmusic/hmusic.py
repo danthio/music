@@ -3206,7 +3206,7 @@ def can_b3(e):
     #get_pixel_color(e.x,e.y)
 
 
-    capture_canvas()
+    #capture_canvas()
     move_to_playing(2)
 
     draw_cur_(1)
@@ -5208,9 +5208,9 @@ def check_volume():
 
         vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
 
-        draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
+        draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12+5,"e",("FreeMono",11))
 
-        vol2=can.create_text(w-10,h-20-30+5+10-3+12+10,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
+        vol2=can.create_text(w-10,h-20-30+5+10-3+12+5,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
 
         vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
         draw_can()
@@ -8973,9 +8973,9 @@ def draw_can(con=0):
         vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
 
 
-        draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
+        draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12+5,"e",("FreeMono",11))
 
-        vol2=can.create_text(w-10,h-20-30+5+10-3+12+10,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
+        vol2=can.create_text(w-10,h-20-30+5+10-3+12+5,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
 
 
         vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
@@ -13133,9 +13133,9 @@ def drag_can(e):
 
                 vol1=can.create_line(w-10-120,h-20-30+5+10-3 ,w-10-120+current_volume*r,h-20-30+5+10-3,fill=_theme[0],width=2)
 
-                draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
+                draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12+5,"e",("FreeMono",11))
 
-                vol2=can.create_text(w-10,h-20-30+5+10-3+12+10,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
+                vol2=can.create_text(w-10,h-20-30+5+10-3+12+5,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
                 
                 vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
 
@@ -15640,7 +15640,7 @@ def draw_op(x,y,xv,con):
         can_outline_st=6
 
 
-        draw_outline_text(can_theme,str(round(xv,3)),x+100,y+10,"e",("FreeMono",11))
+        draw_outline_text(can_theme,str(round(xv,3)),x+100,y+20,"e",("FreeMono",11))
 
 
         txt=str(round(xv,3))
@@ -15669,7 +15669,7 @@ def draw_op(x,y,xv,con):
 
         can_outline_st=8
 
-        draw_outline_text(can_theme,str(round(xv,3)),x+100,y+10,"e",("FreeMono",11))
+        draw_outline_text(can_theme,str(round(xv,3)),x+100,y+20,"e",("FreeMono",11))
         op2_v5=can_theme.create_text(x+100,y+20,text=str(round(xv,3)),
             fill=_theme[0],font=("FreeMono",11),anchor="e")
 
