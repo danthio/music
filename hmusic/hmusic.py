@@ -765,15 +765,16 @@ def get_playback_time():
 
 
 sig=[]
-sig_=0
-sig_2=0
-sig2=[]
-sig2_=[]
+sig_,_sig_2,_sig_3,_sig_4,_sig_5=0,0,0,0,0
+sig2,sig2_2,sig2_3,sig2_4,sig2_5=[],[],[],[],[]
 tts=0
 
 def draw_wave():
 
-    global lst,can,st,sig,sig_,sig_2,sig2,sig2_,tm,tts,play_st,current_playing,w,h
+    global lst,can,st,sig,sig_,sig2,tm,tts,play_st,current_playing,w,h
+
+    global sig2_2,sig2_3,sig2_4,sig2_5
+    global _sig_2,_sig_3,_sig_4,_sig_5
 
 
 
@@ -793,6 +794,7 @@ def draw_wave():
     global can2
 
     try:
+        t1=time.time()
 
         col1=_theme[0]
         col2=_theme[1][0]
@@ -817,7 +819,7 @@ def draw_wave():
 
 
 
-                amplitude = get_amplitude_at_time("data/current_playing.wav", get_playback_time()+tts)
+                amplitude = get_amplitude_at_time(f"data/{current_playing.replace(".mp3",".wav")}", get_playback_time()+tts)
 
 
 
@@ -836,39 +838,50 @@ def draw_wave():
 
 
                 sig2=[]
-                sig2_=[0,h]
+                """
+                sig2_2=[]
+                sig2_3=[]
+                sig2_4=[]
+                sig2_5=[] 
+                """
+
+               
                 x=0
                 for a in range(len(sig)):
 
                     sig2.append(x)
                     sig2.append(sig[a]+50+((h-121-30)-50)/2)
 
-
-
-                    sig2_.append(x)
-
-                    hh=90+int(can2["height"])
+                    """
 
 
 
-                    if sig[a]<0:
-                        a2=-sig[a]/amp*(h-hh)
-                    else:
-                        a2=sig[a]/amp*(h-hh)
+                    sig2_2.append(x-1)
+                    sig2_2.append(sig[a]+50+((h-121-30)-50)/2)
+
+                    sig2_3.append(x+1)
+                    sig2_3.append(sig[a]+50+((h-121-30)-50)/2)
+
+                    sig2_4.append(x)
+                    sig2_4.append(sig[a]+50+((h-121-30)-50)/2-1)
 
 
-                    sig2_.append(h-a2)
+                    sig2_5.append(x)
+                    sig2_5.append(sig[a]+50+((h-121-30)-50)/2+1)
+
+                    """
 
 
-                    if a==len(sig)-1:
 
-                        sig2_.append(x)
-                        sig2_.append(h)
+
+
+
+
 
                     x+=xv
 
 
-                    if lst==0 and st!=4 and lyric_st==0 and root_st==0 and vid_st==0 and theme_st2==0:
+                    if lst==0 and st!=4 and lyric_st==0 and root_st==0 and vid_st==0:
 
                         if len(sig2)>4:
 
@@ -879,23 +892,18 @@ def draw_wave():
                                 if not tts>tot_tm_:
                                     can.coords(sig_,*sig2)
 
-                    """
+                                    """
+
+                                    can.coords(_sig_2,*sig2_2)
+                                    can.coords(_sig_3,*sig2_3)
+                                    can.coords(_sig_4,*sig2_4)
+                                    can.coords(_sig_5,*sig2_5)
+
+                                    """
 
 
-                    if lst==1 or st==4:
+        #print(time.time()-t1)
 
-
-
-                        if len(sig2_)>4:
-
-                            
-
-
-
-                                if not tts>tot_tm_:
-
-                                    can.coords(sig_2,*sig2_)
-                    """
 
 
 
@@ -966,19 +974,30 @@ def get_amplitude_at_time(file_path, time_sec):
 
 
 def convert_mp3_to_wav(mp3_file):
+    global current_playing
 
     ar=os.listdir("data")
 
-    try:
-
-        v=ar.index("current_playing.wav")
-    
-        os.remove("data/current_playing.wav")
-    except:
-        pass
 
 
-    wav_file="data/current_playing.wav"
+
+    for i in ar:
+
+        if i.split(".")[-1]=="wav":
+
+
+
+            if i==current_playing:
+                return
+
+
+            os.remove(f"data/{i}")
+
+
+
+
+
+    wav_file=f"data/{current_playing.replace(".mp3",".wav")}"
 
     ffmpeg_path=r"ffmpeg-master-latest-win64-gpl\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe"
 
@@ -1853,11 +1872,14 @@ def prog(conp):
 
                     prog1=can.create_line(10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10,fill=col1,width=2)
 
+
+
+                    c_sig=can.create_oval(x_+10-sr-1-4,h-20-60-20+10+2+5-3+10-sr-1-4, x_+10+4+sr,h-20-60-20+10+2+5-3+10+4+sr ,fill=_theme[1][0] ,outline=_theme[1][0])
                     progc=can.create_image(x_+10,h-20-60-20+10+2+5-3+10,image=circle7,anchor="c")
 
 
 
-                    c_sig=can.create_oval(x_+10-sr-1-4,h-20-60-20+10+2+5-3+10-sr-1-4, x_+10+4+sr,h-20-60-20+10+2+5-3+10+4+sr,outline=_theme[0])
+
 
 
                 if current_playing=="":
@@ -2997,8 +3019,7 @@ def can2_b1(e):
 
                 tm=0
                 
-                current_playing=songs[a][0]
-                mvar=a
+                
                 play_st=1
 
 
@@ -3010,12 +3031,16 @@ def can2_b1(e):
                 move_to_playing()
 
                 draw_cur_(1)
+
+                current_playing=songs[a][0]
                 
                 play_music("music/"+current_playing,tm)
 
                 pp=1
 
                 get_audio_duration("music/"+current_playing)
+
+                main()
 
                 return
     add_st=0
@@ -5162,7 +5187,7 @@ def check_volume():
 
         draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
-        vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
+        vol2=can.create_text(w-10,h-20-30+5+10-3+12+10,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
 
         vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
         draw_can()
@@ -8007,9 +8032,11 @@ def draw_can(con=0):
 
     global b_g1,b_g2, b_g1_,b_g2_
 
-    global sig_,sig_2,sig2_,sig2
+    global sig_,sig2
 
 
+    global sig2_2,sig2_3,sig2_4,sig2_5
+    global _sig_2,_sig_3,_sig_4,_sig_5
 
     global cur_can
     global can3,can4,can6
@@ -8182,20 +8209,6 @@ def draw_can(con=0):
         can.create_image(0,0,image=b_g1,anchor="nw")
         can.create_image(0,90+int(can2["height"])-20,image=b_g2,anchor="nw")
 
-    """
-
-    if lst==1 or st==4:
-        can.delete(sig_2)
-
-
-        col=hex_to_rgb(_theme[0])
-        col="#%02x%02x%02x" % (int(round(col[0]*0.4,0)),int(round(col[1]*0.4,0)),int(round(col[2]*0.4,0)))
-        try:
-            sig_2=can.create_polygon(sig2_,fill=col,outline=col,width=1)
-        except:
-            sig_2=can.create_polygon(0,0,0,0,fill=col,outline=col,width=1)
-
-    """
 
 
 
@@ -8752,7 +8765,14 @@ def draw_can(con=0):
                 
 
                 can.delete(sig_)
-                
+
+                """
+                can.delete(_sig_2)                
+                can.delete(_sig_3)
+                can.delete(_sig_4)
+                can.delete(_sig_5)
+
+                """
 
                 try:
 
@@ -8761,10 +8781,32 @@ def draw_can(con=0):
 
                             try:
 
-                                sig_=can.create_line(sig2,fill=_theme[0],width=1)
-                            except:
-                                sig_=can.create_line(0,0,0,0,fill=_theme[0],width=1)
 
+                                """
+
+
+
+                                _sig_2=can.create_line(sig2_2,fill="#000000",width=1)
+                                _sig_3=can.create_line(sig2_2,fill="#000000",width=1)
+                                _sig_4=can.create_line(sig2_3,fill="#000000",width=1)
+                                _sig_5=can.create_line(sig2_5,fill="#000000",width=1)      
+
+                                """                          
+
+                                sig_=can.create_line(sig2,fill=_theme[0],width=1)
+
+                            except:
+
+                                """
+
+
+                                _sig_2=can.create_line(0,0,0,0,fill="#000000",width=1)
+                                _sig_3=can.create_line(0,0,0,0,fill="#000000",width=1)
+                                _sig_4=can.create_line(0,0,0,0,fill="#000000",width=1)
+                                _sig_5=can.create_line(0,0,0,0,fill="#000000",width=1)   
+                                """                             
+
+                                sig_=can.create_line(0,0,0,0,fill=_theme[0],width=1)
 
                 except:
                     pass
@@ -8776,7 +8818,13 @@ def draw_can(con=0):
 
         if lyric_st==1:
             can.delete(sig_)
+            """
+            can.delete(_sig_2)                
+            can.delete(_sig_3)
+            can.delete(_sig_4)
+            can.delete(_sig_5)
 
+            """
 
 
         con_st=0
@@ -8903,7 +8951,7 @@ def draw_can(con=0):
 
         draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
-        vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
+        vol2=can.create_text(w-10,h-20-30+5+10-3+12+10,text=str(int(current_volume*100))+"%",fill=col1,font=("FreeMono",11),anchor="e")
 
 
         vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
@@ -10739,7 +10787,7 @@ def __check_cur_pos():
     global _v71__,_v72__,_v73__,_v74__
     global _v91__,_v92__,_v93__,_v94__
 
-    global cur_p
+    global cur_psb_sz
     if root_st==0:
 
 
@@ -10798,7 +10846,7 @@ def __check_cur_pos():
 
                 return
 
-            if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
+            if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"])-sb_sz:
 
                 y=95
 
@@ -10920,17 +10968,20 @@ def __check_cur_pos():
 
                     y=0
 
-                    for _ in range(30*len(playlist)):
+                    for _ in range(len(playlist)):
 
 
 
                         if y<=filter_can2.canvasy(y_-(40+30-10-5-5+30+10+30*3.5)+88)<=y+30:
 
                             filter_can2.coords(sel_filt2,0,y)
+
             
 
 
                         y+=30
+
+                    return
 
 
 
@@ -10955,7 +11006,7 @@ def __check_cur_pos():
 
                     y+=30
 
-            return
+                return
 
 
 
@@ -11073,7 +11124,7 @@ def __check_cur_pos():
 
                         return
 
-                    if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
+                    if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"])-sb_sz:
 
 
                         for song in songs:
@@ -13016,7 +13067,7 @@ def drag_can(e):
 
             
 
-            prog(0)
+            prog(1)
             draw_cur_can()
 
     if v_st==1:
@@ -13060,7 +13111,7 @@ def drag_can(e):
 
                 draw_outline_text(can,str(int(current_volume*100))+"%",w-10,h-20-30+5+10-3+12,"e",("FreeMono",11))
 
-                vol2=can.create_text(w-10,h-20-30+5+10-3+12,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
+                vol2=can.create_text(w-10,h-20-30+5+10-3+12+10,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
                 
                 vol3=can.create_image(w-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
 
@@ -15569,7 +15620,7 @@ def draw_op(x,y,xv,con):
         txt=str(round(xv,3))
 
 
-        op1_v5=can_theme.create_text(x+100,y+10,text=txt,
+        op1_v5=can_theme.create_text(x+100,y+20,text=txt,
             fill=_theme[0],font=("FreeMono",11),anchor="e")
 
 
@@ -15593,7 +15644,7 @@ def draw_op(x,y,xv,con):
         can_outline_st=8
 
         draw_outline_text(can_theme,str(round(xv,3)),x+100,y+10,"e",("FreeMono",11))
-        op2_v5=can_theme.create_text(x+100,y+10,text=str(round(xv,3)),
+        op2_v5=can_theme.create_text(x+100,y+20,text=str(round(xv,3)),
             fill=_theme[0],font=("FreeMono",11),anchor="e")
 
 
