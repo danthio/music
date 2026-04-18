@@ -1018,6 +1018,8 @@ def convert_mp3_to_wav(mp3_file):
 
 
 
+    can.focus_set()
+
 
 
 
@@ -4396,10 +4398,10 @@ def can_b1(e):
 
                     if st==2:
                         if current_playlist==songs_status[1]:
-                            move_to_playing()
+                            move_to_playing(1)
 
                     else:
-                        move_to_playing()
+                        move_to_playing(1)
 
 
 
@@ -5292,6 +5294,7 @@ def play_music(file,time_,con=0):
             tts=0
 
         convert_mp3_to_wav(file)
+
 
 
 
