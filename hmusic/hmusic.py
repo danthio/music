@@ -3206,7 +3206,7 @@ def can_b3(e):
     #get_pixel_color(e.x,e.y)
 
 
-    #capture_canvas()
+    capture_canvas()
     move_to_playing(2)
 
     draw_cur_(1)
