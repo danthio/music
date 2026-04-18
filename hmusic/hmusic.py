@@ -15390,6 +15390,7 @@ def get_thbg_color():
     global th_col,th_col_,te_var
     global _theme,theme_st2
     global can_outline_st
+    global ch_im
 
     if theme_st2==1:
 
@@ -15397,7 +15398,7 @@ def get_thbg_color():
 
         can_theme.delete(th_col)
 
-        if no_bg_st==0:
+        if no_bg_st==0 and ch_im==0:
 
             x,y=pyautogui.position()
 
@@ -15444,8 +15445,9 @@ def can_theme_b3(e):
     global can_outline_st
     global theme_st2
     global up_theme
+    global no_bg_st,ch_im
 
-    if theme_st2==1:
+    if theme_st2==1 and no_bg_st==0 and ch_im==0:
 
 
         if not up_theme==None:
