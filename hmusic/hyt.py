@@ -136,6 +136,8 @@ def download():
 
 	}
 
+	d_st2=1
+
 	if typ=="mp3":
 
 		with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -370,6 +372,7 @@ root=tk.Tk()
 root.geometry(f"{w}x{h}+50+50")
 root.title("hyt")
 root.iconbitmap("data_hyt/icon.ico")
+root.resizable(0,0)
 
 
 can=tk.Canvas(width=w,height=h,bg="#000000",relief="flat",highlightthickness=0,border=0)
