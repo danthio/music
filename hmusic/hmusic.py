@@ -13260,7 +13260,7 @@ def drag(e):
             if not e.y+h>int(can2["height"]):
                 sb_move(e.y,e.y*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
             else:
-                sb_move(int(can2["height"])-h-3,(int(can2["height"])-h-3)*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
+                sb_move(int(can2["height"])-h,(int(can2["height"])-h)*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
 
 
             move_bg()
@@ -13400,7 +13400,7 @@ def drag2(e):
             if not e.y+h>int(can3["height"]):
                 sb2_move(e.y,e.y*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
             else:
-                sb2_move(int(can3["height"])-h-3,(int(can3["height"])-h-3)*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
+                sb2_move(int(can3["height"])-h,(int(can3["height"])-h)*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
 
 
             move_bg()
