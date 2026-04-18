@@ -3051,7 +3051,7 @@ def can2_b1(e):
                 main()
 
 
-                move_to_playing()
+                
 
                 draw_cur_(1)
 
@@ -3064,6 +3064,7 @@ def can2_b1(e):
                 get_audio_duration("music/"+current_playing)
 
                 main()
+                move_to_playing()
 
                 return
     add_st=0
