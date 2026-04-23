@@ -1079,11 +1079,12 @@ def create_polygon(*args, **kwargs):
 
 
 
-
+convert_n=""
 def convert_folder_to_audio():
 
     global can,load,load2,load3,load4,w,h
     global input_folder,convert,st
+    global convert_n
 
 
 
@@ -1142,10 +1143,18 @@ def convert_folder_to_audio():
             saved=os.listdir("music")
 
 
+            nn=len(all_items)
+
+            nn_=0
+
+
 
 
 
             for i in all_items:
+                nn_+=1
+
+                convert_n=f"{nn_}/{nn}"
 
 
 
@@ -1239,6 +1248,7 @@ def convert_file_to_audio():
 
     global can,load,load2,load3,load4,w,h
     global convert,input_file,st
+    global convert_n
 
 
 
@@ -1271,6 +1281,8 @@ def convert_file_to_audio():
 
 
             i=input_file.split("/")[-1]
+
+            convert_n="1/1"
 
             con=0
 
@@ -6955,6 +6967,7 @@ def draw_outline_text(c,text,x,y,anchor,font):
         c.delete(_v14__)
 
 
+
         if text=="":
 
             can_outline_st=0
@@ -9956,6 +9969,8 @@ bg_hex=[0,150]
 ibg,ibg2=0,0
 
 n_im,p_im=0,0
+
+load_1,load_2=0,0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -9998,6 +10013,7 @@ def load_im():
     global ibg,ibg2
     global _bg_,bg_dark_
     global n_im,p_im
+    global load_1,load_2
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -10206,6 +10222,8 @@ def load_im():
 
     ibg2=ImageTk.PhotoImage(im)
 
+    load_1=draw_load(40,5)
+    load_2=draw_load(30,4)
 
 
 
@@ -10279,11 +10297,78 @@ def sync_lyrics():
 
     root.after(2,sync_lyrics)
 
+
+def draw_load(sz,r_):
+    global _theme
+
+    im=Image.new("RGBA",(500,500),(0,0,0,0))
+    pixels=im.load()
+
+    col=hex_to_rgb(_theme[0])
+
+
+    cx,cy=250,250
+
+    r_=int(round(500*r_/sz,0))
+
+    r=248
+    for _ in range(r_):
+
+
+        op_=255/1800
+
+
+        op=255
+
+        a_=0
+
+        for a in range(1800):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+
+
+            pixels[int(round(x,0)),int(round(y,0))]=(*col,int(round(op,0)))
+
+            a_+=0.1
+            op-=op_
+
+
+
+
+        op=255
+
+        a_=360
+
+        for a in range(1800):
+
+            x=r*math.sin(math.radians(a_))+cx
+            y=r*math.cos(math.radians(a_))+cy
+
+            pixels[int(round(x,0)),int(round(y,0))]=(*col,int(round(op,0)))
+
+            a_-=0.1
+            op-=op_
+
+        r-=1
+
+    im=im.resize((sz,sz))
+
+    return im
+
 ang=0
+convert_n_=0
+load_1_=0
 def load_():
     global can,st,convert,w,h
     global load,load2
     global ang
+    global convert_n,convert_n_
+    global can_outline_st
+    global _v11___,_v12___,_v13___,_v14___
+    global load_1,load_1_
+
 
 
     col1=_theme[0]
@@ -10291,17 +10376,29 @@ def load_():
 
 
     can.delete(load)
-    can.delete(load2)
+    can.delete(convert_n_)
 
+
+
+    can.delete(_v11__)
+    can.delete(_v12__)
+    can.delete(_v13__)
+    can.delete(_v14__)
 
     if st==4:
         if not convert==0:
 
+            im=load_1.rotate(ang)
+            load_1_=ImageTk.PhotoImage(im)
 
 
-            load=can.create_arc(w/2-20,h-121-20-40, w/2+20,h-121-20,outline=col1,start=ang+180,extent=70,style="arc",width=2)
 
-            load2=can.create_arc(w/2-20,h-121-20-40, w/2+20,h-121-20,outline=col1,start=ang,extent=70,style="arc",width=2)
+            load=can.create_image(w/2-20+20,h-121-20-40+20,image=load_1_,anchor="c")
+
+
+            can_outline_st=3
+            draw_outline_text(can,convert_n,w/2+20+20,h-121-20-40+20,"w",("FreeMono",13))
+            convert_n_=can.create_text(w/2+20+20,h-121-20-40+20,text=convert_n,font=("FreeMono",13),fill=col1,anchor="w")
 
 
             ang+=1
@@ -13853,12 +13950,14 @@ can_lyrics=tk.Canvas(bg=_theme[1][1],relief="flat",highlightthickness=0,border=0
 
 l1,l2=0,0
 ang_=0
+load_2_=0
 def check_up_theme():
     global up_theme,_theme,theme_ent,sel_col
     global l1,l2,ang_
     global con_theme
     global bg_region_
     global bg_col
+    global load_2,load_2_
 
     if not up_theme==None:
 
@@ -13866,13 +13965,14 @@ def check_up_theme():
 
 
             can_theme.delete(l1)
-            can_theme.delete(l2)
 
             cx,cy=int(can_theme["width"])/2+45+10+15,int(can_theme["height"])-10-15
             r=15
 
-            l1=can_theme.create_arc(cx-r,cy-r,cx+r,cy+r,start=ang_,extent=70,style="arc",outline=_theme[0],width=2)
-            l2=can_theme.create_arc(cx-r,cy-r,cx+r,cy+r,start=ang_+180,extent=70,style="arc",outline=_theme[0],width=2)
+            im=load_2.rotate(ang_)
+            load_2_=ImageTk.PhotoImage(im)
+
+            l1=can_theme.create_image(cx,cy,image=load_2_,anchor="c")
             
 
             ang_+=1
