@@ -224,7 +224,7 @@ def configure_theme(pcol):
     col2=(int(col1[0]*119/mxc),int(col1[1]*119/mxc),int(col1[2]*119/mxc))
     col3=(int(col1[0]*30/mxc),int(col1[1]*30/mxc),int(col1[2]*30/mxc))
     col4=(int(col1[0]*80/mxc),int(col1[1]*80/mxc),int(col1[2]*80/mxc))
-    col5=(int(col1[0]*170/mxc),int(col1[1]*170/mxc),int(col1[2]*170/mxc))
+    col5=(int(col1[0]*140/mxc),int(col1[1]*140/mxc),int(col1[2]*140/mxc))
     ar=["#%02x%02x%02x" % col2,"#%02x%02x%02x" % col3,"#%02x%02x%02x" % col4,"#%02x%02x%02x" % col5]
 
 
@@ -4675,6 +4675,15 @@ def can_b1(e):
                 except:
                     vid_st=0
                     vid_st2=0
+
+
+                st=songs_status[0]
+
+                if st==2:
+
+                    current_playlist=songs_status[1]
+
+
                 main()
 
                 return
