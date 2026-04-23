@@ -10327,9 +10327,11 @@ def draw_load(sz,r_):
             x=r*math.sin(math.radians(a_))+cx
             y=r*math.cos(math.radians(a_))+cy
 
+            col_=(int(round(col[0]*op/255,0)),int(round(col[1]*op/255,0)),int(round(col[2]*op/255,0)))
 
 
-            pixels[int(round(x,0)),int(round(y,0))]=(*col,int(round(op,0)))
+
+            pixels[int(round(x,0)),int(round(y,0))]=(*col_,int(round(op,0)))
 
             a_+=0.1
             op-=op_
@@ -10346,7 +10348,10 @@ def draw_load(sz,r_):
             x=r*math.sin(math.radians(a_))+cx
             y=r*math.cos(math.radians(a_))+cy
 
-            pixels[int(round(x,0)),int(round(y,0))]=(*col,int(round(op,0)))
+            col_=(int(round(col[0]*op/255,0)),int(round(col[1]*op/255,0)),int(round(col[2]*op/255,0)))
+
+
+            pixels[int(round(x,0)),int(round(y,0))]=(*col_,int(round(op,0)))
 
             a_-=0.1
             op-=op_
