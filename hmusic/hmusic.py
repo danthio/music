@@ -6966,6 +6966,8 @@ def draw_outline_text(c,text,x,y,anchor,font):
         c.delete(_v13__)
         c.delete(_v14__)
 
+        
+
 
 
         if text=="":
@@ -7010,6 +7012,7 @@ def draw_outline_text(c,text,x,y,anchor,font):
         c.delete(_v22__)
         c.delete(_v23__)
         c.delete(_v24__)
+
 
         if text=="":
 
@@ -7988,6 +7991,41 @@ def round_im(col1,col2,op,xx,yy,r,wd):
 
         return im
 
+un_t=""
+un_t_cnt=0
+def unxt_():
+    global unxt,un_t,un_t_cnt
+    global _v21__,_v22__,_v23__,_v24__
+
+    txt="Up Next ... "
+
+
+    can.itemconfig(unxt,text=un_t)
+
+    can.itemconfig(_v21__,text=un_t)
+    can.itemconfig(_v22__,text=un_t)
+    can.itemconfig(_v23__,text=un_t)
+    can.itemconfig(_v24__,text=un_t)
+
+
+    un_t+=txt[un_t_cnt]
+
+    un_t_cnt+=1
+
+    if un_t=="Up Next ... ":
+        un_t=""
+        un_t_cnt=0
+
+
+
+
+
+
+    root.after(150,unxt_)
+
+
+
+
 
 bg_filt,bg_filt_=0,0
 
@@ -7999,6 +8037,8 @@ bg_styl__=0
 
 up_nxt=0
 nxt_sng=0
+
+unxt=0
 def draw_can(con=0):
 
 
@@ -8109,6 +8149,7 @@ def draw_can(con=0):
     global ibg,ibg2
     global bg_dark_
     global rpx,rpy
+    global unxt
 
     can.delete("all")
 
@@ -8481,10 +8522,10 @@ def draw_can(con=0):
             can.create_image(w-10-xx,y,image=up_nxt,anchor="nw")
 
 
+            can_outline_st=4
+            draw_outline_text(can,"Up Next ...",w-10-xx+r,y+10,"nw",("FreeMono",13))
 
-            draw_outline_text(can,"Up Next...",w-10-xx+r,y+10,"nw",("FreeMono",13))
-
-            can.create_text(w-10-xx+r,y+10,text="Up Next...",fill=_theme[0],font=("FreeMono",13),anchor="nw")
+            unxt=can.create_text(w-10-xx+r,y+10,text="Up Next ...",fill=_theme[0],font=("FreeMono",13),anchor="nw")
 
 
     
@@ -9965,7 +10006,7 @@ bg_styl2__=0
 
 up,down=0,0
 
-bg_hex=[0,150]
+bg_hex=[0,200]
 ibg,ibg2=0,0
 
 n_im,p_im=0,0
@@ -10404,6 +10445,8 @@ def load_():
             can_outline_st=3
             draw_outline_text(can,convert_n,w/2+20+20,h-121-20-40+20,"w",("FreeMono",13))
             convert_n_=can.create_text(w/2+20+20,h-121-20-40+20,text=convert_n,font=("FreeMono",13),fill=col1,anchor="w")
+
+            draw_cur_can()
 
 
             ang+=1
@@ -13978,6 +14021,8 @@ def check_up_theme():
             load_2_=ImageTk.PhotoImage(im)
 
             l1=can_theme.create_image(cx,cy,image=load_2_,anchor="c")
+
+            draw_cur_(1)
             
 
             ang_+=1
@@ -13995,6 +14040,7 @@ def check_up_theme():
 
 
             load_im()
+  
             """
             th=threading.Thread(target=load_im,daemon=True)
             th.start()
@@ -14965,6 +15011,8 @@ def no_bg_eff(effect,effect_sz,col):
 
         ep.append((ex+l1+15+70+l2+l3,60+30+ey+15-15))
         ep.append((ex+l1+15+70+l2+l3,60+30+ey+15))
+
+        draw_cur_(1)
 
 
 bg_region2_=0
@@ -18004,6 +18052,6 @@ drag_root_wn()
 
 get_thbg_color()
 
-
+unxt_()
 
 root.mainloop()
