@@ -912,7 +912,7 @@ def draw_wave():
     except:
         pass
 
-    root.after(2,draw_wave)
+    root.after(4,draw_wave)
 
 
 
@@ -2040,7 +2040,7 @@ def timer():
             pass
             
 
-    root.after(2,timer)
+    root.after(10,timer)
 
 
 def can3_b1(e):
@@ -18075,4 +18075,9 @@ get_thbg_color()
 
 unxt_()
 
+def _update_():
+
+    root.after(1,_update_)
+
+_update_()
 root.mainloop()
