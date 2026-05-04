@@ -1748,6 +1748,8 @@ c_sig=0
 progc=0
 can_outline_st=0
 
+progx,progx_=0,0
+
 def prog(conp):
 
     global play_st,tm,start_time,can
@@ -1773,6 +1775,7 @@ def prog(conp):
 
     global v1__,v2__,v3__,v4__
     global sig
+    global progx,progx_
 
 
 
@@ -1862,6 +1865,13 @@ def prog(conp):
                 except:
                     sr=0
 
+                sz=int(round(8+sr*2,0))
+
+
+                im=progx.resize((sz,sz))
+
+                progx_=ImageTk.PhotoImage(im)
+
                 if conp==1:
 
                     
@@ -1871,13 +1881,14 @@ def prog(conp):
                     can.itemconfig(v4__,text=tt)
 
                     can.itemconfig(ctime,text=tt)
+                    can.itemconfig(c_sig,image=progx_)
 
                     can.coords(prog2,x_+10-4,h-20-60-20+10+2+5-3-4+10)
                     can.coords(prog2_,x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1)
                     can.coords(prog3,x_+10-3,h-20-60-20+10+2+5-3-3+10)
                     can.coords(prog1,10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10)
                     can.coords(progc,x_+10,h-20-60-20+10+2+5-3+10)
-                    can.coords(c_sig,x_+10-sr-1-4,h-20-60-20+10+2+5-3+10-sr-1-4, x_+10+4+sr,h-20-60-20+10+2+5-3+10+4+sr)
+                    can.coords(c_sig,x_+10,h-20-60-20+10+2+5-3+10)
 
                 else:
 
@@ -1909,7 +1920,7 @@ def prog(conp):
 
 
 
-                    c_sig=can.create_oval(x_+10-sr-1-4,h-20-60-20+10+2+5-3+10-sr-1-4, x_+10+4+sr,h-20-60-20+10+2+5-3+10+4+sr ,fill=_theme[1][3] ,outline=_theme[1][3])
+                    c_sig=can.create_image(x_+10,h-20-60-20+10+2+5-3+10 ,image=progx_)
                     progc=can.create_image(x_+10,h-20-60-20+10+2+5-3+10,image=circle7,anchor="c")
 
 
@@ -10055,6 +10066,7 @@ def load_im():
     global _bg_,bg_dark_
     global n_im,p_im
     global load_1,load_2
+    global progx
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -10265,6 +10277,15 @@ def load_im():
 
     load_1=draw_load(40,5)
     load_2=draw_load(30,4)
+
+    im=Image.new("RGBA",(500,500),(0,0,0,0))
+    draw=ImageDraw.Draw(im)
+
+    draw.ellipse((0,0,499,499),fill=(*hex_to_rgb(_theme[1][-1]),255),outline=(*hex_to_rgb(_theme[1][-1]),255))
+
+    progx=im
+
+    #progx.show()
 
 
 
