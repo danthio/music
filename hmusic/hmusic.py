@@ -1832,7 +1832,7 @@ def prog(conp):
                 except:
                     sr=0
 
-                sz=int(round(8+sr*2,0))
+                sz=int(round(12+sr*2,0))
 
 
                 im=progx.resize((sz,sz))
@@ -9761,7 +9761,7 @@ def load_im():
     circle4=ImageTk.PhotoImage(file="data/circle4.png")
     circle5=ImageTk.PhotoImage(file="data/circle5.png")
     circle6=ImageTk.PhotoImage(file="data/circle6.png")
-    circle7=ImageTk.PhotoImage(round_im(_theme[0],"#000000",1,8,8,4,0))#ImageTk.PhotoImage(file="data/circle7.png")
+    circle7=ImageTk.PhotoImage(round_im(_theme[0],"#000000",1,12,12,6,0))#ImageTk.PhotoImage(file="data/circle7.png")
     circle8=ImageTk.PhotoImage(file="data/circle8.png")
     circle9=ImageTk.PhotoImage(file="data/circle9.png")
     circle10=ImageTk.PhotoImage(file="data/circle10.png")
