@@ -7747,7 +7747,7 @@ def draw_bg_style(w,h,r,r2,col):
 def round_im(col1,col2,op,xx,yy,r,con=0):
 
 
-        _r=16
+        _r=6
         ra=yy/xx
 
         r*=_r
@@ -9553,7 +9553,7 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=16):
 
 
 
-    _r=16
+    _r=6
 
     x2+=1
     y2+=1
@@ -9640,10 +9640,10 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=16):
 
 
     if con==0:
-        draw.polygon(ar,fill=(*hex_to_rgb(col),255),outline=(*hex_to_rgb(col2),255),width=16)
+        draw.polygon(ar,fill=(*hex_to_rgb(col),255),outline=(*hex_to_rgb(col2),255),width=6)
     elif con==1:    
 
-        draw.polygon(ar,outline=(*hex_to_rgb(col),255),width=16)
+        draw.polygon(ar,outline=(*hex_to_rgb(col),255),width=6)
 
     im=im.resize((int(round((x2-x1),0)),int(round((y2-y1),0))))
     
@@ -9976,7 +9976,7 @@ def load_im():
 
     ra=h/w
 
-    ww=int(w*18)
+    ww=int(w*6)
     hh=int(round(ww*ra,0))
 
     #print(w/h,ww/hh)
@@ -9987,7 +9987,7 @@ def load_im():
 
     ar=[]
 
-    r=25*18
+    r=25*6
 
     cx,cy=r,r
 
@@ -10048,7 +10048,7 @@ def load_im():
         ar.append((x,y))
         a_+=1
 
-    draw.polygon(ar,outline=_theme[0],width=18)
+    draw.polygon(ar,outline=_theme[0],width=6)
 
 
     im=im.resize((w,h))
