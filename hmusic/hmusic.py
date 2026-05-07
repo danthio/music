@@ -7747,7 +7747,7 @@ def draw_bg_style(w,h,r,r2,col):
 def round_im(col1,col2,op,xx,yy,r,con=0):
 
 
-        _r=6
+        _r=4
         ra=yy/xx
 
         r*=_r
@@ -9063,8 +9063,8 @@ def draw_can(con=0):
         draw_outline_text(filter_can1,"Filter",int(filter_can1["width"])/2,15,"c",("FreeMono",13))
         filter_can1.create_text(int(filter_can1["width"])/2,15,text="Filter",font=("FreeMono",13),fill=_theme[0])
 
-        filter_can1.create_line(0,29,int(filter_can1["width"]),29,fill="#000000",width=3)
-        filter_can1.create_line(0,29,int(filter_can1["width"]),29,fill=_theme[0])
+        filter_can1.create_line(1,29,int(filter_can1["width"]),29,fill="#000000",width=3)
+        filter_can1.create_line(1,29,int(filter_can1["width"]),29,fill=_theme[0])
 
         y=30
 
@@ -9548,12 +9548,12 @@ rec_dict={}
 
 rec_count=0
 
-def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=16):
+def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=4):
     global rec_count,rec_dict
 
 
 
-    _r=6
+    _r=4
 
     x2+=1
     y2+=1
@@ -9640,10 +9640,10 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=16):
 
 
     if con==0:
-        draw.polygon(ar,fill=(*hex_to_rgb(col),255),outline=(*hex_to_rgb(col2),255),width=6)
+        draw.polygon(ar,fill=(*hex_to_rgb(col),255),outline=(*hex_to_rgb(col2),255),width=4)
     elif con==1:    
 
-        draw.polygon(ar,outline=(*hex_to_rgb(col),255),width=6)
+        draw.polygon(ar,outline=(*hex_to_rgb(col),255),width=4)
 
     im=im.resize((int(round((x2-x1),0)),int(round((y2-y1),0))))
     
@@ -9976,7 +9976,7 @@ def load_im():
 
     ra=h/w
 
-    ww=int(w*6)
+    ww=int(w*4)
     hh=int(round(ww*ra,0))
 
     #print(w/h,ww/hh)
@@ -9987,7 +9987,7 @@ def load_im():
 
     ar=[]
 
-    r=25*6
+    r=25*4
 
     cx,cy=r,r
 
@@ -10048,7 +10048,7 @@ def load_im():
         ar.append((x,y))
         a_+=1
 
-    draw.polygon(ar,outline=_theme[0],width=6)
+    draw.polygon(ar,outline=_theme[0],width=4)
 
 
     im=im.resize((w,h))
