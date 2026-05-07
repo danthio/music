@@ -1046,39 +1046,6 @@ def hex_to_rgba(hex_color, alpha):
     return (r, g, b, int(alpha * 255))
 
 
-def create_polygon(*args, **kwargs):
-    global can
-
-
-
-
-
-    if "alpha" in kwargs:         
-        if "fill" in kwargs:
-            # Get and process the input data
-            c=kwargs.pop("can")
-            outline = kwargs.pop("outline") if "outline" in kwargs else None
-
-            # We need to find a rectangle the polygon is inscribed in
-            # (max(args[::2]), max(args[1::2])) are x and y of the bottom right point of this rectangle
-            # and they also are the width and height of it respectively (the image will be inserted into
-            # (0, 0) coords for simplicity)
-            image = Image.new("RGBA", (max(args[::2])+1, max(args[1::2])+1))
-
-            fill=hex_to_rgba(kwargs.pop("fill"), kwargs.pop("alpha"))
-
-            ImageDraw.Draw(image).polygon(args, fill=fill, outline=outline)
-
-
-
-            images.append(ImageTk.PhotoImage(image))  # prevent the Image from being garbage-collected
-
-
-            return c.create_image(0, 0, image=images[-1], anchor="nw")  # insert the Image to the 0, 0 coords
-
-
-
-
 convert_n=""
 def convert_folder_to_audio():
 
@@ -2136,6 +2103,7 @@ def can4_b1(e):
 song_add_pl=0
 bgp=0
 cp2_im=0
+cp2_im2=0
 
 add_bg,add_bg_=0,0
 def add_playlist():
@@ -2144,7 +2112,7 @@ def add_playlist():
     global songs
     global song_add_pl
     global bgp
-    global cp2_im
+    global cp2_im,cp2_im2
     global sb2_sz
     global cur_can3,cur_can4,cur_can6
     global bg2_
@@ -2186,8 +2154,9 @@ def add_playlist():
     add_bg=ImageTk.PhotoImage(im1)
     add_bg_=ImageTk.PhotoImage(im2)
 
-    can4.create_image(0,0,image=add_bg,anchor="nw")
     can4.create_image(-15,-15,image=add_bg_,anchor="nw")
+    can4.create_image(0,0,image=add_bg,anchor="nw")
+
 
 
 
@@ -2219,82 +2188,12 @@ def add_playlist():
 
     bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0),image=bg2_,anchor="nw")
 
-    ar=[]
-
-    cx,cy=3+10,10
-
-    a_=180
-
-    for a in range(90):
-
-        x=10*math.sin(math.radians(a_))+cx
-        y=10*math.cos(math.radians(a_))+cy
-
-        x=int(round(x,0))
-        y=int(round(y,0))
-
-        ar.append(x)
-        ar.append(y)
-
-        a_+=1
 
 
-    cx,cy=3+10,40
+    im=round_im(_theme[0],_theme[0],_theme[3],(((int(can3["width"])-sb2_sz+2-2)-3)),(50),10,1)
 
-    a_=270
-
-    for a in range(90):
-
-        x=10*math.sin(math.radians(a_))+cx
-        y=10*math.cos(math.radians(a_))+cy
-
-        x=int(round(x,0))
-        y=int(round(y,0))
-
-        ar.append(x)
-        ar.append(y)
-
-        a_+=1
-
-
-    cx,cy=int(can3["width"])-sb2_sz-6-10+2,40
-
-    a_=0
-
-    for a in range(90):
-
-        x=10*math.sin(math.radians(a_))+cx
-        y=10*math.cos(math.radians(a_))+cy
-
-        x=int(round(x,0))
-        y=int(round(y,0))
-
-        ar.append(x)
-        ar.append(y)
-
-        a_+=1
-
-    cx,cy=int(can3["width"])-sb2_sz-6-10+2,10
-
-    a_=90
-
-    for a in range(90):
-
-        x=10*math.sin(math.radians(a_))+cx
-        y=10*math.cos(math.radians(a_))+cy
-
-        x=int(round(x,0))
-        y=int(round(y,0))
-
-        ar.append(x)
-        ar.append(y)
-
-        a_+=1
-
-
-
-    cp2_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can3)
-
+    cp2_im2=ImageTk.PhotoImage(im)
+    cp2_im=can3.create_image(3,0,image=cp2_im2,anchor="nw")
 
     y=0
     
@@ -5493,14 +5392,14 @@ _bg4_=0
 
 bg2=0
 cp_im=0
-
+cp_im2_=0
 cp_im2=0
 cp_im3=0
 
 bg_styl1=0
 bg_styl2=0
 
-
+_pl_im=0
 def main():
 
     global can,st,w,h,wd,ht
@@ -5563,7 +5462,7 @@ def main():
     global bg2,bg
     global sb_sz
     global images
-    global cp_im,cp_im2,cp_im3
+    global cp_im,cp_im2,cp_im2_,cp_im3
 
     global cur_can,circle7,circle11
 
@@ -5589,6 +5488,13 @@ def main():
     global bg_col
     global rpx,rpy
 
+    global _pl_im
+
+    global rec_dict,rec_count
+
+    rec_dict={}
+
+    rec_count=0
 
     root.wm_attributes("-topmost",True)
 
@@ -5756,83 +5662,11 @@ def main():
         #bg_styl1=can2.create_image(-10,-(90-2)+int(can2.canvasy(0)),image=bg_styl__,anchor="nw")
         #bg_styl2=can2.create_image(int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)),image=b_g2_,anchor="ne")
 
-        ar=[]
 
-        r=10
-        y_=0
+        im=round_im(_theme[0],_theme[0],_theme[3],((int(can2["width"])-sb_sz-1)-2-1),(50),10,1)
 
-        a_=180
-
-
-        cx,cy=r,y_+r
-
-        for a in range(90):
-
-            x=r*math.sin(math.radians(a_))+cx
-            y=r*math.cos(math.radians(a_))+cy
-
-
-
-            ar.append(int(round(x,0)))
-            ar.append(int(round(y,0)))
-
-            a_+=1
-
-        a_=270
-
-        cx,cy=r,y_+50-r
-
-        for a in range(90):
-
-            x=r*math.sin(math.radians(a_))+cx
-            y=r*math.cos(math.radians(a_))+cy
-
-
-
-            ar.append(int(round(x,0)))
-            ar.append(int(round(y,0)))
-
-            a_+=1
-        
-
-        a_=0
-
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-1,y_+50-r
-
-        for a in range(90):
-
-            x=r*math.sin(math.radians(a_))+cx
-            y=r*math.cos(math.radians(a_))+cy
-
-
-
-            ar.append(int(round(x,0)))
-            ar.append(int(round(y,0)))
-
-            a_+=1
-
-     
-        a_=90
-
-        cx,cy=(int(can2["width"])-sb_sz-1)-2-r-1,y_+r
-
-        for a in range(90):
-
-            x=r*math.sin(math.radians(a_))+cx
-            y=r*math.cos(math.radians(a_))+cy
-
-
-
-            ar.append(int(round(x,0)))
-            ar.append(int(round(y,0)))
-
-            a_+=1
-
-
-        #can2.create_polygon(ar,fill="red")
-
-        cp_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can2)
-
+        cp_im2_=ImageTk.PhotoImage(im)
+        cp_im=can2.create_image(0,0,image=cp_im2_,anchor="nw")
 
         can2.coords(cp_im,0,-100)
 
@@ -6404,32 +6238,6 @@ def main():
 
 
 
-                    ar=[]
-
-                    a_=180
-                    for a in range(180):
-                        x=15*math.sin(math.radians(a_))+10+15
-                        y_=15*math.cos(math.radians(a_))+y+15
-
-                        ar.append(int(round(x,0)))
-                        ar.append(int(round(y_,0)))
-
-                        a_+=1
-
-
-                    a_=0
-                    for a in range(180):
-                        x=15*math.sin(math.radians(a_))+(int(can2["width"])-sb_sz-1)-10-15
-                        y_=15*math.cos(math.radians(a_))+y+15
-
-
-
-                        ar.append(int(round(x,0)))
-                        ar.append(int(round(y_,0)))
-
-                        
-                        a_+=1
-
 
                     
 
@@ -6438,11 +6246,19 @@ def main():
 
                     else:
 
-                        create_polygon(*ar, fill=_theme[0], alpha=0.45,can=can2)
+                        
+
+                        im=round_im(_theme[0],_theme[0],0.45,(((int(can2["width"])-sb_sz-1)-10)-10),(30),15,1)
+
+                        _pl_im=ImageTk.PhotoImage(im)
+                        can2.create_image(10,y,image=_pl_im,anchor="nw")
+                    
 
 
-                    draw_round_rec(can2,10-1,y-1,(int(can2["width"])-sb_sz-1)-10+1,y+30+1,15,"#000000","",1)
-                    draw_round_rec(can2,10,y,(int(can2["width"])-sb_sz-1)-10,y+30,15,col1,"",1)
+
+
+                    draw_round_rec(can2,10-1,y-1,(int(can2["width"])-sb_sz-1)-10+1-1,y+30+1,15,"#000000","",1)
+                    draw_round_rec(can2,10,y,(int(can2["width"])-sb_sz-1)-10-1,y+30,15,col1,"",1)
 
 
                     draw_outline_text(can2,"New Playlist",30,y+15,"w",("FreeMono",13))
@@ -7928,13 +7744,23 @@ def draw_bg_style(w,h,r,r2,col):
 
     return im
 
-def round_im(col1,col2,op,xx,yy,r,wd):
+def round_im(col1,col2,op,xx,yy,r,con=0):
 
 
+        _r=16
+        ra=yy/xx
 
-        im=Image.new("RGBA",(xx,yy),(0,0,0,0))
+        r*=_r
+
+        ww=int(round(xx*_r,0))
+        hh=int(round(ww*ra,0))
+
+
+        im=Image.new("RGBA",(ww,hh),(0,0,0,0))
 
         draw=ImageDraw.Draw(im)
+
+
 
 
 
@@ -7954,7 +7780,7 @@ def round_im(col1,col2,op,xx,yy,r,wd):
             a_+=1
 
 
-        cx,cy=r,yy-r-1
+        cx,cy=r,hh-r-1
 
         a_=270
 
@@ -7967,7 +7793,7 @@ def round_im(col1,col2,op,xx,yy,r,wd):
             ar.append((x,y))
             a_+=1
 
-        cx,cy=xx-r-1,yy-r-1
+        cx,cy=ww-r-1,hh-r-1
 
         a_=0
 
@@ -7981,7 +7807,7 @@ def round_im(col1,col2,op,xx,yy,r,wd):
             a_+=1
 
 
-        cx,cy=xx-r-1,r
+        cx,cy=ww-r-1,r
 
         a_=90
 
@@ -7998,7 +7824,13 @@ def round_im(col1,col2,op,xx,yy,r,wd):
         col1_=hex_to_rgb(col1)
         col2_=hex_to_rgb(col2)
 
-        draw.polygon(ar,fill=(*col1_,int(round(op*255,0))),outline=(*col2_,255),width=wd)
+        if con==1:
+            draw.polygon(ar,fill=(*col1_,int(round(op*255,0))),outline=(*col2_,int(round(op*255,0))),width=_r)
+        else:
+
+            draw.polygon(ar,fill=(*col1_,int(round(op*255,0))),outline=(*col2_,255),width=_r)
+
+        im=im.resize((xx,yy))
 
         return im
 
@@ -8040,7 +7872,8 @@ def unxt_():
 
 bg_filt,bg_filt_=0,0
 
-sel_filt1,sel_filt2=0,0
+sel_filt1,sel_filt1_=0,0
+sel_filt2,sel_filt2_=0,0
 
 pu_bg3_s,pu_bg4_s=0,0
 
@@ -8050,6 +7883,7 @@ up_nxt=0
 nxt_sng=0
 
 unxt=0
+se_im=0
 def draw_can(con=0):
 
 
@@ -8145,7 +7979,7 @@ def draw_can(con=0):
     global del_st
     global none_l,none_l1
     global most_played,most_played_
-    global sel_filt1,sel_filt2
+    global sel_filt1,sel_filt1_,sel_filt2,sel_filt2_
     global can_lyrics
     global musical_note3
     global bg_styl__,bg_styl2__,bg_styl1,bg_styl2
@@ -8161,8 +7995,13 @@ def draw_can(con=0):
     global bg_dark_
     global rpx,rpy
     global unxt
+    global border_m
+    
+    global se_im
 
     can.delete("all")
+    
+
 
     can["bg"]=bg_col
 
@@ -8415,6 +8254,10 @@ def draw_can(con=0):
     draw_round_rec2(can,0,0,w-1,h-1,25,"#000000")
 
 
+    
+    
+
+
 
     search["bg"]=bg_col
     search["fg"]=col1
@@ -8556,28 +8399,6 @@ def draw_can(con=0):
 
         else:
 
-            ar=[]
-
-            a_=180
-            for a in range(180):
-                x=15*math.sin(math.radians(a_))+10+15
-                y=15*math.cos(math.radians(a_))+40+30-10-5-5+15
-
-                ar.append(int(round(x,0)))
-                ar.append(int(round(y,0)))
-
-                a_+=1
-
-
-            a_=0
-            for a in range(180):
-                x=15*math.sin(math.radians(a_))+w-10-15-25-10
-                y=15*math.cos(math.radians(a_))+40+30-10-5-5+15
-
-                ar.append(int(round(x,0)))
-                ar.append(int(round(y,0)))
-                
-                a_+=1
 
 
 
@@ -8586,7 +8407,10 @@ def draw_can(con=0):
                 pass
             else:
 
-                create_polygon(*ar, fill=_theme[0], alpha=0.45,can=can)
+                im=round_im(_theme[0],_theme[0],0.45,((w-10-25-5-3)-10),(30),15,1)
+
+                se_im=ImageTk.PhotoImage(im)
+                can.create_image(10,40+30-10-5-5,image=se_im,anchor="nw")
             
 
 
@@ -8687,7 +8511,7 @@ def draw_can(con=0):
 
 
         #draw_round_rec(can,0,0,w-1,h-1,25,"#000000","",1,3)            
-        draw_round_rec(can,0,0,w-1,h-1,25,_theme[0],"",1)
+        can.create_image(0,0,image=border_m,anchor="nw")
 
 
 
@@ -8837,7 +8661,9 @@ def draw_can(con=0):
 
 
 
-        can.create_oval(w/2-30-1,h-20-30-30+5+10-3-1,w/2-30+60,h-20-30-30+5+10-3+60,outline="#000000")
+        #can.create_oval(w/2-30-1,h-20-30-30+5+10-3-1,w/2-30+60,h-20-30-30+5+10-3+60,outline="#000000")
+        draw_round_rec(can,w/2-30-1,h-20-30-30+5+10-3-1,w/2-30+60,h-20-30-30+5+10-3+60,30,"#000000","",1)
+
 
         can.create_image(w/2-30,h-20-30-30+5+10-3, image=circle,anchor="nw")
 
@@ -9193,80 +9019,6 @@ def draw_can(con=0):
 
 
 
-        ar=[]
-
-        cx,cy=5,5
-
-        a_=180
-
-        for a in range(90):
-
-            x=5*math.sin(math.radians(a_))+cx
-            y=5*math.cos(math.radians(a_))+cy
-
-            x=int(round(x,0))
-            y=int(round(y,0))
-
-            ar.append(x)
-            ar.append(y)
-
-            a_+=1
-
-
-        cx,cy=5,25
-
-        a_=270
-
-        for a in range(90):
-
-            x=5*math.sin(math.radians(a_))+cx
-            y=5*math.cos(math.radians(a_))+cy
-
-            x=int(round(x,0))
-            y=int(round(y,0))
-
-            ar.append(x)
-            ar.append(y)
-
-            a_+=1
-
-
-        cx,cy=int(filter_can1["width"])-5,25
-
-        a_=0
-
-        for a in range(90):
-
-            x=5*math.sin(math.radians(a_))+cx
-            y=5*math.cos(math.radians(a_))+cy
-
-            x=int(round(x,0))
-            y=int(round(y,0))
-
-            ar.append(x)
-            ar.append(y)
-
-            a_+=1
-
-        cx,cy=int(filter_can1["width"])-5,5
-
-        a_=90
-
-        for a in range(90):
-
-            x=5*math.sin(math.radians(a_))+cx
-            y=5*math.cos(math.radians(a_))+cy
-
-            x=int(round(x,0))
-            y=int(round(y,0))
-
-            ar.append(x)
-            ar.append(y)
-
-            a_+=1
-
-
-
 
 
 
@@ -9284,7 +9036,11 @@ def draw_can(con=0):
 
 
 
-        sel_filt1=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=filter_can1)
+
+        im=round_im(_theme[0],_theme[0],_theme[3],(int(filter_can1["width"])),(30),5,1)
+
+        sel_filt1_=ImageTk.PhotoImage(im)
+        sel_filt1=filter_can1.create_image(0,0,image=sel_filt1_,anchor="nw")
 
 
         filter_can1.coords(sel_filt1,0,-100)
@@ -9358,77 +9114,6 @@ def draw_can(con=0):
 
 
 
-            ar=[]
-
-            cx,cy=5,5
-
-            a_=180
-
-            for a in range(90):
-
-                x=5*math.sin(math.radians(a_))+cx
-                y=5*math.cos(math.radians(a_))+cy
-
-                x=int(round(x,0))
-                y=int(round(y,0))
-
-                ar.append(x)
-                ar.append(y)
-
-                a_+=1
-
-
-            cx,cy=5,25
-
-            a_=270
-
-            for a in range(90):
-
-                x=5*math.sin(math.radians(a_))+cx
-                y=5*math.cos(math.radians(a_))+cy
-
-                x=int(round(x,0))
-                y=int(round(y,0))
-
-                ar.append(x)
-                ar.append(y)
-
-                a_+=1
-
-
-            cx,cy=int(filter_can2["width"])-5,25
-
-            a_=0
-
-            for a in range(90):
-
-                x=5*math.sin(math.radians(a_))+cx
-                y=5*math.cos(math.radians(a_))+cy
-
-                x=int(round(x,0))
-                y=int(round(y,0))
-
-                ar.append(x)
-                ar.append(y)
-
-                a_+=1
-
-            cx,cy=int(filter_can2["width"])-5,5
-
-            a_=90
-
-            for a in range(90):
-
-                x=5*math.sin(math.radians(a_))+cx
-                y=5*math.cos(math.radians(a_))+cy
-
-                x=int(round(x,0))
-                y=int(round(y,0))
-
-                ar.append(x)
-                ar.append(y)
-
-                a_+=1
 
 
 
@@ -9453,8 +9138,12 @@ def draw_can(con=0):
                 -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0),image=bg2_,anchor="nw")
 
 
-            sel_filt2=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=filter_can2)
 
+
+            im=round_im(_theme[0],_theme[0],_theme[3],(int(filter_can2["width"])),(30),5,1)
+
+            sel_filt2_=ImageTk.PhotoImage(im)
+            sel_filt2=filter_can2.create_image(0,0,image=sel_filt2_,anchor="nw")
 
             filter_can2.coords(sel_filt2,0,-100)
 
@@ -9642,7 +9331,7 @@ def draw_can(con=0):
 
 
 
-    draw_round_rec(can,0,0,w-1,h-1,25,_theme[0],"",1)
+    can.create_image(0,0,image=border_m,anchor="nw")
     #draw_round_rec(can,1,1,w-2,h-2,25,"#000000","",1)
 
     draw_cur_can()
@@ -9855,25 +9544,45 @@ def show_lyrics():
 
 
 
+rec_dict={}
+
+rec_count=0
+
+def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=16):
+    global rec_count,rec_dict
 
 
-def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
+
+    _r=16
+
+    x2+=1
+    y2+=1
+    ww=x2-x1
+    hh=y2-y1
+
+    ra=hh/ww
+
+    ww=int(round(ww*_r,0))
+    hh=int(round(ww*ra,0))
+
+    r*=_r
+
+    im=Image.new("RGBA",(ww,hh),(0,0,0,0))
+
+    draw=ImageDraw.Draw(im)
 
     ar=[]
-    ar2=[]
-
-    ar3=[]
-
     a_=270
 
-    cx,cy=x1+r,y1+r
+    cx,cy=r,r
     for a in range(90):
 
         x=r*math.sin(math.radians(a_))+cx
         y=r*math.cos(math.radians(a_))+cy
 
-        ar.append(int(round(x,0)))
-        ar.append(int(round(y,0)))
+        ar.append((int(round(x,0)),int(round(y,0))))
+
+
 
 
 
@@ -9882,14 +9591,13 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
     a_=180
 
-    cx,cy=x2-r,y1+r
+    cx,cy=ww-r,r
     for a in range(90):
 
         x=r*math.sin(math.radians(a_))+cx
         y=r*math.cos(math.radians(a_))+cy
 
-        ar.append(int(round(x,0)))
-        ar.append(int(round(y,0)))
+        ar.append((int(round(x,0)),int(round(y,0))))
 
 
         a_-=1
@@ -9897,14 +9605,13 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
     a_=90
 
-    cx,cy=x2-r,y2-r
+    cx,cy=ww-r,hh-r
     for a in range(90):
 
         x=r*math.sin(math.radians(a_))+cx
         y=r*math.cos(math.radians(a_))+cy
 
-        ar.append(int(round(x,0)))
-        ar.append(int(round(y,0)))
+        ar.append((int(round(x,0)),int(round(y,0))))
 
         a_-=1
         
@@ -9912,62 +9619,40 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=1):
 
     a_=0
 
-    cx,cy=x1+r,y2-r
+    cx,cy=r,hh-r
     for a in range(90):
 
         x=r*math.sin(math.radians(a_))+cx
         y=r*math.cos(math.radians(a_))+cy
 
-        ar.append(int(round(x,0)))
-        ar.append(int(round(y,0)))
+        ar.append((int(round(x,0)),int(round(y,0))))
 
 
 
         a_-=1
 
     ar.append(ar[0])
-    ar.append(ar[1])
 
 
-
-    def quadratic_bezier(t, p0, p1, p2):
-        """Calculate a point on a quadratic Bezier curve at parameter t (0 to 1)."""
-        x = (1-t)**2 * p0[0] + 2*(1-t)*t * p1[0] + t**2 * p2[0]
-        y = (1-t)**2 * p0[1] + 2*(1-t)*t * p1[1] + t**2 * p2[1]
-        return x, y
-
-    def get_bezier_coordinates_flat(input_coords, steps=1000):
-        """Return a flat list of coordinates [x1, y1, x2, y2, ...] for continuous quadratic Bezier curves."""
-        if len(input_coords) < 6 or len(input_coords) % 2 != 0:
-            return []  # Need at least 3 points (6 coordinates) and even length
-        
-        # Convert flat list to list of (x, y) points
-        points = [(input_coords[i], input_coords[i+1]) for i in range(0, len(input_coords), 2)]
-        
-        # Generate points for each Bezier segment
-        all_points = []
-        
-        # Process points in groups of 3 for each quadratic Bezier segment
-        for i in range(0, len(points) - 2, 1):  # Step by 1 to chain segments
-            p0, p1, p2 = points[i], points[i+1], points[i+2]
-            # Include start point only for the first segment
-            start_t = 0 if i == 0 else 1.0 / steps  # Skip start point for continuity
-            for j in range(int(start_t * steps), steps + 1):
-                t = j / steps
-                x, y = quadratic_bezier(t, p0, p1, p2)
-                all_points.extend([x, y])
-        
-        return all_points
 
 
     #ar=get_bezier_coordinates_flat(ar)
 
 
     if con==0:
-
-        return c.create_polygon(ar,fill=col,outline=col2,width=width,smooth=True)
+        draw.polygon(ar,fill=(*hex_to_rgb(col),255),outline=(*hex_to_rgb(col2),255),width=16)
     elif con==1:    
-        return c.create_line(ar,fill=col,width=width,smooth=True)
+
+        draw.polygon(ar,outline=(*hex_to_rgb(col),255),width=16)
+
+    im=im.resize((int(round((x2-x1),0)),int(round((y2-y1),0))))
+    
+    rec_count_=rec_count
+    rec_dict[rec_count]=ImageTk.PhotoImage(im)
+    rec_count+=1
+
+    return c.create_image(x1,y1,image=rec_dict[rec_count_],anchor="nw")
+
 
 
 
@@ -10023,6 +9708,7 @@ ibg,ibg2=0,0
 n_im,p_im=0,0
 
 load_1,load_2=0,0
+border_m=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -10067,6 +9753,7 @@ def load_im():
     global n_im,p_im
     global load_1,load_2
     global progx
+    global border_m
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -10074,7 +9761,7 @@ def load_im():
     circle4=ImageTk.PhotoImage(file="data/circle4.png")
     circle5=ImageTk.PhotoImage(file="data/circle5.png")
     circle6=ImageTk.PhotoImage(file="data/circle6.png")
-    circle7=ImageTk.PhotoImage(file="data/circle7.png")
+    circle7=ImageTk.PhotoImage(round_im(_theme[0],"#000000",1,8,8,4,0))#ImageTk.PhotoImage(file="data/circle7.png")
     circle8=ImageTk.PhotoImage(file="data/circle8.png")
     circle9=ImageTk.PhotoImage(file="data/circle9.png")
     circle10=ImageTk.PhotoImage(file="data/circle10.png")
@@ -10284,6 +9971,92 @@ def load_im():
     draw.ellipse((0,0,499,499),fill=(*hex_to_rgb(_theme[1][-1]),255),outline=(*hex_to_rgb(_theme[1][-1]),255))
 
     progx=im
+
+
+
+    ra=h/w
+
+    ww=int(w*18)
+    hh=int(round(ww*ra,0))
+
+    #print(w/h,ww/hh)
+
+    im=Image.new("RGBA",(ww,hh),(0,0,0,0))
+
+    draw=ImageDraw.Draw(im)
+
+    ar=[]
+
+    r=25*18
+
+    cx,cy=r,r
+
+    a_=180
+    for a in range(90):
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append((x,y))
+        a_+=1
+
+
+
+    cx,cy=r,hh-(r)
+
+    a_=270
+    for a in range(90):
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append((x,y))
+        a_+=1
+
+
+
+    cx,cy=ww-(r),hh-(r)
+
+    a_=0
+    for a in range(90):
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append((x,y))
+        a_+=1
+
+
+
+
+    cx,cy=ww-(r),r
+
+    a_=90
+    for a in range(90):
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+        x=int(round(x,0))
+        y=int(round(y,0))
+
+        ar.append((x,y))
+        a_+=1
+
+    draw.polygon(ar,outline=_theme[0],width=18)
+
+
+    im=im.resize((w,h))
+
+    border_m=ImageTk.PhotoImage(im)
+
+    #print(w/h)
+    #im.show()
 
     #progx.show()
 
@@ -12657,6 +12430,8 @@ def adjust_theme():
             im1=darken_image(im,(0,0,0), _theme[2])
             im2=darken_image(im1,(0,0,0), 0.5)
 
+            print(im1.size)
+
             _bg_=im1
             bg_dark_=im2
 
@@ -13476,16 +13251,19 @@ def update_sb():
     root.after(20,update_sb)
 
 
+
 def draw_sb():
     global can2
     global sb,sb_sz,sb_region,sb_h,sb_col,circle10
     global _theme
 
 
+
     can2.delete(sb[0])
     can2.delete(sb[1])
     can2.delete(sb[2])
     can2.delete(sb[3])
+
     sb_col=_theme[0]
 
     h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
@@ -13493,7 +13271,9 @@ def draw_sb():
     #if not int(h)==int(can2["scrollregion"].split(" ")[-1]):
 
 
+
     sb[3]=draw_round_rec(can2,int(can2["width"])-sb_sz-1-1-1,can2.canvasy(sb_h)-1, int(can2["width"])-1,can2.canvasy(sb_h+h-sb_sz-1)+8-1,4,"#000000",col1,1)
+
     sb[0]=can2.create_image(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h),image=circle10,anchor="nw")
     sb[1]=can2.create_image(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+h-sb_sz-1),image=circle10,anchor="nw")
     sb[2]=can2.create_rectangle(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+sb_sz/2),int(can2["width"])-1-1,can2.canvasy(sb_h+h-sb_sz/2-1),fill=sb_col,outline=sb_col)
@@ -13757,6 +13537,7 @@ def mvar_():
 
     root.after(2,mvar_)
 
+cso_im_=0
 def draw_can_sort():
 
     global _theme
@@ -13768,7 +13549,7 @@ def draw_can_sort():
     global checked,cancel
     global sort_ar,sa
     global sort_val
-    global cso_im
+    global cso_im,cso_im_
     global cur_can_sort_2,bg_hex
     global bg_col
     global vid_st
@@ -13803,83 +13584,12 @@ def draw_can_sort():
     can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
 
 
-    ar=[]
-
-    cx,cy=5,5
-
-    a_=180
-
-    for a in range(90):
-
-        x=5*math.sin(math.radians(a_))+cx
-        y=5*math.cos(math.radians(a_))+cy
-
-        x=int(round(x,0))
-        y=int(round(y,0))
-
-        ar.append(x)
-        ar.append(y)
-
-        a_+=1
 
 
-    cx,cy=5,25
+    im=round_im(_theme[0],_theme[0],_theme[3],(int(can_sort["width"])),(30),5,1)
 
-    a_=270
-
-    for a in range(90):
-
-        x=5*math.sin(math.radians(a_))+cx
-        y=5*math.cos(math.radians(a_))+cy
-
-        x=int(round(x,0))
-        y=int(round(y,0))
-
-        ar.append(x)
-        ar.append(y)
-
-        a_+=1
-
-
-    cx,cy=int(can_sort["width"])-5,25
-
-    a_=0
-
-    for a in range(90):
-
-        x=5*math.sin(math.radians(a_))+cx
-        y=5*math.cos(math.radians(a_))+cy
-
-        x=int(round(x,0))
-        y=int(round(y,0))
-
-        ar.append(x)
-        ar.append(y)
-
-        a_+=1
-
-    cx,cy=int(can_sort["width"])-5,5
-
-    a_=90
-
-    for a in range(90):
-
-        x=5*math.sin(math.radians(a_))+cx
-        y=5*math.cos(math.radians(a_))+cy
-
-        x=int(round(x,0))
-        y=int(round(y,0))
-
-        ar.append(x)
-        ar.append(y)
-
-        a_+=1
-
-
-
-    cso_im=create_polygon(*ar, fill=_theme[0], alpha=_theme[3],can=can_sort)
-
-
+    cso_im_=ImageTk.PhotoImage(im)
+    cso_im=can_sort.create_image(0,0,image=cso_im_,anchor="nw")
 
 
 
@@ -13891,8 +13601,8 @@ def draw_can_sort():
     can_sort.create_text(125,15,text="Sort",font=("FreeMono",13),fill=col1)
 
 
-    can_sort.create_line(0,30, 250,30,fill="#000000",width=3 )
-    can_sort.create_line(0,30, 250,30,fill=col1 )
+    can_sort.create_line(1,30, 250,30,fill="#000000",width=3 )
+    can_sort.create_line(1,30, 250,30,fill=col1 )
     y=30
     for _ in sa:
 
@@ -16492,9 +16202,9 @@ def conf_del_(file,con):
         int(conf_del["width"])/2,int(conf_del["height"]),fill=_theme[0])
 
 
-    conf_del.create_line(0,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
+    conf_del.create_line(1,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
         fill="#000000",width=3)
-    conf_del.create_line(0,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
+    conf_del.create_line(1,int(conf_del["height"])-35,int(conf_del["width"]),int(conf_del["height"])-35,
         fill=_theme[0])
 
     #draw_round_rec(conf_del,1,1, int(conf_del["width"])-2,int(conf_del["height"])-2,15,"#000000","",1,3)
