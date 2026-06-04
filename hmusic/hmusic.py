@@ -3293,6 +3293,7 @@ def can_b1(e):
     global up_theme
     global root_st2,root_st_tm
 
+
     draw_cur_(1)
 
     if vid_st==1 and vid_st2==0:
@@ -7999,6 +8000,8 @@ def draw_can(con=0):
     
     global se_im
 
+    global signature
+
     can.delete("all")
     
 
@@ -8093,6 +8096,8 @@ def draw_can(con=0):
 
 
     can.create_image(0,0,image=bg,anchor="nw")
+
+    can.create_image(381,h-40,image=signature,anchor="c")
 
 
 
@@ -9709,6 +9714,8 @@ n_im,p_im=0,0
 
 load_1,load_2=0,0
 border_m=0
+
+signature=0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -9754,6 +9761,7 @@ def load_im():
     global load_1,load_2
     global progx
     global border_m
+    global signature
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -10054,6 +10062,30 @@ def load_im():
     im=im.resize((w,h))
 
     border_m=ImageTk.PhotoImage(im)
+
+
+    im=Image.open("data/signature.png")
+    x,y=im.size
+    im_=Image.new("RGBA",(x,y),(0,0,0,0))
+    pixels=im_.load()
+
+    for x_ in range(x):
+        for y_ in range(y):
+
+            if not im.getpixel((x_,y_))==(0,0,0,0):
+
+                col=hex_to_rgb(_theme[0])
+
+                pixels[x_,y_]=(*col,255)
+
+    im_=darken_border(im_,border=17)
+
+    im_=im_.resize((150,int(150*y/x)))
+
+    #im_.show()
+
+    signature=ImageTk.PhotoImage(im_)
+
 
     #print(w/h)
     #im.show()
@@ -12295,7 +12327,7 @@ def adjust_theme():
 
     conf_stheme=0
 
-    if c==65:
+    if c==66:
 
         im=Image.open("data/circle.png")
         imx,imy=im.size
