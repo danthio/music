@@ -7905,7 +7905,7 @@ se_im=0
 def draw_can(con=0):
 
 
-
+    global cur_filter_can1_2,cur_filter_can2_2
     global can,st,w,h
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,remove,rename,speaker,previous,next_
     global pp,fv,lst
@@ -10339,11 +10339,10 @@ cur_can_theme_2=0
 cur_can_search_2=0
 cur_can_npl_2=0
 cur_can_theme_ent_2=0
-cur_filter_can1_2=0
-cur_filter_can2_2=0
+cur_can_filter_can1_2=0
+cur_can_filter_can2_2=0
 cur_conf_del_2=0
 cur_can_effects_2=0
-
 cur_p=[]
 
 def check_cur_on_s(x,y):
@@ -10451,7 +10450,7 @@ def draw_cur_(conp=0):
     global play_st2,v_st
     global _theme
     
-    global cur_can_2,cur_can2_2,cur_can3_2,cur_can4_2,cur_can6_2,cur_can_lyrics_2,cur_can_sort_2,cur_can_theme_2,cur_can_search_2,cur_can_npl_2,cur_can_theme_ent_2,cur_filter_can1_2,cur_filter_can2_2,cur_conf_del_2    
+    global cur_can_2,cur_can2_2,cur_can3_2,cur_can4_2,cur_can6_2,cur_can_lyrics_2,cur_can_sort_2,cur_can_theme_2,cur_can_search_2,cur_can_npl_2,cur_can_theme_ent_2,cur_can_filter_can1_2,cur_can_filter_can2_2,cur_conf_del_2    
     global cur_can_effects,cur_can_effects_2,can_effects
 
 
