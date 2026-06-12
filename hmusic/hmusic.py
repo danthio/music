@@ -2018,6 +2018,7 @@ def can3_b1(e):
 
 
     global sb2_sz,sb2_col,sb2_h,sb2_st
+    global sb2_h_,sb2_hp
 
     if int(can3["width"])-sb2_sz-2<=e.x<=int(can3["width"]):
 
@@ -2027,7 +2028,13 @@ def can3_b1(e):
 
         h_=int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])*int(can3["height"])
 
-        if not e.y+h_>int(can3["height"]):
+        if sb2_h<e.y<sb2_h+sb2_h_:
+
+            sb2_hp=e.y-sb2_h
+
+            sb2_move(sb2_h,sb2_h*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
+
+        elif not e.y+h_>int(can3["height"]):
             sb2_move(e.y,e.y*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
         else:
             sb2_move(int(can3["height"])-h_,(int(can3["height"])-h_)*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
@@ -2348,6 +2355,7 @@ def can2_b1(e):
     global loop_song
     global cur_can_npl_2,bg_hex
     global bg_col
+    global sb_h_,sb_hp
 
 
     if theme_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
@@ -2362,7 +2370,12 @@ def can2_b1(e):
 
         h_=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
 
-        if not e.y+h_>int(can2["height"]):
+        if sb_h<e.y<sb_h+sb_h_:
+
+            sb_hp=e.y-sb_h
+            sb_move(sb_h,sb_h*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
+
+        elif not e.y+h_>int(can2["height"]):
             sb_move(e.y,e.y*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
         else:
             sb_move(int(can2["height"])-h_,(int(can2["height"])-h_)*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
@@ -2993,7 +3006,7 @@ def can2_b1(e):
 
 
 
-
+sb_hp=0
 def move_to_playing(con_=0):
     global current_playing,can2
     global songs,_songs_
@@ -3001,7 +3014,7 @@ def move_to_playing(con_=0):
     global playlist_st,can2
 
     global st,current_playlist,songs_status
-    global sb_h
+    global sb_h,sb_h_,sb_hp
 
 
     con=0
@@ -3067,7 +3080,6 @@ def move_to_playing(con_=0):
 
                         if s[1]+int(can2["height"])/2-25<t:
                             v=s[1]-(int(can2["height"])/2-25)
-
 
 
                         pixel_value = v
@@ -3443,8 +3455,8 @@ def can_b1(e):
         if 12.5<=e.y<=12.5+25:
 
 
-            can_theme["height"]=h-200
-            can_theme["width"]=int(can_theme["height"])*1.5
+            can_theme["height"]=int(h*0.77777777)
+            can_theme["width"]=int(w*0.728125)
 
             _search=0
             search_var=""
@@ -5506,6 +5518,8 @@ def main():
 
     if root_st==1:
 
+
+
         root.geometry(str(50)+"x"+str(100)+"+"+str(rpx-25)+"+"+str(rpy-25))
         root["bg"]="#231115"
 
@@ -5549,6 +5563,9 @@ def main():
 
         can_theme_ent.delete("all")
         can_theme_ent.place_forget()
+
+        lyric_st=0
+        can_lyrics.place_forget()
 
     else:
 
@@ -8065,6 +8082,9 @@ def draw_can(con=0):
         can_theme_ent.delete("all")
         can_theme_ent.place_forget()
 
+        lyric_st=0
+        can_lyrics.place_forget()
+
         return
     else:
         root["bg"]="#000000"
@@ -8097,7 +8117,7 @@ def draw_can(con=0):
 
     can.create_image(0,0,image=bg,anchor="nw")
 
-    can.create_image(381,h-40,image=signature,anchor="c")
+    can.create_image(w-381,h-40,image=signature,anchor="c")
 
 
 
@@ -9145,7 +9165,7 @@ def draw_can(con=0):
 
 
 
-            im=round_im(_theme[0],_theme[0],_theme[3],(int(filter_can2["width"])),(30),5,1)
+            im=round_im(_theme[0],_theme[0],_theme[3],(int(filter_can2["width"])-sb3_sz-1-1-1-1),(30),5,1)
 
             sel_filt2_=ImageTk.PhotoImage(im)
             sel_filt2=filter_can2.create_image(0,0,image=sel_filt2_,anchor="nw")
@@ -9176,7 +9196,7 @@ def draw_can(con=0):
 
                 if filter_pl==p:
                     pp=y
-                    filter_can2.create_image(int(filter_can2["width"])-5-20,y+5,image=checked,anchor="nw")
+                    filter_can2.create_image(int(filter_can2["width"])-5-20-(-sb3_sz-1-1-1),y+5,image=checked,anchor="nw")
 
                 y+=30
 
@@ -9190,17 +9210,10 @@ def draw_can(con=0):
 
                 filter_can2["scrollregion"]=(0,0, int(filter_can2["width"]),y)
 
-
             
             filter_can2.place(in_=root,x=w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25,y=40+30-10-5-5+30+10+30*3.5)
 
-            f2=[0,0]
 
-            f2[1]=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
-                filter_can2.canvasy(int(filter_can2["height"])-2),outline="#000000",width=3)
-
-            f2[0]=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
-                filter_can2.canvasy(int(filter_can2["height"])-2),outline=_theme[0])
 
             f2h=int(filter_can2["scrollregion"].split(" ")[-1])
 
@@ -9210,6 +9223,8 @@ def draw_can(con=0):
                 fraction=pp
 
             filter_can2.yview_moveto(fraction/f2h)
+
+            draw_sb3()
 
 
 
@@ -9326,6 +9341,13 @@ def draw_can(con=0):
 
 
         can.create_image(w-10-25,40+30-10-5-5+2.5,image=filter_,anchor="nw")                
+
+
+        if filter_val=="Playlists":
+
+            can2.create_rectangle(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25-10-2,(40+30-10-5-5+30+10+30*3.5)-2-88+can2.canvasy(0),
+                w-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25-10+int(filter_can2["width"]),(40+30-10-5-5+30+10+30*3.5)-1-88+int(filter_can2["height"])+2+can2.canvasy(0),
+                outline=_theme[0])
 
 
     can.create_image(w-10-25,(50-25)/2,image=quit,anchor="nw")
@@ -9483,7 +9505,7 @@ def show_lyrics():
 
 
 
-                    can_lyrics["width"]=w-20
+                    can_lyrics["width"]=w-10-2
                     can_lyrics["height"]=(h-121-30-50/2+(50-30)/2)-50
 
                     
@@ -9517,7 +9539,7 @@ def show_lyrics():
 
 
 
-
+                    draw_sb4()
 
                     can_lyrics.place(in_=root,x=10,y=50)
 
@@ -12528,10 +12550,12 @@ def move_bg():
         if y2!=can_lyrics.canvasy(0):
 
 
-            can_lyrics.coords(bg2,-10,-(50)+int(can_lyrics.canvasy(0)))
+            can_lyrics.coords(bg3,-10,-(50)+int(can_lyrics.canvasy(0)))
             #can_lyrics.coords(bg_styl2,-10,-(50)+int(can_lyrics.canvasy(0)))
 
             y2=can_lyrics.canvasy(0)
+
+            draw_sb4()
 
 
         if y3!=can3.canvasy(0):
@@ -12546,27 +12570,18 @@ def move_bg():
             can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0))
 
 
+
         if filter_st==1:
 
             if y4!=filter_can2.canvasy(0):
 
                 y4=filter_can2.canvasy(0)
 
-                if int(filter_can2["scrollregion"].split(" ")[-1])>int(filter_can2["height"]):
 
-                    filter_can2.delete(f2[0])
-                    filter_can2.delete(f2[1])
+            filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
+                -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0))
 
-                    f2[1]=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
-                        filter_can2.canvasy(int(filter_can2["height"])-2),outline="#000000",width=3)
-
-                    f2[0]=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
-                        filter_can2.canvasy(int(filter_can2["height"])-2),outline=_theme[0])
-
-
-                    filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
-                        -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0))
-
+        draw_sb3()
 
 
 
@@ -12648,26 +12663,14 @@ def scroll(val):
 
         if int(filter_can2["scrollregion"].split(" ")[-1])>int(filter_can2["height"]):
 
-            filter_can2.delete(f2[0])
-            filter_can2.delete(f2[1])
-
-
 
 
             filter_can2.yview_scroll(int(-1*(val/120)), "units")
 
-            f2[1]=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
-                filter_can2.canvasy(int(filter_can2["height"])-2),outline="#000000",width=3)
-
-
-            f2[0]=filter_can2.create_rectangle(1,filter_can2.canvasy(0)+1, int(filter_can2["width"])-2,
-                filter_can2.canvasy(int(filter_can2["height"])-2),outline=_theme[0])
-
-
-            filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
-                -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0))
 
             draw_cur_(1)
+
+            draw_sb3()
 
 
 
@@ -13221,15 +13224,19 @@ frame=tk.Frame(bg=_theme[1][1],width=w-20,height=((h-121)-80-10))
 
 
 def on_release(e):
-    global sb_st
+    global sb_st,sb_hp
 
     if sb_st==1:
         sb_st=0
+    sb_hp=0
 
 def drag(e):
 
     global can2
     global sb_sz,sb_col,sb_h,sb_st
+    global sb_hp
+
+    x,y=pyautogui.position()
 
     if sb_st==1:
 
@@ -13240,8 +13247,17 @@ def drag(e):
 
             h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
 
-            if not e.y+h>int(can2["height"]):
-                sb_move(e.y,e.y*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
+            if y<50:
+                sb_move(0,0*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
+
+
+            elif not e.y-sb_hp+h>int(can2["height"]):
+
+                if not e.y-sb_hp<0:
+                    sb_move(e.y-sb_hp,(e.y-sb_hp)*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
+                else:
+                    sb_move(0,0*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
+
             else:
                 sb_move(int(can2["height"])-h,(int(can2["height"])-h)*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
 
@@ -13249,6 +13265,190 @@ def drag(e):
             move_bg()
             draw_sb()
             draw_cur_(1)
+
+
+
+
+
+def update_sb4():
+    global can_lyrics,sb4_region,sb4_h,psb4_h
+
+
+
+    if can_lyrics["scrollregion"]!=sb4_region:
+
+        draw_sb4()
+
+        sb4_region=can_lyrics["scrollregion"]
+
+        move_bg()
+        draw_can()
+
+    if sb4_h!=psb4_h:
+
+        draw_sb4()
+
+        psb4_h=sb4_h
+
+        move_bg()
+        draw_can()
+
+
+
+
+
+
+
+    root.after(20,update_sb)
+
+
+sb4_h_=0
+sb4_hp=0
+def draw_sb4():
+    global can_lyrics
+    global sb4,sb4_sz,sb4_region,sb4_h,sb4_col,circle10
+    global _theme
+    global sb4_h_
+
+
+
+    can_lyrics.delete(sb4[0])
+    can_lyrics.delete(sb4[1])
+    can_lyrics.delete(sb4[2])
+    can_lyrics.delete(sb4[3])
+
+    sb4_col=_theme[0]
+
+    h=int(can_lyrics["height"])/int(can_lyrics["scrollregion"].split(" ")[-1])*int(can_lyrics["height"])
+
+    sb4_h_=h
+
+    #if not int(h)==int(can_lyrics["scrollregion"].split(" ")[-1]):
+
+
+
+    sb4[3]=draw_round_rec(can_lyrics,int(can_lyrics["width"])-sb4_sz-1-1-1,can_lyrics.canvasy(sb4_h)-1, int(can_lyrics["width"])-1,can_lyrics.canvasy(sb4_h+h-sb4_sz-1)+8-1,4,"#000000",col1,1)
+
+    sb4[0]=can_lyrics.create_image(int(can_lyrics["width"])-sb4_sz-1-1,can_lyrics.canvasy(sb4_h),image=circle10,anchor="nw")
+    sb4[1]=can_lyrics.create_image(int(can_lyrics["width"])-sb4_sz-1-1,can_lyrics.canvasy(sb4_h+h-sb4_sz-1),image=circle10,anchor="nw")
+    sb4[2]=can_lyrics.create_rectangle(int(can_lyrics["width"])-sb4_sz-1-1,can_lyrics.canvasy(sb4_h+sb4_sz/2),int(can_lyrics["width"])-1-1,can_lyrics.canvasy(sb4_h+h-sb4_sz/2-1),fill=sb4_col,outline=sb4_col)
+
+    draw_cur_(1)
+
+
+def sb4_move(v1,v2):
+
+    global can_lyrics
+    global sb4_h
+
+    sb4_h=v1
+    can_lyrics.yview_moveto(v2/int(can_lyrics["scrollregion"].split(" ")[-1]))
+
+    #print(can.canvasy(0))
+
+    move_bg()
+
+
+
+sb4=[0,0,0,0]
+sb4_sz=6
+
+sb4_col=_theme[0]
+sb4_region=()
+sb4_h=0
+psb4_h=0
+sb4_st=0
+
+
+def update_sb3():
+    global filter_can2,sb3_region,sb3_h,psb3_h
+
+
+
+    if filter_can2["scrollregion"]!=sb3_region:
+
+        draw_sb3()
+
+        sb3_region=filter_can2["scrollregion"]
+
+        move_bg()
+        draw_can()
+
+    if sb3_h!=psb3_h:
+
+        draw_sb3()
+
+        psb3_h=sb3_h
+
+        move_bg()
+        draw_can()
+
+
+
+
+
+
+
+    root.after(20,update_sb)
+
+
+sb3_h_=0
+sb3_hp=0
+def draw_sb3():
+    global filter_can2
+    global sb3,sb3_sz,sb3_region,sb3_h,sb3_col,circle10
+    global _theme
+    global sb3_h_
+
+
+
+    filter_can2.delete(sb3[0])
+    filter_can2.delete(sb3[1])
+    filter_can2.delete(sb3[2])
+    filter_can2.delete(sb3[3])
+
+    sb3_col=_theme[0]
+
+    h=int(filter_can2["height"])/int(filter_can2["scrollregion"].split(" ")[-1])*int(filter_can2["height"])
+
+    sb3_h_=h
+
+    #if not int(h)==int(filter_can2["scrollregion"].split(" ")[-1]):
+
+
+
+    sb3[3]=draw_round_rec(filter_can2,int(filter_can2["width"])-sb3_sz-1-1-1,filter_can2.canvasy(sb3_h)-1, int(filter_can2["width"])-1,filter_can2.canvasy(sb3_h+h-sb3_sz-1)+8-1,4,"#000000",col1,1)
+
+    sb3[0]=filter_can2.create_image(int(filter_can2["width"])-sb3_sz-1-1,filter_can2.canvasy(sb3_h),image=circle10,anchor="nw")
+    sb3[1]=filter_can2.create_image(int(filter_can2["width"])-sb3_sz-1-1,filter_can2.canvasy(sb3_h+h-sb3_sz-1),image=circle10,anchor="nw")
+    sb3[2]=filter_can2.create_rectangle(int(filter_can2["width"])-sb3_sz-1-1,filter_can2.canvasy(sb3_h+sb3_sz/2),int(filter_can2["width"])-1-1,filter_can2.canvasy(sb3_h+h-sb3_sz/2-1),fill=sb3_col,outline=sb3_col)
+
+
+    draw_cur_(1)
+
+def sb3_move(v1,v2):
+
+    global filter_can2
+    global sb3_h
+
+    sb3_h=v1
+    filter_can2.yview_moveto(v2/int(filter_can2["scrollregion"].split(" ")[-1]))
+
+    #print(can.canvasy(0))
+
+    move_bg()
+
+
+
+sb3=[0,0,0,0]
+sb3_sz=6
+
+sb3_col=_theme[0]
+sb3_region=()
+sb3_h=0
+psb3_h=0
+sb3_st=0
+
 
 
 def update_sb():
@@ -13283,11 +13483,12 @@ def update_sb():
     root.after(20,update_sb)
 
 
-
+sb_h_=0
 def draw_sb():
     global can2
     global sb,sb_sz,sb_region,sb_h,sb_col,circle10
     global _theme
+    global sb_h_
 
 
 
@@ -13300,6 +13501,8 @@ def draw_sb():
 
     h=int(can2["height"])/int(can2["scrollregion"].split(" ")[-1])*int(can2["height"])
 
+    sb_h_=h
+
     #if not int(h)==int(can2["scrollregion"].split(" ")[-1]):
 
 
@@ -13311,6 +13514,7 @@ def draw_sb():
     sb[2]=can2.create_rectangle(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+sb_sz/2),int(can2["width"])-1-1,can2.canvasy(sb_h+h-sb_sz/2-1),fill=sb_col,outline=sb_col)
 
 
+    draw_cur_(1)
 
 
 def sb_move(v1,v2):
@@ -13324,6 +13528,7 @@ def sb_move(v1,v2):
     #print(can.canvasy(0))
 
     move_bg()
+
 
 
 sb=[0,0,0,0]
@@ -13366,15 +13571,21 @@ frame3=tk.Frame(frame2,bg=_theme[1][1],width=350+100+100,height=250-40)
 
 
 def on_release2(e):
-    global sb2_st
+    global sb2_st,sb2_hp
 
     if sb2_st==1:
         sb2_st=0
 
+    sb2_hp=0
+
+sb2_hp=0
 def drag2(e):
 
-    global can3
+    global can3,can4,can6
     global sb2_sz,sb2_col,sb2_h,sb2_st
+    global sb2_hp
+
+    x,y=pyautogui.position()
 
     if sb2_st==1:
 
@@ -13385,8 +13596,16 @@ def drag2(e):
 
             h=int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])*int(can3["height"])
 
-            if not e.y+h>int(can3["height"]):
-                sb2_move(e.y,e.y*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
+            if y<(h-(int(can4["height"])+int(can3["height"])+int(can6["height"])))/2:
+                sb2_move(0,0*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
+
+            elif not e.y-sb2_hp+h>int(can3["height"]):
+
+                if e.y-sb2_hp<0:
+                    sb2_move(0,0*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
+                else:
+
+                    sb2_move(e.y-sb2_hp,(e.y-sb2_hp)*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
             else:
                 sb2_move(int(can3["height"])-h,(int(can3["height"])-h)*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
 
@@ -13426,11 +13645,12 @@ def update_sb2():
 
     root.after(20,update_sb2)
 
-
+sb2_h_=0
 def draw_sb2():
     global can3
     global sb2,sb2_sz,sb2_region,sb2_h,sb2_col,circle10
     global _theme
+    global sb2_h_
 
     sb2_col=_theme[0]
 
@@ -13442,6 +13662,7 @@ def draw_sb2():
 
     h=int(can3["height"])/int(can3["scrollregion"].split(" ")[-1])*int(can3["height"])
 
+    sb2_h_=h
 
     sb2[3]=draw_round_rec(can3,int(can3["width"])-sb2_sz-1-1-1,can3.canvasy(sb2_h)-1, int(can3["width"])-1,can3.canvasy(sb2_h+h-sb2_sz-1)+8-1,4,"#000000",col1,1)
 
@@ -13450,7 +13671,8 @@ def draw_sb2():
     sb2[2]=can3.create_rectangle(int(can3["width"])-sb2_sz-1-1,can3.canvasy(sb2_h+sb2_sz/2),int(can3["width"])-1-1,can3.canvasy(sb2_h+h-sb2_sz/2-1),fill=sb2_col,outline=sb2_col)
 
 
-
+    draw_cur_(1)
+    
 def sb2_move(v1,v2):
 
     global can3
@@ -13754,10 +13976,87 @@ for _ in sa:
 
 
 
+def drag_can_lyrics(e):
+
+    global can_lyrics
+    global sb4_sz,sb4_col,sb4_h,sb4_st
+    global sb4_hp
+
+    x,y=pyautogui.position()
+
+    if sb4_st==1:
+
+        if not e.y<0:
+
+
+            #can_lyrics["scrollregion"]=(0,0,int(can_lyrics["width"]),int(can_lyrics["height"]))
+
+            h=int(can_lyrics["height"])/int(can_lyrics["scrollregion"].split(" ")[-1])*int(can_lyrics["height"])
+
+            if y<50:
+                sb4_move(0,0*int(can_lyrics["scrollregion"].split(" ")[-1])/int(can_lyrics["height"]))
+
+
+            elif not e.y-sb4_hp+h>int(can_lyrics["height"]):
+
+                if not e.y-sb4_hp<0:
+                    sb4_move(e.y-sb4_hp,(e.y-sb4_hp)*int(can_lyrics["scrollregion"].split(" ")[-1])/int(can_lyrics["height"]))
+                else:
+                    sb4_move(0,0*int(can_lyrics["scrollregion"].split(" ")[-1])/int(can_lyrics["height"]))
+
+            else:
+                sb4_move(int(can_lyrics["height"])-h,(int(can_lyrics["height"])-h)*int(can_lyrics["scrollregion"].split(" ")[-1])/int(can_lyrics["height"]))
+
+
+            move_bg()
+            draw_sb4()
+            draw_cur_(1)
+
+
+
+
+def can_lyrics_b1(e):
+    global filter_pl
+    global current_playing,songs_status,select_st
+    global _songs_
+    global sb4_h,sb4_h_,sb4_st,sb4_hp
+
+
+
+    if (int(can_lyrics["width"])-sb4_sz-1-1)<=e.x<=(int(can_lyrics["width"])):
+
+        sb4_st=1
+
+
+        h_=int(can_lyrics["height"])/int(can_lyrics["scrollregion"].split(" ")[-1])*int(can_lyrics["height"])
+
+        if sb4_h<e.y<sb4_h+sb4_h_:
+
+            sb4_hp=e.y-sb4_h
+            sb4_move(sb4_h,sb4_h*int(can_lyrics["scrollregion"].split(" ")[-1])/int(can_lyrics["height"]))
+
+        elif not e.y+h_>int(can_lyrics["height"]):
+            sb4_move(e.y,e.y*int(can_lyrics["scrollregion"].split(" ")[-1])/int(can_lyrics["height"]))
+        else:
+            sb4_move(int(can_lyrics["height"])-h_,(int(can_lyrics["height"])-h_)*int(can_lyrics["scrollregion"].split(" ")[-1])/int(can_lyrics["height"]))
+
+        draw_sb4()
+
+
+
+def can_lyrics_b1_r(e):
+    global sb4_hp
+
+
+    sb4_hp=0
 
 
 
 can_lyrics=tk.Canvas(bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
+can_lyrics.bind("<Button-1>",can_lyrics_b1)
+can_lyrics.bind("<B1-Motion>",drag_can_lyrics)
+can_lyrics.bind("<ButtonRelease-1>",can_lyrics_b1_r)
+
 
 l1,l2=0,0
 ang_=0
@@ -15905,6 +16204,10 @@ def filter1_b1(e):
     global st
     global sort_ar,sort_val,shuffle_st,shuff,select_st
 
+
+
+
+
     ar=[None,"Favourites","Playlists","With Video","Most Played"]
 
 
@@ -15982,10 +16285,76 @@ def filter1_b1(e):
             return
 
         y+=30
+
+def drag_filter2(e):
+
+    global filter_can2
+    global sb3_sz,sb3_col,sb3_h,sb3_st
+    global sb3_hp
+
+    x,y=pyautogui.position()
+
+    if sb3_st==1:
+
+        if not e.y<0:
+
+
+            #filter_can2["scrollregion"]=(0,0,int(filter_can2["width"]),int(filter_can2["height"]))
+
+            h=int(filter_can2["height"])/int(filter_can2["scrollregion"].split(" ")[-1])*int(filter_can2["height"])
+
+            if y<40+30-10-5-5+30+10+30*3.5:
+                sb3_move(0,0*int(filter_can2["scrollregion"].split(" ")[-1])/int(filter_can2["height"]))
+
+
+            elif not e.y-sb3_hp+h>int(filter_can2["height"]):
+
+                if not e.y-sb3_hp<0:
+                    sb3_move(e.y-sb3_hp,(e.y-sb3_hp)*int(filter_can2["scrollregion"].split(" ")[-1])/int(filter_can2["height"]))
+                else:
+                    sb3_move(0,0*int(filter_can2["scrollregion"].split(" ")[-1])/int(filter_can2["height"]))
+
+            else:
+                sb3_move(int(filter_can2["height"])-h,(int(filter_can2["height"])-h)*int(filter_can2["scrollregion"].split(" ")[-1])/int(filter_can2["height"]))
+
+
+            move_bg()
+            draw_sb3()
+            draw_cur_(1)
+
+
+
+
 def filter2_b1(e):
     global filter_pl
     global current_playing,songs_status,select_st
     global _songs_
+    global sb3_h,sb3_h_,sb3_st,sb3_hp
+
+
+
+    if (int(filter_can2["width"])-sb3_sz-1-1)<=e.x<=(int(filter_can2["width"])):
+
+        sb3_st=1
+
+
+        h_=int(filter_can2["height"])/int(filter_can2["scrollregion"].split(" ")[-1])*int(filter_can2["height"])
+
+        if sb3_h<e.y<sb3_h+sb3_h_:
+
+            sb3_hp=e.y-sb3_h
+            sb3_move(sb3_h,sb3_h*int(filter_can2["scrollregion"].split(" ")[-1])/int(filter_can2["height"]))
+
+        elif not e.y+h_>int(filter_can2["height"]):
+            sb3_move(e.y,e.y*int(filter_can2["scrollregion"].split(" ")[-1])/int(filter_can2["height"]))
+        else:
+            sb3_move(int(filter_can2["height"])-h_,(int(filter_can2["height"])-h_)*int(filter_can2["scrollregion"].split(" ")[-1])/int(filter_can2["height"]))
+
+        draw_sb3()
+
+        return
+
+
 
     y=0
 
@@ -16045,13 +16414,25 @@ def filter2_b1(e):
         y+=30
 
 
+def filter2_b1_r(e):
+    global sb3_hp
+
+
+    sb3_hp=0
+
+
+
+
+
 filter_can1=tk.Canvas(width=250,height=30*4,bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
 filter_can1.bind("<Button-1>",filter1_b1)
 
 filter_can2=tk.Canvas(width=250,height=30*7,bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
+filter_can2["scrollregion"]=(0,0,int(filter_can2["width"]),int(filter_can2["height"]))
 filter_can2.bind("<Button-1>",filter2_b1)
 filter_can2.bind_all("<MouseWheel>",_on_mousewheel)
-
+filter_can2.bind("<B1-Motion>",drag_filter2)
+filter_can2.bind("<ButtonRelease-1>",filter2_b1_r)
 
 del_info=["",""]
 def conf_del_b1(e):
@@ -17748,6 +18129,8 @@ check_sound_device()
 
 #update_sb()
 #update_sb2()
+#update_sb3()
+
 
 #check_cur_pos()
 move_bg()
