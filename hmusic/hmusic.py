@@ -12607,6 +12607,7 @@ def scroll(val):
     global bg_styl1,bg_styl2
     global theme_st2,sort_st,del_st
     global _npl,can_npl
+    global sb3_h,sb4_h
 
 
 
@@ -12656,6 +12657,9 @@ def scroll(val):
                 can_lyrics.coords(bg3,-10,-(50)+int(can_lyrics.canvasy(0)))
                 #can_lyrics.coords(bg_styl2,-10,-(50)+int(can_lyrics.canvasy(0)))
 
+                sb4_h=can_lyrics.canvasy(0)*int(can_lyrics["height"])/int(can_lyrics["scrollregion"].split(" ")[-1])
+                draw_sb4()
+
                 draw_cur_(1)
 
     if filter_st==1:
@@ -12666,11 +12670,14 @@ def scroll(val):
 
             filter_can2.yview_scroll(int(-1*(val/120)), "units")
 
+            sb3_h=filter_can2.canvasy(0)*int(filter_can2["height"])/int(filter_can2["scrollregion"].split(" ")[-1])
 
-            draw_cur_(1)
+
+
+
 
             draw_sb3()
-
+            draw_cur_(1)
 
 
 def _on_mousewheel(e):
