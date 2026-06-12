@@ -12580,7 +12580,7 @@ def move_bg():
             filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
                 -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0))
 
-        draw_sb3()
+            draw_sb3()
 
 
 
@@ -12677,8 +12677,8 @@ def scroll(val):
 
 
             draw_sb3()
-            draw_cur_(1)
 
+            draw_cur_(1)
 
 def _on_mousewheel(e):
     scroll(int(e.delta))
