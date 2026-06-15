@@ -1012,6 +1012,7 @@ def convert_mp3_to_wav(mp3_file):
             check=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            creationflags=subprocess.CREATE_NO_WINDOW
         )
     except:
         pass
@@ -1171,7 +1172,7 @@ def convert_folder_to_audio():
                     ]
 
                 try:
-                    subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+                    subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
 
 
 
@@ -1305,7 +1306,7 @@ def convert_file_to_audio():
                     ]
 
                 try:
-                    subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+                    subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,creationflags=subprocess.CREATE_NO_WINDOW)
 
                     if i[-4:]==".mp4":
 
@@ -6714,6 +6715,7 @@ def vid_timer():
 
 
 
+
     root.after(2,vid_timer)
 
 
@@ -9995,10 +9997,10 @@ def load_im():
     load_1=draw_load(40,5)
     load_2=draw_load(30,4)
 
-    im=Image.new("RGBA",(500,500),(0,0,0,0))
+    im=Image.new("RGBA",(100,100),(0,0,0,0))
     draw=ImageDraw.Draw(im)
 
-    draw.ellipse((0,0,499,499),fill=(*hex_to_rgb(_theme[1][-1]),255),outline=(*hex_to_rgb(_theme[1][-1]),255))
+    draw.ellipse((0,0,99,99),fill=(*hex_to_rgb(_theme[1][-1]),255),outline=(*hex_to_rgb(_theme[1][-1]),255))
 
     progx=im
 
@@ -10431,7 +10433,6 @@ def check_cur_on_s2(x,y):
     return 0
 
 
-
 def draw_cur_(conp=0):
 
     global can,can2,can3,can4,can6,can_lyrics,can_sort,can_theme,can_search,can_npl,can_theme_ent
@@ -10471,6 +10472,9 @@ def draw_cur_(conp=0):
 
         return
     else:
+
+
+
         vid_tm=time.time()
 
         cur_p=[x,y]
@@ -12511,6 +12515,8 @@ def adjust_theme():
 
 
 y1,y2,y3,y4=0,0,0,0
+
+ccc=0
 def move_bg():
 
     global _theme
@@ -12524,6 +12530,7 @@ def move_bg():
     global filter_can2,filter_st,f2,bg_f2
     global bg_styl1,bg_styl2
     global theme_st2,sort_st,add_st,del_st
+    global ccc
 
 
     if root_st==0:
@@ -12577,10 +12584,10 @@ def move_bg():
                 y4=filter_can2.canvasy(0)
 
 
-            filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
-                -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0))
+                filter_can2.coords(bg_f2,-(w-10-int(filter_can1["width"])-int(filter_can2["width"])-10),
+                    -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0))
 
-            draw_sb3()
+                draw_sb3()
 
 
 
@@ -18023,7 +18030,8 @@ def vid_quality(input_,output):
         "-crf", "25",
         "-preset", "ultrafast",
         "-c:a", "copy",
-        output
+        output,
+        creationflags,subprocess.CREATE_NO_WINDOW
     ])
 
 def can_effects_b1(e):
