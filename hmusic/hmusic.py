@@ -65,46 +65,53 @@ cap=None
 _frame_=""
 
 def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
-    global cap
-    # Open video file
-    cap = cv2.VideoCapture(video_path)
-    
-    if not cap.isOpened():
-        pass
-        #raise IOError("Error: Cannot open video file.")
+    global cap,w,h
 
-    # Get frames per second (fps) of the video
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    
-    # Calculate frame number from seconds
-    frame_number = int(fps * seconds)
-    
-    # Set the frame position
-    cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
-    
-    # Read the frame
-    ret, _frame__ = cap.read()
-    
-    if not ret:
-        pass
-        #raise ValueError("Error: Could not read frame at {} seconds.".format(seconds))
-    
-    # Save the frame if output path is provided
-    #cv2.imwrite(output_path, frame)
-    
+    try:
+        # Open video file
+        cap = cv2.VideoCapture(video_path)
+        
+        if not cap.isOpened():
+            pass
+            #raise IOError("Error: Cannot open video file.")
 
-    _frame__ = cv2.cvtColor(_frame__, cv2.COLOR_BGR2RGB)
+        # Get frames per second (fps) of the video
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        
+        # Calculate frame number from seconds
+        frame_number = int(fps * seconds)
+        
+        # Set the frame position
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+        
+        # Read the frame
+        ret, _frame__ = cap.read()
+        
+        if not ret:
+            pass
+            #raise ValueError("Error: Could not read frame at {} seconds.".format(seconds))
+        
+        # Save the frame if output path is provided
+        #cv2.imwrite(output_path, frame)
+        
 
-    # Convert to PIL Image
-    _frame__ = Image.fromarray(_frame__)
+        _frame__ = cv2.cvtColor(_frame__, cv2.COLOR_BGR2RGB)
+
+        # Convert to PIL Image
+        _frame__ = Image.fromarray(_frame__)
 
 
-    cap.release()
+        cap.release()
 
 
-    #_frame_.show()
+        #_frame_.show()
+        return [_frame__,fps]
 
-    return [_frame__,fps]
+    except:
+
+        return[Image.new("RGBA",(w,h),(0,0,0,255)),25]
+
+
 
 # Example usage
 """
@@ -2040,6 +2047,7 @@ def can3_b1(e):
         else:
             sb2_move(int(can3["height"])-h_,(int(can3["height"])-h_)*int(can3["scrollregion"].split(" ")[-1])/int(can3["height"]))
 
+        draw_sb2()
         draw_cur_(1)
         return
 
@@ -2380,6 +2388,9 @@ def can2_b1(e):
             sb_move(e.y,e.y*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
         else:
             sb_move(int(can2["height"])-h_,(int(can2["height"])-h_)*int(can2["scrollregion"].split(" ")[-1])/int(can2["height"]))
+
+        draw_sb()
+        draw_cur_(1)
 
         return
 
@@ -12552,6 +12563,8 @@ def move_bg():
 
                 draw_can()
 
+            draw_cur_(1)
+
 
         if y2!=can_lyrics.canvasy(0):
 
@@ -12563,8 +12576,11 @@ def move_bg():
 
             draw_sb4()
 
+            draw_cur_(1)
+
 
         if y3!=can3.canvasy(0):
+            
 
             
 
@@ -12574,6 +12590,8 @@ def move_bg():
             y3=can3.canvasy(0)
 
             can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0))
+
+            draw_cur_(1)
 
 
 
@@ -12588,6 +12606,8 @@ def move_bg():
                     -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0))
 
                 draw_sb3()
+
+                draw_cur_(1)
 
 
 
@@ -12637,7 +12657,6 @@ def scroll(val):
 
             #draw_can()
 
-            draw_cur_(1)
             
 
      
@@ -12653,8 +12672,6 @@ def scroll(val):
             can3.coords(bgp,-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0))
             draw_sb2()
 
-            draw_cur_(1)
-
     if lyric_st==1:
 
         if theme_st2==0 and filter_st==0 and sort_st==0 and add_st==0 and del_st==0:
@@ -12667,7 +12684,6 @@ def scroll(val):
                 sb4_h=can_lyrics.canvasy(0)*int(can_lyrics["height"])/int(can_lyrics["scrollregion"].split(" ")[-1])
                 draw_sb4()
 
-                draw_cur_(1)
 
     if filter_st==1:
 
@@ -12685,7 +12701,6 @@ def scroll(val):
 
             draw_sb3()
 
-            draw_cur_(1)
 
 def _on_mousewheel(e):
     scroll(int(e.delta))
@@ -13277,8 +13292,8 @@ def drag(e):
 
             move_bg()
             draw_sb()
-            draw_cur_(1)
 
+            draw_cur_(1)
 
 
 
@@ -13346,7 +13361,7 @@ def draw_sb4():
     sb4[1]=can_lyrics.create_image(int(can_lyrics["width"])-sb4_sz-1-1,can_lyrics.canvasy(sb4_h+h-sb4_sz-1),image=circle10,anchor="nw")
     sb4[2]=can_lyrics.create_rectangle(int(can_lyrics["width"])-sb4_sz-1-1,can_lyrics.canvasy(sb4_h+sb4_sz/2),int(can_lyrics["width"])-1-1,can_lyrics.canvasy(sb4_h+h-sb4_sz/2-1),fill=sb4_col,outline=sb4_col)
 
-    draw_cur_(1)
+    
 
 
 def sb4_move(v1,v2):
@@ -13437,7 +13452,6 @@ def draw_sb3():
     sb3[2]=filter_can2.create_rectangle(int(filter_can2["width"])-sb3_sz-1-1,filter_can2.canvasy(sb3_h+sb3_sz/2),int(filter_can2["width"])-1-1,filter_can2.canvasy(sb3_h+h-sb3_sz/2-1),fill=sb3_col,outline=sb3_col)
 
 
-    draw_cur_(1)
 
 def sb3_move(v1,v2):
 
@@ -13527,7 +13541,6 @@ def draw_sb():
     sb[2]=can2.create_rectangle(int(can2["width"])-sb_sz-1-1,can2.canvasy(sb_h+sb_sz/2),int(can2["width"])-1-1,can2.canvasy(sb_h+h-sb_sz/2-1),fill=sb_col,outline=sb_col)
 
 
-    draw_cur_(1)
 
 
 def sb_move(v1,v2):
@@ -13625,8 +13638,9 @@ def drag2(e):
 
             move_bg()
             draw_sb2()
-
             draw_cur_(1)
+
+
 
 
 def update_sb2():
@@ -13684,7 +13698,6 @@ def draw_sb2():
     sb2[2]=can3.create_rectangle(int(can3["width"])-sb2_sz-1-1,can3.canvasy(sb2_h+sb2_sz/2),int(can3["width"])-1-1,can3.canvasy(sb2_h+h-sb2_sz/2-1),fill=sb2_col,outline=sb2_col)
 
 
-    draw_cur_(1)
     
 def sb2_move(v1,v2):
 
@@ -14023,8 +14036,8 @@ def drag_can_lyrics(e):
 
             move_bg()
             draw_sb4()
-            draw_cur_(1)
 
+            draw_cur_(1)
 
 
 
@@ -14054,6 +14067,8 @@ def can_lyrics_b1(e):
             sb4_move(int(can_lyrics["height"])-h_,(int(can_lyrics["height"])-h_)*int(can_lyrics["scrollregion"].split(" ")[-1])/int(can_lyrics["height"]))
 
         draw_sb4()
+
+        draw_cur_(1)
 
 
 
@@ -16364,6 +16379,8 @@ def filter2_b1(e):
             sb3_move(int(filter_can2["height"])-h_,(int(filter_can2["height"])-h_)*int(filter_can2["scrollregion"].split(" ")[-1])/int(filter_can2["height"]))
 
         draw_sb3()
+
+        draw_cur_(1)
 
         return
 
