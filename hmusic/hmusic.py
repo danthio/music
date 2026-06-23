@@ -5392,24 +5392,8 @@ def _text_(c,text,font_,size,l,con=0):
 
 def draw_active(c,x,y,x2,sz,col):
 
-    #draw_round_rec(can2,x,y, int(can2["width"])-1,y+50,10,col1,col1,1)
-    #draw_round_rec(can2,x+2,y+2, int(can2["width"])-1-2,y+50-2,10,col1,col1,1)
-    #return
+    draw_round_rec(can2,x,y-1, x2-1,y+sz-1,10,col,"#000000",0)
 
-    draw_round_rec(can2,x,y-1, x2-1,y+sz,10,"#000000","",1)
-
-    x+=1
-    x2-=1
-
-
-
-    c.create_image(x,y,image=circle4,anchor="nw")
-    c.create_image(x2,y,image=circle4,anchor="ne")
-    c.create_image(x2,y+sz,image=circle4,anchor="se")
-    c.create_image(x,y+sz,image=circle4,anchor="sw")
-
-    c.create_polygon(x+10,y, x2-10-1,y, x2-1,y+10, x2-1,y+sz-10-1,
-    x2-10-1,y+sz-1, x+10,y+sz-1, x,y+sz-10-1, x,y+10, fill=col,outline=col )
 
 
 
@@ -6308,15 +6292,10 @@ def main():
 
 
 
-                    draw_round_rec(can2,(int(can2["width"])-sb_sz-1)/2-100-15-1,y-1,(int(can2["width"])-sb_sz-1)/2+100+15,y+30,15,"#000000","",1)
+                    draw_round_rec(can2,(int(can2["width"])-sb_sz-1)/2-100-15-1,y-1,(int(can2["width"])-sb_sz-1)/2+100+15,y+30,15,_theme[0],"#000000",0)
 
 
 
-
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2-100-15,y,image=circle3,anchor="nw")
-                    can2.create_image((int(can2["width"])-sb_sz-1)/2+100-15,y,image=circle3,anchor="nw")
-
-                    can2.create_rectangle((int(can2["width"])-sb_sz-1)/2-100,y, (int(can2["width"])-sb_sz-1)/2+100,y+30-1,fill=col1,outline=col1)
 
 
                     can2.create_text((int(can2["width"])-sb_sz-1)/2,y+15,text="Create New Playlist",font=("FreeMono",13),fill=_theme[1][1])
@@ -6764,6 +6743,8 @@ _v111__,_v112__,_v113__,_v114__=0,0,0,0
 _v121__,_v122__,_v123__,_v124__=0,0,0,0
 _v131__,_v132__,_v133__,_v134__=0,0,0,0
 _v141__,_v142__,_v143__,_v144__=0,0,0,0
+_v151__,_v152__,_v153__,_v154__=0,0,0,0
+_v161__,_v162__,_v163__,_v164__=0,0,0,0
 def draw_outline_text(c,text,x,y,anchor,font):
 
 
@@ -6789,7 +6770,8 @@ def draw_outline_text(c,text,x,y,anchor,font):
     global _v121__,_v122__,_v123__,_v124__
     global _v131__,_v132__,_v133__,_v134__
     global _v141__,_v142__,_v143__,_v144__
-
+    global _v151__,_v152__,_v153__,_v154__
+    global _v161__,_v162__,_v163__,_v164__
     global _theme
 
 
@@ -7203,6 +7185,57 @@ def draw_outline_text(c,text,x,y,anchor,font):
         _v143__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
         _v144__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
+
+    elif can_outline_st==17:
+
+
+        c.delete(_v151__)
+        c.delete(_v152__)
+        c.delete(_v153__)
+        c.delete(_v154__)
+
+
+
+
+        if text=="":
+
+            can_outline_st=0
+            return
+
+
+
+        _v151__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v152__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v153__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v154__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+    elif can_outline_st==18:
+
+
+        c.delete(_v161__)
+        c.delete(_v162__)
+        c.delete(_v163__)
+        c.delete(_v164__)
+
+
+
+
+        if text=="":
+
+            can_outline_st=0
+            return
+
+
+
+        _v161__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v162__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v163__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v164__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+
+
     else:
 
 
@@ -7224,67 +7257,123 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
     im=im.crop((x,y,x+w_,y+h_))
-    im2=Image.new("RGBA",(w_,h_),(0,0,0,0))
 
-    im2.paste(im,(0,0))
 
-    pixels=im2.load()
+
+    _wd,_ht=im.size
+
+    _wd2=_wd*4
+    _ht2=_ht/_wd*_wd2
+
+
+
+    im2=im.resize((int(_wd2),int(_ht2)))
+
+
+
+
+    draw=ImageDraw.Draw(im2)
+
+    _r_=r
+
+    r*=4
 
 
     cx,cy=r,r
+    ar=[(0,0),(0,r)]
 
-
-    for y in range(r):
-        for x in range(r):
-
-            r_=math.sqrt((cx-x)**2+(cy-y)**2)
-
-            if r_>r:
-                pixels[x,y]=(0,0,0,0)
-
-    cx,cy=w_-r,r
-    for y in range(r):
-        x_=w_-r
-        for x in range(r):
-
-            r_=math.sqrt((cx-x_)**2+(cy-y)**2)
-
-            if r_>r:
-                pixels[x_,y]=(0,0,0,0)
-
-            x_+=1
+    a_=270
 
 
 
-    cx,cy=w_-r,h_-r
-    y_=h_-r
-    for y in range(r):
-        x_=w_-r
-        for x in range(r):
 
-            r_=math.sqrt((cx-x_)**2+(cy-y_)**2)
+    cx,cy=r,r
+    for a in range(90):
 
-            if r_>r:
-                pixels[x_,y_]=(0,0,0,0)
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
 
-            x_+=1
-
-        y_+=1
+        ar.append((int(round(x,0)),int(round(y,0))))
 
 
-    cx,cy=r,h_-r
-    y_=h_-r
-    for y in range(r):
-        for x in range(r):
+        a_-=1
 
-            r_=math.sqrt((cx-x)**2+(cy-y_)**2)
 
-            if r_>r:
-                pixels[x,y_]=(0,0,0,0)
+    draw.polygon(ar,fill=(0,0,0,0), outline=(0,0,0,0))
+   
 
-            x_+=1
 
-        y_+=1
+
+
+
+    cx,cy=_wd2-r,r
+
+    ar=[(_wd2,0),(_wd2,r)]
+
+    a_=90
+    for a in range(90):
+
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+        ar.append((int(round(x,0)),int(round(y,0))))
+
+
+        a_+=1
+
+
+    draw.polygon(ar,fill=(0,0,0,0), outline=(0,0,0,0))
+
+
+
+
+    cx,cy=_wd2-r,_ht2-r
+
+    ar=[(_wd2,_ht2),(_wd2,_ht2-r)]
+
+    a_=90
+    for a in range(90):
+
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+        ar.append((int(round(x,0)),int(round(y,0))))
+
+
+        a_-=1
+
+
+    draw.polygon(ar,fill=(0,0,0,0), outline=(0,0,0,0))
+
+
+
+
+
+    cx,cy=r,_ht2-r
+
+    ar=[(0,_ht2),(0,_ht2-r)]
+
+    a_=270
+    for a in range(90):
+
+        x=r*math.sin(math.radians(a_))+cx
+        y=r*math.cos(math.radians(a_))+cy
+
+        ar.append((int(round(x,0)),int(round(y,0))))
+
+
+        a_+=1
+
+
+    draw.polygon(ar,fill=(0,0,0,0), outline=(0,0,0,0))
+
+    im2=im2.resize((_wd,_ht))
+
+
+    r=_r_
+
+
+
 
 
 
@@ -8330,13 +8419,8 @@ def draw_can(con=0):
 
 
 
-                        draw_round_rec(can,x-40-1,y-1,x+40,y+30,15,"#000000","",1)
+                        draw_round_rec(can,x-40-1,y-1,x+40,y+30,15,_theme[0],"#000000",0)
 
-                        can.create_image(x-40,y,image=circle3,anchor="nw")
-                        can.create_image(x+40-30,y,image=circle3,anchor="nw")
-
-
-                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col1,outline=col1)
 
                         """
 
@@ -8366,15 +8450,9 @@ def draw_can(con=0):
 
 
 
-                        draw_round_rec(can,x-40-1,y-1,x+40,y+30,15,"#000000","",1)
+                        draw_round_rec(can,x-40-1,y-1,x+40,y+30,15,_theme[0],"#000000",0)
 
 
-
-                        can.create_image(x-40,y,image=circle3,anchor="nw")
-                        can.create_image(x+40-30,y,image=circle3,anchor="nw")
-
-
-                        can.create_rectangle(x-40+15,y, x+40-15,y+30-1, fill=col1,outline=col1)
 
                         can.create_text(x,y+15,text="Lyrics",font=("FreeMono",13),fill=_theme[1][1])
 
@@ -8581,14 +8659,8 @@ def draw_can(con=0):
             col=_theme[1][1]
 
 
-            draw_round_rec(can,x-60-1,50/2-15-1,x+60,50/2-15+30,15,"#000000","",1)
+            draw_round_rec(can,x-60-1,50/2-15-1,x+60,50/2-15+30,15,_theme[0],"#000000",0)
 
-
-            can.create_image(x-60,50/2-15,image=circle3,anchor="nw")
-            can.create_image(x+60-30,50/2-15,image=circle3,anchor="nw")
-
-
-            can.create_rectangle(x-60+15,50/2-15, x+60-15,50/2+15-1, fill=col1,outline=col1)
 
 
 
@@ -8643,13 +8715,8 @@ def draw_can(con=0):
 
 
 
-                        draw_round_rec(can,10-1,h-20-60-20-27-15+3+10+3+2+2-3+1+10-1,10+15+length_in_pixels+30+15,h-20-60-20-27-15+3+10+3+2+2-3+1+10+30,15,"#000000","",1)
+                        draw_round_rec(can,10-1,h-20-60-20-27-15+3+10+3+2+2-3+1+10-1,10+15+length_in_pixels+30+15,h-20-60-20-27-15+3+10+3+2+2-3+1+10+30,15,_theme[0],"#000000",0)
 
-                        can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
-                        can.create_image(10+15+length_in_pixels+30-15,h-20-60-20-27-15+3+10+3+2+2-3+1+10,image=circle3,anchor="nw")
-
-                        can.create_rectangle(10+15,h-20-60-20-27-15+3+10+3+2+2-3+1+10, 10+15+length_in_pixels+30,h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10,
-                            fill=col1,outline=col1)
 
 
                         can.create_image(10+15,h-20-60-20-27-15+3+10+5+3+2+2-3+2+10, image=playlist4,anchor="nw")
@@ -8961,15 +9028,8 @@ def draw_can(con=0):
 
 
 
-        draw_round_rec(can,w/2-80-15-1,yv-1,w/2+80+15,yv+30,15,"#000000","",1)
+        draw_round_rec(can,w/2-80-15-1,yv-1,w/2+80+15,yv+30,15,_theme[0],"#000000",0)
 
-
-
-
-        can.create_image(w/2-80-15,yv, image=circle3,anchor="nw")
-        can.create_image(w/2+80-15,yv, image=circle3,anchor="nw")
-
-        can.create_rectangle(w/2-80,yv, w/2+80,yv+30-1,fill=col1,outline=col1)
 
 
 
@@ -8979,14 +9039,9 @@ def draw_can(con=0):
 
 
 
-        draw_round_rec(can,w/2-80-15-1,yv-1+60,w/2+80+15,yv+30+60,15,"#000000","",1)
+        draw_round_rec(can,w/2-80-15-1,yv-1+60,w/2+80+15,yv+30+60,15,_theme[0],"#000000",0)
 
 
-
-        can.create_image(w/2-80-15,yv+60, image=circle3,anchor="nw")
-        can.create_image(w/2+80-15,yv+60, image=circle3,anchor="nw")
-
-        can.create_rectangle(w/2-80,yv+60, w/2+80,yv+30+60-1,fill=col1,outline=col1)
 
 
         can.create_text(w/2,yv+15+60,text="Add Audio File",fill=_theme[1][1],font=("FreeMono",13))
@@ -9069,9 +9124,9 @@ def draw_can(con=0):
         bg_filt=ImageTk.PhotoImage(im1)
         bg_filt_=ImageTk.PhotoImage(im2)
 
-        filter_can1.create_image(0,0,image=bg_filt,anchor="nw")        
+       
         filter_can1.create_image(-15,-15,image=bg_filt_,anchor="nw")
-
+        filter_can1.create_image(0,0,image=bg_filt,anchor="nw") 
 
 
 
@@ -9607,7 +9662,7 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=4):
 
     r*=_r
 
-    im=Image.new("RGBA",(ww,hh),(0,0,0,0))
+    im=Image.new("RGBA",(ww+1,hh+1),(0,0,0,0))
 
     draw=ImageDraw.Draw(im)
 
@@ -11733,36 +11788,41 @@ def convert_(im,col,con):
 
     return image
 
-def draw_effects(w,h,sz,_col_,con,col2=None):
+def draw_effects(w,h,val,_col_,con,col2=None):
 
 
 
     im=Image.new("RGBA",(w,h),(0,0,0,255))
 
-
-    im2=Image.open("data/im_ref/musical_note2.png")
-    x,y=im2.size
-
-    im2_=Image.new("RGBA",(x,y),(0,0,0,0))
-
-    pixels=im2_.load()
+    if con!=3:
 
 
-    for y_ in range(y):
-
-        for x_ in range(x):
-
-            col_=im2.getpixel((x_,y_))
-
-            if col_[-1]==0:
-                pixels[x_,y_]=(0,0,0,255)
-            else:
-                pixels[x_,y_]=(*hex_to_rgb(_col_),255)
-
-        root.after(1,update)
+        im2=Image.open("data/im_ref/musical_note2.png")
+        x,y=im2.size
 
 
-    im.paste(im2_,(int((w-x)/2),int((h-y)/2)))
+
+
+        im2_=Image.new("RGBA",(x,y),(0,0,0,0))
+
+        pixels=im2_.load()
+
+
+        for y_ in range(y):
+
+            for x_ in range(x):
+
+                col_=im2.getpixel((x_,y_))
+
+                if col_[-1]==0:
+                    pixels[x_,y_]=(0,0,0,255)
+                else:
+                    pixels[x_,y_]=(*hex_to_rgb(_col_),255)
+
+            root.after(1,update)
+
+
+        im.paste(im2_,(int((w-x)/2),int((h-y)/2)))
 
 
 
@@ -11772,21 +11832,21 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
     if con==0:
 
-        x1=(sz/2)*math.sin(math.radians(180))
-        x2=(sz/2)*math.sin(math.radians(180-60))
+        x1=(val/2)*math.sin(math.radians(180))
+        x2=(val/2)*math.sin(math.radians(180-60))
 
         xv=(x2-x1)*2
 
-        x1_=(sz/2)*math.sin(math.radians(180+60))
-        x2_=(sz/2)*math.sin(math.radians(180-60))
+        x1_=(val/2)*math.sin(math.radians(180+60))
+        x2_=(val/2)*math.sin(math.radians(180-60))
 
-        y1=(sz/2)*math.cos(math.radians(60))
-        y2=(sz/2)*math.cos(math.radians(0))
+        y1=(val/2)*math.cos(math.radians(60))
+        y2=(val/2)*math.cos(math.radians(0))
 
 
 
-        y1_=(sz/2)*math.cos(math.radians(180))
-        y2_=(sz/2)*math.cos(math.radians(0))
+        y1_=(val/2)*math.cos(math.radians(180))
+        y2_=(val/2)*math.cos(math.radians(0))
 
         yv=(y2_-y1_)-(y2-y1)
 
@@ -11797,7 +11857,7 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
         st=0
 
-        y_=sz/2
+        y_=val/2
         for y in range(ny):
 
             nx=int(w/(x2_-x1_))+1
@@ -11817,8 +11877,8 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
                 for a in range(6):
 
-                    x=int(round((sz/2)*math.sin(math.radians(ang))+x_,0))
-                    y=int(round((sz/2)*math.cos(math.radians(ang))+y_,0))
+                    x=int(round((val/2)*math.sin(math.radians(ang))+x_,0))
+                    y=int(round((val/2)*math.cos(math.radians(ang))+y_,0))
 
                     ar.append((x,y))
 
@@ -11844,38 +11904,38 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
 
         a_=180
 
-        xx1=(sz/2)*math.sin(math.radians(a_))+x_
+        xx1=(val/2)*math.sin(math.radians(a_))+x_
         
         a_=180-(360/6)/2
-        xx2=(sz/2)*math.sin(math.radians(a_))+x_
+        xx2=(val/2)*math.sin(math.radians(a_))+x_
 
         x1=xx2-xx1
 
 
         a_=180-(360/6)/2
-        xx3=(sz/2)*math.sin(math.radians(a_))+x_
+        xx3=(val/2)*math.sin(math.radians(a_))+x_
         
         a_=180-(360/6)/2-(360/6)
-        xx4=(sz/2)*math.sin(math.radians(a_))+x_
+        xx4=(val/2)*math.sin(math.radians(a_))+x_
 
         x2=xx4-xx3
 
 
 
         a_=180-(360/6)/2
-        yy1=(sz/2)*math.cos(math.radians(a_))+y_
+        yy1=(val/2)*math.cos(math.radians(a_))+y_
         
         a_=180-(360/6)/2-(360/6)
-        yy2=(sz/2)*math.cos(math.radians(a_))+y_
+        yy2=(val/2)*math.cos(math.radians(a_))+y_
 
         yv=yy2-yy1
 
 
         a_=360-(360/6)/2
-        xx5=(sz/2)*math.sin(math.radians(a_))+x_
+        xx5=(val/2)*math.sin(math.radians(a_))+x_
         
         a_=0+(360/6)/2
-        xx6=(sz/2)*math.sin(math.radians(a_))+x_
+        xx6=(val/2)*math.sin(math.radians(a_))+x_
 
         x3=xx6-xx5
 
@@ -11905,8 +11965,8 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
                 a_=180+(360/6)/2
                 for a in range(6):
 
-                    _x=(sz/2)*math.sin(math.radians(a_))+x_
-                    _y=(sz/2)*math.cos(math.radians(a_))+y_
+                    _x=(val/2)*math.sin(math.radians(a_))+x_
+                    _y=(val/2)*math.cos(math.radians(a_))+y_
 
                     ar.append((int(round(_x,0)),int(round(_y,0))))
 
@@ -11946,16 +12006,16 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
     elif con==2:
 
 
-        y1=(sz/2)*math.cos(math.radians(60))
-        y2=(sz/2)*math.cos(math.radians(0))
+        y1=(val/2)*math.cos(math.radians(60))
+        y2=(val/2)*math.cos(math.radians(0))
 
 
 
 
-        xv=(sz/2)*math.sin(math.radians(180-60))
+        xv=(val/2)*math.sin(math.radians(180-60))
 
-        x1=(sz/2)*math.sin(math.radians(270))
-        x2=(sz/2)*math.sin(math.radians(270))+xv 
+        x1=(val/2)*math.sin(math.radians(270))
+        x2=(val/2)*math.sin(math.radians(270))+xv 
 
 
 
@@ -11968,14 +12028,14 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
         nx=int(w/(xv))+3
         for x in range(nx):
 
-            ny=int(h/(sz/2))+4
+            ny=int(h/(val/2))+4
 
             if st==0:
-                y_=-(sz)
+                y_=-(val)
                 st=1
             elif st==1:
                 st=0
-                y_=-(sz)+yv
+                y_=-(val)+yv
 
             for y in range(ny):
 
@@ -11988,17 +12048,68 @@ def draw_effects(w,h,sz,_col_,con,col2=None):
                     cole=_col_
 
 
-                draw.ellipse((x_-sz/2,y_-sz/2, x_+sz/2,y_+sz/2),outline=cole)
+                draw.ellipse((x_-val/2,y_-val/2, x_+val/2,y_+val/2),outline=cole)
 
                 root.after(1,update)
 
 
-                y_+=sz/2
+                y_+=val/2
 
             x_+=xv
 
             root.after(1,update)
 
+    elif con==3:
+
+
+        cx,cy=w/2,h/2
+
+
+        f=val
+        t=0
+
+
+
+
+        if w>=h:
+
+            r_=w/2+10
+
+        else:
+
+            r_=h/2+10
+
+
+        ar=[]
+
+
+        for r in range(int(round(r_,0))):
+
+
+            x=r*math.sin(math.radians(2*math.pi*f*t))+cx
+            y=r*math.cos(math.radians(2*math.pi*f*t))+cy
+
+            x=int(round(x,0))
+            y=int(round(y,0))
+
+
+            ar.append((x,y))
+
+
+            t+=1
+
+
+
+
+        cole=(0,0,0,0)
+
+        if col2!=None:
+
+            cole=_col_
+
+
+        draw.line(ar,fill=cole)
+            
 
             
 
@@ -13855,13 +13966,15 @@ def draw_can_sort():
     bg_sort_=ImageTk.PhotoImage(im2)
 
 
+    can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
+
     if vid_st==0:
         can_sort.create_image(0,0,image=bg_sort,anchor="nw")
 
     else:
         can_sort.create_rectangle(0,0,int(can_sort["width"]),int(can_sort["height"]),fill="#000000",outline="#000000")
 
-    can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
+
 
 
 
@@ -14188,9 +14301,9 @@ def check_theme_attr():
     if theme_st2==1 and con_theme==0:
 
 
-        if te_var!=theme_attr[0] or op_var!=theme_attr[1] or effect!=theme_attr[2][0] or effect_sz!=theme_attr[2][1]:
+        if te_var!=theme_attr[0] or op_var!=theme_attr[1] or effect!=theme_attr[2][0] or effect_val!=theme_attr[2][1]:
 
-            theme_attr=[te_var,op_var,[effect,effect_sz]]
+            theme_attr=[te_var,op_var,[effect,effect_val]]
 
             can_theme.delete(bg_region)
             can_theme.delete(bg_region2_)
@@ -14253,7 +14366,7 @@ def check_theme_attr():
                 if no_bg_st==1:
                     can_theme.itemconfig(def_lb,fill=_theme[0])
 
-            no_bg_eff(effect,effect_sz,_theme[0])
+            no_bg_eff(effect,effect_val,_theme[0])
 
 
 
@@ -14312,12 +14425,17 @@ def can_theme_b1(e):
 
     global unchanged
     global wd,ht
-    global effect,effect_sz,ep
+    global effect,effect_val,ep
     global can_effects
     global con_theme
 
     global effect_st
     global ch_im,ch_im_p
+    global focus__
+
+    focus__=-1
+    can_theme.focus_set()
+
 
     effect_st=0
     can_effects.place_forget()
@@ -14513,7 +14631,7 @@ def can_theme_b1(e):
             ecol=hex_to_rgb(te_var)
 
             effect_col="#%02x%02x%02x" % (int(ecol[0]*float(op1)),int(ecol[1]*float(op1)),int(ecol[2]*float(op1)))
-            _theme[-3]=[1,effect,effect_sz,effect_col]
+            _theme[-3]=[1,effect,effect_val,effect_col]
 
         _theme[-1]=ch_im
 
@@ -14846,32 +14964,35 @@ def can_theme_b1(e):
                 return
 
 
-        if ep[1][0]<=e.x<=ep[1][0]+15:
-            if ep[1][1]<=e.y<=ep[1][1]+15:
-                #effect sz up
-
-                con_theme=1
-
-                effect_sz+=5
-
-                no_bg_eff(effect,effect_sz,_theme[0])
-
-                return
+        if not effect==3:
 
 
-        if ep[2][0]<=e.x<=ep[2][0]+15:
-            if ep[2][1]<=e.y<=ep[2][1]+15:
-                #effect sz down
+            if ep[1][0]<=e.x<=ep[1][0]+15:
+                if ep[1][1]<=e.y<=ep[1][1]+15:
+                    #effect sz up
 
-                con_theme=1
+                    con_theme=1
 
-                if not effect_sz-5<0:
+                    effect_val+=5
 
-                    effect_sz-=5
+                    no_bg_eff(effect,effect_val,_theme[0])
 
-                    no_bg_eff(effect,effect_sz,_theme[0])
+                    return
 
-                return
+
+            if ep[2][0]<=e.x<=ep[2][0]+15:
+                if ep[2][1]<=e.y<=ep[2][1]+15:
+                    #effect sz down
+
+                    con_theme=1
+
+                    if not effect_val-5<0:
+
+                        effect_val-=5
+
+                        no_bg_eff(effect,effect_val,_theme[0])
+
+                    return
 
     con_ch_im=0
 
@@ -14951,7 +15072,7 @@ def conf_bg(col):
     global no_bg_st
     global te_var
     global _bim_
-    global effect,effect_sz
+    global effect,effect_val
     global ch_im
 
 
@@ -14974,7 +15095,7 @@ def conf_bg(col):
         nobg_col="#%02x%02x%02x" % nobg_col
 
 
-        im=draw_effects(wd,ht,effect_sz,nobg_col,effect,nobg_col)
+        im=draw_effects(wd,ht,effect_val,nobg_col,effect,nobg_col)
 
         im=im.resize((xx,yy))
 
@@ -15000,12 +15121,12 @@ def conf_bg(col):
 
     return bg_region2
 
-def change_effect_sz():
+def change_effect_val():
     global no_bg_st
     global ep
     global con_theme
     global _theme
-    global effect,effect_sz
+    global effect,effect_val
 
 
 
@@ -15020,9 +15141,9 @@ def change_effect_sz():
 
 
 
-                effect_sz+=5
+                effect_val+=5
 
-                no_bg_eff(effect,effect_sz,_theme[0])
+                no_bg_eff(effect,effect_val,_theme[0])
 
 
 
@@ -15031,30 +15152,31 @@ def change_effect_sz():
                 #effect sz down
 
 
-                if not effect_sz-5<0:
+                if not effect_val-5<0:
 
-                    effect_sz-=5
+                    effect_val-=5
 
-                    no_bg_eff(effect,effect_sz,_theme[0])
-
-
+                    no_bg_eff(effect,effect_val,_theme[0])
 
 
-    root.after(300,change_effect_sz)
 
-e1,e2,e3,e4,e5,e6=0,0,0,0,0,0
-effect,effect_sz=0,0
+
+    root.after(300,change_effect_val)
+
+e1,e2,e3,e4,e5,e6,e7,e8=0,0,0,0,0,0,0,0
+effect,effect_val=0,0
 ep=[]
-ar_effects=["hexagon 1","hexagon 2","flower of life"]
-def no_bg_eff(effect,effect_sz,col):
+ar_effects=["Hexagon 1","Hexagon 2","Flower of Life","Frequency"]
+def no_bg_eff(effect,effect_val,col):
     global can_theme
     global up,down
-    global e1,e2,e3,e4,e5,e6,ep,ey
+    global e1,e2,e3,e4,e5,e6,e7,e8,ep,ey
     global ar_effects
 
     global can_theme
     global can_outline_st
-
+    global _v151__,_v152__,_v153__,_v154__
+    global _v161__,_v162__,_v163__,_v164__
 
 
 
@@ -15064,6 +15186,20 @@ def no_bg_eff(effect,effect_sz,col):
     can_theme.delete(e4)
     can_theme.delete(e5)
     can_theme.delete(e6)
+    can_theme.delete(e7)
+    can_theme.delete(e8)
+
+    can_theme.delete(_v151__)
+    can_theme.delete(_v152__)
+    can_theme.delete(_v153__)
+    can_theme.delete(_v154__)
+
+
+    can_theme.delete(_v161__)
+    can_theme.delete(_v162__)
+    can_theme.delete(_v163__)
+    can_theme.delete(_v164__)
+
 
 
     if no_bg_st==1:
@@ -15075,8 +15211,25 @@ def no_bg_eff(effect,effect_sz,col):
 
 
         l1=f.measure(f"{ar_effects[effect]} ")
-        l2=f.measure("Size ")
-        l3=f.measure(str(effect_sz)+" ")
+
+        if effect==3:
+            l2=f.measure("Value ")
+
+
+            if len(str(effect_val))<=6:
+                val=str(effect_val)
+            else:
+                val=str(effect_val)[0]+"."+str(effect_val)[1:4]+" x 10"
+
+
+            l3=f.measure(str(val)+" ")
+
+        else:
+
+            l2=f.measure("Size ")
+
+
+            l3=f.measure(str(effect_val)+" ")
 
         ex=(int(can_theme["width"])-(l1+15+70+l2+l3))/2
 
@@ -15088,21 +15241,104 @@ def no_bg_eff(effect,effect_sz,col):
 
         ep.append((ex+l1,60+30+ey+15-7.5))
 
-        can_outline_st=13
-        draw_outline_text(can_theme,"Size",ex+l1+15+70,60+30+ey+15,"w",("FreeMono",13))
-        e3=can_theme.create_text(ex+l1+15+70,60+30+ey+15,text="Size",font=("FreeMono",13),fill=col,anchor="w")
 
-        can_outline_st=14
-        draw_outline_text(can_theme,str(effect_sz),ex+l1+15+70+l2,60+30+ey+15,"w",("FreeMono",13))
-        e4=can_theme.create_text(ex+l1+15+70+l2,60+30+ey+15,text=str(effect_sz),font=("FreeMono",13),fill=col,anchor="w")
+        if effect==3:
+            can_outline_st=13
+            draw_outline_text(can_theme,"Value",ex+l1+15+70,60+30+ey+15,"w",("FreeMono",13))
+            e3=can_theme.create_text(ex+l1+15+70,60+30+ey+15,text="Value",font=("FreeMono",13),fill=col,anchor="w")
 
-        e5=can_theme.create_image(ex+l1+15+70+l2+l3,60+30+ey+15-15,image=up,anchor="nw")
-        e6=can_theme.create_image(ex+l1+15+70+l2+l3,60+30+ey+15,image=down,anchor="nw")
 
-        ep.append((ex+l1+15+70+l2+l3,60+30+ey+15-15))
-        ep.append((ex+l1+15+70+l2+l3,60+30+ey+15))
+            lf=f.measure("Value")
+
+            #format large frequencies
+
+            if len(str(effect_val))<=6:
+
+
+                val=str(effect_val)
+
+                can_outline_st=14
+                draw_outline_text(can_theme,str(val)+" Hz",ex+l1+15+70+lf+15,60+30+ey+15,"w",("FreeMono",13))
+                e4=can_theme.create_text(ex+l1+15+70+lf+15,60+30+ey+15,text=str(val)+" Hz",font=("FreeMono",13),fill=col,anchor="w")
+
+
+
+            else:
+
+                n=len(str(effect_val))-1
+                val=str(effect_val)[0]+"."+str(effect_val)[1:4]+" x 10"
+
+
+
+                can_outline_st=14
+                draw_outline_text(can_theme,str(val),ex+l1+15+70+lf+15,60+30+ey+15,"w",("FreeMono",11))
+                e4=can_theme.create_text(ex+l1+15+70+lf+15,60+30+ey+15,text=str(val),font=("FreeMono",11),fill=col,anchor="w")
+
+
+                f=font.Font(family="FreeMono",size=11)
+
+
+                lf2=f.measure(val)
+
+
+                can_outline_st=17
+                draw_outline_text(can_theme,str(n),ex+l1+15+70+lf+15+lf2,60+30+ey+15-6,"w",("FreeMono",8))
+                e7=can_theme.create_text(ex+l1+15+70+lf+15+lf2,60+30+ey+15-6,text=str(n),font=("FreeMono",8),fill=col,anchor="w")
+
+
+                f=font.Font(family="FreeMono",size=8)
+
+
+                lf3=f.measure(str(n))
+
+
+
+                can_outline_st=18
+                draw_outline_text(can_theme,"Hz",ex+l1+15+70+lf+15+lf2+lf3+10,60+30+ey+15,"w",("FreeMono",13))
+                e8=can_theme.create_text(ex+l1+15+70+lf+15+lf2+lf3+10,60+30+ey+15,text="Hz",font=("FreeMono",13),fill=col,anchor="w")
+
+
+
+
+        else:
+            
+
+
+
+            can_outline_st=13
+            draw_outline_text(can_theme,"Size",ex+l1+15+70,60+30+ey+15,"w",("FreeMono",13))
+            e3=can_theme.create_text(ex+l1+15+70,60+30+ey+15,text="Size",font=("FreeMono",13),fill=col,anchor="w")
+
+            can_outline_st=14
+            draw_outline_text(can_theme,str(effect_val),ex+l1+15+70+l2,60+30+ey+15,"w",("FreeMono",13))
+            e4=can_theme.create_text(ex+l1+15+70+l2,60+30+ey+15,text=str(effect_val),font=("FreeMono",13),fill=col,anchor="w")
+
+            e5=can_theme.create_image(ex+l1+15+70+l2+l3,60+30+ey+15-15,image=up,anchor="nw")
+            e6=can_theme.create_image(ex+l1+15+70+l2+l3,60+30+ey+15,image=down,anchor="nw")
+
+            ep.append((ex+l1+15+70+l2+l3,60+30+ey+15-15))
+            ep.append((ex+l1+15+70+l2+l3,60+30+ey+15))
 
         draw_cur_(1)
+
+def focus_theme():
+    global theme_ent,can_theme
+    global theme_st,theme_st2
+    global no_bg_st,effect
+    global focus__
+
+    if theme_st2==1 and no_bg_st==1:
+
+        if effect==3:
+
+            can_theme.focus_set()
+        else:
+            focus__=0
+            theme_ent.focus_set()
+
+    root.after(1,focus_theme)
+
+
 
 
 bg_region2_=0
@@ -15164,7 +15400,7 @@ def draw_theme(con=0):
     global def_lb
 
     global up,down
-    global effect,effect_sz,ey
+    global effect,effect_val,ey
     global bg_col
     global vid_st
     global bg_dark_
@@ -15223,11 +15459,11 @@ def draw_theme(con=0):
 
 
             effect=_theme[-3][1]
-            effect_sz=_theme[-3][2]
+            effect_val=_theme[-3][2]
             op_var=str(_theme[2])+","+str(_theme[3])
         except:
             effect=0
-            effect_sz=40
+            effect_val=40
             op_var=str(0.15)+","+str(_theme[3])
 
     can_theme.delete("all")
@@ -15242,7 +15478,7 @@ def draw_theme(con=0):
     bg_sett_=ImageTk.PhotoImage(im2)
 
 
-
+    can_theme.create_image(-25,-25,image=bg_sett_,anchor="nw")
 
     if vid_st==0:
         can_theme.create_image(0,0,image=bg_sett,anchor="nw")
@@ -15250,7 +15486,7 @@ def draw_theme(con=0):
         can_theme.create_rectangle(0,0,int(can_theme["width"]),int(can_theme["height"]),fill="#000000",outline="#000000")
 
 
-    can_theme.create_image(-25,-25,image=bg_sett_,anchor="nw")
+
 
 
     #draw_round_rec(can_theme,1,1, int(can_theme["width"])-2,int(can_theme["height"])-2,25,"#000000",col1,1,3)
@@ -15318,8 +15554,9 @@ def draw_theme(con=0):
     ar_themes=[]
 
     for c in _theme[4]:
+        draw_round_rec(can_theme,x,y,x+r*2,y+r*2,r,c,c,0)
 
-        can_theme.create_oval(x,y,x+r*2,y+r*2,fill=c,outline=c)
+
 
         ar_themes.append([c,x+r,y+r])
 
@@ -15514,7 +15751,7 @@ def draw_theme(con=0):
 
         ey=yy
 
-        no_bg_eff(effect,effect_sz,_theme[0])
+        no_bg_eff(effect,effect_val,_theme[0])
 
     else:
 
@@ -15625,16 +15862,9 @@ def draw_theme(con=0):
 
 
 
-    draw_round_rec(can_theme,int(can_theme["width"])/2-sz/2-1,int(can_theme["height"])-40-1 ,int(can_theme["width"])/2+sz/2,int(can_theme["height"])-40+30,15,"#000000","",1)
+    draw_round_rec(can_theme,int(can_theme["width"])/2-sz/2-1,int(can_theme["height"])-40-1 ,int(can_theme["width"])/2+sz/2,int(can_theme["height"])-40+30,15,_theme[0],"#000000",0)
 
-    can_theme.create_image(int(can_theme["width"])/2-sz/2,int(can_theme["height"])-40,
-        image=circle3,anchor="nw")
-    can_theme.create_image(int(can_theme["width"])/2+sz/2-30,int(can_theme["height"])-40,
-        image=circle3,anchor="nw")
 
-    can_theme.create_rectangle(int(can_theme["width"])/2-sz/2+15,int(can_theme["height"])-40,
-        int(can_theme["width"])/2+sz/2-15,int(can_theme["height"])-40+30-1,
-        fill=_theme[0],outline=_theme[0])
 
     can_theme.create_text(int(can_theme["width"])/2,int(can_theme["height"])-40+15,text="Save",
         fill=_theme[1][1],font=("FreeMono",13),anchor="c")
@@ -15657,6 +15887,7 @@ def draw_theme(con=0):
 
     theme_st2=1
     draw_can()
+    draw_cur_(1)
 
 th_col=0
 th_col_=""
@@ -15833,7 +16064,10 @@ def can_theme_m(e):
 
             del_theme=can_theme.create_image(c[1]-10,c[2]-20+2,
                 image=delete3,anchor="nw")
+
+            draw_cur_(1)
             return
+
 
 
     x,y=tbg3.size
@@ -16175,34 +16409,81 @@ def cse_b1(e):
     global ep
     global _theme
     global con_theme
-    global effect,effect_sz
+    global effect,effect_val
 
-    if ep[1][0]<=e.x<=ep[1][0]+15:
-        if ep[1][1]<=e.y<=ep[1][1]+15:
-            #effect sz up
+    if not effect==3:
 
-            con_theme=1
+        if ep[1][0]<=e.x<=ep[1][0]+15:
+            if ep[1][1]<=e.y<=ep[1][1]+15:
+                #effect sz up
 
-            effect_sz+=5
+                con_theme=1
 
-            no_bg_eff(effect,effect_sz,_theme[0])
+                effect_val+=5
 
-            return
+                no_bg_eff(effect,effect_val,_theme[0])
+
+                return
 
 
-    if ep[2][0]<=e.x<=ep[2][0]+15:
-        if ep[2][1]<=e.y<=ep[2][1]+15:
-            #effect sz down
+        if ep[2][0]<=e.x<=ep[2][0]+15:
+            if ep[2][1]<=e.y<=ep[2][1]+15:
+                #effect sz down
 
-            con_theme=1
+                con_theme=1
 
-            if not effect_sz-5<0:
+                if not effect_val-5<0:
 
-                effect_sz-=5
+                    effect_val-=5
 
-                no_bg_eff(effect,effect_sz,_theme[0])
+                    no_bg_eff(effect,effect_val,_theme[0])
 
-            return
+                return
+
+
+def can_theme_kp(e):
+    global theme_st2,no_bg_st,effect
+    global effect_val
+    global focus__
+
+    if theme_st2==1 and no_bg_st==1 and effect==3 and focus__==-1:
+
+        n="0123456789"
+
+        try:
+            n.index(e.char)
+
+            effect_val_=str(effect_val)
+
+            effect_val_+=e.char
+
+            effect_val=int(effect_val_)
+
+        except:
+            pass
+
+def can_theme_bs(e):
+
+    global theme_st2,no_bg_st,effect
+    global effect_val
+    global focus__
+
+    if theme_st2==1 and no_bg_st==1 and effect==3 and focus__==-1:
+
+
+        if len(str(effect_val))==1:
+
+            effect_val=0
+
+        else:
+
+            effect_val_=str(effect_val)
+
+            effect_val_=effect_val_[:-1]
+
+            effect_val=int(effect_val_)
+
+
 
 
 theme_st=0
@@ -16213,6 +16494,8 @@ can_theme.bind("<Button-3>",can_theme_b3)
 can_theme.bind("<Motion>",can_theme_m)
 can_theme.bind("<B1-Motion>",can_theme_drag)
 can_theme.bind("<ButtonRelease-1>",on_release_s)
+can_theme.bind("<BackSpace>",can_theme_bs)
+can_theme.bind("<KeyPress>",can_theme_kp)
 #can_theme.bind("<ButtonPress-1>",cse_b1)
 
 theme_ent=tk.Entry(width=20,font=("FreeMono",13),bg=_theme[1][1],fg=_theme[0],relief="flat",highlightthickness=0,
@@ -16628,11 +16911,13 @@ def conf_del_(file,con):
 
     cur_conf_del_2=conf_del.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
+    conf_del.create_image(-15,-15,
+        image=bg_del_,anchor="nw")
+
+
     conf_del.create_image(0,0,
         image=bg_del,anchor="nw")
 
-    conf_del.create_image(-15,-15,
-        image=bg_del_,anchor="nw")
 
 
 
@@ -18056,11 +18341,19 @@ def can_effects_b1(e):
     global effect,ar_effects
     global can_effects
     global effect_st
+    global effect_val
 
     effect_st=0
 
 
     effect=int(e.y/30)
+
+    if effect==0 or effect==1:
+        effect_val=40
+    elif effect==2:
+        effect_val=100
+    elif effect==3:
+        effect_val=1
 
     can_effects.place_forget()
 
@@ -18223,13 +18516,14 @@ draw_can()
 update_videos()
 
 check_nxtx()
-change_effect_sz()
+change_effect_val()
 
 drag_root_wn()
 
 get_thbg_color()
 
 unxt_()
+
 
 def _update_():
 
