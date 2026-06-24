@@ -12073,11 +12073,11 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
         if w>=h:
 
-            r_=w/2+10
+            r_=w
 
         else:
 
-            r_=h/2+10
+            r_=h
 
 
         ar=[]
