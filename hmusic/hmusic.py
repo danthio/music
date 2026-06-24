@@ -5501,9 +5501,11 @@ def main():
 
     global rec_dict,rec_count
 
-    rec_dict={}
+    if theme_st2!=1:
 
-    rec_count=0
+        rec_dict={}
+
+        rec_count=0
 
     root.wm_attributes("-topmost",True)
 
@@ -10170,7 +10172,7 @@ def load_im():
 
     im_=darken_border(im_,border=17)
 
-    im_=im_.resize((150,int(150*y/x)))
+    im_=im_.resize((100,int(100*y/x)))
 
     #im_.show()
 
@@ -12109,6 +12111,9 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
 
         draw.line(ar,fill=cole)
+
+
+    im=im.crop((0,0,w,h))
             
 
             
@@ -12153,10 +12158,11 @@ def draw_fadingc(r):
 
             col=hex_to_rgb(_theme[0])
 
+        
+        draw.polygon(ar,outline=(int(col[0]),int(col[1]),int(col[2]),int(round(op,0))))
+        #draw.polygon(ar,outline=(int(col[0]*sc),int(col[1]*sc),int(col[2]*sc),int(round(op,0))))
 
-        draw.polygon(ar,outline=(int(col[0]*sc),int(col[1]*sc),int(col[2]*sc),int(round(op,0))))
-
-        sc-=1/r
+        #sc-=1/r
     return im
 
 circle=0
