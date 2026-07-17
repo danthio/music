@@ -281,8 +281,11 @@ def create_dark_im():
     ["no-music.png",[302,27]],
     ["playlist2.png",[27]],
     ["delete.png",[27]],
+    ["all_songs.png",[27]],
+    ["all_songs2.png",[27]],
+    ["up",[15],
     ["most_played.png",[27]],
-    ["up",[15]]   
+    ["most_played2.png",[27]]]   
 
     ]
 
@@ -316,7 +319,28 @@ def create_dark_im():
                 if len(i[1])>1:
                     c=1
 
-            image=image.resize((sz,sz))
+
+            if x/y!=1:
+
+                if x<y:
+
+                    x_=sz
+                    y_=x_*y/x
+
+                elif y<x:
+
+                    y_=sz
+                    x_=y_*x/y
+
+
+                image=image.resize((int(round(x_,0)),int(round(y_,0))))
+
+
+
+
+            else:
+
+                image=image.resize((sz,sz))
 
             image.save(f"data/{i[0].replace(".png",f"dark{c}.png")}")
 
@@ -390,7 +414,10 @@ im_dict={
 "add2":[("add2",25)],
 "checked":[("checked",20)],
 "bin2":[("bin2",25),("bin3",20)],
+"all_songs":[("all_songs",25)],
 "most_played":[("most_played",25)],
+"all_songs2":[("all_songs2",25)],
+"most_played2":[("most_played2",25)],
 "up":[("n_im",30,-90),("p_im",30,90),("up",15),("down",15,180)]
 }
 
@@ -625,7 +652,27 @@ def change_theme(pcol):
             elif i=="no-music.png" and i_[1]==25:
                 im3_=darken_border(image_)
 
-            im3_=im3_.resize((i_[1],i_[1]))
+
+
+            if x/y!=1:
+
+                if x<y:
+
+                    x_=i_[1]
+                    y_=x_*y/x
+
+                elif y<x:
+
+                    y_=i_[1]
+                    x_=y_*x/y
+
+
+                im3_=im3_.resize((int(round(x_,0)),int(round(y_,0))))
+
+            else:
+
+
+                im3_=im3_.resize((i_[1],i_[1]))
 
 
             if len(i_)==3:
@@ -2107,11 +2154,11 @@ def can3_b1(e):
 
 def can4_b1(e):
 
-    cx,cy=int(can4["width"])-10-20-1+10,10-1+10
+    cx,cy=int(can4["width"])-5-20+10,5+10
 
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
 
-    if r<=11:
+    if r<=10:
         pu_forget()
 
         main()
@@ -2170,13 +2217,14 @@ def add_playlist():
     add_bg=ImageTk.PhotoImage(im1)
     add_bg_=ImageTk.PhotoImage(im2)
 
-    can4.create_image(-15,-15,image=add_bg_,anchor="nw")
     can4.create_image(0,0,image=add_bg,anchor="nw")
+    can4.create_image(-15,-15,image=add_bg_,anchor="nw")
 
 
 
 
-    can4.create_image(int(can4["width"])-10-20,10,image=cancel,anchor="nw")
+
+    can4.create_image(int(can4["width"])-5-20,5,image=cancel,anchor="nw")
 
 
     can6.create_image(-15,-(40+250-40+50)-15,image=add_bg_,anchor="nw")
@@ -3536,7 +3584,7 @@ def can_b1(e):
 
 
 
-    if xv-60<=e.x<=xv+60:
+    if xv-80<=e.x<=xv+80:
         if 50/2-15<=e.y<=50/2+15:
 
 
@@ -3631,7 +3679,7 @@ def can_b1(e):
             return
 
 
-    if xv*2-60<=e.x<=xv*2+60:
+    if xv*2-80<=e.x<=xv*2+80:
         if 50/2-15<=e.y<=50/2+15:
 
 
@@ -3727,7 +3775,7 @@ def can_b1(e):
 
             return
 
-    if xv*3-60<=e.x<=xv*3+60:
+    if xv*3-80<=e.x<=xv*3+80:
         if 50/2-15<=e.y<=50/2+15:
 
             if st==2:
@@ -3826,7 +3874,7 @@ def can_b1(e):
             return
 
 
-    if xv*4-60<=e.x<=xv*4+60:
+    if xv*4-80<=e.x<=xv*4+80:
         if 50/2-15<=e.y<=50/2+15:
 
 
@@ -3920,7 +3968,7 @@ def can_b1(e):
             return
 
 
-    if xv*5-60<=e.x<=xv*5+60:
+    if xv*5-80<=e.x<=xv*5+80:
         if 50/2-15<=e.y<=50/2+15:
 
             
@@ -7372,10 +7420,7 @@ def rounded_im(im,x,y,w_,h_,r):
     im2=im2.resize((_wd,_ht))
 
 
-    r=_r_
-
-
-
+    #r=_r_
 
 
 
@@ -7386,17 +7431,22 @@ def rounded_im(im,x,y,w_,h_,r):
 
     red,green,blue=hex_to_rgb(_theme[0])
 
-    w_,h_=w_+r*2,h_+r*2
+    w_,h_=int(round(w_+_r_*2,0)),int(round(h_+_r_*2,0))
+
+    w_2=int(round(w_*4,0))
+    h_2=int(round(w_2*h_/w_,0))
 
 
-    im3=Image.new("RGBA",(w_,h_),(0,0,0,0))
+    im3=Image.new("RGBA",(w_2,h_2),(0,0,0,0))
     pixels=im3.load()
 
 
-    r2=r*math.sin(math.radians(180+45))+r
+
+
+    r2=(r*math.sin(math.radians(180+45))+r)
 
     y_=r*2
-    for y in range(h_-r*4+1):
+    for y in range(h_2-r*4+1):
 
         x_=r
 
@@ -7420,9 +7470,9 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
     y_=r*2
-    for y in range(h_-r*4+1):
+    for y in range(h_2-r*4+1):
 
-        x_=w_-r
+        x_=w_2-r
 
         s=1
         op=255
@@ -7445,7 +7495,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
     x_=r*2
-    for x in range(w_-r*4+1):
+    for x in range(w_2-r*4+1):
 
 
         s=1
@@ -7471,13 +7521,13 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
     x_=r*2
-    for x in range(w_-r*4+1):
+    for x in range(w_2-r*4+1):
 
 
         s=1
         op=255
 
-        y_=h_-r
+        y_=h_2-r
 
         for y in range(r):
 
@@ -7502,14 +7552,18 @@ def rounded_im(im,x,y,w_,h_,r):
     cx,cy=r*2,r*2
 
 
+
     s=1
     op=255
+    
 
     for r__ in range(r):
 
+        
+
         a_=180
 
-        for a in range(90):
+        for a in range(900):
             x=int(round((r+r__)*math.sin(math.radians(a_))+cx,0))
             y=int(round((r+r__)*math.cos(math.radians(a_))+cy,0))
 
@@ -7517,7 +7571,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
                 pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
-            a_+=1
+            a_+=0.1
 
         s-=1/r
 
@@ -7526,7 +7580,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
 
-    cx,cy=w_-r*2,r*2
+    cx,cy=w_2-r*2,r*2
 
 
     s=1
@@ -7537,7 +7591,7 @@ def rounded_im(im,x,y,w_,h_,r):
         a_=90
 
 
-        for a in range(90):
+        for a in range(900):
             x=int(round((r+r__)*math.sin(math.radians(a_))+cx,0))
             y=int(round((r+r__)*math.cos(math.radians(a_))+cy,0))
 
@@ -7545,7 +7599,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
                 pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
-            a_+=1
+            a_+=0.1
 
         s-=1/r
 
@@ -7555,7 +7609,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
 
-    cx,cy=w_-r*2,h_-r*2
+    cx,cy=w_2-r*2,h_2-r*2
 
 
     s=1
@@ -7566,7 +7620,7 @@ def rounded_im(im,x,y,w_,h_,r):
         a_=0
 
 
-        for a in range(90):
+        for a in range(900):
             x=int(round((r+r__)*math.sin(math.radians(a_))+cx,0))
             y=int(round((r+r__)*math.cos(math.radians(a_))+cy,0))
 
@@ -7574,7 +7628,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
                 pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
-            a_+=1
+            a_+=0.1
 
         s-=1/r
 
@@ -7582,7 +7636,7 @@ def rounded_im(im,x,y,w_,h_,r):
             op-=255/(r-r2)
 
 
-    cx,cy=r*2,h_-r*2
+    cx,cy=r*2,h_2-r*2
 
 
     s=1
@@ -7593,7 +7647,7 @@ def rounded_im(im,x,y,w_,h_,r):
         a_=270
 
 
-        for a in range(90):
+        for a in range(900):
             x=int(round((r+r__)*math.sin(math.radians(a_))+cx,0))
             y=int(round((r+r__)*math.cos(math.radians(a_))+cy,0))
 
@@ -7601,12 +7655,16 @@ def rounded_im(im,x,y,w_,h_,r):
 
                 pixels[x,y]=(int(round(red*s,0)),int(round(green*s,0)),int(round(blue*s,0)),int(round(op,0)))
 
-            a_+=1
+            a_+=0.1
 
         s-=1/r
 
         if r__>r2:
             op-=255/(r-r2)
+
+
+
+    im3=im3.resize((w_,h_))
 
 
 
@@ -8100,7 +8158,8 @@ def draw_can(con=0):
     global bg_sett_,bg_sort_,add_bg_,bg_del_
     global del_st
     global none_l,none_l1
-    global most_played,most_played_
+    global all_songs_im,all_songs_im_
+    global most_played,most_played2
     global sel_filt1,sel_filt1_,sel_filt2,sel_filt2_
     global can_lyrics
     global musical_note3
@@ -8652,8 +8711,22 @@ def draw_can(con=0):
 
 
     label=["All Songs","Favourites","Playlist","Most Played","Add Song"]
+    label_im=[[all_songs_im,all_songs_im_],[favourite2,favourite2_],[playlist2,playlist3],[most_played,most_played2],[add,add2]]
 
     for l in range(len(label)):
+
+
+        f=font.Font(family="FreeMono",size=13)
+
+        if label[l]=="Most Played":
+            im_size=41
+        else:
+            im_size=25
+
+        x_=x-80+(160-(f.measure(label[l])+im_size+10))/2
+
+
+
 
         col=col1
 
@@ -8661,7 +8734,12 @@ def draw_can(con=0):
             col=_theme[1][1]
 
 
-            draw_round_rec(can,x-60-1,50/2-15-1,x+60,50/2-15+30,15,_theme[0],"#000000",0)
+            draw_round_rec(can,x-80,50/2-15-1,x+80,50/2-15+30,15,_theme[0],"#000000",0)
+
+            can.create_image(x_,50/2,image=label_im[l][1],anchor="w")
+        else:
+
+            can.create_image(x_,50/2,image=label_im[l][0],anchor="w")
 
 
 
@@ -8673,12 +8751,12 @@ def draw_can(con=0):
 
         if not col==_theme[1][1]:
 
-            draw_outline_text(can,label[l],x,50/2,"c",("FreeMono",13))
+            draw_outline_text(can,label[l],x_+10+im_size,50/2,"w",("FreeMono",13))
 
 
 
 
-        can.create_text(x,50/2,text=label[l],fill=col,font=("FreeMono",13),anchor="c")
+        can.create_text(x_+10+im_size,50/2,text=label[l],fill=col,font=("FreeMono",13),anchor="w")
 
 
 
@@ -8731,8 +8809,16 @@ def draw_can(con=0):
                         can.create_text(10+15+length_in_pixels+15+10+30,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
 
                 else:
+                    if songs_status[0]==0:
 
-                    if songs_status[0]==1:
+                        can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10-12.5,image=all_songs_im,anchor="nw")
+                        
+                        txt=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10+25+10))
+
+                        draw_outline_text(can,txt,10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,"w",("FreeMono",13))
+                        can.create_text(10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
+
+                    elif songs_status[0]==1:
 
                         can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10-12.5,image=favourite2,anchor="nw")
                         
@@ -8740,14 +8826,17 @@ def draw_can(con=0):
 
                         draw_outline_text(can,txt,10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,"w",("FreeMono",13))
                         can.create_text(10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
+
+                    elif songs_status[0]==3:
                     
-                    else:
+                        can.create_image(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10-12.5,image=most_played,anchor="nw")
+                        
+                        txt=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10+41+10))
 
-                        txt=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10)-(10))
+                        draw_outline_text(can,txt,10+41+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,"w",("FreeMono",13))
+                        can.create_text(10+41+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
 
-                        draw_outline_text(can,txt,10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,"w",("FreeMono",13))
-                        can.create_text(10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
-            
+
             except:
                 pass
 
@@ -9126,9 +9215,9 @@ def draw_can(con=0):
         bg_filt=ImageTk.PhotoImage(im1)
         bg_filt_=ImageTk.PhotoImage(im2)
 
-       
+        filter_can1.create_image(0,0,image=bg_filt,anchor="nw")        
         filter_can1.create_image(-15,-15,image=bg_filt_,anchor="nw")
-        filter_can1.create_image(0,0,image=bg_filt,anchor="nw") 
+
 
 
 
@@ -9171,11 +9260,19 @@ def draw_can(con=0):
                 draw_outline_text(filter_can1,"None",5+25+15,y+15,"w",("FreeMono",13))
                 filter_can1.create_text(5+25+15,y+15,text="None",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
+
+
             else:
+
+                x=5+25+15
+
+                if a[1]=="Most Played":
+
+                    x=5+41+15
 
                 
 
-                draw_outline_text(filter_can1,a[1],5+25+15,y+15,"w",("FreeMono",13))
+                draw_outline_text(filter_can1,a[1],x,y+15,"w",("FreeMono",13))
 
                 col=_theme[0]
 
@@ -9185,7 +9282,7 @@ def draw_can(con=0):
                 elif a[1]=="Most Played" and st==3:
                     col=_theme[1][0]
 
-                filter_can1.create_text(5+25+15,y+15,text=a[1],font=("FreeMono",13),fill=col,anchor="w")
+                filter_can1.create_text(x,y+15,text=a[1],font=("FreeMono",13),fill=col,anchor="w")
 
 
 
@@ -9791,7 +9888,7 @@ highl1=0
 bg2_=0
 
 none_l,none_l1=0,0
-most_played,most_played_=0,0
+all_songs_im,all_songs_im_=0,0
 filter2=0
 
 musical_note3=0
@@ -9808,6 +9905,8 @@ load_1,load_2=0,0
 border_m=0
 
 signature=0
+
+most_played,most_played2=0,0
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -9842,7 +9941,7 @@ def load_im():
     global w,h,can2
     global w,highl1
     global none_l,none_l1
-    global most_played,most_played_
+    global all_songs_im,all_songs_im_
     global filter2
     global bg_styl__,bg_styl2__
     global bg_hex
@@ -9854,6 +9953,7 @@ def load_im():
     global progx
     global border_m
     global signature
+    global most_played,most_played2
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -9939,7 +10039,11 @@ def load_im():
     down=ImageTk.PhotoImage(file="data/down.png")  
 
 
+    all_songs_im=ImageTk.PhotoImage(file="data/all_songs.png")
+    all_songs_im_=ImageTk.PhotoImage(file="data/all_songs2.png")
+
     most_played=ImageTk.PhotoImage(file="data/most_played.png")
+    most_played2=ImageTk.PhotoImage(file="data/most_played2.png")
 
     filter2=ImageTk.PhotoImage(file="data/filter2.png")
 
@@ -10170,9 +10274,11 @@ def load_im():
 
                 pixels[x_,y_]=(*col,255)
 
-    im_=darken_border(im_,border=17)
+    im_=darken_border(im_,border=4)
 
     im_=im_.resize((100,int(100*y/x)))
+
+    #im_.save("signature.png")
 
     #im_.show()
 
@@ -12480,7 +12586,8 @@ def adjust_theme():
 
     conf_stheme=0
 
-    if c==66:
+
+    if c==69:
 
         im=Image.open("data/circle.png")
         imx,imy=im.size
@@ -12488,8 +12595,6 @@ def adjust_theme():
         if im.getpixel((int(imx/2),int(imy/2)))[:-1]==hex_to_rgb(col):
 
             conf_stheme=1
-
-
 
     if unchanged==0 and conf_stheme==0:
         
@@ -12615,7 +12720,6 @@ def adjust_theme():
             im1=darken_image(im,(0,0,0), _theme[2])
             im2=darken_image(im1,(0,0,0), 0.5)
 
-            print(im1.size)
 
             _bg_=im1
             bg_dark_=im2
@@ -13972,7 +14076,7 @@ def draw_can_sort():
     bg_sort_=ImageTk.PhotoImage(im2)
 
 
-    can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
+
 
     if vid_st==0:
         can_sort.create_image(0,0,image=bg_sort,anchor="nw")
@@ -13980,7 +14084,7 @@ def draw_can_sort():
     else:
         can_sort.create_rectangle(0,0,int(can_sort["width"]),int(can_sort["height"]),fill="#000000",outline="#000000")
 
-
+    can_sort.create_image(-15,-15,image=bg_sort_,anchor="nw")
 
 
 
@@ -15484,14 +15588,14 @@ def draw_theme(con=0):
     bg_sett_=ImageTk.PhotoImage(im2)
 
 
-    can_theme.create_image(-25,-25,image=bg_sett_,anchor="nw")
+
 
     if vid_st==0:
         can_theme.create_image(0,0,image=bg_sett,anchor="nw")
     else:
         can_theme.create_rectangle(0,0,int(can_theme["width"]),int(can_theme["height"]),fill="#000000",outline="#000000")
 
-
+    can_theme.create_image(-25,-25,image=bg_sett_,anchor="nw")
 
 
 
@@ -16917,14 +17021,14 @@ def conf_del_(file,con):
 
     cur_conf_del_2=conf_del.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
-    conf_del.create_image(-15,-15,
-        image=bg_del_,anchor="nw")
+
 
 
     conf_del.create_image(0,0,
         image=bg_del,anchor="nw")
 
-
+    conf_del.create_image(-15,-15,
+        image=bg_del_,anchor="nw")
 
 
 
