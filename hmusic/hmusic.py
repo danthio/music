@@ -2168,7 +2168,6 @@ bgp=0
 cp2_im=0
 cp2_im2=0
 
-add_bg,add_bg_=0,0
 def add_playlist():
     global can4,can3,can5,can6
     global sel_playlist,playlist,playlist2,checked
@@ -2212,10 +2211,7 @@ def add_playlist():
 
     #x=(w-550)/2,y=(h-(40+250-40+10))/2
 
-    im1,im2=rounded_im(bg_dark_,((w-550)/2),((h-(40+250-40+50+40))/2),550,(40+250-40+50+40),15)
 
-    add_bg=ImageTk.PhotoImage(im1)
-    add_bg_=ImageTk.PhotoImage(im2)
 
     can4.create_image(0,0,image=add_bg,anchor="nw")
     can4.create_image(-15,-15,image=add_bg_,anchor="nw")
@@ -3284,7 +3280,6 @@ im_bg=0
 
 bg_so=0
 
-bg_sort,bg_sort_=0,0
 loop_song=""
 def can_b1(e):
     global st,w,h,tm,current_playing
@@ -3515,8 +3510,7 @@ def can_b1(e):
         if 12.5<=e.y<=12.5+25:
 
 
-            can_theme["height"]=int(h*0.77777777)
-            can_theme["width"]=int(w*0.728125)
+
 
             _search=0
             search_var=""
@@ -8050,7 +8044,6 @@ def unxt_():
 
 
 
-bg_filt,bg_filt_=0,0
 
 sel_filt1,sel_filt1_=0,0
 sel_filt2,sel_filt2_=0,0
@@ -9190,8 +9183,7 @@ def draw_can(con=0):
 
 
 
-        filter_can1["height"]=30+30*5
-        filter_can1["width"]=250
+
 
 
         filter_can1.delete("all")
@@ -9210,10 +9202,7 @@ def draw_can(con=0):
 
         
 
-        im1,im2=rounded_im(bg_dark_,(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,30+30*5,15)
 
-        bg_filt=ImageTk.PhotoImage(im1)
-        bg_filt_=ImageTk.PhotoImage(im2)
 
         filter_can1.create_image(0,0,image=bg_filt,anchor="nw")        
         filter_can1.create_image(-15,-15,image=bg_filt_,anchor="nw")
@@ -9907,6 +9896,9 @@ border_m=0
 signature=0
 
 most_played,most_played2=0,0
+
+add_bg,add_bg_,bg_filt,bg_filt_,bg_sort,bg_sort_,bg_sett,bg_sett_,bg_del,bg_del_=0,0,0,0,0,0,0,0,0,0
+
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -9954,6 +9946,12 @@ def load_im():
     global border_m
     global signature
     global most_played,most_played2
+    global add_bg,add_bg_,bg_filt,bg_filt_,bg_sort,bg_sort_,bg_sett,bg_sett_,bg_del,bg_del_
+    global w,h
+    global filter_can1,can_sort,can_theme,conf_del
+
+
+
 
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
@@ -10290,6 +10288,37 @@ def load_im():
 
     #progx.show()
 
+
+    im1,im2=rounded_im(bg_dark_,((w-550)/2),((h-(40+250-40+50+40))/2),550,(40+250-40+50+40),15)
+
+    add_bg=ImageTk.PhotoImage(im1)
+    add_bg_=ImageTk.PhotoImage(im2)
+
+
+
+    im1,im2=rounded_im(bg_dark_,(w-10-int(filter_can1["width"])),(40+30-10-5-5+30+10),250,30+30*5,15)
+
+    bg_filt=ImageTk.PhotoImage(im1)
+    bg_filt_=ImageTk.PhotoImage(im2)
+
+
+
+    im1,im2=rounded_im(bg_dark_,(10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
+
+    bg_sort=ImageTk.PhotoImage(im1)
+    bg_sort_=ImageTk.PhotoImage(im2)
+
+
+    im1,im2=rounded_im(bg_dark_,(10+25+5),(25+12.5+5),int(can_theme["width"]),int(can_theme["height"]),25)
+
+    bg_sett=ImageTk.PhotoImage(im1)
+    bg_sett_=ImageTk.PhotoImage(im2)
+
+
+    im1,im2=rounded_im(bg_dark_,(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
+
+    bg_del=ImageTk.PhotoImage(im1)
+    bg_del_=ImageTk.PhotoImage(im2)
 
 
 
@@ -12596,6 +12625,7 @@ def adjust_theme():
 
             conf_stheme=1
 
+
     if unchanged==0 and conf_stheme==0:
         
         change_theme(col)
@@ -14070,10 +14100,6 @@ def draw_can_sort():
 
     cur_can_sort_2=can_sort.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
-    im1,im2=rounded_im(bg_dark_,(10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
-
-    bg_sort=ImageTk.PhotoImage(im1)
-    bg_sort_=ImageTk.PhotoImage(im2)
 
 
 
@@ -15461,7 +15487,6 @@ focus__=0
 tbg_,tbg2_,tbg3=0,0,0
 op_ar=[]
 
-bg_sett,bg_sett_=0,0
 def_lb=0
 ey=0
 ch_im=0
@@ -15582,10 +15607,6 @@ def draw_theme(con=0):
     cur_can_theme_2=can_theme.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
     can_theme.place(in_=root,x=10+25+5,y=25+12.5+5)
 
-    im1,im2=rounded_im(bg_dark_,(10+25+5),(25+12.5+5),int(can_theme["width"]),int(can_theme["height"]),25)
-
-    bg_sett=ImageTk.PhotoImage(im1)
-    bg_sett_=ImageTk.PhotoImage(im2)
 
 
 
@@ -16598,7 +16619,13 @@ def can_theme_bs(e):
 
 theme_st=0
 
+
+
 can_theme=tk.Canvas(width=w-100,height=h-200,bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
+
+can_theme["height"]=int(h*0.77777777)
+can_theme["width"]=int(w*0.728125)
+
 can_theme.bind("<Button-1>",can_theme_b1)
 can_theme.bind("<Button-3>",can_theme_b3)
 can_theme.bind("<Motion>",can_theme_m)
@@ -16848,6 +16875,9 @@ def filter2_b1_r(e):
 
 
 filter_can1=tk.Canvas(width=250,height=30*4,bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
+filter_can1["height"]=30+30*5
+filter_can1["width"]=250
+
 filter_can1.bind("<Button-1>",filter1_b1)
 
 filter_can2=tk.Canvas(width=250,height=30*7,bg=_theme[1][1],relief="flat",highlightthickness=0,border=0,cursor="none")
@@ -16993,7 +17023,6 @@ def conf_del_b1(e):
 
 
 
-bg_del,bg_del_=0,0
 
 del_st=0
 def conf_del_(file,con):
@@ -17010,10 +17039,6 @@ def conf_del_(file,con):
 
     
 
-    im1,im2=rounded_im(bg_dark_,(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
-
-    bg_del=ImageTk.PhotoImage(im1)
-    bg_del_=ImageTk.PhotoImage(im2)
 
 
     conf_del.delete("all")
