@@ -5520,7 +5520,7 @@ def main():
     global cursor
     global theme
     global _theme
-    global filter_val,filter_pl
+    global filter_st,filter_val,filter_pl,filter_can1,filter_can2
     global no_music
     global can_npl,npl_var
     global theme_st2
@@ -5607,6 +5607,9 @@ def main():
         lyric_st=0
         can_lyrics.place_forget()
 
+        filter_st=0
+        filter_can1.place_forget()
+        filter_can2.place_forget()
     else:
 
         root.geometry(str(w)+"x"+str(h)+"+"+str(int((wd-w)/2))+"+"+str(int(((ht)-h)/2)))
@@ -8241,6 +8244,10 @@ def draw_can(con=0):
         lyric_st=0
         can_lyrics.place_forget()
 
+        filter_st=0
+        filter_can1.place_forget()
+        filter_can2.place_forget()
+
         return
     else:
         root["bg"]="#000000"
@@ -9246,18 +9253,15 @@ def draw_can(con=0):
 
             if a[1]==None:
 
-                draw_outline_text(filter_can1,"None",5+25+15,y+15,"w",("FreeMono",13))
-                filter_can1.create_text(5+25+15,y+15,text="None",font=("FreeMono",13),fill=_theme[0],anchor="w")
+                draw_outline_text(filter_can1,"None",5+41+15,y+15,"w",("FreeMono",13))
+                filter_can1.create_text(5+41+15,y+15,text="None",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
 
 
             else:
 
-                x=5+25+15
+                x=5+41+15
 
-                if a[1]=="Most Played":
-
-                    x=5+41+15
 
                 
 
@@ -11591,9 +11595,9 @@ def can_label(x,y):
                         can_outline_st=2
 
 
-                        draw_outline_text(can,"list",10+12.5,h-20-30-15+5+10-3+2.5+25+6,"c",("FreeMono",10))
+                        draw_outline_text(can,"list",10+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
-                        mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+6,text="list",fill=col1,font=("FreeMono",10),anchor="c")
+                        mot_val=can.create_text(10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("FreeMono",10),anchor="c")
 
                         draw_cur_can()
 
@@ -11612,8 +11616,8 @@ def can_label(x,y):
 
 
 
-                        draw_outline_text(can,"sort",10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+6,"c",("FreeMono",10))
-                        mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+6,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
+                        draw_outline_text(can,"sort",10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
+                        mot_val=can.create_text(10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
                     
                         draw_cur_can()
 
@@ -11630,11 +11634,11 @@ def can_label(x,y):
 
                         can_outline_st=2
 
-                        draw_outline_text(can,"shuffle",10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+6,"c",("FreeMono",10))
+                        draw_outline_text(can,"shuffle",10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
 
 
-                        mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+6,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
+                        mot_val=can.create_text(10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
                         
                         draw_cur_can()
 
@@ -11651,9 +11655,9 @@ def can_label(x,y):
                         can_outline_st=2
 
 
-                        draw_outline_text(can,"loop",10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+6,"c",("FreeMono",10))
+                        draw_outline_text(can,"loop",10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
-                        mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+6,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
+                        mot_val=can.create_text(10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
                         
                         draw_cur_can()
 
@@ -11685,9 +11689,9 @@ def can_label(x,y):
 
 
 
-                        draw_outline_text(can,txt,10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+6,"c",("FreeMono",10))
+                        draw_outline_text(can,txt,10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
 
-                        mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+6,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
+                        mot_val=can.create_text(10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
                         draw_cur_can()
 
                 #lyrics
