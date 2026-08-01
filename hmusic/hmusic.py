@@ -157,7 +157,7 @@ def play_vid():
 
             x,y=_frame__.size
 
-            _frame__=_frame__.resize(( int(round(720*x/y,0)),720))
+            _frame__=_frame__.resize(( int(round(500*x/y,0)),500))
 
 
 
@@ -11935,35 +11935,35 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
     im=Image.new("RGBA",(w,h),(0,0,0,255))
 
-    if con!=3:
+    #if con!=3:
 
 
-        im2=Image.open("data/im_ref/musical_note2.png")
-        x,y=im2.size
+    im2=Image.open("data/im_ref/musical_note2.png")
+    x,y=im2.size
 
 
 
 
-        im2_=Image.new("RGBA",(x,y),(0,0,0,0))
+    im2_=Image.new("RGBA",(x,y),(0,0,0,0))
 
-        pixels=im2_.load()
-
-
-        for y_ in range(y):
-
-            for x_ in range(x):
-
-                col_=im2.getpixel((x_,y_))
-
-                if col_[-1]==0:
-                    pixels[x_,y_]=(0,0,0,255)
-                else:
-                    pixels[x_,y_]=(*hex_to_rgb(_col_),255)
-
-            root.after(1,update)
+    pixels=im2_.load()
 
 
-        im.paste(im2_,(int((w-x)/2),int((h-y)/2)))
+    for y_ in range(y):
+
+        for x_ in range(x):
+
+            col_=im2.getpixel((x_,y_))
+
+            if col_[-1]==0:
+                pixels[x_,y_]=(0,0,0,255)
+            else:
+                pixels[x_,y_]=(*hex_to_rgb(_col_),255)
+
+        root.after(1,update)
+
+
+    im.paste(im2_,(int((w-x)/2),int((h-y)/2)))
 
 
 
