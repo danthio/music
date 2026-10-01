@@ -157,7 +157,7 @@ def play_vid():
 
             x,y=_frame__.size
 
-            _frame__=_frame__.resize(( int(round(500*x/y,0)),500))
+            _frame__=_frame__.resize(( int(round(720*x/y,0)),720))
 
 
 
@@ -211,12 +211,12 @@ def play_vid():
                 can.coords(vframe[1],(w-x)/2,(h-y)/2)
 
 
-            root.after(int(round(1000/fps,0)),play_vid)
+            root.after(int(round(fps,0)),play_vid)
         except:
             pass
     else:    
 
-        root.after(2,play_vid)
+        root.after(8,play_vid)
 
 
     
@@ -490,7 +490,7 @@ def darken_border(im,border=17):
 
 
 
-    root.after(2,update)
+    root.after(8,update)
 
 
 
@@ -549,7 +549,7 @@ def darken_border(im,border=17):
 
             y_-=1
 
-    root.after(2,update)
+    root.after(8,update)
 
     return im_
 
@@ -628,7 +628,7 @@ def change_theme(pcol):
 
                 #print(col,pixels[x_,y_])
 
-            root.after(2,update)
+            root.after(8,update)
 
 
         
@@ -683,7 +683,7 @@ def change_theme(pcol):
             im3_.save("data/"+i_[0]+".png")
 
 
-            root.after(2,update)
+            root.after(8,update)
 
 
 
@@ -966,7 +966,7 @@ def draw_wave():
     except:
         pass
 
-    root.after(4,draw_wave)
+    root.after(8,draw_wave)
 
 
 
@@ -1238,11 +1238,11 @@ def convert_folder_to_audio():
 
 
 
-                    root.after(2,update)
+                    root.after(8,update)
 
 
                 except:
-                    root.after(2,update)
+                    root.after(8,update)
                     
 
 
@@ -1369,11 +1369,11 @@ def convert_file_to_audio():
                         #vid_quality(input_file,"videos/"+i)
 
 
-                    root.after(2,update)
+                    root.after(8,update)
                     
 
                 except:
-                    root.after(2,update)
+                    root.after(8,update)
                     
 
 
@@ -1437,7 +1437,7 @@ def check_sound_device():
         )
         volume = interface.QueryInterface(IAudioEndpointVolume)
 
-    root.after(20,check_sound_device)
+    root.after(80,check_sound_device)
 
 
 music_details={}
@@ -1873,6 +1873,8 @@ def prog(conp):
 
                 x_=tm*(w-20)/tot_tm_
 
+                """
+
 
                 amp=((h-121-30)-50)/2-20-70-10
 
@@ -1894,6 +1896,8 @@ def prog(conp):
 
                 progx_=ImageTk.PhotoImage(im)
 
+                """
+
                 if conp==1:
 
                     
@@ -1903,14 +1907,14 @@ def prog(conp):
                     can.itemconfig(v4__,text=tt)
 
                     can.itemconfig(ctime,text=tt)
-                    can.itemconfig(c_sig,image=progx_)
+                    #can.itemconfig(c_sig,image=progx_)
 
                     can.coords(prog2,x_+10-4,h-20-60-20+10+2+5-3-4+10)
                     can.coords(prog2_,x_+10-4-1,h-20-60-20+10+2+5-3-4+10-1)
                     can.coords(prog3,x_+10-3,h-20-60-20+10+2+5-3-3+10)
                     can.coords(prog1,10,h-20-60-20+10+2+5-3+10, x_+10,h-20-60-20+10+2+5-3+10)
                     can.coords(progc,x_+10,h-20-60-20+10+2+5-3+10)
-                    can.coords(c_sig,x_+10,h-20-60-20+10+2+5-3+10)
+                    #can.coords(c_sig,x_+10,h-20-60-20+10+2+5-3+10)
 
                 else:
 
@@ -1926,7 +1930,7 @@ def prog(conp):
                     can.delete(prog2)
                     can.delete(prog2_)
                     can.delete(prog3)
-                    can.delete(c_sig)
+                    #can.delete(c_sig)
 
 
 
@@ -1942,7 +1946,7 @@ def prog(conp):
 
 
 
-                    c_sig=can.create_image(x_+10,h-20-60-20+10+2+5-3+10 ,image=progx_)
+                    #c_sig=can.create_image(x_+10,h-20-60-20+10+2+5-3+10 ,image=progx_)
                     progc=can.create_image(x_+10,h-20-60-20+10+2+5-3+10,image=circle7,anchor="c")
 
 
@@ -2062,7 +2066,7 @@ def timer():
             pass
             
 
-    root.after(10,timer)
+    root.after(8,timer)
 
 
 def can3_b1(e):
@@ -6753,7 +6757,7 @@ def vid_timer():
 
 
 
-    root.after(2,vid_timer)
+    root.after(8,vid_timer)
 
 
 
@@ -8041,7 +8045,7 @@ def unxt_():
 
 
 
-    root.after(150,unxt_)
+    root.after(450,unxt_)
 
 
 
@@ -10348,7 +10352,7 @@ def check_pl():
                     can_npl.place_forget()
 
 
-    root.after(10,check_pl)
+    root.after(40,check_pl)
 
 
 
@@ -10393,7 +10397,7 @@ def sync_lyrics():
                 can_lyrics.yview_moveto(fraction)
 
 
-    root.after(2,sync_lyrics)
+    root.after(8,sync_lyrics)
 
 
 def draw_load(sz,r_):
@@ -10510,7 +10514,7 @@ def load_():
 
 
 
-    root.after(2,load_)
+    root.after(8,load_)
 
 mot_val=0
 my_cursor=0
@@ -11483,7 +11487,7 @@ def check_cur_pos():
     #__check_cur_pos()
 
 
-    root.after(10,check_cur_pos)
+    root.after(40,check_cur_pos)
 
 mot_val_theme,mot_val_can2=0,0
 def can_label(x,y):
@@ -11925,7 +11929,7 @@ def convert_(im,col,con):
 
             pixels[x,y]=(r,g,b,255)
 
-        root.after(2,update)
+        root.after(8,update)
 
     return image
 
@@ -11935,35 +11939,35 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
     im=Image.new("RGBA",(w,h),(0,0,0,255))
 
-    #if con!=3:
+    if con!=3:
 
 
-    im2=Image.open("data/im_ref/musical_note2.png")
-    x,y=im2.size
+        im2=Image.open("data/im_ref/musical_note2.png")
+        x,y=im2.size
 
 
 
 
-    im2_=Image.new("RGBA",(x,y),(0,0,0,0))
+        im2_=Image.new("RGBA",(x,y),(0,0,0,0))
 
-    pixels=im2_.load()
-
-
-    for y_ in range(y):
-
-        for x_ in range(x):
-
-            col_=im2.getpixel((x_,y_))
-
-            if col_[-1]==0:
-                pixels[x_,y_]=(0,0,0,255)
-            else:
-                pixels[x_,y_]=(*hex_to_rgb(_col_),255)
-
-        root.after(1,update)
+        pixels=im2_.load()
 
 
-    im.paste(im2_,(int((w-x)/2),int((h-y)/2)))
+        for y_ in range(y):
+
+            for x_ in range(x):
+
+                col_=im2.getpixel((x_,y_))
+
+                if col_[-1]==0:
+                    pixels[x_,y_]=(0,0,0,255)
+                else:
+                    pixels[x_,y_]=(*hex_to_rgb(_col_),255)
+
+            root.after(4,update)
+
+
+        im.paste(im2_,(int((w-x)/2),int((h-y)/2)))
 
 
 
@@ -12035,7 +12039,7 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
                 x_+=xv
 
-                root.after(1,update)
+                root.after(4,update)
 
 
             y_+=yv
@@ -12126,7 +12130,7 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
                 draw.polygon(ar,outline=cole)
 
-                root.after(1,update)
+                root.after(4,update)
 
                 
 
@@ -12191,14 +12195,14 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
                 draw.ellipse((x_-val/2,y_-val/2, x_+val/2,y_+val/2),outline=cole)
 
-                root.after(1,update)
+                root.after(4,update)
 
 
                 y_+=val/2
 
             x_+=xv
 
-            root.after(1,update)
+            root.after(4,update)
 
     elif con==3:
 
@@ -12770,7 +12774,7 @@ def adjust_theme():
     #subprocess.run(command, check=True, capture_output=True, text=True)
 
 
-    root.after(2,update)
+    root.after(8,update)
     adj_st=1
 
 
@@ -12871,7 +12875,7 @@ def update_bg_pos():
     move_bg()
 
 
-    root.after(2,update_bg_pos)
+    root.after(8,update_bg_pos)
 
 
 def scroll(val):
@@ -13308,7 +13312,7 @@ def drag_root_wn():
 
 
 
-    root.after(1,drag_root_wn)
+    root.after(4,drag_root_wn)
 
 def drag_can(e):
 
@@ -13582,7 +13586,7 @@ def update_sb4():
 
 
 
-    root.after(20,update_sb)
+    root.after(80,update_sb)
 
 
 sb4_h_=0
@@ -13672,7 +13676,7 @@ def update_sb3():
 
 
 
-    root.after(20,update_sb)
+    root.after(80,update_sb)
 
 
 sb3_h_=0
@@ -13762,7 +13766,7 @@ def update_sb():
 
 
 
-    root.after(20,update_sb)
+    root.after(80,update_sb)
 
 
 sb_h_=0
@@ -13925,7 +13929,7 @@ def update_sb2():
 
 
 
-    root.after(20,update_sb2)
+    root.after(80,update_sb2)
 
 sb2_h_=0
 def draw_sb2():
@@ -14027,7 +14031,7 @@ def search__():
 
 
 
-    root.after(2,search__)
+    root.after(8,search__)
 
 def est_sz(con):
     global w
@@ -14070,7 +14074,7 @@ def mvar_():
     except:
         pass
 
-    root.after(2,mvar_)
+    root.after(8,mvar_)
 
 cso_im_=0
 def draw_can_sort():
@@ -14421,7 +14425,7 @@ def check_up_theme():
 
 
 
-    root.after(2,check_up_theme)
+    root.after(8,check_up_theme)
 theme_attr=[0,0,[0,0]]
 
 def check_theme_attr():
@@ -14523,7 +14527,7 @@ def check_theme_attr():
 
 
 
-    root.after(2,check_theme_attr)
+    root.after(8,check_theme_attr)
 
 
 
@@ -15476,7 +15480,7 @@ def focus_theme():
             focus__=0
             theme_ent.focus_set()
 
-    root.after(1,focus_theme)
+    root.after(4,focus_theme)
 
 
 
@@ -16077,7 +16081,7 @@ def get_thbg_color():
                             th_col=can_theme.create_text(x,y+40,text=col,fill=_theme[0],font=("FreeMono",13))
                     except:
                         pass
-    root.after(1,get_thbg_color)
+    root.after(4,get_thbg_color)
 
 def can_theme_b3(e):
 
@@ -17323,7 +17327,7 @@ def can_search_insert():
 
         cs_i_st=1
 
-    root.after(150,can_search_insert)
+    root.after(450,can_search_insert)
 
 def can_search_b1(e):
     global can_search
@@ -17615,7 +17619,7 @@ def can_npl_insert():
                 fill=_theme[0])
 
         cnpl_i_st=1
-    root.after(150,can_npl_insert)
+    root.after(450,can_npl_insert)
 
 
 def can_npl_b1(e):
@@ -17971,7 +17975,7 @@ def can_theme_ent_insert():
             can.focus_set()
             can_theme_ent.delete(cte_i[0])
             can_theme_ent.delete(cte_i[1])
-            root.after(150,can_theme_ent_insert)
+            root.after(450,can_theme_ent_insert)
             return
 
     if focus__==1:
@@ -18028,7 +18032,7 @@ def can_theme_ent_insert():
     else:
         can_theme_ent.delete(cte_i)
 
-    root.after(150,can_theme_ent_insert)
+    root.after(450,can_theme_ent_insert)
 
 def can_theme_ent_b1(e):
     global can_theme_ent
@@ -18457,7 +18461,7 @@ def update_videos():
 
 
 
-    root.after(2000,update_videos)
+    root.after(8000,update_videos)
 
 def vid_quality(input_,output):
 
@@ -18666,7 +18670,7 @@ unxt_()
 
 def _update_():
 
-    root.after(1,_update_)
+    root.after(4,_update_)
 
 _update_()
 root.mainloop()
