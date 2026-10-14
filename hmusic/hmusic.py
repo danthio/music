@@ -2376,7 +2376,7 @@ def add_playlist():
 
     draw_cur_(1)
 
-
+can_npl_im=0
 
 def can2_b1(e):
     global current_playing,songs,play_st
@@ -2417,6 +2417,7 @@ def can2_b1(e):
     global cur_can_npl_2,bg_hex
     global bg_col
     global sb_h_,sb_hp
+    global can_npl_im
 
 
     if theme_st2==1 or filter_st==1 or sort_st==1 or add_st==1 or del_st==1:
@@ -2591,6 +2592,13 @@ def can2_b1(e):
             cur_can_npl_2=can_npl.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
             can_npl.create_image(-(10+15+10),-(5+1+88+15),image=bg,anchor="nw")
+
+            im=Image.new("RGBA",(int(can_npl["width"]),int(can_npl["height"])),(*hex_to_rgb(_theme[0]),35))
+
+            can_npl_im=ImageTk.PhotoImage(im)
+
+            can_npl.create_image(0,0,image=can_npl_im,anchor="nw")
+
                 
 
             can_npl.place(in_=root,x=10+15+10,y=5+1+88+15)
@@ -5462,6 +5470,7 @@ _pl_im=0
 sign=0
 can2_b=0
 can2_b2=0
+can2_o=[0,0]
 def main():
 
     global can,st,w,h,wd,ht
@@ -5555,6 +5564,9 @@ def main():
     global rec_dict,rec_count
     global signature,sign
     global can2_b,can2_b2
+    global can2_o
+    global pl_im
+    global c2_sel
 
     if theme_st2!=1:
 
@@ -5667,7 +5679,7 @@ def main():
 
 
         frame["width"]=w-12-1
-        frame["height"]=((h-121)-80-10)
+        frame["height"]=((h-121)-80-10)-30
 
         can2["width"]=w-12-1
         can2["height"]=((h-121)-80-10)-30
@@ -5735,6 +5747,14 @@ def main():
 
 
         bg2=can2.create_image(-10,-(90-2)-15+int(can2.canvasy(0)),image=bg,anchor="nw")
+
+        im=Image.new("RGBA",(int(can2["width"])-sb_sz-2-1,int(can2["height"])+75),(*hex_to_rgb(_theme[0]),35) )
+
+        can2_o[0]=ImageTk.PhotoImage(im)
+
+        can2_o[1]=can2.create_image(0,can2.canvasy(0),image=can2_o[0],anchor="nw")
+
+
         sign=can2.create_image(w-381-10,int(can2.canvasy(h-40-88-15)),image=signature,anchor="c")
 
         can2_b=can2.create_line(int(can2["width"])-sb_sz-2-1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1,int(can2.canvasy(int(can2["height"])+1+75)),fill=_theme[0])
@@ -5743,9 +5763,9 @@ def main():
         #bg_styl2=can2.create_image(int(can2["width"])+(w-(10+int(can2["width"]))),-(90-2)+int(can2.canvasy(0)),image=b_g2_,anchor="ne")
 
 
-        im=round_im(_theme[0],_theme[0],_theme[3],((int(can2["width"])-sb_sz-1)-2-1),(50),10,1)
 
-        cp_im2_=ImageTk.PhotoImage(im)
+
+        cp_im2_=c2_sel
         cp_im=can2.create_image(0,0,image=cp_im2_,anchor="nw")
 
         can2.coords(cp_im,0,-100)
@@ -6328,18 +6348,18 @@ def main():
 
                         
 
-                        im=round_im(_theme[0],_theme[0],0.45,(((int(can2["width"])-sb_sz-1)-10)-10),(30),15,1)
 
-                        _pl_im=ImageTk.PhotoImage(im)
+
+                        _pl_im=pl_im[0]
                         can2.create_image(10,y,image=_pl_im,anchor="nw")
                     
 
 
 
 
-                    draw_round_rec(can2,10-1,y-1,(int(can2["width"])-sb_sz-1)-10+1-1,y+30+1,15,"#000000","",1)
-                    draw_round_rec(can2,10,y,(int(can2["width"])-sb_sz-1)-10-1,y+30,15,col1,"",1)
 
+                    can2.create_image(10-1,y-1,image=pl_im[1],anchor="nw")
+                    can2.create_image(10,y,image=pl_im[2],anchor="nw")
 
                     draw_outline_text(can2,"New Playlist",30,y+15,"w",("FreeMono",13))
                     can2.create_text(30,y+15,text="New Playlist",font=("FreeMono",13),fill=_theme[0],anchor="w")
@@ -8078,7 +8098,8 @@ up_nxt=0
 nxt_sng=0
 
 unxt=0
-se_im=0
+
+
 def draw_can(con=0):
 
 
@@ -8198,6 +8219,10 @@ def draw_can(con=0):
     global signature
 
     global sb3_sz
+
+    global can2_b_im
+
+    global upn_im
 
     can.delete("all")
     
@@ -8550,19 +8575,9 @@ def draw_can(con=0):
             r=15
             xx,yy=int((w/2-10-40)),70
 
-            col=hex_to_rgb(_theme[0])
-            col=(int(col[0]*0.1),int(col[1]*0.1),int(col[2]*0.1))
-            col="#%02x%02x%02x" % col
-
-            im1=round_im(col,_theme[0],0.85,xx,yy,r,1)
 
 
-
-    
-
-
-
-            up_nxt=ImageTk.PhotoImage(im1)
+            up_nxt=upn_im
 
             if vid_st2==1:
 
@@ -8608,10 +8623,8 @@ def draw_can(con=0):
                 pass
             else:
 
-                im=round_im(_theme[0],_theme[0],0.45,((w-10-25-5-3)-10),(30),15,1)
 
-                se_im=ImageTk.PhotoImage(im)
-                can.create_image(10,40+30-10-5-5,image=se_im,anchor="nw")
+                can.create_image(10,40+30-10-5-5,image=se_im[0],anchor="nw")
             
 
 
@@ -8623,8 +8636,11 @@ def draw_can(con=0):
 
             can.create_image(10+15+2,45+30-10-5-5-2.5,image=search_im,anchor="nw")
             
-            draw_round_rec(can,10-1,40+30-10-5-5-1,w-10-25-10+1,40+30-10-5-5+30+1,15,"#000000","",1)
-            draw_round_rec(can,10,40+30-10-5-5,w-10-25-10,40+30-10-5-5+30,15,col1,"",1)
+
+            can.create_image(10-1,40+30-10-5-5-1,image=se_im[1],anchor="nw")
+            can.create_image(10,40+30-10-5-5,image=se_im[2],anchor="nw")
+
+
 
             can.create_image(w-10-5-20-25-10,40+5+30-10-5-5,image=cancel,anchor="nw")
 
@@ -8682,9 +8698,15 @@ def draw_can(con=0):
             #can.create_line(10-1,90+int(can2["height"]),w-10+1,90+int(can2["height"]),fill="#000000",width=3)
             #can.create_line(10,90+int(can2["height"]),w-10,90+int(can2["height"]),fill=_theme[0],width=1)
 
-            draw_round_rec(can,10-1,88,10-1+int(can2["width"])-sb_sz-2+1,88+15+int(can2["height"])+15,15,_theme[0],"#000000",1)
-            draw_round_rec(can,10-1-1,88-1,10-1+int(can2["width"])-sb_sz-2+1+1,88+15+int(can2["height"])+15+1,15,"#000000","#000000",1)
+            if select_st==0:
 
+                can.create_image(10-1,88,image=can2_b_im[0],anchor="nw")
+                can.create_image(10-1-1,88-1,image=can2_b_im[1],anchor="nw")
+
+            elif select_st==1:
+
+                can.create_image(10-1,88,image=can2_b_im[2],anchor="nw")
+                can.create_image(10-1-1,88-1,image=can2_b_im[3],anchor="nw")
 
 
             frame.place(in_=root,x=10+1,y=90-1-1+15)
@@ -8717,7 +8739,7 @@ def draw_can(con=0):
 
 
         #draw_round_rec(can,0,0,w-1,h-1,25,"#000000","",1,3)            
-        can.create_image(1,1,image=border_m,anchor="nw")
+        can.create_image(0,0,image=border_m,anchor="nw")
 
 
 
@@ -9551,7 +9573,7 @@ def draw_can(con=0):
 
 
 
-    can.create_image(1,1,image=border_m,anchor="nw")
+    can.create_image(0,0,image=border_m,anchor="nw")
     #draw_round_rec(can,1,1,w-2,h-2,25,"#000000","",1)
 
     draw_cur_can()
@@ -9771,7 +9793,7 @@ rec_dict={}
 
 rec_count=0
 
-def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=4,rem=[]):
+def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=4,rem=[],alpha=255,ret=0):
     global rec_count,rec_dict
 
 
@@ -9864,7 +9886,7 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=4,rem=[]):
 
 
     if con==0:
-        draw.polygon(ar,fill=(*hex_to_rgb(col),255),outline=(*hex_to_rgb(col2),255),width=4)
+        draw.polygon(ar,fill=(*hex_to_rgb(col),alpha),outline=(*hex_to_rgb(col2),255),width=4)
     elif con==1:    
 
         draw.polygon(ar,outline=(*hex_to_rgb(col),255),width=4)
@@ -9879,14 +9901,18 @@ def draw_round_rec(c,x1,y1,x2,y2,r,col,col2,con,width=4,rem=[]):
         draw.polygon(rem,fill=(0,0,0,0),outline=(0,0,0,0))
 
 
-
-    rec_count_=rec_count
-    rec_dict[rec_count]=ImageTk.PhotoImage(im)
-    rec_count+=1
-
-    return c.create_image(x1,y1,image=rec_dict[rec_count_],anchor="nw")
+    if ret==0:
 
 
+        rec_count_=rec_count
+        rec_dict[rec_count]=ImageTk.PhotoImage(im)
+        rec_count+=1
+
+        return c.create_image(x1,y1,image=rec_dict[rec_count_],anchor="nw")
+
+    elif ret==1:
+
+        return im
 
 
 note=0
@@ -9948,6 +9974,16 @@ most_played,most_played2=0,0
 
 add_bg,add_bg_,bg_filt,bg_filt_,bg_sort,bg_sort_,bg_sett,bg_sett_,bg_del,bg_del_=0,0,0,0,0,0,0,0,0,0
 
+can2_b_im=[0,0,0,0]
+
+se_im=[0,0,0]
+
+c2_sel=0
+pl_im=[0,0,0]
+upn_im=0
+
+
+
 def load_im():
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
@@ -9998,6 +10034,9 @@ def load_im():
     global add_bg,add_bg_,bg_filt,bg_filt_,bg_sort,bg_sort_,bg_sett,bg_sett_,bg_del,bg_del_
     global w,h
     global filter_can1,can_sort,can_theme,conf_del
+    global can2_b_im
+    global se_im
+    global c2_sel,pl_im,upn_im
 
 
 
@@ -10227,7 +10266,7 @@ def load_im():
 
     ra=h/w
 
-    ww=int((w-2)*4)
+    ww=int((w)*4)
     hh=int(round(ww*ra,0))
 
     #print(w/h,ww/hh)
@@ -10302,7 +10341,7 @@ def load_im():
     draw.polygon(ar,outline=_theme[0],width=4)
 
 
-    im=im.resize((w-2,h-2))
+    im=im.resize((w,h))
 
     border_m=ImageTk.PhotoImage(im)
 
@@ -10374,6 +10413,68 @@ def load_im():
     bg_del=ImageTk.PhotoImage(im1)
     bg_del_=ImageTk.PhotoImage(im2)
 
+
+
+    im=draw_round_rec(can,10-1,88,10-1+(w-12-1)-sb_sz-2+1,88+15+(((h-121)-80-10)-30)+15,15,_theme[0],_theme[0],0,alpha=35,ret=1)
+    can2_b_im[0]=ImageTk.PhotoImage(im)    
+
+
+    im=draw_round_rec(can,10-1-1,88-1,10-1+(w-12-1)-sb_sz-2+1+1,88+15+(((h-121)-80-10)-30)+15+1,15,"#000000","#000000",1,ret=1)
+    can2_b_im[1]=ImageTk.PhotoImage(im)
+
+
+
+
+    im=draw_round_rec(can,10-1,88,10-1+(w-12-1)-sb_sz-2+1,88+15+(((h-121)-80-10)-30+75)+15,15,_theme[0],_theme[0],0,alpha=35,ret=1)
+    can2_b_im[2]=ImageTk.PhotoImage(im)    
+
+
+    im=draw_round_rec(can,10-1-1,88-1,10-1+(w-12-1)-sb_sz-2+1+1,88+15+(((h-121)-80-10)-30+75)+15+1,15,"#000000","#000000",1,ret=1)
+    can2_b_im[3]=ImageTk.PhotoImage(im)
+
+
+    im=round_im(_theme[0],_theme[0],0.45,((w-10-25-5-3)-10),(30),15,1,)
+
+    se_im[0]=ImageTk.PhotoImage(im)
+
+
+    im=draw_round_rec(can,10-1,40+30-10-5-5-1,w-10-25-10+1,40+30-10-5-5+30+1,15,"#000000","",1,ret=1)
+    se_im[1]=ImageTk.PhotoImage(im)
+
+
+    im=draw_round_rec(can,10,40+30-10-5-5,w-10-25-10,40+30-10-5-5+30,15,col1,"",1,ret=1)
+    se_im[2]=ImageTk.PhotoImage(im)
+
+
+
+    im=round_im(_theme[0],_theme[0],_theme[3],(((w-12-1)-sb_sz-1)-2-1),(50),10,1)
+    c2_sel=ImageTk.PhotoImage(im)
+
+
+    im=round_im(_theme[0],_theme[0],0.45,((((w-12-1)-sb_sz-1)-10)-10),(30),15,1)
+    pl_im[0]=ImageTk.PhotoImage(im)
+
+
+    im=draw_round_rec(can2,10-1,y-1,((w-12-1)-sb_sz-1)-10+1-1,y+30+1,15,"#000000","",1,ret=1)
+
+    pl_im[1]=ImageTk.PhotoImage(im)
+
+    im=draw_round_rec(can2,10,y,((w-12-1)-sb_sz-1)-10-1,y+30,15,col1,"",1,ret=1)
+    pl_im[2]=ImageTk.PhotoImage(im)
+
+
+
+    r=15
+    xx,yy=int((w/2-10-40)),70
+
+    col=hex_to_rgb(_theme[0])
+    col=(int(col[0]*0.1),int(col[1]*0.1),int(col[2]*0.1))
+    col="#%02x%02x%02x" % col
+
+    im1=round_im(col,_theme[0],0.85,xx,yy,r,1)
+
+
+    upn_im=ImageTk.PhotoImage(im1)
 
 
 def check_pl():
@@ -12849,6 +12950,7 @@ def move_bg():
     global ccc
     global sign
     global can2_b,can2_b2
+    global can2_o
     global w,h
 
 
@@ -12859,6 +12961,7 @@ def move_bg():
 
 
             can2.coords(bg2,-10,-(90-2)-15+int(can2.canvasy(0)))
+            can2.coords(can2_o[1],0,can2.canvasy(0))
             can2.coords(sign,w-381-10,int(can2.canvasy(h-40-88-15)))
             can2.coords(can2_b,int(can2["width"])-sb_sz-2-1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1,int(can2.canvasy(int(can2["height"])+1+75)))
             can2.coords(can2_b2,int(can2["width"])-sb_sz-2-1+1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1+1,int(can2.canvasy(int(can2["height"])+1+75)))
@@ -12950,6 +13053,7 @@ def scroll(val):
     global sign
     global can2_b,can2_b2
     global bg_f2
+    global can2_o
 
 
 
@@ -12962,6 +13066,7 @@ def scroll(val):
             can2.yview_scroll(int(-1*(val/120)), "units")
 
             can2.coords(bg2,-10,-(90-2)-15+int(can2.canvasy(0)))
+            can2.coords(can2_o[1],0,can2.canvasy(0))
             can2.coords(sign,w-381-10,int(can2.canvasy(h-40-88-15)))
             can2.coords(can2_b,int(can2["width"])-sb_sz-2-1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1,int(can2.canvasy(int(can2["height"])+1+75)))
             can2.coords(can2_b2,int(can2["width"])-sb_sz-2-1+1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1+1,int(can2.canvasy(int(can2["height"])+1+75)))
