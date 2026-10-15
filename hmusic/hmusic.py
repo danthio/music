@@ -5748,12 +5748,15 @@ def main():
 
         bg2=can2.create_image(-10,-(90-2)-15+int(can2.canvasy(0)),image=bg,anchor="nw")
 
+
+        """
         im=Image.new("RGBA",(int(can2["width"])-sb_sz-2-1,int(can2["height"])+75),(*hex_to_rgb(_theme[0]),35) )
 
         can2_o[0]=ImageTk.PhotoImage(im)
 
         can2_o[1]=can2.create_image(0,can2.canvasy(0),image=can2_o[0],anchor="nw")
 
+        """
 
         sign=can2.create_image(w-381-10,int(can2.canvasy(h-40-88-15)),image=signature,anchor="c")
 
@@ -10415,7 +10418,7 @@ def load_im():
 
 
 
-    im=draw_round_rec(can,10-1,88,10-1+(w-12-1)-sb_sz-2+1,88+15+(((h-121)-80-10)-30)+15,15,_theme[0],_theme[0],0,alpha=35,ret=1)
+    im=draw_round_rec(can,10-1,88,10-1+(w-12-1)-sb_sz-2+1,88+15+(((h-121)-80-10)-30)+15,15,_theme[0],_theme[0],1,alpha=35,ret=1)
     can2_b_im[0]=ImageTk.PhotoImage(im)    
 
 
@@ -10433,7 +10436,7 @@ def load_im():
     can2_b_im[3]=ImageTk.PhotoImage(im)
 
 
-    im=round_im(_theme[0],_theme[0],35/255,((w-10-25-5-3)-10),(30),15,1,)
+    im=round_im(_theme[0],_theme[0],0.45,((w-10-25-5-3)-10),(30),15,1,)
 
     se_im[0]=ImageTk.PhotoImage(im)
 
@@ -10451,7 +10454,7 @@ def load_im():
     c2_sel=ImageTk.PhotoImage(im)
 
 
-    im=round_im(_theme[0],_theme[0],35/255,((((w-12-1)-sb_sz-1)-10)-10),(30),15,1)
+    im=round_im(_theme[0],_theme[0],0.45,((((w-12-1)-sb_sz-1)-10)-10),(30),15,1)
     pl_im[0]=ImageTk.PhotoImage(im)
 
 
@@ -12961,7 +12964,7 @@ def move_bg():
 
 
             can2.coords(bg2,-10,-(90-2)-15+int(can2.canvasy(0)))
-            can2.coords(can2_o[1],0,can2.canvasy(0))
+            #can2.coords(can2_o[1],0,can2.canvasy(0))
             can2.coords(sign,w-381-10,int(can2.canvasy(h-40-88-15)))
             can2.coords(can2_b,int(can2["width"])-sb_sz-2-1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1,int(can2.canvasy(int(can2["height"])+1+75)))
             can2.coords(can2_b2,int(can2["width"])-sb_sz-2-1+1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1+1,int(can2.canvasy(int(can2["height"])+1+75)))
@@ -13066,7 +13069,7 @@ def scroll(val):
             can2.yview_scroll(int(-1*(val/120)), "units")
 
             can2.coords(bg2,-10,-(90-2)-15+int(can2.canvasy(0)))
-            can2.coords(can2_o[1],0,can2.canvasy(0))
+            #can2.coords(can2_o[1],0,can2.canvasy(0))
             can2.coords(sign,w-381-10,int(can2.canvasy(h-40-88-15)))
             can2.coords(can2_b,int(can2["width"])-sb_sz-2-1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1,int(can2.canvasy(int(can2["height"])+1+75)))
             can2.coords(can2_b2,int(can2["width"])-sb_sz-2-1+1,int(can2.canvasy(0)),int(can2["width"])-sb_sz-2-1+1,int(can2.canvasy(int(can2["height"])+1+75)))
