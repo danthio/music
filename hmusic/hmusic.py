@@ -10433,7 +10433,7 @@ def load_im():
     can2_b_im[3]=ImageTk.PhotoImage(im)
 
 
-    im=round_im(_theme[0],_theme[0],0.45,((w-10-25-5-3)-10),(30),15,1,)
+    im=round_im(_theme[0],_theme[0],35/255,((w-10-25-5-3)-10),(30),15,1,)
 
     se_im[0]=ImageTk.PhotoImage(im)
 
@@ -10451,7 +10451,7 @@ def load_im():
     c2_sel=ImageTk.PhotoImage(im)
 
 
-    im=round_im(_theme[0],_theme[0],0.45,((((w-12-1)-sb_sz-1)-10)-10),(30),15,1)
+    im=round_im(_theme[0],_theme[0],35/255,((((w-12-1)-sb_sz-1)-10)-10),(30),15,1)
     pl_im[0]=ImageTk.PhotoImage(im)
 
 
