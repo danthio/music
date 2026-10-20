@@ -2520,7 +2520,12 @@ def can2_b1(e):
     if st==2 and playlist_st==0:
 
 
-        cx,cy=(int(can2["width"])-sb_sz-1)-10-5-20+10,5+10
+        w_=int(can2["width"])*0.5
+
+        x_=(int(can2["width"])-w_)/2
+
+
+        cx,cy=x_+w_-5-10,5+10
 
         if cx-10<=e.x<=cx+10:
             if cy-10<=e.y<=cy+10:
@@ -2539,7 +2544,7 @@ def can2_b1(e):
 
         conp=0
 
-        cx,cy=10+15,5+15
+        cx,cy=x_+15,5+15
 
         r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
 
@@ -2551,7 +2556,7 @@ def can2_b1(e):
         if conp==0:
 
 
-            cx,cy=(int(can2["width"])-sb_sz-1)-10-15,5+15
+            cx,cy=x_+w_-15,5+15
 
             r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
 
@@ -2560,7 +2565,7 @@ def can2_b1(e):
 
         if conp==0:
 
-            if 10+15<=e.x<=(int(can2["width"])-sb_sz-1)-10-15:
+            if x_+15<=e.x<=x_+w_-15:
                 if 5<=e.y<=35:
 
                     conp=1
@@ -2573,7 +2578,9 @@ def can2_b1(e):
 
             pu_forget()
 
+            w_=int(can2["width"])*0.5
 
+            x_=(int(can2["width"])-w_)/2
 
 
             can2["scrollregion"]=(0,0,(int(can2["width"])-sb_sz-1),int(can2["height"]))
@@ -2583,7 +2590,7 @@ def can2_b1(e):
             cnpl_txt1,cnpl_txt2="",""
 
 
-            can_npl["width"]=((int(can2["width"])-sb_sz-1)-10-5-20-5-10-10-5)
+            can_npl["width"]=int(w_-40)
             can_npl["height"]=28
 
             can_npl.delete("all")
@@ -2591,17 +2598,12 @@ def can2_b1(e):
 
             cur_can_npl_2=can_npl.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
-            can_npl.create_image(-(10+15+10),-(5+1+88+15),image=bg,anchor="nw")
+            can_npl.create_image(-(10+x_+15),-(5+1+88+15),image=bg,anchor="nw")
 
-            im=Image.new("RGBA",(int(can_npl["width"]),int(can_npl["height"])),(*hex_to_rgb(_theme[0]),35))
-
-            can_npl_im=ImageTk.PhotoImage(im)
-
-            can_npl.create_image(0,0,image=can_npl_im,anchor="nw")
 
                 
 
-            can_npl.place(in_=root,x=10+15+10,y=5+1+88+15)
+            can_npl.place(in_=root,x=11+x_+15,y=5+1+88+15)
 
 
             can_npl.focus_set()
@@ -4851,7 +4853,12 @@ def can_b1(e):
 
     #search
 
-    cx,cy=w-10-5-20+10-10-25,40+5+30-10-5-5+10
+
+    w_=int(can2["width"])*0.5
+
+    x_=10+(int(can2["width"])-w_)/2
+
+    cx,cy=x_+w_-5-10,40+5+30-10-5-5+10
 
     if cx-10<=e.x<=cx+10:
         if cy-10<=e.y<=cy+10:
@@ -4876,7 +4883,7 @@ def can_b1(e):
 
     cons=0
 
-    cx,cy=10+15,40+30-10-5+15
+    cx,cy=x_+15,40+30-10-5+15
 
     r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
 
@@ -4888,7 +4895,7 @@ def can_b1(e):
     if cons==0:
 
 
-        cx,cy=w-10-5-30-15,40+30-10-5+15
+        cx,cy=x_+w_-15,40+30-10-5+15
 
         r=math.sqrt((cx-e.x)**2+(cy-e.y)**2)
 
@@ -4897,7 +4904,7 @@ def can_b1(e):
 
     if cons==0:
 
-        if 10+15<=e.x<=w-10-5-30-15:
+        if x_+15<=e.x<=x_+w_-15:
             if 40+30-10-5<=e.y<=40+30+30-10-5:
 
                 cons=1
@@ -4919,7 +4926,12 @@ def can_b1(e):
         #search.place(in_=root,x=10+15,y=45+30-10-5-5)
         #search.focus_set()
 
-        can_search["width"]=w-10-10-25-10-15-10-20
+        w_=int(can2["width"])*0.5
+
+        x_=10+(int(can2["width"])-w_)/2
+
+
+        can_search["width"]=int(w_-40)
         can_search["height"]=28
 
 
@@ -4931,11 +4943,12 @@ def can_b1(e):
 
         cur_can_search_2=can_search.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
-        can_search.create_image(-(10+15),-(50+1),image=bg,anchor="nw")
+        can_search.create_image(-(x_+15),-(50+1),image=bg,anchor="nw")
 
 
 
-        can_search.place(in_=root,x=10+15,y=50+1)
+
+        can_search.place(in_=root,x=x_+15,y=50+1)
         can_search.focus_set()
 
         main()
@@ -6336,6 +6349,12 @@ def main():
 
 
                 if playlist_st==0:
+
+                    w_=int(can2["width"])*0.5
+
+                    x_=(int(can2["width"])-w_)/2
+
+
                     y=0
                     y=5
 
@@ -6354,20 +6373,20 @@ def main():
 
 
                         _pl_im=pl_im[0]
-                        can2.create_image(10,y,image=_pl_im,anchor="nw")
+                        can2.create_image(x_,y,image=_pl_im,anchor="nw")
                     
 
 
 
 
 
-                    can2.create_image(10-1,y-1,image=pl_im[1],anchor="nw")
-                    can2.create_image(10,y,image=pl_im[2],anchor="nw")
+                    can2.create_image(x_-1,y-1,image=pl_im[1],anchor="nw")
+                    can2.create_image(x_,y,image=pl_im[2],anchor="nw")
 
-                    draw_outline_text(can2,"New Playlist",30,y+15,"w",("FreeMono",13))
-                    can2.create_text(30,y+15,text="New Playlist",font=("FreeMono",13),fill=_theme[0],anchor="w")
+                    draw_outline_text(can2,"New Playlist",x_+20,y+15,"w",("FreeMono",13))
+                    can2.create_text(x_+20,y+15,text="New Playlist",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
-                    can2.create_image((int(can2["width"])-sb_sz-1)-10-5-20,y+5,image=cancel,anchor="nw")
+                    can2.create_image(x_+w_-5-20,y+5,image=cancel,anchor="nw")
 
 
                     y+=40
@@ -8619,6 +8638,9 @@ def draw_can(con=0):
 
 
 
+            w_=int(can2["width"])*0.5
+
+            x_=10+(int(can2["width"])-w_)/2
 
 
             if _search==1:
@@ -8627,25 +8649,29 @@ def draw_can(con=0):
             else:
 
 
-                can.create_image(10,40+30-10-5-5,image=se_im[0],anchor="nw")
+                can.create_image(x_,40+30-10-5-5,image=se_im[0],anchor="nw")
             
 
 
 
-            draw_outline_text(can,"Search",10+15+20+10,40+15+30-10-5-5,"w",("FreeMono",13))
-            can.create_text(10+15+20+10,40+15+30-10-5-5,text="Search",font=("FreeMono",13),fill=_theme[0],anchor="w")
+            draw_outline_text(can,"Search",x_+15+20+10,40+15+30-10-5-5,"w",("FreeMono",13))
+            can.create_text(x_+15+20+10,40+15+30-10-5-5,text="Search",font=("FreeMono",13),fill=_theme[0],anchor="w")
 
 
 
-            can.create_image(10+15+2,45+30-10-5-5-2.5,image=search_im,anchor="nw")
+            can.create_image(x_+15+2,45+30-10-5-5-2.5,image=search_im,anchor="nw")
+
+
+
+
             
 
-            can.create_image(10-1,40+30-10-5-5-1,image=se_im[1],anchor="nw")
-            can.create_image(10,40+30-10-5-5,image=se_im[2],anchor="nw")
+            can.create_image(x_,40+30-10-5-5-1,image=se_im[1],anchor="nw")
+            can.create_image(x_,40+30-10-5-5,image=se_im[2],anchor="nw")
 
 
 
-            can.create_image(w-10-5-20-25-10,40+5+30-10-5-5,image=cancel,anchor="nw")
+            can.create_image(x_+w_-5-20,40+5+30-10-5-5,image=cancel,anchor="nw")
 
 
 
@@ -10435,17 +10461,21 @@ def load_im():
     im=draw_round_rec(can,10-1-1,88-1,10-1+(w-12-1)-sb_sz-2+1+1,88+15+(((h-121)-80-10)-30+75)+15+1,15,"#000000","#000000",1,ret=1)
     can2_b_im[3]=ImageTk.PhotoImage(im)
 
+    w_=(w-12-1)*0.5
 
-    im=round_im(_theme[0],_theme[0],0.45,((w-10-25-5-3)-10),(30),15,1,)
+    x_=10+((w-12-1)-w_)/2
+
+
+    im=round_im(_theme[0],_theme[0],0.45,(int(w_)),(30),15,1,)
 
     se_im[0]=ImageTk.PhotoImage(im)
 
 
-    im=draw_round_rec(can,10-1,40+30-10-5-5-1,w-10-25-10+1,40+30-10-5-5+30+1,15,"#000000","",1,ret=1)
+    im=draw_round_rec(can,x_-1,40+30-10-5-5-1,x_+w_+1,40+30-10-5-5+30+1,15,"#000000","",1,ret=1)
     se_im[1]=ImageTk.PhotoImage(im)
 
 
-    im=draw_round_rec(can,10,40+30-10-5-5,w-10-25-10,40+30-10-5-5+30,15,_theme[0],"",1,ret=1)
+    im=draw_round_rec(can,x_,40+30-10-5-5,x_+w_,40+30-10-5-5+30,15,_theme[0],"",1,ret=1)
     se_im[2]=ImageTk.PhotoImage(im)
 
 
@@ -10454,15 +10484,21 @@ def load_im():
     c2_sel=ImageTk.PhotoImage(im)
 
 
-    im=round_im(_theme[0],_theme[0],0.45,((((w-12-1)-sb_sz-1)-10)-10),(30),15,1)
+
+    w_=(w-12-1)*0.5
+
+    x_=((w-12-1)-w_)/2
+
+
+    im=round_im(_theme[0],_theme[0],0.45,(int(w_)),(30),15,1)
     pl_im[0]=ImageTk.PhotoImage(im)
 
 
-    im=draw_round_rec(can2,10-1,y-1,((w-12-1)-sb_sz-1)-10+1-1,y+30+1,15,"#000000","",1,ret=1)
+    im=draw_round_rec(can2,x_-1,y-1,(x_+w_+1),y+30+1,15,"#000000","",1,ret=1)
 
     pl_im[1]=ImageTk.PhotoImage(im)
 
-    im=draw_round_rec(can2,10,y,((w-12-1)-sb_sz-1)-10-1,y+30,15,_theme[0],"",1,ret=1)
+    im=draw_round_rec(can2,x_,y,x_+w_,y+30,15,_theme[0],"",1,ret=1)
     pl_im[2]=ImageTk.PhotoImage(im)
 
 
@@ -10495,7 +10531,13 @@ def check_pl():
 
                 if can2.canvasy(0)==0:
 
-                    can_npl.place(in_=root,x=10+15+10,y=5+1+88+15)
+
+                    w_=int(can2["width"])*0.5
+
+                    x_=(int(can2["width"])-w_)/2
+
+
+                    can_npl.place(in_=root,x=11+x_+15,y=5+1+88+15)
 
                 else:
 
@@ -10916,7 +10958,11 @@ def draw_cur_(conp=0):
         if _search==1:
 
 
-            x_,y_=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
+            w_=int(can2["width"])*0.5
+
+            x_=10+(int(can2["width"])-w_)/2
+
+            x_,y_=x-(wd-w)/2-(x_+15),y-(ht-h)/2-(50+1)
             can_search.coords(cur_can_search_2,x_-r,y_-r)
 
 
@@ -10925,7 +10971,11 @@ def draw_cur_(conp=0):
         if _npl==1:
 
 
-            x_,y_=x-(wd-w)/2-(10+15+10),y-(ht-h)/2-(5+1+88+15)
+            w_=int(can2["width"])*0.5
+
+            x_=(int(can2["width"])-w_)/2
+
+            x_,y_=x-(wd-w)/2-(10+x_+15),y-(ht-h)/2-(5+1+88+15)
             can_npl.coords(cur_can_npl_2,x_-r,y_-r)
 
 
@@ -11085,14 +11135,20 @@ def draw_cur_(conp=0):
         cur_can_effects=can_effects.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
-    xx,yy=x-(wd-w)/2-(10+15),y-(ht-h)/2-(50+1)
+    w_=int(can2["width"])*0.5
+
+    x_=10+(int(can2["width"])-w_)/2
+
+    xx,yy=x-(wd-w)/2-(x_+15),y-(ht-h)/2-(50+1)
 
     cur_can_search=can_search.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
 
+    w_=int(can2["width"])*0.5
 
+    x_=(int(can2["width"])-w_)/2
 
-    xx,yy=x-(wd-w)/2-(10+15+10),y-(ht-h)/2-(5+1+88+15)
+    xx,yy=x-(wd-w)/2-(10+x_+15),y-(ht-h)/2-(5+1+88+15)
 
     cur_can_npl=can_npl.create_image(xx-1.23046875,yy-1.23046875,image=cursor,anchor="nw")
 
