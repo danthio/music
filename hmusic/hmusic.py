@@ -157,7 +157,7 @@ def play_vid():
 
             x,y=_frame__.size
 
-            _frame__=_frame__.resize(( int(round(720*x/y,0)),720))
+            _frame__=_frame__.resize(( int(round(600*x/y,0)),600))
 
 
 
@@ -2060,7 +2060,7 @@ def timer():
             pass
             
 
-    root.after(8,timer)
+    root.after(1,timer)
 
 
 def can3_b1(e):
@@ -4619,7 +4619,7 @@ def can_b1(e):
         #play_vid
 
 
-        if 10+10+25+15+25+15+25+15+25+15<=e.x<=10+25+15+25+15+25+15+25+15+25:
+        if 10+10+25+15+25+15+25+15+25+15<=e.x<=10+10+25+15+25+15+25+15+25+15+25:
             if h-20-30-15+5+10-3+2.5<=e.y<=h-20-30-15+5+10-3+2.5+25:
 
                 ar=os.listdir("videos")
@@ -5133,7 +5133,7 @@ def can_b1(e):
 
 
 
-    if 10<=e.x<=w-10:
+    if 20<=e.x<=w-20:
         if h-20-60-20-27-15+3+10+3+2+2-3+1+10<=e.y<=h-20-60-20-27-15+3+10+3+2+2-3+30-1+1+10:
 
             try:
@@ -10137,7 +10137,7 @@ def load_im():
     n_im=ImageTk.PhotoImage(file="data/n_im.png")
     p_im=ImageTk.PhotoImage(file="data/p_im.png")
 
-    c_scale=0.3
+    c_scale=0.2
 
     r=20*4
 
@@ -11769,8 +11769,7 @@ def can_label(x,y):
             #theme
 
             if theme_st2==1:
-                x_,y_=10+25+5,25+12.5+5
-
+                x_,y_=10+10+25+5,25+12.5+5
 
 
                 cx,cy=int(can_theme["width"])-20-25+12.5,int(can_theme["height"])-95+5-30+12.5
