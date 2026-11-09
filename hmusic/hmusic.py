@@ -11537,7 +11537,7 @@ def __check_cur_pos():
                 return
 
 
-            if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"]):
+            if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"])-20:
 
 
 
@@ -11577,7 +11577,7 @@ def __check_cur_pos():
 
                         return
 
-                    if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"])-sb_sz:
+                    if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"])-20:
 
 
                         for song in songs:
@@ -11971,7 +11971,7 @@ def can_label(x,y):
 
 
                                 cx,cy=(int(can2["width"])-20)-10-25+12.5,y_+12.5+12.5
-                                if cx-12.5+10<=x<=cx+12.5+10:
+                                if cx-12.5+21<=x<=cx+12.5+21:
                                     if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
 
                                         #if not con_th==1:
@@ -11982,7 +11982,7 @@ def can_label(x,y):
 
 
                                 cx,cy=(int(can2["width"])-20)-10-25-15-25+12.5,y_+12.5+12.5
-                                if cx-12.5+10<=x<=cx+12.5+10:
+                                if cx-12.5+21<=x<=cx+12.5+21:
                                     if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
 
                                         dir_ar=os.listdir("videos")
@@ -12001,7 +12001,7 @@ def can_label(x,y):
 
 
                                 cx,cy=(int(can2["width"])-20)-10-25-15-25-15-25+12.5,y_+12.5+12.5
-                                if cx-12.5+10<=x<=cx+12.5+10:
+                                if cx-12.5+21<=x<=cx+12.5+21:
                                     if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
 
                                         #if not con_th==1:
@@ -12012,7 +12012,7 @@ def can_label(x,y):
 
 
                                 cx,cy=(int(can2["width"])-20)-10-25-15-25-15-25-15-25+12.5,y_+12.5+12.5
-                                if cx-12.5+10<=x<=cx+12.5+10:
+                                if cx-12.5+21<=x<=cx+12.5+21:
                                     if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
 
                                         if music_details[s[0]][0]==1:
@@ -12058,7 +12058,7 @@ def can_label(x,y):
 
 
                                 cx,cy=(int(can2["width"])-20)-10-25-15-25+12.5,y_+12.5+12.5
-                                if cx-12.5+10<=x<=cx+12.5+10:
+                                if cx-12.5+21<=x<=cx+12.5+21:
                                     if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
 
                                         #if not con_th==1:
@@ -12068,7 +12068,7 @@ def can_label(x,y):
                                         mot_val_can2=can2.create_text(cx,cy+12.5+6+5,text="add songs",fill=col1,font=("FreeMono",10),anchor="c")
 
                                 cx,cy=(int(can2["width"])-20)-10-25+12.5,y_+12.5+12.5
-                                if cx-12.5+10<=x<=cx+12.5+10:
+                                if cx-12.5+21<=x<=cx+12.5+21:
                                     if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
 
                                         #if not con_th==1:
