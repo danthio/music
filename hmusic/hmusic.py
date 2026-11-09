@@ -101,6 +101,14 @@ def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
         _frame__ = Image.fromarray(_frame__)
 
 
+        width, height = _frame__.size
+        new_width = int(width * (600 / height))
+
+        _frame__ = _frame__.resize(
+            (new_width, 600),
+            Image.Resampling.LANCZOS
+        )
+
         cap.release()
 
 
@@ -157,7 +165,7 @@ def play_vid():
 
             x,y=_frame__.size
 
-            _frame__=_frame__.resize(( int(round(600*x/y,0)),600))
+            #_frame__=_frame__.resize(( int(round(600*x/y,0)),600))
 
 
 
@@ -823,6 +831,8 @@ sig_,_sig_2,_sig_3,_sig_4,_sig_5=0,0,0,0,0
 sig2,sig2_2,sig2_3,sig2_4,sig2_5=[],[],[],[],[]
 tts=0
 
+
+
 def draw_wave():
 
     global lst,can,st,sig,sig_,sig2,tm,tts,play_st,current_playing,w,h
@@ -846,9 +856,9 @@ def draw_wave():
     global theme_st2
     global select_st
     global can2
+    global sig_amp
 
     try:
-        t1=time.time()
 
         col1=_theme[0]
         col2=_theme[1][0]
@@ -860,7 +870,7 @@ def draw_wave():
 
 
         xv=5
-        amp=((h-121-30)-50)/2-20-70-10
+        amp=sig_amp[0]
 
         if play_st==1:
 
@@ -873,7 +883,7 @@ def draw_wave():
 
 
 
-                amplitude = get_amplitude_at_time(f"data/{current_playing.replace(".mp3",".wav")}", get_playback_time()+tts)
+                amplitude = get_amplitude_at_time(f"data/{current_playing.replace(".mp3",".wav")}", tm)
 
 
 
@@ -904,26 +914,7 @@ def draw_wave():
                 for a in range(len(sig)):
 
                     sig2.append(x)
-                    sig2.append(sig[a]+50+((h-121-30)-50)/2)
-
-                    """
-
-
-
-                    sig2_2.append(x-1)
-                    sig2_2.append(sig[a]+50+((h-121-30)-50)/2)
-
-                    sig2_3.append(x+1)
-                    sig2_3.append(sig[a]+50+((h-121-30)-50)/2)
-
-                    sig2_4.append(x)
-                    sig2_4.append(sig[a]+50+((h-121-30)-50)/2-1)
-
-
-                    sig2_5.append(x)
-                    sig2_5.append(sig[a]+50+((h-121-30)-50)/2+1)
-
-                    """
+                    sig2.append(sig[a]+sig_amp[1])
 
 
 
@@ -946,17 +937,7 @@ def draw_wave():
                                 if not tts>tot_tm_:
                                     can.coords(sig_,*sig2)
 
-                                    """
 
-                                    can.coords(_sig_2,*sig2_2)
-                                    can.coords(_sig_3,*sig2_3)
-                                    can.coords(_sig_4,*sig2_4)
-                                    can.coords(_sig_5,*sig2_5)
-
-                                    """
-
-
-        #print(time.time()-t1)
 
 
 
@@ -966,7 +947,7 @@ def draw_wave():
     except:
         pass
 
-    root.after(8,draw_wave)
+    root.after(2,draw_wave)
 
 
 
@@ -8859,7 +8840,7 @@ def draw_can(con=0):
                         txt=_text_(can2,current_playing[:-4],"FreeMono",13,(w-10-10)-(10+25+10))
 
                         draw_outline_text(can,txt,10+10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,"w",("FreeMono",13))
-                        can.create_text(10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
+                        can.create_text(10+10+25+10,h-20-60-20-27-15+3+10+3+2+2-3+15+10,text=txt,font=("FreeMono",13),anchor="w",fill=col1)
 
                     elif songs_status[0]==1:
 
@@ -18872,6 +18853,7 @@ mvar_()
 check_pl()
 
 
+sig_amp=[((h-121-30)-50)/2-20-70-10,50+((h-121-30)-50)/2]
 
 draw_wave()
 
