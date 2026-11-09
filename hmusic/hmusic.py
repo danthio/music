@@ -9490,12 +9490,17 @@ def draw_can(con=0):
         elif theme_st2==1:
 
             pu_bg1_s=can.create_image(int(can_theme.place_info()["x"])-25,int(can_theme.place_info()["y"])-25,image=bg_sett_,anchor="nw")
-            pu_bg2_s=can2.create_image(int(can_theme.place_info()["x"])-int(frame.place_info()["x"])-25,int(can_theme.place_info()["y"])-int(frame.place_info()["y"])-25+can2.canvasy(0),image=bg_sett_,anchor="nw")
+
+            if lst==1:
+                pu_bg2_s=can2.create_image(int(can_theme.place_info()["x"])-int(frame.place_info()["x"])-25,int(can_theme.place_info()["y"])-int(frame.place_info()["y"])-25+can2.canvasy(0),image=bg_sett_,anchor="nw")
 
         elif sort_st==1:
 
             pu_bg1_s=can.create_image(int(can_sort.place_info()["x"])-15,int(can_sort.place_info()["y"])-15,image=bg_sort_,anchor="nw")
-            pu_bg2_s=can2.create_image(int(can_sort.place_info()["x"])-int(frame.place_info()["x"])-15,int(can_sort.place_info()["y"])-int(frame.place_info()["y"])-15+can2.canvasy(0),image=bg_sort_,anchor="nw")
+            
+            if lst==1:
+
+                pu_bg2_s=can2.create_image(int(can_sort.place_info()["x"])-int(frame.place_info()["x"])-15,int(can_sort.place_info()["y"])-int(frame.place_info()["y"])-15+can2.canvasy(0),image=bg_sort_,anchor="nw")
 
 
         elif add_st==1:
