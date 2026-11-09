@@ -3215,7 +3215,7 @@ def can_b3(e):
     #get_pixel_color(e.x,e.y)
 
 
-    #capture_canvas()
+    capture_canvas()
     move_to_playing(2)
 
     draw_cur_(1)
@@ -3490,7 +3490,7 @@ def can_b1(e):
 
         
 
-        cx,cy=w-10-25+12.5,(h-121+75)+((h-1)-(h-121+75)-25)/2+12.5
+        cx,cy=w-10-10-25+12.5,(h-121+75)+((h-1)-(h-121+75)-25)/2+12.5
 
         if cx-12.5<=e.x<=cx+12.5:
             if cy-12.5<=e.y<=cy+12.5:
@@ -9197,7 +9197,7 @@ def draw_can(con=0):
 
         can.create_text(x+30+5,(h-121+75)+((h-1)-(h-121+75))/2,text=f"{playlist_select} - {no_of_s_pl(playlist_select)}",font=("FreeMono",13),fill=col1,anchor="w")
 
-        can.create_image(w-10-25,(h-121+75)+((h-1)-(h-121+75)-25)/2,image=quit,anchor="nw")
+        can.create_image(w-10-10-25,(h-121+75)+((h-1)-(h-121+75)-25)/2,image=quit,anchor="nw")
 
 
 
