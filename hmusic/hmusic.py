@@ -3215,7 +3215,7 @@ def can_b3(e):
     #get_pixel_color(e.x,e.y)
 
 
-    capture_canvas()
+    #capture_canvas()
     move_to_playing(2)
 
     draw_cur_(1)
@@ -9506,15 +9506,18 @@ def draw_can(con=0):
 
         elif del_st==1:
 
-            pu_bg1_s=can.create_image(int(conf_del.place_info()["x"])-15,int(conf_del.place_info()["y"])-15,image=bg_del_,anchor="nw")
-            pu_bg2_s=can2.create_image(int(conf_del.place_info()["x"])-int(frame.place_info()["x"])-15,int(conf_del.place_info()["y"])-int(frame.place_info()["y"])-15+can2.canvasy(0),image=bg_del_,anchor="nw")
+            if lst==1:
+
+                pu_bg1_s=can.create_image(int(conf_del.place_info()["x"])-15,int(conf_del.place_info()["y"])-15,image=bg_del_,anchor="nw")
+                pu_bg2_s=can2.create_image(int(conf_del.place_info()["x"])-int(frame.place_info()["x"])-15,int(conf_del.place_info()["y"])-int(frame.place_info()["y"])-15+can2.canvasy(0),image=bg_del_,anchor="nw")
 
 
         if lyric_st==1:
 
-            pu_bg3_s=can_lyrics.create_image(int(can_lyrics.place_info()["x"])-15,int(can_lyrics.place_info()["y"])-15,image=pu_bg1,anchor="nw")
 
-            pu_bg4_s=can_lyrics.create_image(int(can_lyrics.place_info()["x"])-int(frame.place_info()["x"])-15,int(can_lyrics.place_info()["y"])-int(frame.place_info()["y"])-15+can2.canvasy(0),image=bg_del_,anchor="nw")
+            pu_bg3_s=can_lyrics.create_image(-int(can_lyrics.place_info()["x"]),-int(can_lyrics.place_info()["y"])+can_lyrics.canvasy(0),image=pu_bg1,anchor="nw")
+
+            pu_bg4_s=can_lyrics.create_image(int(conf_del.place_info()["x"])-int(can_lyrics.place_info()["x"])-15,int(conf_del.place_info()["y"])-int(can_lyrics.place_info()["y"])-15+can_lyrics.canvasy(0),image=bg_del_,anchor="nw")
 
             if vid_st==0:
                 can_lyrics.delete(bg_styl2)
