@@ -6334,6 +6334,8 @@ def main():
                     y=5
 
 
+                    can2.create_image(x_-1,y-1,image=pl_im[1],anchor="nw")
+
 
 
                     
@@ -6355,7 +6357,7 @@ def main():
 
 
 
-                    can2.create_image(x_-1,y-1,image=pl_im[1],anchor="nw")
+
                     can2.create_image(x_,y,image=pl_im[2],anchor="nw")
 
                     draw_outline_text(can2,"New Playlist",x_+20,y+15,"w",("FreeMono",13))
@@ -7442,7 +7444,7 @@ def rounded_im(im,x,y,w_,h_,r):
 
 
 
-    r2=(r*math.sin(math.radians(180+45))+r)
+    r2=(r*math.sin(math.radians(180+45))+r)+8
 
     y_=r*2
     for y in range(h_2-r*4+1):
@@ -8578,13 +8580,13 @@ def draw_can(con=0):
 
         else:
 
-
-
-
-
             w_=w/2
 
             x_=(w-w_)/2
+
+            can.create_image(x_-1,40+30-10-5-5-1,image=se_im[1],anchor="nw")
+
+
 
 
             if _search==1:
@@ -8610,7 +8612,7 @@ def draw_can(con=0):
 
             
 
-            can.create_image(x_,40+30-10-5-5-1,image=se_im[1],anchor="nw")
+
             can.create_image(x_,40+30-10-5-5,image=se_im[2],anchor="nw")
 
 
@@ -9318,6 +9320,8 @@ def draw_can(con=0):
 
 
         filter_can1.place(in_=root,x=w-10-10-int(filter_can1["width"])-25,y=40+30-10-5-5+30+10)
+
+        draw_cur_(1)
 
 
         if filter_val=="Playlists":
@@ -10429,7 +10433,7 @@ def load_im():
     x_=(w-w_)/2
 
 
-    im=round_im(_theme[0],_theme[0],0.45,(int(w_)),(30),15,1,)
+    im=round_im(_theme[0],_theme[0],0.45,(int(w_)),(31),15,1,)
 
     se_im[0]=ImageTk.PhotoImage(im)
 
@@ -10453,7 +10457,7 @@ def load_im():
     x_=((w-40)-w_)/2
 
 
-    im=round_im(_theme[0],_theme[0],0.45,(int(w_)),(30),15,1)
+    im=round_im(_theme[0],_theme[0],0.45,(int(w_)),(31),15,1)
     pl_im[0]=ImageTk.PhotoImage(im)
 
 
@@ -10826,6 +10830,7 @@ def draw_cur_(conp=0):
     global ep
     global effect_st
     global rpx,rpy
+    global frame2
 
 
     x,y=pyautogui.position()
@@ -10871,7 +10876,7 @@ def draw_cur_(conp=0):
                 if add_st==1:
 
 
-                    x_,y__=x-(wd-w)/2-int(can4.place_info()["x"]),y-(ht-h)/2-int(can4.place_info()["y"])
+                    x_,y__=x-(wd-w)/2-int(frame2.place_info()["x"]),y-(ht-h)/2-int(frame2.place_info()["y"])
 
                     y_=y__
 
@@ -10986,7 +10991,9 @@ def draw_cur_(conp=0):
 
                     x_,y_=x-(wd-w)/2-int(conf_del.place_info()["x"]),y-int(conf_del.place_info()["y"])
                     conf_del.coords(cur_conf_del_2,x_-r,y_-r)
-    except:
+    except Exception as e:
+
+        print(e)
         pass
 
 
@@ -11230,6 +11237,7 @@ def __check_cur_pos():
 
     global cur_p,sb2_sz
     global sb3_sz
+    global frame
     if root_st==0:
 
 
@@ -11288,7 +11296,7 @@ def __check_cur_pos():
 
                 return
 
-            if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"])-20:
+            if (root.winfo_screenwidth()-w)/2+int(frame.place_info()["x"])<=x<=(root.winfo_screenwidth()-w)/2++int(frame.place_info()["x"])+int(can2["width"])-20:
 
                 y=95
 
@@ -11566,8 +11574,7 @@ def __check_cur_pos():
 
                         return
 
-                    if (root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2<=x<=(root.winfo_screenwidth()-w)/2+(w-int(can2["width"]))/2+int(can2["width"])-20:
-
+                    if (root.winfo_screenwidth()-w)/2+int(frame.place_info()["x"])<=x<=(root.winfo_screenwidth()-w)/2++int(frame.place_info()["x"])+int(can2["width"])-20:
 
                         for song in songs:
 
@@ -12138,25 +12145,36 @@ def convert_(im,col,con):
 
 def draw_effects(w,h,val,_col_,con,col2=None):
 
+    vr=4
 
+    if col2!=None:
+        vr=1
 
-    im=Image.new("RGBA",(w,h),(0,0,0,255))
+    if con==4:
+        vr=1
+
+    w_=int(round(w*vr,0))
+    h_=int(round(w_*h/w,0))
+
+    im=Image.new("RGBA",(w_,h_),(0,0,0,255))
 
 
     im2=Image.open("data/im_ref/musical_note2.png")
     x,y=im2.size
 
+    
 
 
 
-    im2_=Image.new("RGBA",(x,y),(0,0,0,0))
+
+    im2_=Image.new("RGBA",(int(x),int(y)),(0,0,0,0))
 
     pixels=im2_.load()
 
 
-    for y_ in range(y):
+    for y_ in range(int(y)):
 
-        for x_ in range(x):
+        for x_ in range(int(x)):
 
             col_=im2.getpixel((x_,y_))
 
@@ -12168,48 +12186,51 @@ def draw_effects(w,h,val,_col_,con,col2=None):
         root.after(4,update)
 
 
-    im.paste(im2_,(int((w-x)/2),int((h-y)/2)))
+    im2_=im2_.resize((int(x*vr),int(y*vr)))
+
+
+    im.paste(im2_,(int((w_-int(x*vr))/2),int((h_-int(y*vr))/2)))
 
 
 
     draw=ImageDraw.Draw(im)
 
-    x_,y_=100,100
+    x_,y_=100*vr,100*vr
 
     if con==0:
         pass
 
     if con==1:
 
-        x1=(val/2)*math.sin(math.radians(180))
-        x2=(val/2)*math.sin(math.radians(180-60))
+        x1=(val/2)*vr*math.sin(math.radians(180))
+        x2=(val/2)*vr*math.sin(math.radians(180-60))
 
         xv=(x2-x1)*2
 
-        x1_=(val/2)*math.sin(math.radians(180+60))
+        x1_=(val/2)*vr*math.sin(math.radians(180+60))
         x2_=(val/2)*math.sin(math.radians(180-60))
 
-        y1=(val/2)*math.cos(math.radians(60))
-        y2=(val/2)*math.cos(math.radians(0))
+        y1=(val/2)*vr*math.cos(math.radians(60))
+        y2=(val/2)*vr*math.cos(math.radians(0))
 
 
 
-        y1_=(val/2)*math.cos(math.radians(180))
-        y2_=(val/2)*math.cos(math.radians(0))
+        y1_=(val/2)*vr*math.cos(math.radians(180))
+        y2_=(val/2)*vr*math.cos(math.radians(0))
 
         yv=(y2_-y1_)-(y2-y1)
 
 
 
-        ny=int(h/((y2_-y1_)-yv))
+        ny=int(h_/((y2_-y1_)-yv))
 
 
         st=0
 
-        y_=val/2
+        y_=val*vr/2
         for y in range(ny):
 
-            nx=int(w/(x2_-x1_))+1
+            nx=int(w_/(x2_-x1_))+1
             
             if st==0:
                 x_=x1-x1_
@@ -12226,8 +12247,8 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
                 for a in range(6):
 
-                    x=int(round((val/2)*math.sin(math.radians(ang))+x_,0))
-                    y=int(round((val/2)*math.cos(math.radians(ang))+y_,0))
+                    x=int(round((val/2)*vr*math.sin(math.radians(ang))+x_,0))
+                    y=int(round((val/2)*vr*math.cos(math.radians(ang))+y_,0))
 
                     ar.append((x,y))
 
@@ -12239,7 +12260,7 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
                     cole=_col_
 
-                draw.polygon(ar,outline=cole)
+                draw.polygon(ar,outline=cole,width=vr)
 
                 x_+=xv
 
@@ -12253,38 +12274,38 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
         a_=180
 
-        xx1=(val/2)*math.sin(math.radians(a_))+x_
+        xx1=(val/2)*vr*math.sin(math.radians(a_))+x_
         
         a_=180-(360/6)/2
-        xx2=(val/2)*math.sin(math.radians(a_))+x_
+        xx2=(val/2)*vr*math.sin(math.radians(a_))+x_
 
         x1=xx2-xx1
 
 
         a_=180-(360/6)/2
-        xx3=(val/2)*math.sin(math.radians(a_))+x_
+        xx3=(val/2)*vr*math.sin(math.radians(a_))+x_
         
         a_=180-(360/6)/2-(360/6)
-        xx4=(val/2)*math.sin(math.radians(a_))+x_
+        xx4=(val/2)*vr*math.sin(math.radians(a_))+x_
 
         x2=xx4-xx3
 
 
 
         a_=180-(360/6)/2
-        yy1=(val/2)*math.cos(math.radians(a_))+y_
+        yy1=(val/2)*vr*math.cos(math.radians(a_))+y_
         
         a_=180-(360/6)/2-(360/6)
-        yy2=(val/2)*math.cos(math.radians(a_))+y_
+        yy2=(val/2)*vr*math.cos(math.radians(a_))+y_
 
         yv=yy2-yy1
 
 
         a_=360-(360/6)/2
-        xx5=(val/2)*math.sin(math.radians(a_))+x_
+        xx5=(val/2)*vr*math.sin(math.radians(a_))+x_
         
         a_=0+(360/6)/2
-        xx6=(val/2)*math.sin(math.radians(a_))+x_
+        xx6=(val/2)*vr*math.sin(math.radians(a_))+x_
 
         x3=xx6-xx5
 
@@ -12293,9 +12314,9 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
         y_=-yv
 
-        ny=int(h/yv)+2
+        ny=int(h_/yv)+2
         for y in range(ny):
-            nx=int(w/(x1*2+x2*2+x3))+2
+            nx=int(w_/(x1*2+x2*2+x3))+2
 
             if st==0:
 
@@ -12314,8 +12335,8 @@ def draw_effects(w,h,val,_col_,con,col2=None):
                 a_=180+(360/6)/2
                 for a in range(6):
 
-                    _x=(val/2)*math.sin(math.radians(a_))+x_
-                    _y=(val/2)*math.cos(math.radians(a_))+y_
+                    _x=(val/2)*vr*math.sin(math.radians(a_))+x_
+                    _y=(val/2)*vr*math.cos(math.radians(a_))+y_
 
                     ar.append((int(round(_x,0)),int(round(_y,0))))
 
@@ -12332,7 +12353,7 @@ def draw_effects(w,h,val,_col_,con,col2=None):
                     cole=_col_
 
 
-                draw.polygon(ar,outline=cole)
+                draw.polygon(ar,outline=cole,width=vr)
 
                 root.after(4,update)
 
@@ -12355,16 +12376,16 @@ def draw_effects(w,h,val,_col_,con,col2=None):
     elif con==3:
 
 
-        y1=(val/2)*math.cos(math.radians(60))
-        y2=(val/2)*math.cos(math.radians(0))
+        y1=(val/2)*vr*math.cos(math.radians(60))
+        y2=(val/2)*vr*math.cos(math.radians(0))
 
 
 
 
-        xv=(val/2)*math.sin(math.radians(180-60))
+        xv=(val/2)*vr*math.sin(math.radians(180-60))
 
-        x1=(val/2)*math.sin(math.radians(270))
-        x2=(val/2)*math.sin(math.radians(270))+xv 
+        x1=(val/2)*vr*math.sin(math.radians(270))
+        x2=(val/2)*vr*math.sin(math.radians(270))+xv 
 
 
 
@@ -12374,17 +12395,17 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
         x_=-(x2-x1)
 
-        nx=int(w/(xv))+3
+        nx=int(w_/(xv))+3
         for x in range(nx):
 
-            ny=int(h/(val/2))+4
+            ny=int(h_/(val*vr/2))+4
 
             if st==0:
-                y_=-(val)
+                y_=-(val*vr)
                 st=1
             elif st==1:
                 st=0
-                y_=-(val)+yv
+                y_=-(val*vr)+yv
 
             for y in range(ny):
 
@@ -12397,12 +12418,12 @@ def draw_effects(w,h,val,_col_,con,col2=None):
                     cole=_col_
 
 
-                draw.ellipse((x_-val/2,y_-val/2, x_+val/2,y_+val/2),outline=cole)
+                draw.ellipse((x_-val*vr/2,y_-val*vr/2, x_+val*vr/2,y_+val*vr/2),outline=cole,width=vr)
 
                 root.after(4,update)
 
 
-                y_+=val/2
+                y_+=val*vr/2
 
             x_+=xv
 
@@ -12460,7 +12481,9 @@ def draw_effects(w,h,val,_col_,con,col2=None):
         draw.line(ar,fill=cole)
 
 
-    im=im.crop((0,0,w,h))
+    im=im.crop((0,0,w_,h_))
+
+    im=im.resize((w,h))
             
 
             
@@ -12481,7 +12504,9 @@ def draw_fadingc(r):
 
 
     sc=1
-    for r_ in range(r):
+
+    r_=0
+    for _r_ in range(int(r*10)):
 
         op=255
 
@@ -12491,10 +12516,13 @@ def draw_fadingc(r):
 
 
         ar=[]
-        for a in range(361):
 
-            x=r_*math.sin(math.radians(a))+r
-            y=r_*math.cos(math.radians(a))+r
+        a_=0
+
+        for a in range(3610):
+
+            x=r_*math.sin(math.radians(a_))+r
+            y=r_*math.cos(math.radians(a_))+r
 
 
             x=int(round(x,0))            
@@ -12505,11 +12533,17 @@ def draw_fadingc(r):
 
             col=hex_to_rgb(_theme[0])
 
+            a_+=0.1
+
+
         
         draw.polygon(ar,outline=(int(col[0]),int(col[1]),int(col[2]),int(round(op,0))))
         #draw.polygon(ar,outline=(int(col[0]*sc),int(col[1]*sc),int(col[2]*sc),int(round(op,0))))
 
         #sc-=1/r
+
+        r_+=0.1
+
     return im
 
 circle=0
