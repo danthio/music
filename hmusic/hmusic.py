@@ -100,7 +100,7 @@ def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
         # Convert to PIL Image
         _frame__ = Image.fromarray(_frame__)
 
-
+        """
         width, height = _frame__.size
         new_width = int(width * (600 / height))
 
@@ -108,6 +108,7 @@ def get_frame_at(video_path, seconds, output_path="data/frame.jpg"):
             (new_width, 600),
             Image.Resampling.LANCZOS
         )
+        """
 
         cap.release()
 
@@ -831,9 +832,9 @@ sig_,_sig_2,_sig_3,_sig_4,_sig_5=0,0,0,0,0
 sig2,sig2_2,sig2_3,sig2_4,sig2_5=[],[],[],[],[]
 tts=0
 
+def draw_wave_():
 
 
-def draw_wave():
 
     global lst,can,st,sig,sig_,sig2,tm,tts,play_st,current_playing,w,h
 
@@ -860,16 +861,12 @@ def draw_wave():
 
     try:
 
-        col1=_theme[0]
-        col2=_theme[1][0]
 
 
 
 
 
-
-
-        xv=5
+        xv=4
         amp=sig_amp[0]
 
         if play_st==1:
@@ -897,6 +894,65 @@ def draw_wave():
 
                 if len(sig)>=xn:
                     sig.pop(0)
+
+
+
+
+
+
+
+
+    except:
+        pass
+
+    root.after(2,draw_wave_)
+
+wave_im=[0,0]
+def draw_wave():
+
+    global lst,can,st,sig,sig_,sig2,tm,tts,play_st,current_playing,w,h
+
+    global sig2_2,sig2_3,sig2_4,sig2_5
+    global _sig_2,_sig_3,_sig_4,_sig_5
+
+
+
+    global lyric_st
+
+    global play_video_st
+
+    global root_st
+
+    global tot_tm_
+
+    global current_volume
+
+    global vid_st
+    global theme_st2
+    global select_st
+    global can2
+    global sig_amp
+    global wave_im
+
+    try:
+
+        col1=_theme[0]
+        col2=_theme[1][0]
+
+
+
+
+
+
+
+        xv=4
+        if play_st==1:
+
+
+
+            
+
+            if play_video_st==0:
 
 
 
@@ -935,6 +991,19 @@ def draw_wave():
 
 
                                 if not tts>tot_tm_:
+
+
+                                    """
+                                    wave_im[0]=ImageTk.PhotoImage(wave_im_(sig2,_theme[0]))
+
+                                    if len(sig2)==20:
+                                        wave_im_(sig2,_theme[0]).show()
+
+                                    can.itemconfig(wave_im[1],image=wave_im[0])
+
+                                    """
+
+                                    
                                     can.coords(sig_,*sig2)
 
 
@@ -944,11 +1013,51 @@ def draw_wave():
 
 
 
-    except:
+    except Exception as e:
+
+        #print(e)
         pass
 
     root.after(4,draw_wave)
 
+
+def wave_im_(ar,col):
+    global w,h
+
+    ratio=4
+
+
+
+    w_=w*ratio
+    h_=int(round(w_*h/w,0))
+
+    im=Image.new("RGBA",(w_,h_),(0,0,0,0))
+
+    if len(ar)>0:
+
+        new_ar=[]
+
+
+        i=0
+
+        for v in range(int(len(ar)/2)):
+
+
+            nv=( int(round(ar[i]*ratio,0)), int(round(ar[i+1]*ratio,0)) )
+
+            new_ar.append(nv)
+
+            i+=2
+
+
+        draw=ImageDraw.Draw(im)
+
+
+        draw.line(new_ar,fill=(*hex_to_rgb(col),255),width=ratio)
+
+    im=im.resize((w,h))
+
+    return im
 
 
 def get_amplitude_at_time(file_path, time_sec):
@@ -1082,6 +1191,51 @@ def hex_to_rgba(hex_color, alpha):
     return (r, g, b, int(alpha * 255))
 
 
+
+def scale_video(video_path, output_dir, height=600):
+    cap = cv2.VideoCapture(video_path)
+
+    if not cap.isOpened():
+        raise IOError("Could not open video.")
+
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    original_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+    new_width = int(width * height / original_height)
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    filename = os.path.splitext(os.path.basename(video_path))[0]
+    output_path = os.path.join(output_dir, f"{filename}.mp4")
+
+    writer = cv2.VideoWriter(
+        output_path,
+        cv2.VideoWriter_fourcc(*'mp4v'),
+        fps,
+        (new_width, height)
+    )
+
+    # Faster interpolation for resizing
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        resized = cv2.resize(
+            frame,
+            (new_width, height),
+            interpolation=cv2.INTER_LINEAR
+        )
+
+        writer.write(resized)
+
+    cap.release()
+    writer.release()
+
+    return output_path
+
+
 convert_n=""
 def convert_folder_to_audio():
 
@@ -1177,7 +1331,8 @@ def convert_folder_to_audio():
                             v=ar.index(i.replace(".mp3",".mp4"))
                         except:
 
-                            shutil.copy(input_folder+"\\"+i,"videos")
+                            #shutil.copy(input_folder+"\\"+i,"videos")
+                            scale_video(input_folder+"\\"+i, "videos", height=600)
 
                     continue
 
@@ -1213,7 +1368,8 @@ def convert_folder_to_audio():
 
                     if i[-4:]==".mp4":
 
-                        shutil.copy(input_folder+"\\"+i,"videos")
+                        #shutil.copy(input_folder+"\\"+i,"videos")
+                        scale_video(input_folder+"\\"+i, "videos", height=600)
 
                         #vid_quality(input_folder+"\\"+i,"videos/"+i)
 
@@ -1304,7 +1460,9 @@ def convert_file_to_audio():
                         v=ar.index(i.replace(".mp3",".mp4"))
                     except:
 
-                        shutil.copy(input_file,"videos")
+                        #shutil.copy(input_file,"videos")
+
+                        scale_video(input_file, "videos", height=600)
 
 
             if i[-3:]=="mp3":
@@ -1345,7 +1503,9 @@ def convert_file_to_audio():
 
                     if i[-4:]==".mp4":
 
-                        shutil.copy(input_file,"videos")
+                        #shutil.copy(input_file,"videos")
+
+                        scale_video(input_file, "videos", height=600)
 
                         #vid_quality(input_file,"videos/"+i)
 
@@ -2158,7 +2318,7 @@ def add_playlist():
     global cp2_im,cp2_im2
     global sb2_sz
     global cur_can3,cur_can4,cur_can6
-    global bg2_
+    global bg2_,bg
     global _theme
     global add_bg,add_bg_
     global cancel
@@ -2227,7 +2387,7 @@ def add_playlist():
 
     
 
-    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0),image=bg2_,anchor="nw")
+    bgp=can3.create_image(-((w-550)/2),-((h-(40+250-40+50+40))/2+40)+can3.canvasy(0),image=bg,anchor="nw")
 
 
 
@@ -2893,6 +3053,9 @@ def can2_b1(e):
 
 
                 except:
+                    pass
+
+                    """
 
 
                     file=filedialog.askopenfilename()
@@ -2917,7 +3080,10 @@ def can2_b1(e):
                         pass
 
 
+
                     main()
+
+                    """
                 draw_cur_(1)
                 return
 
@@ -6796,6 +6962,10 @@ _v131__,_v132__,_v133__,_v134__=0,0,0,0
 _v141__,_v142__,_v143__,_v144__=0,0,0,0
 _v151__,_v152__,_v153__,_v154__=0,0,0,0
 _v161__,_v162__,_v163__,_v164__=0,0,0,0
+_v171__,_v172__,_v173__,_v174__=0,0,0,0
+
+
+
 def draw_outline_text(c,text,x,y,anchor,font):
 
 
@@ -6823,6 +6993,7 @@ def draw_outline_text(c,text,x,y,anchor,font):
     global _v141__,_v142__,_v143__,_v144__
     global _v151__,_v152__,_v153__,_v154__
     global _v161__,_v162__,_v163__,_v164__
+    global _v171__,_v172__,_v173__,_v174__
     global _theme
 
 
@@ -7286,6 +7457,28 @@ def draw_outline_text(c,text,x,y,anchor,font):
 
 
 
+    elif can_outline_st==19:
+
+
+        c.delete(_v171__)
+        c.delete(_v172__)
+        c.delete(_v173__)
+        c.delete(_v174__)
+
+
+
+
+        if text=="":
+
+            can_outline_st=0
+            return
+
+
+
+        _v171__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v172__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v173__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v174__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
 
     else:
 
@@ -8191,6 +8384,7 @@ def draw_can(con=0):
     global can2_b_im
 
     global upn_im
+    global wave_im
 
     can.delete("all")
     
@@ -8911,15 +9105,10 @@ def draw_can(con=0):
             if lst==0:
                 
 
+                #can.delete(wave_im[1])
                 can.delete(sig_)
 
-                """
-                can.delete(_sig_2)                
-                can.delete(_sig_3)
-                can.delete(_sig_4)
-                can.delete(_sig_5)
 
-                """
 
                 try:
 
@@ -8928,33 +9117,24 @@ def draw_can(con=0):
 
                             try:
 
-
-                                """
-
-
-
-                                _sig_2=can.create_line(sig2_2,fill="#000000",width=1)
-                                _sig_3=can.create_line(sig2_2,fill="#000000",width=1)
-                                _sig_4=can.create_line(sig2_3,fill="#000000",width=1)
-                                _sig_5=can.create_line(sig2_5,fill="#000000",width=1)      
-
-                                """                          
+                      
 
                                 sig_=can.create_line(sig2,fill=_theme[0],width=1)
 
+                                #wave_im[0]=ImageTk.PhotoImage(wave_im_(sig2,_theme[0]))
+                                #wave_im[1]=can.create_image(0,0,image=wave_im[0],anchor="nw")
+
+
+
                             except:
 
-                                """
-
-
-                                _sig_2=can.create_line(0,0,0,0,fill="#000000",width=1)
-                                _sig_3=can.create_line(0,0,0,0,fill="#000000",width=1)
-                                _sig_4=can.create_line(0,0,0,0,fill="#000000",width=1)
-                                _sig_5=can.create_line(0,0,0,0,fill="#000000",width=1)   
-                                """                             
+                         
 
                                 sig_=can.create_line(0,0,0,0,fill=_theme[0],width=1)
 
+
+                                #wave_im[0]=ImageTk.PhotoImage(wave_im_([],_theme[0]))
+                                #wave_im[1]=can.create_image(0,0,image=wave_im[0],anchor="nw")
                 except:
                     pass
 
@@ -8964,14 +9144,8 @@ def draw_can(con=0):
 
 
         if lyric_st==1:
+            #can.delete(wave_im[1])
             can.delete(sig_)
-            """
-            can.delete(_sig_2)                
-            can.delete(_sig_3)
-            can.delete(_sig_4)
-            can.delete(_sig_5)
-
-            """
 
 
         con_st=0
@@ -9350,7 +9524,7 @@ def draw_can(con=0):
 
 
             bg_f2=filter_can2.create_image(-(w-10-10-int(filter_can1["width"])-int(filter_can2["width"])-10-25-20),
-                -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0),image=bg2_,anchor="nw")
+                -(40+30-10-5-5+30+10+30*3.5)+filter_can2.canvasy(0),image=bg,anchor="nw")
 
 
 
@@ -10251,10 +10425,12 @@ def load_im():
     load_1=draw_load(40,5)
     load_2=draw_load(30,4)
 
-    im=Image.new("RGBA",(50,50),(0,0,0,0))
+    im=Image.new("RGBA",(200,200),(0,0,0,0))
     draw=ImageDraw.Draw(im)
 
-    draw.ellipse((0,0,49,49),fill=(*hex_to_rgb(_theme[1][-1]),255),outline=(*hex_to_rgb(_theme[1][-1]),255))
+    draw.ellipse((0,0,200,200),fill=(*hex_to_rgb(_theme[1][-1]),255),outline=(*hex_to_rgb(_theme[1][-1]),255))
+
+    im=im.resize((50,50))
 
     progx=im
 
@@ -10378,33 +10554,33 @@ def load_im():
     #progx.show()
 
 
-    im1,im2=rounded_im(bg_dark_,((w-550)/2),((h-(40+250-40+50+40))/2),550,(40+250-40+50+40),15)
+    im1,im2=rounded_im(_bg_,((w-550)/2),((h-(40+250-40+50+40))/2),550,(40+250-40+50+40),15)
 
     add_bg=ImageTk.PhotoImage(im1)
     add_bg_=ImageTk.PhotoImage(im2)
 
 
 
-    im1,im2=rounded_im(bg_dark_,(w-10-10-int(filter_can1["width"])-25),(40+30-10-5-5+30+10),250,30+30*5,15)
+    im1,im2=rounded_im(_bg_,(w-10-10-int(filter_can1["width"])-25),(40+30-10-5-5+30+10),250,30+30*5,15)
 
     bg_filt=ImageTk.PhotoImage(im1)
     bg_filt_=ImageTk.PhotoImage(im2)
 
 
 
-    im1,im2=rounded_im(bg_dark_,(10+10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
+    im1,im2=rounded_im(_bg_,(10+10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
 
     bg_sort=ImageTk.PhotoImage(im1)
     bg_sort_=ImageTk.PhotoImage(im2)
 
 
-    im1,im2=rounded_im(bg_dark_,(10+10+25+5),(25+12.5+5),int(can_theme["width"]),int(can_theme["height"]),25)
+    im1,im2=rounded_im(_bg_,(10+10+25+5),(25+12.5+5),int(can_theme["width"]),int(can_theme["height"]),25)
 
     bg_sett=ImageTk.PhotoImage(im1)
     bg_sett_=ImageTk.PhotoImage(im2)
 
 
-    im1,im2=rounded_im(bg_dark_,(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
+    im1,im2=rounded_im(_bg_,(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
 
     bg_del=ImageTk.PhotoImage(im1)
     bg_del_=ImageTk.PhotoImage(im2)
@@ -11564,128 +11740,129 @@ def __check_cur_pos():
 
             if add_st==0 and sort_st==0 and filter_st==0 and theme_st2==0 and del_st==0 and lst==1:
 
+                if st==4:
+                    return
+
                 y_=y-int(((ht)-h)/2)-88-15
 
 
-                if lst==1:
+
+                if y_<0 or y_>int(can2["height"]):
+
+                    return
+
+                if (root.winfo_screenwidth()-w)/2+int(frame.place_info()["x"])<=x<=(root.winfo_screenwidth()-w)/2++int(frame.place_info()["x"])+int(can2["width"])-20:
+
+                    for song in songs:
+
+                        if song[1]<=can2.canvasy(y_)<=song[1]+50:
+                            y=song[1]
+
+                            can2.coords(cp_im,0,y)
+
+                            can2.delete(nviews)
 
 
-                    if y_<0 or y_>int(can2["height"]):
+                            if song[0]==current_playing:
+                                cviews="#000000"
+                            else:
+                                cviews=_theme[0]
 
-                        return
+                                can_outline_st=9
+                                draw_outline_text(can2,get_no_of_views(song[0]),50,y+50-5,"sw",("FreeMono",9))
 
-                    if (root.winfo_screenwidth()-w)/2+int(frame.place_info()["x"])<=x<=(root.winfo_screenwidth()-w)/2++int(frame.place_info()["x"])+int(can2["width"])-20:
+                            nviews=can2.create_text(50,y+50-5,text=get_no_of_views(song[0]),fill=cviews,anchor="sw",font=("FreeMono",9))
 
-                        for song in songs:
 
-                            if song[1]<=can2.canvasy(y_)<=song[1]+50:
-                                y=song[1]
+                            #can2.coords(cp_im2,0,y)
 
-                                can2.coords(cp_im,0,y)
+                            if song[0]==current_playing:
+                                _del_=delete2_
 
-                                can2.delete(nviews)
+                            else:
+                                _del_=delete_
+                            
+                            attr[0]=can2.create_image((int(can2["width"])-20)-10-25,y+12.5,image=_del_,anchor="nw")
 
+
+                            con_v=0
+
+                            try:
+
+                                ar=os.listdir("videos")
+
+                                v=ar.index(song[0].replace(".mp3",".mp4"))
+
+                                con_v=1
+
+                            except:
+                                pass
+
+
+                            
+
+                            if con_v==1:
 
                                 if song[0]==current_playing:
-                                    cviews="#000000"
+
+                                    attr[1]=can2.create_image((int(can2["width"])-20)-10-25-15-25,y+12.5,image=vid3,anchor="nw")
                                 else:
-                                    cviews=_theme[0]
+                                    attr[1]=can2.create_image((int(can2["width"])-20)-10-25-15-25,y+12.5,image=vid1,anchor="nw")
 
-                                    can_outline_st=9
-                                    draw_outline_text(can2,get_no_of_views(song[0]),50,y+50-5,"sw",("FreeMono",9))
+                            elif con_v==0:
 
-                                nviews=can2.create_text(50,y+50-5,text=get_no_of_views(song[0]),fill=cviews,anchor="sw",font=("FreeMono",9))
-
-
-                                #can2.coords(cp_im2,0,y)
-
-                                if song[0]==current_playing:
-                                    _del_=delete2_
-
-                                else:
-                                    _del_=delete_
-                                
-                                attr[0]=can2.create_image((int(can2["width"])-20)-10-25,y+12.5,image=_del_,anchor="nw")
+                                attr[1]=can2.create_image((int(can2["width"])-20)-10-25-15-25,y+12.5,image=vid2,anchor="nw")
 
 
-                                con_v=0
+                            con=0
 
-                                try:
+                            for i in playlist:
 
-                                    ar=os.listdir("videos")
 
-                                    v=ar.index(song[0].replace(".mp3",".mp4"))
-
-                                    con_v=1
-
+                                try: 
+                                    v=playlist[i].index(song[0])
                                 except:
                                     pass
 
 
+                            _pl_=playlist2
+
+
+
+
+                            if song[0]==current_playing:
+                                _pl_=playlist3
+
                                 
 
-                                if con_v==1:
 
-                                    if song[0]==current_playing:
-
-                                        attr[1]=can2.create_image((int(can2["width"])-20)-10-25-15-25,y+12.5,image=vid3,anchor="nw")
-                                    else:
-                                        attr[1]=can2.create_image((int(can2["width"])-20)-10-25-15-25,y+12.5,image=vid1,anchor="nw")
-
-                                elif con_v==0:
-
-                                    attr[1]=can2.create_image((int(can2["width"])-20)-10-25-15-25,y+12.5,image=vid2,anchor="nw")
+                            attr[2]=can2.create_image((int(can2["width"])-20)-10-25-15-25-15-25,y+12.5,image=_pl_,anchor="nw")
 
 
-                                con=0
-
-                                for i in playlist:
 
 
-                                    try: 
-                                        v=playlist[i].index(song[0])
-                                    except:
-                                        pass
+                            if music_details[song[0]][0]==0:
+
+                                _fv_=favourite1
+
+                                if song[0]==current_playing:
+                                    _fv_=favourite1_
 
 
-                                _pl_=playlist2
+                            elif music_details[song[0]][0]==1:
 
 
+                                _fv_=favourite2
 
 
                                 if song[0]==current_playing:
-                                    _pl_=playlist3
+                                    _fv_=favourite2_
 
-                                    
+                            attr[3]=can2.create_image((int(can2["width"])-20)-10-25-15-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
 
+                            draw_cur_()
 
-                                attr[2]=can2.create_image((int(can2["width"])-20)-10-25-15-25-15-25,y+12.5,image=_pl_,anchor="nw")
-
-
-
-
-                                if music_details[song[0]][0]==0:
-
-                                    _fv_=favourite1
-
-                                    if song[0]==current_playing:
-                                        _fv_=favourite1_
-
-
-                                elif music_details[song[0]][0]==1:
-
-
-                                    _fv_=favourite2
-
-
-                                    if song[0]==current_playing:
-                                        _fv_=favourite2_
-
-                                attr[3]=can2.create_image((int(can2["width"])-20)-10-25-15-25-15-25-15-25,y+12.5,image=_fv_,anchor="nw")
-
-                                draw_cur_()
-
-                                break
+                            break
 
 
 
@@ -11986,7 +12163,7 @@ def can_label(x,y):
                                             v=dir_ar.index(s[0].replace(".mp3",".mp4"))
                                             txt="delete video"
                                         except:
-                                            txt="add video"
+                                            txt="no video"
 
                                         #if not con_th==1:
                                         can_outline_st=16
@@ -12145,13 +12322,11 @@ def convert_(im,col,con):
 
 def draw_effects(w,h,val,_col_,con,col2=None):
 
-    vr=4
+    vr=10
 
     if col2!=None:
         vr=1
 
-    if con==4:
-        vr=1
 
     w_=int(round(w*vr,0))
     h_=int(round(w_*h/w,0))
@@ -12200,7 +12375,7 @@ def draw_effects(w,h,val,_col_,con,col2=None):
     if con==0:
         pass
 
-    if con==1:
+    elif con==1:
 
         x1=(val/2)*vr*math.sin(math.radians(180))
         x2=(val/2)*vr*math.sin(math.radians(180-60))
@@ -12432,7 +12607,7 @@ def draw_effects(w,h,val,_col_,con,col2=None):
     elif con==4:
 
 
-        cx,cy=w/2,h/2
+        cx,cy=w_/2,h_/2
 
 
         f=val
@@ -12441,13 +12616,13 @@ def draw_effects(w,h,val,_col_,con,col2=None):
 
 
 
-        if w>=h:
+        if w_>=h_:
 
-            r_=w
+            r_=w_
 
         else:
 
-            r_=h
+            r_=h_
 
 
         ar=[]
@@ -12456,8 +12631,8 @@ def draw_effects(w,h,val,_col_,con,col2=None):
         for r in range(int(round(r_,0))):
 
 
-            x=r*math.sin(math.radians(2*math.pi*f*t))+cx
-            y=r*math.cos(math.radians(2*math.pi*f*t))+cy
+            x=r*vr*math.sin(math.radians(2*math.pi*f*t))+cx
+            y=r*vr*math.cos(math.radians(2*math.pi*f*t))+cy
 
             x=int(round(x,0))
             y=int(round(y,0))
@@ -12478,7 +12653,7 @@ def draw_effects(w,h,val,_col_,con,col2=None):
             cole=_col_
 
 
-        draw.line(ar,fill=cole)
+        draw.line(ar,fill=cole,width=vr)
 
 
     im=im.crop((0,0,w_,h_))
@@ -12840,14 +13015,20 @@ def adjust_theme():
     global unchanged
     global wd,ht
     global bg_col
-    global bg_dark_,_bg_
     global tbg2_
+    global sett_m
+    global bg_dark_,_bg_
+    global can_theme
+    global can_outline_st
+    global theme_txt
 
 
 
     if adj_st==0:
         col=_theme[0]
         configure_theme(_theme[0])
+
+
 
     else:
         col=te_var
@@ -12860,6 +13041,16 @@ def adjust_theme():
         if i.split(".")[-1]=="png":
 
             c+=1
+
+    theme_txt="Checking if theme is updated!"
+
+    can_outline_st=19
+
+    can_theme.delete(sett_m)
+    draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+    sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+        text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
 
     conf_stheme=0
 
@@ -12876,16 +13067,70 @@ def adjust_theme():
 
     if unchanged==0 and conf_stheme==0:
         
+
+        theme_txt="Changing icons theme!"
+
+        can_outline_st=19
+
+        can_theme.delete(sett_m)
+        draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+        sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+            text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
         change_theme(col)
 
 
 
+        theme_txt="Icons theme changed!"
+
+        can_outline_st=19
+
+        can_theme.delete(sett_m)
+        draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+        sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+            text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+    else:
+
+
+        theme_txt="Theme is unchanged!"
+
+        can_outline_st=19
+
+        can_theme.delete(sett_m)
+        draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+        sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+            text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
     if _theme[-3][0]==1:
+
+
+        theme_txt="Loading default theme!"
+
+        can_outline_st=19
+
+        can_theme.delete(sett_m)
+        draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+        sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+            text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
 
         try:
             im=draw_effects(wd,ht,_theme[-3][2],_theme[-3][3],_theme[-3][1])
         except:
+
+
+            theme_txt="Resetting default theme!"
+
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
 
             ecol=hex_to_rgb(col)
 
@@ -12897,6 +13142,16 @@ def adjust_theme():
 
             im=draw_effects(wd,ht,_theme[-3][2],_theme[-3][3],_theme[-3][1])
 
+
+
+            theme_txt="Default theme resetted!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
         if adj_st==0:
             bg_col=_theme[-3][3]
@@ -12914,7 +13169,14 @@ def adjust_theme():
     else:
         bg_col="#000000"
         try:
+            theme_txt="Checking saved background image!"
 
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
             ar=os.listdir("data")
 
@@ -12925,12 +13187,32 @@ def adjust_theme():
 
             
 
+
+            theme_txt="Loading saved background image!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
             im=Image.open("data/bg."+ext)
             x,y=im.size
 
 
 
             if _theme[-2]==[]:
+
+                theme_txt="Resetting background image viewable section!"
+
+                can_outline_st=19
+
+                can_theme.delete(sett_m)
+                draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+                sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                    text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
 
                 if w/h>x/y:
 
@@ -12950,7 +13232,29 @@ def adjust_theme():
                 else:
                     _theme[-2]=[0,0,0,0]
 
+
+                theme_txt="Resetting background image viewable section Completed!"
+
+                can_outline_st=19
+
+                can_theme.delete(sett_m)
+                draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+                sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                    text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
             else:
+
+
+                theme_txt="Getting background image viewable section!"
+
+                can_outline_st=19
+
+                can_theme.delete(sett_m)
+                draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+                sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                    text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
 
                 x_=_theme[-2][2]-_theme[-2][0]
                 y_=_theme[-2][3]-_theme[-2][1]
@@ -12982,30 +13286,129 @@ def adjust_theme():
 
 
 
+                theme_txt="Getting background image viewable section Completed!"
+
+                can_outline_st=19
+
+                can_theme.delete(sett_m)
+                draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+                sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                    text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
 
+
+
+            theme_txt="Resizing background image!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
 
 
             im=im.resize((w,h))
 
-            
+
+            theme_txt="Resizing background image completed!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+
+
+
+            theme_txt="Converting background image theme!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")            
 
             im=convert_(im,col,_theme[-1])
 
+            theme_txt="Converting background image theme completed!"
 
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e") 
             
+
+
+            theme_txt="Darkening background image!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e") 
+
             im1=darken_image(im,(0,0,0), _theme[2])
             im2=darken_image(im1,(0,0,0), 0.5)
+
+
+            theme_txt="Darkening background image completed!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e") 
 
 
             _bg_=im1
             bg_dark_=im2
 
 
+            theme_txt="Darkening background image completed!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e") 
+
         except:
+            theme_txt="Resetting to default theme!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
             _theme=["#ffffff",[],0,0.4,[],[1],[],0]
+
+            theme_txt="Recursing adjust theme!"
+
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+
             adjust_theme()
+
+
             return
 
 
@@ -13014,7 +13417,15 @@ def adjust_theme():
     #subprocess.run(command, check=True, capture_output=True, text=True)
 
 
-    root.after(8,update)
+    theme_txt="Loading images/icons!"
+
+    can_outline_st=19
+
+    can_theme.delete(sett_m)
+    draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+    sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+        text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
     adj_st=1
 
 
@@ -14590,6 +15001,9 @@ def check_up_theme():
     global bg_region_
     global bg_col
     global load_2,load_2_
+    global sett_m
+    global can_outline_st
+    global theme_txt
 
     if not up_theme==None:
 
@@ -14623,13 +15037,12 @@ def check_up_theme():
             configure_theme(_theme[0])
 
 
-            load_im()
-  
-            """
-            th=threading.Thread(target=load_im,daemon=True)
-            th.start()
-            th.join()"""
 
+
+
+            load_im()
+
+  
             
 
 
@@ -14647,12 +15060,14 @@ def check_up_theme():
             
             draw_theme()
 
-            draw_outline_text(can_theme,"Theme Updated!",int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            theme_txt="Theme updated!"
 
+            can_outline_st=19
 
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
             sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
-                    text="Theme Updated!",font=("FreeMono",13),fill=_theme[0],anchor="e")
-
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
 
 
@@ -14772,7 +15187,7 @@ def check_theme_attr():
 up_theme=None
 sel_col=""
 theme_st2=0
-sett_m=0
+
 
 unchanged=0
 def can_theme_b1(e):
@@ -14814,6 +15229,7 @@ def can_theme_b1(e):
     global effect_st
     global ch_im,ch_im_p
     global focus__
+    global theme_txt
 
     focus__=-1
     can_theme.focus_set()
@@ -14846,23 +15262,36 @@ def can_theme_b1(e):
 
             return
 
-    can_theme.delete(sett_m)
+    
 
 
     if not up_theme==None:
 
         if up_theme.is_alive():
 
-            draw_outline_text(can_theme,"Theme is Updating!",int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
-
-
-            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
-                    text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
 
 
             return
 
+        else:
+            theme_txt=""
+            can_outline_st=19
+
+            can_theme.delete(sett_m)
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
+
+
+    else:
+        theme_txt=""
+        can_outline_st=19
+
+        can_theme.delete(sett_m)
+        draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+        sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+            text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
     bg_xy=[e.x,e.y]
 
@@ -14904,18 +15333,18 @@ def can_theme_b1(e):
             can_theme.create_line(-1,-1,-1,-1,fill=te_var)
         except:
 
+            theme_txt="Incorrect Theme Attributes!"
+
 
             can_theme.delete(sett_m)
 
+            can_outline_st=19
 
-
-            draw_outline_text(can_theme,"Incorrect Theme Attributes!",int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
-
-
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
 
 
             sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
-                text="Incorrect Theme Attributes!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
             return
 
@@ -14937,30 +15366,37 @@ def can_theme_b1(e):
                 con_theme=1
 
             if con_theme==1:
+
+                theme_txt="Incorrect Theme Attributes!"
+
+
                 can_theme.delete(sett_m)
 
+                can_outline_st=19
 
-
-                draw_outline_text(can_theme,"Incorrect Theme Attributes!",int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
-
+                draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
 
 
                 sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
-                    text="Incorrect Theme Attributes!",font=("FreeMono",13),fill=_theme[0],anchor="e")
+                    text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
                 return
 
         else:
 
+
+            theme_txt="Incorrect Theme Attributes!"
+
+
             can_theme.delete(sett_m)
 
-            draw_outline_text(can_theme,"Incorrect Theme Attributes!",int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+            can_outline_st=19
 
+            draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
 
 
             sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
-                text="Incorrect Theme Attributes!",font=("FreeMono",13),fill=_theme[0],anchor="e")
-
+                text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
             return
 
@@ -15768,6 +16204,8 @@ ey=0
 ch_im=0
 ch_im_p=[]
 
+theme_txt=""
+sett_m=0
 def draw_theme(con=0):
 
     global can_theme,theme_ent,sel_op_ent
@@ -15803,11 +16241,12 @@ def draw_theme(con=0):
     global circle7,circle8
     global op_ar
     global cte_txt1,cte_txt2
-    global bg2_
+    global bg2_,bg
     global bg_sett,bg_sett_,pu_bg1_,pu_bg2_,pu_bg1_s,pu_bg2_s
     global cur_can_theme_2,cur_can_theme_ent_2,bg_hex
 
     global wd,ht
+    global w,h
 
     global def_lb
 
@@ -15818,6 +16257,8 @@ def draw_theme(con=0):
     global bg_dark_
     global ch_im,ch_im_p
     global p_im,n_im
+    global theme_txt
+    global sett_m
 
 
 
@@ -15844,6 +16285,8 @@ def draw_theme(con=0):
         op_var=str(_theme[2])+","+str(_theme[3])
 
         ch_im=_theme[-1]
+
+        theme_txt=""
 
 
 
@@ -15923,7 +16366,7 @@ def draw_theme(con=0):
     can_theme_ent["bg"]=bg_col
     cur_can_theme_ent_2=can_theme_ent.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
-    can_theme_ent.create_image(-(77-1+1+(10+25+5)+20),-(19+1+(25+12.5+5)),image=bg2_,anchor="nw")
+    can_theme_ent.create_image(-(77-1+1+(10+25+5)+20),-(19+1+(25+12.5+5)),image=bg,anchor="nw")
 
     te_var=col_
 
@@ -16023,12 +16466,22 @@ def draw_theme(con=0):
 
         tbg2_=tbg_
 
-    if no_bg_st==1:
 
-        ecol=hex_to_rgb(te_var)
-        ecol="#%02x%02x%02x"%(int(ecol[0]*_theme[2]),int(ecol[1]*_theme[2]),int(ecol[2]*_theme[2]))
-        tbg2_=draw_effects(wd,ht,80,ecol,2)
+    if no_bg_st:
 
+        nobg_col=hex_to_rgb(col_)
+        mc=max(nobg_col)
+
+        op=float(str(op_var).replace(" ","").split(",")[0])
+
+        nobg_col=(int(nobg_col[0]*op),int(nobg_col[1]*op),int(nobg_col[2]*op))
+
+        nobg_col="#%02x%02x%02x" % nobg_col
+
+
+        im=draw_effects(w,h,effect_val,nobg_col,effect,nobg_col)
+
+        tbg2_=im
 
 
     x,y=tbg2_.size
@@ -16313,6 +16766,19 @@ def draw_theme(con=0):
         bg_region=can_theme.create_line(bg_region_[1],fill=te_var)
     except:
         bg_region=can_theme.create_line(bg_region_[1],fill=_theme[0])
+
+
+
+
+    can_theme.delete(sett_m)
+
+    can_outline_st=19
+
+    draw_outline_text(can_theme,theme_txt,int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
+
+
+    sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
+        text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
     theme_st2=1
     draw_can()
@@ -16616,17 +17082,11 @@ def can_theme_drag(e):
     global no_bg_st
 
 
-    can_theme.delete(sett_m)
 
 
     if not up_theme==None:
 
         if up_theme.is_alive():
-
-            draw_outline_text(can_theme,"Theme is Updating!",int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
-
-            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
-                    text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
 
 
@@ -16805,17 +17265,12 @@ def on_release_s(e):
 
 
 
-    can_theme.delete(sett_m)
+    
 
 
     if not up_theme==None:
 
         if up_theme.is_alive():
-
-            draw_outline_text(can_theme,"Theme is Updating!",int(can_theme["width"])-20,int(can_theme["height"])-10-15,"e",("FreeMono",13))
-
-            sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
-                    text="Theme is Updating!",font=("FreeMono",13),fill=_theme[0],anchor="e")
 
 
 
@@ -17336,7 +17791,7 @@ del_st=0
 def conf_del_(file,con):
     global conf_del
     global del_info
-    global bg2_
+    global bg2_,bg
     global _theme
     global w,h
     global bg_del,bg_del_
@@ -18811,7 +19266,7 @@ effect_st=0
 def draw_can_effects():
     global ep
     global can_effects
-    global bg2_,checked,_theme
+    global bg2_,bg,checked,_theme
     global bg_col
     global cur_can_effects_2
     global bg_hex
@@ -18840,7 +19295,7 @@ def draw_can_effects():
     cur_can_effects_2=can_effects.create_image(-bg_hex[1],-bg_hex[1],image=bg_hex[0],anchor="nw")
 
 
-    can_effects.create_image(-(10+25+5+ep[0][0]+15-int(can_effects["width"])),-(25+12.5+5+ep[0][1]+30-10),image=bg2_,anchor="nw")
+    can_effects.create_image(-(10+25+5+ep[0][0]+15-int(can_effects["width"])),-(25+12.5+5+ep[0][1]+30-10),image=bg,anchor="nw")
 
     y=15
     for i in range(len(ar_effects)):
@@ -18888,7 +19343,7 @@ check_pl()
 
 
 sig_amp=[((h-121-30)-50)/2-20-70-10,50+((h-121-30)-50)/2]
-
+draw_wave_()
 draw_wave()
 
 
