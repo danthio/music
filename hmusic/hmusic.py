@@ -5359,6 +5359,7 @@ def check_volume():
 
     global circle7,circle8
     global volume
+    global can_outline_st
 
 
 
@@ -5380,6 +5381,8 @@ def check_volume():
 
 
         r=(w-10)-(w-10-10-120)
+
+        can_outline_st=20
 
         vol1=can.create_line(w-10-10-120,h-20-30+5+10-3 ,w-10-10-120+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
 
@@ -6963,7 +6966,7 @@ _v141__,_v142__,_v143__,_v144__=0,0,0,0
 _v151__,_v152__,_v153__,_v154__=0,0,0,0
 _v161__,_v162__,_v163__,_v164__=0,0,0,0
 _v171__,_v172__,_v173__,_v174__=0,0,0,0
-
+_v181__,_v182__,_v183__,_v184__=0,0,0,0
 
 
 def draw_outline_text(c,text,x,y,anchor,font):
@@ -6994,6 +6997,7 @@ def draw_outline_text(c,text,x,y,anchor,font):
     global _v151__,_v152__,_v153__,_v154__
     global _v161__,_v162__,_v163__,_v164__
     global _v171__,_v172__,_v173__,_v174__
+    global _v181__,_v182__,_v183__,_v184__
     global _theme
 
 
@@ -7479,6 +7483,32 @@ def draw_outline_text(c,text,x,y,anchor,font):
         _v172__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
         _v173__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
         _v174__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
+
+
+
+    elif can_outline_st==20:
+
+
+        c.delete(_v181__)
+        c.delete(_v182__)
+        c.delete(_v183__)
+        c.delete(_v184__)
+
+
+
+
+        if text=="":
+
+            can_outline_st=0
+            return
+
+
+
+        _v181__=c.create_text(x-1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v182__=c.create_text(x+1,y,text=text,font=font,fill=col,anchor=anchor)
+        _v183__=c.create_text(x,y-1,text=text,font=font,fill=col,anchor=anchor)
+        _v184__=c.create_text(x,y+1,text=text,font=font,fill=col,anchor=anchor)
+
 
     else:
 
@@ -9265,6 +9295,8 @@ def draw_can(con=0):
         can.delete(vol4)
 
         r=(w-10)-(w-10-120)
+
+        can_outline_st=20
 
 
         vol1=can.create_line(w-10-10-120,h-20-30+5+10-3 ,w-10-10-120+current_volume*r,h-20-30+5+10-3,fill=col1,width=2)
@@ -11894,6 +11926,8 @@ def can_label(x,y):
     global songs
     global music_details,playlist
     global filter_st,sort_st,add_st,del_st
+    global frame
+    global st,lst
 
     
 
@@ -11967,162 +12001,169 @@ def can_label(x,y):
         else:
 
 
-            if not select_st==1:
+        
 
-                if vid_st2==0 and vid_st==1:
+
+            #list
+
+            cx,cy=10+10+12.5,h-20-30-15+5+10-3+2.5+12.5
+
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
+
+                    can_outline_st=2
+
+
+                    draw_outline_text(can,"list",10+10+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
+
+                    mot_val=can.create_text(10+10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("FreeMono",10),anchor="c")
+
+                    draw_cur_can()
+
                     return
 
 
-                #list
+            #sort
 
-                cx,cy=10+10+12.5,h-20-30-15+5+10-3+2.5+12.5
+            cx,cy=10+10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
 
-                if cx-12.5<=x<=cx+12.5:
-                    if cy-12.5<=y<=cy+12.5:
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
 
-                        can_outline_st=2
-
-
-                        draw_outline_text(can,"list",10+10+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
-
-                        mot_val=can.create_text(10+10+12.5,h-20-30-15+5+10-3+2.5+25+10,text="list",fill=col1,font=("FreeMono",10),anchor="c")
-
-                        draw_cur_can()
-
-                        return
-
-
-                #sort
-
-                cx,cy=10+10+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-
-                if cx-12.5<=x<=cx+12.5:
-                    if cy-12.5<=y<=cy+12.5:
-
-                        can_outline_st=2
+                    can_outline_st=2
 
 
 
 
-                        draw_outline_text(can,"sort",10+10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
-                        mot_val=can.create_text(10+10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
+                    draw_outline_text(can,"sort",10+10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
+                    mot_val=can.create_text(10+10+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="sort",fill=col1,font=("FreeMono",10),anchor="c")
+                
+                    draw_cur_can()
+
+                    return
+
+
+            #shuffle
+
+            cx,cy=10+10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
+
+
+                    can_outline_st=2
+
+                    draw_outline_text(can,"shuffle",10+10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
+
+
+
+                    mot_val=can.create_text(10+10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
                     
-                        draw_cur_can()
+                    draw_cur_can()
 
-                        return
+                    return
 
 
-                #shuffle
+            #loop
 
-                cx,cy=10+10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+            cx,cy=10+10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
+
+                    can_outline_st=2
+
+
+                    draw_outline_text(can,"loop",10+10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
+
+                    mot_val=can.create_text(10+10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
+                    
+                    draw_cur_can()
+
+                    return
+
+
+            #play vid
+
+            cx,cy=10+10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
+
+            if cx-12.5<=x<=cx+12.5:
+                if cy-12.5<=y<=cy+12.5:
+
+                    ar=os.listdir("videos")
+
+                    try:
+
+                        v=ar.index(current_playing.replace(".mp3",".mp4"))
+
+                        if vid_st==1:
+                            txt="stop video"
+                        else:
+                            txt="play video"
+                    except:
+                        txt="no video"
+
+                    can_outline_st=2
+
+
+
+
+                    draw_outline_text(can,txt,10+10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
+
+                    mot_val=can.create_text(10+10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
+                    draw_cur_can()
+
+            #lyrics
+
+
+            if lyric_st==1:
+
+
+                y_=h-121-30
+
+                cx,cy=w/2+40+10+12.5,y_+2.5+12.5
 
                 if cx-12.5<=x<=cx+12.5:
                     if cy-12.5<=y<=cy+12.5:
-
-
                         can_outline_st=2
+                        draw_outline_text(can,"add lyrics",cx,cy+12.5+6+5,"c",("FreeMono",10))
 
-                        draw_outline_text(can,"shuffle",10+10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
+                        mot_val=can.create_text(cx,cy+12.5+6+5,text="add lyrics",fill=col1,font=("FreeMono",10),anchor="c")
 
+                if music_details[current_playing][2]!="":
 
+                    cx,cy=w/2+40+10+25+10+12.5,y_+2.5+12.5
 
-                        mot_val=can.create_text(10+10+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="shuffle",fill=col1,font=("FreeMono",10),anchor="c")
-                        
-                        draw_cur_can()
-
-                        return
-
-
-                #loop
-
-                cx,cy=10+10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-
-                if cx-12.5<=x<=cx+12.5:
-                    if cy-12.5<=y<=cy+12.5:
-
-                        can_outline_st=2
-
-
-                        draw_outline_text(can,"loop",10+10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
-
-                        mot_val=can.create_text(10+10+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text="loop",fill=col1,font=("FreeMono",10),anchor="c")
-                        
-                        draw_cur_can()
-
-                        return
-
-
-                #play vid
-
-                cx,cy=10+10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+12.5
-
-                if cx-12.5<=x<=cx+12.5:
-                    if cy-12.5<=y<=cy+12.5:
-
-                        ar=os.listdir("videos")
-
-                        try:
-
-                            v=ar.index(current_playing.replace(".mp3",".mp4"))
-
-                            if vid_st==1:
-                                txt="stop video"
-                            else:
-                                txt="play video"
-                        except:
-                            txt="no video"
-
-                        can_outline_st=2
-
-
-
-
-                        draw_outline_text(can,txt,10+10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,"c",("FreeMono",10))
-
-                        mot_val=can.create_text(10+10+25+15+25+15+25+15+25+15+12.5,h-20-30-15+5+10-3+2.5+25+10,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
-                        draw_cur_can()
-
-                #lyrics
-
-
-                if lyric_st==1:
-
-
-                    y_=h-121-30
-
-                    cx,cy=w/2+40+10+12.5,y_+2.5+12.5
 
                     if cx-12.5<=x<=cx+12.5:
                         if cy-12.5<=y<=cy+12.5:
                             can_outline_st=2
-                            draw_outline_text(can,"add lyrics",cx,cy+12.5+6+5,"c",("FreeMono",10))
+                            draw_outline_text(can,"delete lyrics",cx,cy+12.5+6+5,"c",("FreeMono",10))
 
-                            mot_val=can.create_text(cx,cy+12.5+6+5,text="add lyrics",fill=col1,font=("FreeMono",10),anchor="c")
+                            mot_val=can.create_text(cx,cy+12.5+6+5,text="delete lyrics",fill=col1,font=("FreeMono",10),anchor="c")
 
-                    if music_details[current_playing][2]!="":
-
-                        cx,cy=w/2+40+10+25+10+12.5,y_+2.5+12.5
-
-
-                        if cx-12.5<=x<=cx+12.5:
-                            if cy-12.5<=y<=cy+12.5:
-                                can_outline_st=2
-                                draw_outline_text(can,"delete lyrics",cx,cy+12.5+6+5,"c",("FreeMono",10))
-
-                                mot_val=can.create_text(cx,cy+12.5+6+5,text="delete lyrics",fill=col1,font=("FreeMono",10),anchor="c")
-
-                    draw_cur_can()
+                draw_cur_can()
 
 
 
 
-                #can2
+            #can2
 
 
-                if y>88+15:
+            if y>88+15:
 
+                if select_st==1:
+                    return
 
-                    if playlist_st==1:
+                if st==4:
+                    return
+
+                if lst==1:
+
+                    if st==2 and playlist_st==0:
+                        pass
+
+                    else:
 
 
 
@@ -12153,6 +12194,19 @@ def can_label(x,y):
                                         mot_val_can2=can2.create_text(cx+12.5,cy+12.5+6+5,text="delete song",fill=col1,font=("FreeMono",10),anchor="e")
 
 
+
+                                        if s[0]==songs[-1][0]:
+
+                                            x_=cx+12.5+int(frame.place_info()["x"])
+                                            y_=cy+12.5+6+5+int(frame.place_info()["y"])-can2.canvasy(0)
+
+                                            can_outline_st=2
+
+                                            draw_outline_text(can,"delete song",x_,y_,"e",("FreeMono",10))
+                                            mot_val=can.create_text(x_,y_,text="delete song",fill=col1,font=("FreeMono",10),anchor="e")
+                                            
+
+
                                 cx,cy=(int(can2["width"])-20)-10-25-15-25+12.5,y_+12.5+12.5
                                 if cx-12.5+21<=x<=cx+12.5+21:
                                     if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
@@ -12172,6 +12226,21 @@ def can_label(x,y):
                                         mot_val_can2=can2.create_text(cx,cy+12.5+6+5,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
 
 
+                                        if s[0]==songs[-1][0]:
+
+                                            x_=cx+int(frame.place_info()["x"])
+                                            y_=cy+12.5+6+5+int(frame.place_info()["y"])-can2.canvasy(0)
+
+
+                                            can_outline_st=2
+
+                                            draw_outline_text(can,txt,x_,y_,"c",("FreeMono",10))
+                                            mot_val=can.create_text(x_,y_,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
+                                            
+
+
+
+
                                 cx,cy=(int(can2["width"])-20)-10-25-15-25-15-25+12.5,y_+12.5+12.5
                                 if cx-12.5+21<=x<=cx+12.5+21:
                                     if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
@@ -12181,6 +12250,22 @@ def can_label(x,y):
                                         draw_outline_text(can2,"playlist",cx,cy+12.5+6+5,"c",("FreeMono",10))
 
                                         mot_val_can2=can2.create_text(cx,cy+12.5+6+5,text="playlist",fill=col1,font=("FreeMono",10),anchor="c")
+
+
+
+                                        if s[0]==songs[-1][0]:
+
+                                            x_=cx+int(frame.place_info()["x"])
+                                            y_=cy+12.5+6+5+int(frame.place_info()["y"])-can2.canvasy(0)
+
+
+                                            can_outline_st=2
+
+                                            draw_outline_text(can,"playlist",x_,y_,"c",("FreeMono",10))
+                                            mot_val=can.create_text(x_,y_,text="playlist",fill=col1,font=("FreeMono",10),anchor="c")
+                                            
+
+
 
 
                                 cx,cy=(int(can2["width"])-20)-10-25-15-25-15-25-15-25+12.5,y_+12.5+12.5
@@ -12198,56 +12283,17 @@ def can_label(x,y):
 
                                         mot_val_can2=can2.create_text(cx,cy+12.5+6+5,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
 
-         
+                                        if s[0]==songs[-1][0]:
+
+                                            x_=cx+int(frame.place_info()["x"])
+                                            y_=cy+12.5+6+5+int(frame.place_info()["y"])-can2.canvasy(0)
 
 
-                                return
+                                            can_outline_st=2
 
-
-                            y_+=50
-
-
-
-                    else:
-
-
-                        y_=95
-
-                        for p in playlist:
-
-                            if y_<=can2.canvasy(y-88-15)<=y_+50:
-
-
-
-
-                                #con_th=0
-
-                                if current_playlist==p:
-                                    
-                                    pass
-                                    #col1="#000000"
-                                    #con_th=1
-
-
-                                cx,cy=(int(can2["width"])-20)-10-25-15-25+12.5,y_+12.5+12.5
-                                if cx-12.5+21<=x<=cx+12.5+21:
-                                    if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
-
-                                        #if not con_th==1:
-                                        can_outline_st=16
-                                        draw_outline_text(can2,"add songs",cx,cy+12.5+6+5,"c",("FreeMono",10))
-
-                                        mot_val_can2=can2.create_text(cx,cy+12.5+6+5,text="add songs",fill=col1,font=("FreeMono",10),anchor="c")
-
-                                cx,cy=(int(can2["width"])-20)-10-25+12.5,y_+12.5+12.5
-                                if cx-12.5+21<=x<=cx+12.5+21:
-                                    if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
-
-                                        #if not con_th==1:
-                                        can_outline_st=16
-                                        draw_outline_text(can2,"delete playlist",cx+12.5,cy+12.5+6+5,"e",("FreeMono",10))
-
-                                        mot_val_can2=can2.create_text(cx+12.5,cy+12.5+6+5,text="delete playlist",fill=col1,font=("FreeMono",10),anchor="e")
+                                            draw_outline_text(can,txt,x_,y_,"c",("FreeMono",10))
+                                            mot_val=can.create_text(x_,y_,text=txt,fill=col1,font=("FreeMono",10),anchor="c")
+                                            
 
 
 
@@ -12255,6 +12301,87 @@ def can_label(x,y):
 
 
                             y_+=50
+
+
+
+                if lst==1 and playlist_st==0 and st==2:
+
+
+                    y_=95
+
+                    ar_pl=[]
+
+                    for p in playlist:
+                        ar_pl.append(p)
+
+                    for p in playlist:
+
+                        if y_<=can2.canvasy(y-88-15)<=y_+50:
+
+
+
+
+                            #con_th=0
+
+                            if current_playlist==p:
+                                
+                                pass
+                                #col1="#000000"
+                                #con_th=1
+
+
+                            cx,cy=(int(can2["width"])-20)-10-25-15-25+12.5,y_+12.5+12.5
+                            if cx-12.5+21<=x<=cx+12.5+21:
+                                if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
+
+                                    #if not con_th==1:
+                                    can_outline_st=16
+                                    draw_outline_text(can2,"add songs",cx,cy+12.5+6+5,"c",("FreeMono",10))
+
+                                    mot_val_can2=can2.create_text(cx,cy+12.5+6+5,text="add songs",fill=col1,font=("FreeMono",10),anchor="c")
+
+
+
+
+                                    if p==ar_pl[-1]:
+
+                                        x_=cx+int(frame.place_info()["x"])
+                                        y_=cy+12.5+6+5+int(frame.place_info()["y"])-can2.canvasy(0)
+
+
+                                        can_outline_st=2
+
+                                        draw_outline_text(can,"add songs",x_,y_,"c",("FreeMono",10))
+                                        mot_val=can.create_text(x_,y_,text="add songs",fill=col1,font=("FreeMono",10),anchor="c")
+                                        
+
+                            cx,cy=(int(can2["width"])-20)-10-25+12.5,y_+12.5+12.5
+                            if cx-12.5+21<=x<=cx+12.5+21:
+                                if cy-12.5<=can2.canvasy(y-88-15)<=cy+12.5:
+
+                                    #if not con_th==1:
+                                    can_outline_st=16
+                                    draw_outline_text(can2,"delete playlist",cx+12.5,cy+12.5+6+5,"e",("FreeMono",10))
+
+                                    mot_val_can2=can2.create_text(cx+12.5,cy+12.5+6+5,text="delete playlist",fill=col1,font=("FreeMono",10),anchor="e")
+
+
+                                    if p==ar_pl[-1]:
+
+                                        x_=cx+12.5+int(frame.place_info()["x"])
+                                        y_=cy+12.5+6+5+int(frame.place_info()["y"])-can2.canvasy(0)
+
+
+                                        can_outline_st=2
+
+                                        draw_outline_text(can,"delete playlist",x_,y_,"e",("FreeMono",10))
+                                        mot_val=can.create_text(x_,y_,text="delete playlist",fill=col1,font=("FreeMono",10),anchor="e")
+                                        
+
+                            return
+
+
+                        y_+=50
 
 
 
@@ -13426,6 +13553,10 @@ def adjust_theme():
     sett_m=can_theme.create_text(int(can_theme["width"])-20,int(can_theme["height"])-10-15,
         text=theme_txt,font=("FreeMono",13),fill=_theme[0],anchor="e")
 
+    root.after(2,update)
+
+    time.sleep(1)
+
     adj_st=1
 
 
@@ -14015,82 +14146,82 @@ def drag_can(e):
 
 
 
-        if h-20-60-20+10+2+5-10-3+10+5-15<=e.y<=h-20-60-20+10+2+5+10-3+10-5+15:
+        #if h-20-60-20+10+2+5-10-3+10+5-15<=e.y<=h-20-60-20+10+2+5+10-3+10-5+15:
 
 
-            if e.x<=10:
-                tm=0
-            elif e.x>=w-10:
-                tm=tot_tm_
-            elif 10<=e.x<=w-10:
-                x=e.x-10
+        if e.x<=10:
+            tm=0
+        elif e.x>=w-10:
+            tm=tot_tm_
+        elif 10<=e.x<=w-10:
+            x=e.x-10
 
-                tm=x*tot_tm_/(w-20)
-
-
-            if play_st==1:
-
-                tts=tm
-                sig=[]
-
-                if tm>0:
-                    play_music("music/"+current_playing,tm,1)
-
-                else:
-                    play_music("music/"+current_playing,tm)
+            tm=x*tot_tm_/(w-20)
 
 
-            
+        if play_st==1:
 
-            prog(1)
-            draw_cur_can()
+            tts=tm
+            sig=[]
+
+            if tm>0:
+                play_music("music/"+current_playing,tm,1)
+
+            else:
+                play_music("music/"+current_playing,tm)
+
+
+        
+
+        prog(1)
+        draw_cur_can()
 
     if v_st==1:
 
-        if h-20-30+5-10+10-3-15<=e.y<=h-20-30+5+10+10-3+15:
+        #if h-20-30+5-10+10-3-15<=e.y<=h-20-30+5+10+10-3+15:
 
 
-            if w-10-120-10-10<=e.x<=w:
+        if w-10-120-10-10<=e.x<=w:
 
-                r=120
-
-
-                if e.x<=w-10-10-120:
-                    current_volume=0
-
-                elif e.x>=w-10-10:
-                    current_volume=1
-
-                elif w-10-10-120<=e.x<=w-10-10:
+            r=120
 
 
-                    x=e.x-(w-10-10-120)
-                    current_volume=x/r
+            if e.x<=w-10-10-120:
+                current_volume=0
+
+            elif e.x>=w-10-10:
+                current_volume=1
+
+            elif w-10-10-120<=e.x<=w-10-10:
+
+
+                x=e.x-(w-10-10-120)
+                current_volume=x/r
 
 
 
-                can_outline_st=7
+            can_outline_st=20
 
 
-                volume.SetMasterVolumeLevelScalar(current_volume, None)
+            volume.SetMasterVolumeLevelScalar(current_volume, None)
 
-                    
-                can.delete(vol1)
-                can.delete(vol2)
-                can.delete(vol3)
-                can.delete(vol3_)
-                can.delete(vol4)        
-
-
-                vol1=can.create_line(w-10-10-120,h-20-30+5+10-3 ,w-10-10-120+current_volume*r,h-20-30+5+10-3,fill=_theme[0],width=2)
-
-                draw_outline_text(can,str(int(current_volume*100))+"%",w-10-10,h-20-30+5+10-3+12+5,"e",("FreeMono",11))
-
-                vol2=can.create_text(w-10-10,h-20-30+5+10-3+12+5,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
                 
-                vol3=can.create_image(w-10-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
+            can.delete(vol1)
+            can.delete(vol2)
+            can.delete(vol3)
+            can.delete(vol3_)
+            can.delete(vol4)        
 
-                draw_cur_can()
+
+            vol1=can.create_line(w-10-10-120,h-20-30+5+10-3 ,w-10-10-120+current_volume*r,h-20-30+5+10-3,fill=_theme[0],width=2)
+
+            draw_outline_text(can,str(int(current_volume*100))+"%",w-10-10,h-20-30+5+10-3+12+5,"e",("FreeMono",11))
+
+            vol2=can.create_text(w-10-10,h-20-30+5+10-3+12+5,text=str(int(current_volume*100))+"%",fill=_theme[0],font=("FreeMono",11),anchor="e")
+            
+            vol3=can.create_image(w-10-10-120+current_volume*r,h-20-30+5+10-3,image=circle7,anchor="c")
+
+            draw_cur_can()
 
 
 
@@ -15190,6 +15321,8 @@ theme_st2=0
 
 
 unchanged=0
+
+theme_drag_st=0
 def can_theme_b1(e):
 
     global can_theme,theme_ent,sel_op_ent
@@ -15230,6 +15363,7 @@ def can_theme_b1(e):
     global ch_im,ch_im_p
     global focus__
     global theme_txt
+    global theme_drag_st
 
     focus__=-1
     can_theme.focus_set()
@@ -15713,9 +15847,12 @@ def can_theme_b1(e):
 
                 if op_==0:
 
+                    
+
 
 
                     if e.x<op_ar[op_][0]:
+
 
                                 
                         op_var1_=0
@@ -15724,12 +15861,15 @@ def can_theme_b1(e):
 
                     elif e.x>op_ar[op_][0]+100:
 
+
                 
                     
                         op_var1_=1
 
                         op_var=str(op_var1_)+","+str(op_var2_)
                     elif op_ar[op_][0]<=e.x<=op_ar[op_][0]+100:
+
+                        theme_drag_st=1
 
                         x=e.x-op_ar[op_][0]
 
@@ -15760,6 +15900,8 @@ def can_theme_b1(e):
 
                         op_var=str(op_var1_)+","+str(op_var2_)
                     elif op_ar[op_][0]<=e.x<=op_ar[op_][0]+100:
+
+                        theme_drag_st=1
 
                         x=e.x-op_ar[op_][0]
 
@@ -17080,6 +17222,7 @@ def can_theme_drag(e):
     global op_ar
     global op_var,con_theme
     global no_bg_st
+    global theme_drag_st
 
 
 
@@ -17092,15 +17235,19 @@ def can_theme_drag(e):
 
             return
 
-    op_var1_,op_var2_=op_var.split(",")
+    if theme_drag_st==1:
 
-    for op_ in range(2):
+        op_var1_,op_var2_=op_var.split(",")
+
+        for op_ in range(2):
 
 
-        if op_ar[op_][0]-10<=e.x<=op_ar[op_][0]+100+10:
+            if op_ar[op_][0]-10<=e.x<=op_ar[op_][0]+100+10:
 
 
-            if op_ar[op_][1]-10<=e.y<=op_ar[op_][1]+10:
+                #if op_ar[op_][1]-10<=e.y<=op_ar[op_][1]+10:
+
+
 
                 con_theme=1
 
@@ -17258,10 +17405,13 @@ def on_release_s(e):
     global te_var
     global sett_m
     global con_theme
+    global theme_drag_st
 
 
 
     con_theme=0
+
+    theme_drag_st=0
 
 
 
