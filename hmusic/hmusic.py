@@ -10175,7 +10175,7 @@ upn_im=0
 
 
 
-def load_im():
+def load_im(con=0):
 
     global circle,play,pause,add,favourite1,favourite2,list1,list2,musical_note1,musical_note2,musical_note3,remove,rename,speaker,previous,next_
     global cancel,cancel2,search_im,shuffle1,shuffle2,dots,note,playlist1,playlist2,checked,sort,delete,favourite1_,favourite2_,delete2,playlist3,sort2,loop1,loop2,wallpaper
@@ -10232,6 +10232,56 @@ def load_im():
 
 
 
+    if _theme[-3][0]==1:
+        bg=ImageTk.PhotoImage(_bg_)
+        bg2_=bg
+
+    else:
+        bg=ImageTk.PhotoImage(_bg_)
+        bg2_=ImageTk.PhotoImage(bg_dark_)
+
+
+
+    im1,im2=rounded_im(_bg_,((w-550)/2),((h-(40+250-40+50+40))/2),550,(40+250-40+50+40),15)
+
+    add_bg=ImageTk.PhotoImage(im1)
+    add_bg_=ImageTk.PhotoImage(im2)
+
+
+
+    im1,im2=rounded_im(_bg_,(w-10-10-int(filter_can1["width"])-25),(40+30-10-5-5+30+10),250,30+30*5,15)
+
+    bg_filt=ImageTk.PhotoImage(im1)
+    bg_filt_=ImageTk.PhotoImage(im2)
+
+
+
+    im1,im2=rounded_im(_bg_,(10+10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
+
+    bg_sort=ImageTk.PhotoImage(im1)
+    bg_sort_=ImageTk.PhotoImage(im2)
+
+
+    im1,im2=rounded_im(_bg_,(10+10+25+5),(25+12.5+5),int(can_theme["width"]),int(can_theme["height"]),25)
+
+    bg_sett=ImageTk.PhotoImage(im1)
+    bg_sett_=ImageTk.PhotoImage(im2)
+
+
+    im1,im2=rounded_im(_bg_,(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
+
+    bg_del=ImageTk.PhotoImage(im1)
+    bg_del_=ImageTk.PhotoImage(im2)
+
+
+    im=round_im(_theme[0],_theme[0],_theme[3],w-40-3,(50),10,1)
+    c2_sel=ImageTk.PhotoImage(im)
+
+
+
+    if con==1:
+        return
+
     circle=ImageTk.PhotoImage(file="data/circle.png")
     circle2=ImageTk.PhotoImage(file="data/circle2.png")
     circle3=ImageTk.PhotoImage(file="data/circle3.png")
@@ -10286,13 +10336,6 @@ def load_im():
     forward=ImageTk.PhotoImage(file="data/forward.png")
     backward=ImageTk.PhotoImage(file="data/backward.png")
 
-    if _theme[-3][0]==1:
-        bg=ImageTk.PhotoImage(_bg_)
-        bg2_=bg
-
-    else:
-        bg=ImageTk.PhotoImage(_bg_)
-        bg2_=ImageTk.PhotoImage(bg_dark_)
 
 
     cursor=ImageTk.PhotoImage(file="data/cursor.png")
@@ -10328,7 +10371,7 @@ def load_im():
     n_im=ImageTk.PhotoImage(file="data/n_im.png")
     p_im=ImageTk.PhotoImage(file="data/p_im.png")
 
-    c_scale=0.2
+    c_scale=0.3
 
     r=20*4
 
@@ -10373,7 +10416,7 @@ def load_im():
 
     col=hex_to_rgb(_theme[0])
 
-    draw.polygon(ar,fill=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale),int(round(0.8*255,0))),outline=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale),int(round(255,0))))
+    draw.polygon(ar,fill=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale),int(round(0.7*255,0))),outline=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale),int(round(255,0))))
 
     im=im.resize((w,int(round(50+r/4,0))))
 
@@ -10419,7 +10462,7 @@ def load_im():
     ar.append((xx_,yy_))
     ar.append((0,yy_))
 
-    draw.polygon(ar,fill=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale),int(round(0.8*255,0))),outline=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale),int(round(255,0))))
+    draw.polygon(ar,fill=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale),int(round(0.7*255,0))),outline=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale),int(round(255,0))))
 
     im=im.resize((w,int(round(h-90+int(can2["height"])+r/4,0))))
 
@@ -10586,39 +10629,6 @@ def load_im():
     #progx.show()
 
 
-    im1,im2=rounded_im(_bg_,((w-550)/2),((h-(40+250-40+50+40))/2),550,(40+250-40+50+40),15)
-
-    add_bg=ImageTk.PhotoImage(im1)
-    add_bg_=ImageTk.PhotoImage(im2)
-
-
-
-    im1,im2=rounded_im(_bg_,(w-10-10-int(filter_can1["width"])-25),(40+30-10-5-5+30+10),250,30+30*5,15)
-
-    bg_filt=ImageTk.PhotoImage(im1)
-    bg_filt_=ImageTk.PhotoImage(im2)
-
-
-
-    im1,im2=rounded_im(_bg_,(10+10+25+15+25),(h-20-30-15+5+10+2.5-150),int(can_sort["width"]),int(can_sort["height"]),15)
-
-    bg_sort=ImageTk.PhotoImage(im1)
-    bg_sort_=ImageTk.PhotoImage(im2)
-
-
-    im1,im2=rounded_im(_bg_,(10+10+25+5),(25+12.5+5),int(can_theme["width"]),int(can_theme["height"]),25)
-
-    bg_sett=ImageTk.PhotoImage(im1)
-    bg_sett_=ImageTk.PhotoImage(im2)
-
-
-    im1,im2=rounded_im(_bg_,(w-int(conf_del["width"]))/2,(h-int(conf_del["height"]))/2,int(conf_del["width"]),int(conf_del["height"]),15)
-
-    bg_del=ImageTk.PhotoImage(im1)
-    bg_del_=ImageTk.PhotoImage(im2)
-
-
-
     im=draw_round_rec(can,20,88,w-20-1,88+15+(((h-121)-80-10)-30)+15,15,_theme[0],_theme[0],1,alpha=35,ret=1,width=2)
     can2_b_im[0]=ImageTk.PhotoImage(im)    
 
@@ -10655,9 +10665,6 @@ def load_im():
 
 
 
-    im=round_im(_theme[0],_theme[0],_theme[3],w-40-3,(50),10,1)
-    c2_sel=ImageTk.PhotoImage(im)
-
 
 
     w_=(w-40)*0.5
@@ -10685,7 +10692,7 @@ def load_im():
     col=(int(col[0]*c_scale),int(col[1]*c_scale),int(col[2]*c_scale))
     col="#%02x%02x%02x" % col
 
-    im1=round_im(col,_theme[0],0.8,xx,yy,r,1,op2=1)
+    im1=round_im(col,_theme[0],0.7,xx,yy,r,1,op2=1)
 
 
     upn_im=ImageTk.PhotoImage(im1)
@@ -15135,6 +15142,7 @@ def check_up_theme():
     global sett_m
     global can_outline_st
     global theme_txt
+    global unchanged
 
     if not up_theme==None:
 
@@ -15171,7 +15179,7 @@ def check_up_theme():
 
 
 
-            load_im()
+            load_im(unchanged)
 
   
             
@@ -16947,7 +16955,7 @@ def get_thbg_color():
 
             x,y=pyautogui.position()
 
-            x-=10+25+5
+            x-=10+10+25+5
             y-=25+12.5+5
 
             xv,yv=tbg3.size
